@@ -9,25 +9,28 @@ using namespace std;
 void main()
 {
 	// Дефиниране и прочитане на стойности за числата a, b, c
-	int a, b, c;
+	int a, b, c, max, min;
 	cin >> a >> b >> c;
 
 	/*
 	* Поредица от проверки, които имат за цел да определят най-голямото число
-	* След това на монитора се извежда низ, който посочва най-голямото число
+	* След това се присвоява стойност на променливата max
 	*/
-	if (a >= b && a >= c) cout << a << " is the largest number.";
-	else if (b >= c) cout << b << " is the largest number.";
-	else cout << c << " is the largest number.";
+	if (a >= b && a >= c) max = a;
+	else if (b >= c) max = b;
+	else max = c;
 	
-	// Оставяне на празен ред след като един от низовете в първата поредица от проверки се изведе на монитора
-	cout << endl;
+	// Извеждане стойността на променливата max с нов ред в края
+	cout << max << " is the largest number." << endl;
 
 	/*
 	* Поредица от проверки, които имат за цел да определят най-малкото число
-	* След това на монитора се извежда низ, който посочва най-малкото число
+	* След това се присвоява стойност на променливата min
 	*/
-	if (a <= b && a <= c) cout << a << " is the smallest number.";
-	else if (b <= c) cout << b << " is the smallest number.";
-	else cout << c << " is the smallest number.";
+	if (a <= b && a <= c) min = a;
+	else if (b <= c) min = b;
+	else min = c;
+
+	// Извеждане стойността на променливата min
+	cout << min << " is the smallest number." << endl;
 }
