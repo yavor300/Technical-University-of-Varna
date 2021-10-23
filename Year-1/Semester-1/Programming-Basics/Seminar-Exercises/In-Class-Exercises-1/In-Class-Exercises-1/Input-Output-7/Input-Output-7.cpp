@@ -12,7 +12,7 @@ void main()
     do
     {
         cin.get(symbol);
-        cout << symbol;
+        cout.put(symbol);
     } while (symbol != '\n');
 
     /*
