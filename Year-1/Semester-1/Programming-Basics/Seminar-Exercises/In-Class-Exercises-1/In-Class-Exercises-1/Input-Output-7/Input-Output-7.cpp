@@ -14,8 +14,4 @@ void main()
         cin.get(symbol);
         cout.put(symbol);
     } while (symbol != '\n');
-
-    /*
-    * Програмата демонстрира "ехо" на буферираните символи.
-    */
 }
