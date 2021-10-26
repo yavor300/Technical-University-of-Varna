@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Официален уеб-сайт на сладкарница 'Аида' - гр. Варна">
+	<meta name="keywords" content="сладкарница, торти, пасти, сладолед">
+	<meta name="author" content="Доника Стоянова">
+	<title>Сладкарница "Аида" - гр. Варна | Контакти</title>
+	<style>
+
+	input, textarea, select, option
+	{
+		background-color:#f4f4f4;
+		border:1px #ccc solid;
+		border-radius:4px;
+		display:inline-block;
+		padding:12px 20px;
+		margin:8px 0;
+		box-sizing: border-box;
+		margin:10px 0px 20px;
+		color:#555;
+	}
+
+	input[type=text], input[type=password], input[type=email],textarea, select, option
+	{
+		width: 100%;
+	}
+
+
+	input[type=submit], input[type=reset]
+	{
+		background-color:brown;
+		color:white;
+		padding:14px 20px;
+		margin:14px 0;
+		border:0;
+		border-radius:4px;
+	}
+
+	label
+	{
+		font-weight: 400;
+		margin: 10px;
+	}
+
+	legend 
+	{
+		margin-bottom:30px;
+		margin-top:30px;
+	}
+
+	.form-container
+	{
+		width: 50%;
+		margin: 40px auto;
+		font-size: 16px;
+		background-color: #bbb;
+		padding: 5px 30px 15px;
+		font-family: verdana, arial, sans-serif;
+	}
+
+	.centered
+	{
+		text-align:center;
+	}
+	
+	</style>
+</head>
+<body bgcolor="#dddddd">
+	<div>
+		<img src="images/cakes.png" alt="Рисунки на торти" width="1500px" align="center"/>
+	</div>
+	<div>
+		<a href="index.html">За нас </a> |
+		<a href="products.html">Продукти </a> |
+		<a href="contacts.html">Контакти </a> 
+	</div>
+	
+	<div>
+		<h1 align="center">Свържете се с нас</h1>
+		<hr color="brown" size="4" width="90%" align="center" />
+
+		<div class="form-container">
+			<h2 align="center"><font color="brown" face="Arial" size="5">Форма за поръчки</font></h2>
+			
+			<!--Добавете формата тук-->
+			<form action="/" method="post">
+				<fieldset>
+					<legend>Вашите данни</legend>
+					<label for="firstName">
+						Име
+						<input type="text" id="firstName" required>
+					</label>
+
+					<label for="thirdName">
+						Фамилия
+						<input type="text" id="thirdName" required>
+					</label>
+
+					<label for="password">
+						Парола
+						<input type="password" id="password" required placeholder="Моля, въведете парола за достъп">
+					</label>
+
+					<label for="email">
+						Електронна поща
+						<input type="email" id="email" required>
+					</label>
+				</fieldset>
+
+				<fieldset>
+					<legend>Вашата поръчка</legend>
+					<input type="radio" id="cakeOne" name="cakeType" checked>
+					<label for="cakeOne">
+						Торта "Спайдърмен"
+					</label>
+
+					<input type="radio" id="cakeTwo" name="cakeType">
+					<label for="cakeTwo">
+						Торта "Сладки сънища"
+					</label>
+
+					<input type="radio" id="cakeThree" name="cakeType">
+					<label for="cakeThree">
+						Торта "Мече - подарък"
+					</label>
+
+					<label for="topping">
+						Желана глазура
+						<select name="topping" id="topping">
+							<option value="sugar">Захарно тесто</option>
+							<option value="butter">Маслен крем</option>
+							<option value="smetana" selected>Сметана</option>
+						</select>
+					</label>
+
+					<label for="color">
+						Цвят на глазурата
+						<input type="color" id="color">
+					</label>
+
+					<br/>
+
+					<label for="candle">
+						<input type="checkbox" id="candle">
+						Желая към тортата да бъдат добавени свещички с цифри
+						<input type="number" min="0" max="130" value="1">
+					</label>
+
+					<br/>
+
+					<label for="signature">
+						<input type="checkbox" id="signature">
+						Желая надпис върху тортата
+					</label>
+
+					<textarea disabled cols="30" rows="10" placeholder="Въведете желания надпис">
+					</textarea>
+
+					<label for="address">
+						Адрес за доставка
+						<input type="text" id="address" required>
+					</label>
+
+					<label for="date">
+						Желана дата на доставка
+						<input type="date" id="date">
+					</label>
+				</fieldset>
+
+				<div class="centered">
+					<input type="submit" value="Поръчай"/>
+					<input type="submit" value="История"/>
+				</div>
+			</form>
+
+		</div> 
+		<div align="center">
+			<h2 ><font color="brown" face="Arial" size="5">Нашите обекти</font></h2>
+			<img src="images/map.jpg" alt="България" usemap="#objects"/>
+			<map name="objects">
+				<area shape="rect" coords="386,80,430,130" href="https://www.varna.bg/"> 
+				<area shape="circle" coords="330,209,30" href="https://yambol.bg/"> 
+			</map>
+
+		</div>
+		<div align="center">
+			<h2><font color="brown" face="Arial" size="5">Нашият адрес в град Ямбол</font></h2>
+
+			<div class="mapouter"><div class="gmap_canvas"><iframe width="1080" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Yambol&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://fmovies-online.net"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:1080px;}</style><a href="https://www.embedgooglemap.net"></a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:1080px;}</style></div></div>			<!--Добавете картата тук-->
+
+		</div>
+	</div>
+	<div><p align="center">Webmaster: <a href="mailto:donika@gmail.com">Доника Стоянова</a></p></div>
+</body>
+</html>
