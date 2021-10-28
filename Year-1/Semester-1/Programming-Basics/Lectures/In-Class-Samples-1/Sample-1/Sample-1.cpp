@@ -3,17 +3,19 @@ using namespace std;
 
 void main()
 {
+    setlocale(LC_ALL, "BG");
+
     int broj, ed_cena, total;
     
     cout << "Въведи брой закупени продукти\n";
     cin >> broj;
     
-    cout << endl << "Въведи единична цена";
+    cout << "Въведи единична цена\n";
     cin >> ed_cena;
 
     total = broj * ed_cena;
     
-    cout << endl << "Ако вие сте закупили " << broj << " продукти и те струват " << ed_cena << "лева" << endl
-        << "то вие сте платили " << total << " лева";
+    cout << "Ако вие сте закупили " << broj << " продукти и те струват " << ed_cena << " лева"
+        << " то вие сте платили " << total << " лева";
 }
 
