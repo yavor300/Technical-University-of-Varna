@@ -13,22 +13,27 @@ using namespace std;
 *	Изчисление на средната стойност на четири числа.
 *		Във функция main въведете четири цели числа, изведете средната им стойност.
 */
-double getNumber(double number);
+double inputNumber();
 double calculateAverage(double num1, double num2, double num3, double num4);
+
 int main()
 {
-	double a, b, c, d;
-	cin >> a >> b >> c >> d;
+	double a = inputNumber();
+	double b = inputNumber();
+	double c = inputNumber();
+	double d = inputNumber();
 
 	cout << "Average value: " << calculateAverage(a, b, c, d);
 }
 
-double getNumber(double number)
+double inputNumber()
 {
+	double number;
+	cin >> number;
 	return number;
 }
 
 double calculateAverage(double num1, double num2, double num3, double num4)
 {
-	return (getNumber(num1) + getNumber(num2) + getNumber(num3) + getNumber(4)) / 4;
+	return (num1 + num2 + num3 + num4) / 4;
 }
