@@ -27,7 +27,7 @@ double calculateTime(int velocity);
 
 void main()
 {
-	cout << "Hours: ";;
+	cout << "Hours: ";
 	int hours = inputNumber();
 	cout << "Velocity: " << calculateVelocity(hours) << " km/h" << endl;
 
