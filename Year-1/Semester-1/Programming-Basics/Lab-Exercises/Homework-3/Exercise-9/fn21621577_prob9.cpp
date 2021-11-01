@@ -39,7 +39,7 @@ string getAgePeriod(int age)
 {
 	if (age == 0)
 	{
-		cout << "Baby";
+		return "Baby";
 	}
 	else if (age >= 1 && age < 3)
 	{
