@@ -24,8 +24,7 @@ void main()
 {
 	cout << "Enter your age: ";
 
-	int age;
-	cin >> age;
+	int age = inputNumber();
 
 	if (!isAgeValid(age))
 	{
