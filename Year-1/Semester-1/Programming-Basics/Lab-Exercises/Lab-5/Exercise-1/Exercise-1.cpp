@@ -11,7 +11,7 @@ using namespace std;
 * Main функцията дефинира променлива от реален тип с начална стойност 0, извежда стойността на променливата преди и след извикването на функцията
 */
 
-void assignValueToAddress(double& address);
+void assignValueToAddress(double &address);
 
 void main()
 {
@@ -24,10 +24,10 @@ void main()
 	cout << a;
 }
 
-void assignValueToAddress(double& address)
+void assignValueToAddress(double &address)
 {
 	double number;
 	cin >> number;
 
 	address = number;
-}
+} 
