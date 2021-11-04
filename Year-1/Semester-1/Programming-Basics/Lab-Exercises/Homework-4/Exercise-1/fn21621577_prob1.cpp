@@ -14,19 +14,27 @@ using namespace std;
 * Реализирайте всеки от посочените сценарии с функции
 */
 
+const double timesToReduce = 2;
+const double timesToIncrease = 2;
+const double valueToIncreaseWith = 3;
+const double valueToReduceWith = 3.5;
+const double changeValue = 1000;
+
 double processNumber(string number);
-double reduceNumberTwoTimes(double number);
-double increaseNumberTwoTimes(double number);
-double increaseNumberValueByThree(double number);
-double reduceNumberValueByThree(double number);
-void changeValueWithThousand(double number);
+double reduceNumberNTimes(double number, double timesToReduce);
+double increaseNumberNTimes(double number, double timesToIncrease);
+double increaseNumberValue(double number, double valueToIncreaseWith);
+double reduceNumberValue(double number, double valueToReduceWith);
 bool isEven(string number);
 
 void main()
 {
+    cout << "Enter number to change its value: ";
     string number;
     cin >> number;
-    cout << processNumber(number);
+
+    double newNumber = processNumber(number);
+    cout << "The number changed its value to: " << newNumber;
 }
 
 double processNumber(string number)
@@ -35,19 +43,36 @@ double processNumber(string number)
     
     if (value > 0)
     {
-        if (isEven(number)) return reduceNumberTwoTimes(value);
-        else return increaseNumberTwoTimes(value);
+        if (isEven(number)) return reduceNumberNTimes(value, timesToReduce);
+        else return increaseNumberNTimes(value, timesToIncrease);
     }
+    else if (value < 0)
+    {
+        if (isEven(number)) return increaseNumberValue(value, valueToIncreaseWith);
+        else return reduceNumberValue(value, valueToReduceWith);
+    }
+    
+    return changeValue;
 }
 
-double reduceNumberTwoTimes(double number)
+double reduceNumberNTimes(double number, double timesToReduce)
 {
-    return number / 2;
+    return number / timesToReduce;
 }
 
-double increaseNumberTwoTimes(double number)
+double increaseNumberNTimes(double number, double timesToIncrease)
 {
-    return number * 2;
+    return number * timesToIncrease;
+}
+
+double increaseNumberValue(double number, double valueToIncreaseWith)
+{
+    return number + valueToIncreaseWith;
+}
+
+double reduceNumberValue(double number, double valueToReduceWith)
+{
+    return number - valueToReduceWith;
 }
 
 bool isEven(string number)
@@ -56,22 +81,16 @@ bool isEven(string number)
 
     for (int i = number.length() - 1; i >= 0; i--)
     {
-        if (number[i] == '0' && !isFloatingPointReached)
-        {
-            continue;
-        }
-        
+        if (number[i] == '0' && !isFloatingPointReached) continue;
+   
         if (number[i] == '.')
         {
             isFloatingPointReached = true;
             continue;
         }
 
-        if ((number[i] - '0') % 2 == 0)
-        {
-            return true;
-        }
-        
+        if ((number[i] - '0') % 2 == 0) return true;
+       
         return false;
     }
 }
