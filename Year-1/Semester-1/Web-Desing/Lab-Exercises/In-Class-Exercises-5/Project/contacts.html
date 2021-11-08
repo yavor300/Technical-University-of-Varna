@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Официален уеб-сайт на сладкарница 'Аида' - гр. Варна">
+	<meta name="keywords" content="сладкарница, торти, пасти, сладолед">
+	<meta name="author" content="Доника Стоянова">
+	<title>Сладкарница "Аида" - гр. Варна | Контакти</title>
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+	<div class="content">
+
+		<div>
+			<img src="images/cakes.png" alt="Рисунки на торти" class="cover"/>
+		</div>
+		<div class="nav">
+			<a href="index.html">За нас </a> 
+			<a href="products.html">Продукти </a> 
+			<a href="contacts.html">Контакти </a> 
+		</div>
+
+		<div class="main">
+			<h1>Свържете се с нас</h1>
+			<hr />
+
+			<div class="form-container">
+				<h2>Форма за поръчки</h2>
+				
+				<form action="php/action.php" method="post">
+					<fieldset>
+						<legend>Вашите данни</legend>
+
+						<label for="firstname">Име</label>
+						<input type="text" name="firstname" id="firstname" required/><br>
+
+						<label for="lastname">Фамилия</label>
+						<input type="text" name="lastname" id="lastname" required/><br>
+
+						<label for="password">Парола</label>
+						<input type="password" name="password" id="password" placeholder="Моля, въведете парола за достъп" required/><br>
+
+						<label for="email">Електронна поща</label>
+						<input type="email" name="email" id="email" /><br>
+
+					</fieldset>
+					<fieldset>
+						<legend>Вашата поръчка</legend>
+
+						<input type="radio" name="product" id="d-12-24-553" value="d-12-24-553" checked/>
+						<label for="d-12-24-553">Торта "Спайдърмен"</label>
+
+						<input type="radio" name="product" id="d-12-24-554" value="d-12-24-554"/>
+						<label for="d-12-24-554">Торта "Сладки сънища"</label> 
+
+						<input type="radio" name="product" id="d-12-24-555" value="d-12-24-555"/>
+						<label for="d-12-24-555">Торта "Мече - подарък"</label><br><br>
+
+						<label for="cover">Желана глазура</label><br>
+						<select name="cover" id="cover">
+							<option value="sugardough">Захарно тесто</option>
+							<option value="icing">Маслен крем</option>
+							<option value="cream" selected>Сметана</option>
+						</select>
+
+						<br>
+						<label for="color">Цвят на глазурата </label>
+						<input type="color" name="color" id="color"><br>
+
+						<input type="checkbox" name="candles" id="candles">
+						<label for="candles">Желая към тортата да бъдат добавени свещички с цифри </label>
+
+						<input type="number" name="candle-number" id="candle-number" min="0" max="130">
+						<br>
+
+						<input type="checkbox" name="note" id="note">
+						<label for="note">Желая надпис върху тортата</label>
+
+						<textarea name="note-content" disabled>Въведете желания надпис</textarea><br>
+
+						<label for="address">Адрес за доставка</label>
+						<input type="text" name="address" id="address" required/><br>
+
+						<label for="date">Желана дата на доставка</label>
+						<input type="date" name="date" id="date" /><br>
+
+					</fieldset>
+
+					<div class="centered">
+						<input type="submit" value="Поръчай" />
+						<input type="reset" value="Изчисти" />
+					</div>
+
+				</form>
+			</div> 
+			<div class="centered">
+				<h2 class="centered">Нашите обекти</h2>
+				<img src="images/map.jpg" alt="България" usemap="#objects"/>
+				<map name="objects">
+					<area shape="rect" coords="386,80,430,130" href="https://www.varna.bg/"> 
+					<area shape="circle" coords="330,209,30" href="https://yambol.bg/"> 
+				</map>
+
+			</div>
+			<div class="centered">
+				<h2 class="centered">Нашият адрес в град Варна</h2>
+
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2907.690478107735!2d27.893508215207092!3d43.21598097913861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a4547e9edc9339%3A0x12de72716b99f6c1!2zMiAmINGD0LvQuNGG0LAg4oCe0JDQutCw0LTQtdC80LjQuiDQkNC90LTRgNC10Lkg0KHQsNGF0LDRgNC-0LLigJwsIDkwMDkg0JLQsNGA0L3QsA!5e0!3m2!1sbg!2sbg!4v1635086389661!5m2!1sbg!2sbg" width="1200" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+			</div>
+		</div>
+		<div class="footer">
+			<p class="centered">Webmaster: <a href="mailto:donika@gmail.com">Доника Стоянова</a></p></div>
+		</div>
+	</body>
+	</html>

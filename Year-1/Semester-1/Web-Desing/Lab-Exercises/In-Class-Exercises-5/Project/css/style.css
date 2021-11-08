@@ -1,0 +1,201 @@
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;	
+}
+
+body {
+	font-family: verdana, sans-serif;
+	background-color: white;
+}
+
+.content {
+	width: 90%;
+	margin: 30px auto;
+	background-color: #dddddd;
+}
+
+
+img.cover {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.nav {
+	display: block;
+	padding: 10px 0px;
+	background-color: #bbb;
+}
+
+
+p {
+	text-align: justify;
+	margin: 20px 0px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	color: #222;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+h2 {
+	text-align: left;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	color: brown;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+hr {
+	width: 90%;
+	color: brown;
+	margin: 0px auto 20px;
+}
+
+ol {
+	margin: 0px 30px;
+}
+
+ul {
+	margin: 0px 30px;
+	list-style-type: disc;
+}
+
+table {
+	border:1px black solid;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+th, td {
+	border:1px black solid;
+	padding: 10px;
+	text-align: center;
+}
+
+input, textarea, select, option
+{
+	background-color:#f4f4f4;
+	border:1px #ccc solid;
+	border-radius:4px;
+	display:inline-block;
+	padding:12px 20px;
+	margin:8px 0;
+	margin:10px 0px 20px;
+	color:#555;
+}
+
+input[type=text], input[type=password], input[type=email],textarea, select, option
+{
+	width: 100%;
+}
+
+
+input[type=submit], input[type=reset]
+{
+	background-color:brown;
+	color:white;
+	padding:14px 20px;
+	margin:14px 0;
+	border:0;
+	border-radius:4px;
+}
+
+label
+{
+	font-weight: 400;
+	margin: 10px;
+}
+
+legend 
+{
+	margin-bottom:30px;
+	margin-top:30px;
+}
+
+.form-container
+{
+	width: 50%;
+	margin: 40px auto;
+	font-size: 16px;
+	background-color: #bbb;
+	padding: 5px 30px 15px;
+	font-family: verdana, arial, sans-serif;
+}
+
+.centered
+{
+	text-align:center;
+}
+
+.nav > a:link, .nav > a:visited {
+	text-decoration: none;
+	padding: 10px 20px;
+	color: brown;
+}
+
+
+.nav > a:hover, .nav > a:active {
+	background-color: #444;
+	color: #eee;
+}
+
+.main {
+	padding: 20px 30px;
+}
+
+.footer {
+	display: block;
+	padding: 5px 0px;
+	background-color: #bbb;
+}
+
+fieldset {
+	padding: 10px;
+}
+
+q {
+	font-weight: bold;
+	font-style: italic;
+	font-family: Ariel, sans-serif;
+	text-decoration: underline;
+	font-size: 18px;
+	text-align: center;
+	padding: 5px 0 5px 0;
+	margin: 5px;
+}
+
+a:link {
+	color: red;
+}
+
+a:visited {
+	color: green;
+}
+
+a:hover {
+	color: grey;
+}
+
+a:active {
+	color: yellow;
+}
+
+ul.circle-list {
+	list-style: circle;
+}
+
+#bold-text {
+	font-weight: bold;
+}
+ 
+

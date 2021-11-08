@@ -1,0 +1,14 @@
+
+* {
+margin: 0;
+padding: 0;
+}
+
+.cover {
+width: 100%;
+}
+
+p {
+color: red;
+text-align: justify;
+}
