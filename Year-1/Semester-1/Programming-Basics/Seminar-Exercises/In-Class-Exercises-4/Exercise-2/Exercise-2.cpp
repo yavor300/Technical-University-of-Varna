@@ -8,7 +8,20 @@ int main()
 	int number;
 	cin >> number;
 
-	while (number) {
+	bool cont = true;
+
+	while (cont) {
+		//if (number == 0) break; // if (!number) break; //exit; //return;
+		if (number == 0) cont = false; // if (!number) break; //exit; //return;
+
+		if (number % 7 == 0 || number % 5 == 0) count++;
+		cin >> number;
+	}
+
+	for (;;)
+	{
+		if (number == 0) break; // if (!number) break; //exit; //return;
+
 		if (number % 7 == 0 || number % 5 == 0) count++;
 		cin >> number;
 	}
