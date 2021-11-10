@@ -18,7 +18,7 @@ int main()
 		cin >> number;
 	}
 
-	for (;;)
+	for (;;) // bezkraen for
 	{
 		if (number == 0) break; // if (!number) break; //exit; //return;
 
