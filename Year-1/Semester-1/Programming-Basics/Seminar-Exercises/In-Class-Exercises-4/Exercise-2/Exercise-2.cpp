@@ -8,7 +8,7 @@ int main()
 	int number;
 	cin >> number;
 
-	while (number != 0) {
+	while (number) {
 		if (number % 7 == 0 || number % 5 == 0) count++;
 		cin >> number;
 	}
