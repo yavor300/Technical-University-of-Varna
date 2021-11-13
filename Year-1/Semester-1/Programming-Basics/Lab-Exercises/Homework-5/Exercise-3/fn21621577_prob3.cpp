@@ -44,5 +44,5 @@ int calculateExpression(int start, int& endInterval)
 
 bool isNumberValid(int& number)
 {
-    return number >= 1;
+    return number >= startInterval;
 }
