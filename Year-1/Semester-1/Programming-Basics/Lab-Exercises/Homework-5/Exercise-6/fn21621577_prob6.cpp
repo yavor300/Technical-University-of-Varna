@@ -53,4 +53,37 @@ void main()
 	}
 
 	cout << endl;
+
+	int fieldSize = 10;
+	int spacesCounter = 0;
+	int rows = 0;
+	do
+	{
+		int currentSpaces = 0;
+		do
+		{
+			if (spacesCounter == 0) break;
+			cout << " ";
+			currentSpaces++;
+		} while (currentSpaces < spacesCounter);
+
+		int symbolsCounter = spacesCounter;
+		do
+		{
+			cout << "%";
+			symbolsCounter++;
+		} while (symbolsCounter < fieldSize - spacesCounter);
+
+		int currentLastSpaces = 0;
+		do
+		{
+			cout << " ";
+			currentLastSpaces++;
+		} while (currentLastSpaces < 10 - currentLastSpaces - symbolsCounter);
+
+		cout << endl;
+
+		spacesCounter++;
+		rows++;
+	} while (rows < 5);
 }
