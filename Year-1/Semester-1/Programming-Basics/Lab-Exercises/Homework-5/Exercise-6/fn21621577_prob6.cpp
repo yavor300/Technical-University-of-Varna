@@ -15,6 +15,7 @@ using namespace std;
 
 void main()
 {
+	//a
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 4 - i; j > -1; j--)
@@ -26,6 +27,7 @@ void main()
 	
 	cout << endl;
 
+	// б
 	int beginRowCounter = 0;
 	while (beginRowCounter < 3)
 	{
@@ -54,6 +56,7 @@ void main()
 
 	cout << endl;
 
+	// в
 	int fieldSize = 10;
 	int spacesCounter = 0;
 	int rows = 0;
