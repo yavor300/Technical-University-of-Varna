@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <string>
 using namespace std;
 
 /*
@@ -9,25 +10,19 @@ using namespace std;
 * В main се въвеждат и извеждат стойностите на масива.
 */
 
-const int initialArrayLength = 10;
-
-void printArray(char arr[], int symbolsCount);
+void printArray(string input);
 
 int main()
 {
-	int symbolsCount;
-	cin >> symbolsCount;
-
-	char symbols[initialArrayLength];
-	cin >> symbols;
-
-	printArray(symbols, symbolsCount + 1);
+	string input;
+	getline(cin, input);
+	printArray(input);
 }
 
-void printArray(char arr[], int symbolsCount)
+void printArray(string input)
 {
-	for (int i = symbolsCount - 1; i >= 0; i--)
+	for (int i = input.length() - 1; i >= 0; i--)
 	{
-		cout << arr[i];
+		cout << input[i];
 	}
 }
