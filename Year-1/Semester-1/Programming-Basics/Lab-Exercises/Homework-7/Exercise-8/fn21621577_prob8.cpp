@@ -17,17 +17,17 @@ using namespace std;
 
 const int GRADES_COUNT = 10;
 
-int getWeekOfLastPoorGrade(int grades[]);
-int getWeekOfFirstPoorGrade(int grades[]);
-int getPoorGradesCount(int grades[]);
-void inputArray(int numbers[]);
+int getWeekOfLastPoorGrade(double grades[]);
+int getWeekOfFirstPoorGrade(double grades[]);
+int getPoorGradesCount(double grades[]);
+void inputArray(double numbers[]);
 bool validateGrade(double grade);
 
 int main()
 {
 	setlocale(LC_ALL, "BG");
 
-	int grades[GRADES_COUNT];
+	double grades[GRADES_COUNT];
 	inputArray(grades);
 
 	cout << "Брой двойки: " << getPoorGradesCount(grades) << endl;
@@ -35,7 +35,7 @@ int main()
 	cout << "Последна двойка: седмица " << getWeekOfLastPoorGrade(grades);
 }
 
-int getWeekOfLastPoorGrade(int grades[])
+int getWeekOfLastPoorGrade(double grades[])
 {
 	for (int i = GRADES_COUNT - 1; i >= 0; i--)
 	{
@@ -44,7 +44,7 @@ int getWeekOfLastPoorGrade(int grades[])
 	return -1;
 }
 
-int getWeekOfFirstPoorGrade(int grades[])
+int getWeekOfFirstPoorGrade(double grades[])
 {
 	for (int i = 0; i < GRADES_COUNT; i++)
 	{
@@ -53,7 +53,7 @@ int getWeekOfFirstPoorGrade(int grades[])
 	return -1;
 }
 
-int getPoorGradesCount(int grades[])
+int getPoorGradesCount(double grades[])
 {
 	int result = 0;
 	for (int i = 0; i < GRADES_COUNT; i++)
@@ -63,7 +63,7 @@ int getPoorGradesCount(int grades[])
 	return result;
 }
 
-void inputArray(int numbers[])
+void inputArray(double numbers[])
 {
 	for (int i = 0; i < GRADES_COUNT; i++)
 	{
