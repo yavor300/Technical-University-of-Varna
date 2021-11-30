@@ -43,18 +43,18 @@ int main()
 int findLowestEvenNumber(int numbers[])
 {
 	int result = -1;
-	bool containsPositive = false;
-	for (int i = 0; i < NUMBERS_COUNT; i++)
+	bool containsEven = false;
+	for (int i = 0; i < NUMBERS_COUNT; i++) // 4 2  5 6
 	{
 		if (numbers[i] % 2 == 0)
 		{
-			result = numbers[i];
-			containsPositive = true;
+			result = numbers[i]; // 4
+			containsEven = true;
 			break;
 		}
 	}
 
-	if (!containsPositive) return -1;
+	if (!containsEven) return result;
 
 	for (int i = 0; i < NUMBERS_COUNT; i++)
 	{
