@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <string>
+#define NOMINMAX
+#include <Windows.h>
 using namespace std;
 
 /*
@@ -35,6 +37,8 @@ const int PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE = 3;
 const int PRINT_CONFIGURATIONS_BY_BRAND_CHOICE = 4;
 const int EXIT_FROM_MENU_CHOICE = 5;
 
+int main();
+
 /*
 * Prototypes
 */
@@ -54,6 +58,9 @@ void process_print_configurations_by_brand_request(Computer configurations[], in
 int main()
 {
     setlocale(LC_ALL, "BG");
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+
 
     int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
@@ -184,7 +191,7 @@ void read_precessor_data(string& manufacturer, string& model, double& frequency,
     cout << "Въведете честота на процесора: ";
     read_valid_double_value(frequency);
     cout << "Въведете брой ядра на процесора: ";
-    cin >> cores;
+    read_valid_integer_value(cores);
 }
 
 void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, string& status)
@@ -196,16 +203,21 @@ void read_computer_data(string& id, string& brand, string& model, double& ram, d
     cout << "Въведете модел на компютъра: ";
     getline(cin, model);
     cout << "Въведете RAM на компютъра: ";
-    cin >> ram;
+    read_valid_double_value(ram);
     cout << "Въведете цена на компютъра: ";
-    cin >> price;
+    read_valid_double_value(price);
     cin.ignore();
-    cout << "Въведете наличен статус на компютъра: ";
+    cout << "Въведете скаладова наличност на компютъра: ";
     getline(cin, status);
 }
 
 void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print)
 {
+    if (present_configurations_count == 0)
+    {
+        cout << "Няма запазени конфигурации." << endl;
+        return;
+    }
     if (configurations_count_to_print > present_configurations_count)
     {
         cout << "Въведенения брой конфигурации надвишава броят на запазените конфигурации." << endl;
@@ -241,7 +253,7 @@ void print_configurations_by_brand(Computer configurations[], int& present_confi
             is_brand_existing = true;
         }
     }
-    if (!is_brand_existing) printf("\nКонфигурации с марката %s не са намерени.\n", brand.c_str());
+    if (!is_brand_existing) printf("Конфигурации с марката %s не са намерени.\n", brand.c_str());
 }
 
 void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
@@ -272,7 +284,7 @@ void read_valid_integer_value(int& value)
             break;
         }
         else {
-            cout << "Въведете валидна числена стойност! ";
+            cout << "Въведете валидна числена стойност!\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
@@ -286,7 +298,7 @@ void read_valid_double_value(double& value)
             break;
         }
         else {
-            cout << "Въведете валидна числена стойност! ";
+            cout << "Въведете валидна числена стойност!\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
