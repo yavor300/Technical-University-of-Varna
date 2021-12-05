@@ -20,7 +20,6 @@ struct Student
 const int ARRAY_SIZE = 5;
 
 void input_array(Student students[]);
-void print_array(double numbers[], int& length);
 Student find_student_with_highest_grade(Student students[]);
 
 int main()
