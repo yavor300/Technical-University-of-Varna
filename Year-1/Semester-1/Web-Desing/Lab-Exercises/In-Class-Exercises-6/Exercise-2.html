@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise-2</title>
+</head>
+<body>
+<p id="result"></p>
+</body>
+</html>
+
+<script type="text/javascript">
+    let a = parseInt(prompt("Въведете първото число!",0));
+    let b = parseInt(prompt("Въведете второто число!",0));
+    if (isNaN(a) || isNaN(b)) {
+        alert("Не са въведени числа!");
+    } else {
+        document.write(a + b);
+        document.getElementById('result').innerHTML = `Сумата е: ${a + b}`;
+        alert(`Сумата е: ${a + b}`);
+        console.log(a + b);
+    }
+</script>
