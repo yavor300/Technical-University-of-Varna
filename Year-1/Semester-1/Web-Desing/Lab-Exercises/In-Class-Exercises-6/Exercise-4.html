@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise-3</title>
+
+    <script>
+        function printMark(mark, par) {
+            switch (mark) {
+                case 'a': {
+                    par.innerHTML = "Отличен 6";
+                    break;
+                }
+                case 'b': {
+                    par.innerHTML = "Много добър 5";
+                    break;
+                }
+                case 'c': {
+                    par.innerHTML = "Добър 4";
+                    break;
+                }
+                case 'd': {
+                    par.innerHTML = "Среден 3";
+                    break;
+                }
+                case 'e': {
+                    par.innerHTML = "Слаб 2";
+                    break;
+                }
+                default: {
+                    par.innerHTML = "Невалиден избор";
+                }
+
+            }
+        }
+    </script>
+</head>
+<body>
+<p id="result"></p>
+<script>
+    let result = document.getElementById("result");
+    let mark = prompt("Въведете оценката от a до e: ");
+    printMark(mark, result);
+</script>
+
+</body>
+</html>
