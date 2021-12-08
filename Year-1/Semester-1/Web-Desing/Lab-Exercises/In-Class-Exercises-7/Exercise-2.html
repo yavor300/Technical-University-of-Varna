@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise-1</title>
+</head>
+<body>
+<ul>
+    <li>Минерална вода</li>
+    <li>Мляко</li>
+    <li>Кафе</li>
+    <li>Капучино</li>
+    <li>Лате</li>
+    <li>Мокачино</li>
+    <li>Какао</li>
+    <li>Фреш</li>
+    <li>Студен чай</li>
+</ul>
+<script type="text/javascript">
+const liItems = document.getElementsByTagName('ul')[0].children;
+console.log(liItems);
+for (let i = 0; i < liItems.length; i++) {
+    if(i % 2 !== 0) {
+        liItems[i].style.color="red";
+    } else {
+        liItems[i].style.color="green";
+    }
+}
+</script>
+</body>
+</html>
