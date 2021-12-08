@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+
+        .content {
+            width: 80%;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #eee;
+            padding: 40px;
+        }
+
+    </style>
+    <title>Exercise-5</title>
+</head>
+<body>
+<div class="content">
+    <label>Моля, въведете датата на рождения си ден: </label>
+    <input type="date" name="date" id="date">
+    <input type="button" value="ОК!" onclick="whatsYourSign()">
+    <p id="par"></p>
+</div>
+<script>
+    function whatsYourSign() {
+        const date = (document.getElementById('date').value);
+        const dateData = date.split('-');
+        console.log(dateData)
+        const year = parseInt(dateData[0]);
+        const month = parseInt(dateData[1]);
+        const day = parseInt(dateData[2]);
+
+        if ((month === 10 && (day >= 23 && day <= 31)) || (month === 11 && day >= 1 && day <= 22)) {
+            document.getElementById('par').innerHTML = 'скорпион';
+        } else {
+            document.getElementById('par').innerHTML = 'ужилен от скорпион';
+        }
+    }
+</script>
+</body>
+</html>
