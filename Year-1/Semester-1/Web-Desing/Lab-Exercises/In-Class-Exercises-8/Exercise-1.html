@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+
+        body {
+            font-family: arial, sans-serif;
+            line-height: 1.8;
+        }
+
+        .content {
+            width: 80%;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #eee;
+            padding: 40px;
+        }
+
+        h2 {
+            background-color: skyblue;
+            padding: 10px 20px;
+            margin: 0;
+            color: #222;
+            border: 1px solid #bbb;
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        .info {
+            padding: 10px 20px;
+            margin: 0;
+            color: #222;
+            border: 1px solid #bbb;
+        }
+
+    </style>
+    <title>Exercise-1</title>
+</head>
+<body>
+<div class="content">
+    <h2 onclick="getMoreInfo()">Покажи/скрий информацията</h2>
+    <div class="info">
+        <p>Торнадото е силен вихър, вид гигантска въздушна фуния, образувана под купестите облаци, поради разликата в
+            атмосферното налягане и винаги се развива във вертикална спирала. Това спонтанно явление винаги се спуска от
+            облак под формата на конична фуния, която се стеснява към повърхността на земята. Въртяща се с главоломна
+            скорост, тя абсорбира предмети, които попадат в неговия път.
+        </p>
+    </div>
+</div>
+<script type="text/javascript">
+function getMoreInfo() {
+    const infoEl = document.getElementsByClassName('info')[0];
+    if (infoEl.style.display !== 'none') {
+        infoEl.style.display = 'none';
+    } else {
+        infoEl.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
