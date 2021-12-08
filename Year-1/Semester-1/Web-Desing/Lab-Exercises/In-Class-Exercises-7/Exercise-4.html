@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise-4</title>
+</head>
+
+<body>
+<img src="https://alltruescience.org/wp-content/uploads/2018/03/research-sm.jpeg" alt="Something..."/>
+<br>
+<button onclick="changeImg()">Натисни ме!</button>
+
+<script type="text/javascript">
+    function changeImg() {
+        if (confirm("Да се промени ли изображението?")) {
+            document.getElementsByTagName('img')[0].src = 'https://i.pinimg.com/originals/57/d2/d2/57d2d2b917f6745925f5291a234f8959.jpg';
+        }
+    }
+</script>
+</body>
+</html>
