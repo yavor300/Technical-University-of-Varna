@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+
+        .content {
+            width: 80%;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #eee;
+            padding: 40px;
+        }
+
+    </style>
+    <title>Exercise-4</title>
+</head>
+<body>
+<div class="content">
+
+    <input type="button" value="Смени цвета!" onclick="changeColor()">
+</div>
+<script>
+    function changeColor() {
+        const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+        document.getElementsByClassName('content')[0].style.backgroundColor = "#" + randomColor;
+    }
+</script>
+</body>
+</html>
