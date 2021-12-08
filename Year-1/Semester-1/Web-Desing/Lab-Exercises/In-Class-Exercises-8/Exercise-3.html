@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+
+        .content {
+            width: 80%;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #eee;
+            padding: 40px;
+        }
+
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 70%;
+            margin: 30px 0px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div>
+        <label>Моля, въведете радиуса на окръжността:</label>
+        <input type="text" name="radius" id="radius">
+        <input type="button" value="Изчисли лицето!" onclick="calculate()">
+        <table>
+            <tr>
+                <th>Казус</th>
+                <th>Лице</th>
+            </tr>
+            <tr>
+                <td>Дробно число</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Закръглено</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Закръглено надолу</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Закръглено нагоре</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Само цяло число</td>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+<script>
+    function calculate() {
+        const radius = document.getElementById('radius').value;
+        document.getElementsByTagName('tr')[1].children[1].innerHTML = radius * radius * Math.PI;
+        document.getElementsByTagName('tr')[2].children[1].innerHTML = (radius * radius * Math.PI).toFixed(2);
+        document.getElementsByTagName('tr')[3].children[1].innerHTML = Math.floor(radius * radius * Math.PI);
+        document.getElementsByTagName('tr')[4].children[1].innerHTML = Math.ceil(radius * radius * Math.PI);
+        document.getElementsByTagName('tr')[5].children[1].innerHTML = parseInt(radius * radius * Math.PI, 10);
+    }
+</script>
+</body>
+</html>
