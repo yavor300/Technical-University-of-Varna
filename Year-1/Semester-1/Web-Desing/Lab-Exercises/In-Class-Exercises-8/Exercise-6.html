@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+
+        .content {
+            width: 80%;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: #eee;
+            padding: 40px;
+        }
+
+        .imgKeeper {
+            margin: 0 auto;
+            width: 30%;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+    </style>
+    <title>Exercise-6</title>
+</head>
+<body>
+<div class="content">
+    <label>Моля, въведете дата: </label>
+    <input type="date" name="date1" id="date1">
+    <input type="button" value="ОК!" onclick="whatsTheDay()">
+
+    <div class="imgKeeper">
+        <img src="images/sad.png" alt="Emoji"/>
+    </div>
+
+</div>
+<script>
+    function whatsTheDay() {
+        const dateInput = (document.getElementById('date1').value);
+        const date = new Date(dateInput);
+
+        if (date.getDay() === 6 || date.getDay() === 0) {
+            document.getElementsByTagName('img')[0].src = "images/face.png";
+        } else if (date.getDay() === 5) {
+            document.getElementsByTagName('img')[0].src = "images/smile.png";
+        } else {
+            document.getElementsByTagName('img')[0].src = "images/sad.png";
+        }
+    }
+</script>
+</body>
+</html>
