@@ -110,6 +110,7 @@ int main()
         case EDIT_CONFIGURATION_CHOICE:
             cout << endl;
             update_configuration(configurations, present_configurations_count);
+            cout << endl;
             break;
         }
         cout << endl;
@@ -304,6 +305,7 @@ bool configuration_exists_by_id(string id, Computer configurations[], int& prese
 
 void update_configuration(Computer configurations[], int& present_configurations_count)
 {
+    cout << "--- АКТУАЛИЗИРАНЕ НА КОНФИГУРАЦИЯ ---\n";
     /*struct Processor
   {
       string manufacturer;
@@ -328,16 +330,19 @@ void update_configuration(Computer configurations[], int& present_configurations
     string id;
     getline(cin, id);
 
+    
+
     if (!configuration_exists_by_id(id, configurations, present_configurations_count))
     {
-        cout << "Не съществува конфигурация с този сериен номер!";
+        cout << "\nНе съществува конфигурация с този сериен номер!";
         return;
     }
 
+    printf("\nКонфигурация със сериен номер %s е намерена успешно!\n", id.c_str());
     int update_option;
     do
     {
-        printf("Въведете %d, за да промените сериен номер.\nВъведете %d, за да проемините марката.\nВъведете %d, за да промените модела.\nВъведете %d, за да промените RAM стойността.\nВъведете %d, за да промените цената.\nВъведете %d, за да промемите наличния статус.\nВъведете %d, за да направите промяна по данните на процесора.\nВъведете %d, за да прекратите корекцията на данни.\n",
+        printf("\nВъведете % d, за да промените сериен номер.\nВъведете % d, за да проемините марката.\nВъведете % d, за да промените модела.\nВъведете % d, за да промените RAM стойността.\nВъведете % d, за да промените цената.\nВъведете % d, за да промемите наличния статус.\nВъведете % d, за да направите промяна по данните на процесора.\nВъведете % d, за да прекратите корекцията на данни.\n",
             1, 2, 3, 4, 5, 6, 7, 8);
         do
         {
@@ -350,9 +355,9 @@ void update_configuration(Computer configurations[], int& present_configurations
         case 1:
             cout << endl;
             update_configuration_id(id, configurations, present_configurations_count);
+            cout << endl;
             break;
         }
-        cout << endl;
     } while (update_option != 8);
 
 }
@@ -360,13 +365,13 @@ void update_configuration(Computer configurations[], int& present_configurations
 
 void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count)
 {
-    cout << "Въведете нов сериен номер: ";
+    cout << "--- ПРОМЯНА НА СЕРИЕН НОМЕР ---\nВъведете нов сериен номер: ";
     string updated_id;
     cin.ignore();
     getline(cin, updated_id);
     if (configuration_exists_by_id(updated_id, configurations, present_configurations_count))
     {
-        cout << "Вече съществува конфигурация с този сериен номер." << endl;
+        cout << "\nВече съществува конфигурация с този сериен номер.";
         return;
     }
 
@@ -375,7 +380,7 @@ void update_configuration_id(string old_id, Computer configurations[], int& pres
         if (configurations[i].id.compare(old_id) == 0) 
         {
             configurations[i].id = updated_id;
-            cout << "Серийният номер е обновен успешно!\n";
+            cout << "\nСерийният номер е обновен успешно!";
             return;
         }
     }
