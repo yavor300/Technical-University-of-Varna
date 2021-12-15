@@ -55,6 +55,7 @@ void read_valid_double_value(double& value);
 void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
 bool configuration_exists_by_id(string id, Computer configurations[], int& present_configurations_count);
 void update_configuration(Computer configurations[], int& present_configurations_count);
+void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count);
 
 int main()
 {
@@ -303,6 +304,25 @@ bool configuration_exists_by_id(string id, Computer configurations[], int& prese
 
 void update_configuration(Computer configurations[], int& present_configurations_count)
 {
+    /*struct Processor
+  {
+      string manufacturer;
+      string model;
+      double frequency;
+      int cores;
+  };
+
+  struct Computer
+  {
+      string id;
+      string brand;
+      string model;
+      Processor processor;
+      double ram;
+      double price;
+      string status;
+  };*/
+
     cout << "Въведете сериен номер на компютъра: ";
     cin.ignore();
     string id;
@@ -310,31 +330,11 @@ void update_configuration(Computer configurations[], int& present_configurations
 
     if (!configuration_exists_by_id(id, configurations, present_configurations_count))
     {
-        cout << "Невалиден сериен номер!";
+        cout << "Не съществува конфигурация с този сериен номер!";
         return;
     }
 
     int update_option;
-
-    /*struct Processor
-    {
-        string manufacturer;
-        string model;
-        double frequency;
-        int cores;
-    };
-
-    struct Computer
-    {
-        string id;
-        string brand;
-        string model;
-        Processor processor;
-        double ram;
-        double price;
-        string status;
-    };*/
-
     do
     {
         printf("Въведете %d, за да промените сериен номер.\nВъведете %d, за да проемините марката.\nВъведете %d, за да промените модела.\nВъведете %d, за да промените RAM стойността.\nВъведете %d, за да промените цената.\nВъведете %d, за да промемите наличния статус.\nВъведете %d, за да направите промяна по данните на процесора.\nВъведете %d, за да прекратите корекцията на данни.\n",
@@ -347,7 +347,10 @@ void update_configuration(Computer configurations[], int& present_configurations
 
         switch (update_option)
         {
-        
+        case 1:
+            cout << endl;
+            update_configuration_id(id, configurations, present_configurations_count);
+            break;
         }
         cout << endl;
     } while (update_option != 8);
@@ -355,3 +358,25 @@ void update_configuration(Computer configurations[], int& present_configurations
 }
 
 
+void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "Въведете нов сериен номер: ";
+    string updated_id;
+    cin.ignore();
+    getline(cin, updated_id);
+    if (configuration_exists_by_id(updated_id, configurations, present_configurations_count))
+    {
+        cout << "Вече съществува конфигурация с този сериен номер." << endl;
+        return;
+    }
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(old_id) == 0) 
+        {
+            configurations[i].id = updated_id;
+            cout << "Серийният номер е обновен успешно!\n";
+            return;
+        }
+    }
+}
