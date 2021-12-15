@@ -35,7 +35,8 @@ const int ADD_NEW_CONFIGURATION_CHOICE = 1;
 const int PRINT_ALL_CONFIGURATIONS_CHOICE = 2;
 const int PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE = 3;
 const int PRINT_CONFIGURATIONS_BY_BRAND_CHOICE = 4;
-const int EXIT_FROM_MENU_CHOICE = 5;
+const int EDIT_CONFIGURATION_CHOICE = 5;
+const int EXIT_FROM_MENU_CHOICE = 6;
 
 int main();
 
@@ -46,14 +47,14 @@ void process_add_configuration_request(int& present_configurations_count, Comput
 bool is_configurations_count_valid(int& configurations_count, int& present_configurations_count);
 void read_precessor_data(string& manufacturer, string& model, double& frequency, int& cores);
 void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, string& status);
-Processor create_processor(string& processor_manufacturer, string& processor_model, double& processor_frequency, int& processor_cores);
-Computer create_computer(string& id, string& brand, string& model, double& ram, double& price, string& status, Processor processor);
 void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print);
 void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
 void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string brand);
 void read_valid_integer_value(int& value);
 void read_valid_double_value(double& value);
 void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
+bool configuration_exists_by_id(string id, Computer configurations[], int& present_configurations_count);
+void update_configuration(Computer configurations[], int& present_configurations_count);
 
 int main()
 {
@@ -61,14 +62,14 @@ int main()
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
 
-
     int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
+    Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
 
     do
     {
-        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете желан брой конфигурации с най-голяма тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да спрете програмата.\n",
-            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EXIT_FROM_MENU_CHOICE);
+        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете желан брой конфигурации с най-голяма тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да спрете програмата.\n",
+            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
         do
         {
             printf("Въведете валидна меню опция [%d - %d]: ", ADD_NEW_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
@@ -96,7 +97,6 @@ int main()
         case PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE:
             cout << endl;
 
-            Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
             int configurations_to_print;
 
             sort_configurations_by_processor_frequency_desc(configurations, present_configurations_count, sorted_configurations);
@@ -104,6 +104,11 @@ int main()
             read_valid_integer_value(configurations_to_print);
             print_configurations(sorted_configurations, present_configurations_count, configurations_to_print);
 
+            break;
+
+        case EDIT_CONFIGURATION_CHOICE:
+            cout << endl;
+            update_configuration(configurations, present_configurations_count);
             break;
         }
         cout << endl;
@@ -126,12 +131,17 @@ void process_add_configuration_request(int& present_configurations_count, Comput
         {
             cout << endl << "--- ИНФОРМАЦИЯ ЗА ПРОЦЕСОР ---" << endl;
             read_precessor_data(processor_manufacturer, processor_model, processor_frequency, processor_cores);
-            Processor processor = create_processor(processor_manufacturer, processor_model, processor_frequency, processor_cores);
+            Processor processor = { processor_manufacturer, processor_model, processor_frequency, processor_cores };
 
             cout << endl << "--- ИНФОРМАЦИЯ ЗА КОМПЮТЪР ---" << endl;
             cin.ignore();
             read_computer_data(computer_id, computer_brand, computer_model, computer_ram, computer_price, computer_availability_status);
-            Computer computer = create_computer(computer_id, computer_brand, computer_model, computer_ram, computer_price, computer_availability_status, processor);
+            if (configuration_exists_by_id(computer_id, configurations, present_configurations_count))
+            {
+                cout << "\nВече съществува конфигурация с този сериен номер!\nКОНФИГУРАЦИЯТА НЕ Е ДОБАВЕНА УСПЕШНО!\n";
+                return;
+            }
+            Computer computer = { computer_id, computer_brand, computer_model, processor, computer_ram, computer_price, computer_availability_status };
 
             configurations[present_configurations_count++] = computer;
 
@@ -151,29 +161,6 @@ void process_print_configurations_by_brand_request(Computer configurations[], in
     string brand;
     getline(cin, brand);
     print_configurations_by_brand(configurations, present_configurations_count, brand);
-}
-
-Processor create_processor(string& processor_manufacturer, string& processor_model, double& processor_frequency, int& processor_cores)
-{
-    Processor processor;
-    processor.manufacturer = processor_manufacturer;
-    processor.model = processor_model;
-    processor.frequency = processor_frequency;
-    processor.cores = processor_cores;
-    return processor;
-}
-
-Computer create_computer(string& id, string& brand, string& model, double& ram, double& price, string& status, Processor processor)
-{
-    Computer computer;
-    computer.id = id;
-    computer.brand = brand;
-    computer.model = model;
-    computer.ram = ram;
-    computer.price = price;
-    computer.status = status;
-    computer.processor = processor;
-    return computer;
 }
 
 bool is_configurations_count_valid(int& configurations_count, int& present_configurations_count)
@@ -304,4 +291,67 @@ void read_valid_double_value(double& value)
         }
     }
 }
+
+bool configuration_exists_by_id(string id, Computer configurations[], int& present_configurations_count)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0) return true;
+    }
+    return false;
+}
+
+void update_configuration(Computer configurations[], int& present_configurations_count)
+{
+    cout << "Въведете сериен номер на компютъра: ";
+    cin.ignore();
+    string id;
+    getline(cin, id);
+
+    if (!configuration_exists_by_id(id, configurations, present_configurations_count))
+    {
+        cout << "Невалиден сериен номер!";
+        return;
+    }
+
+    int update_option;
+
+    /*struct Processor
+    {
+        string manufacturer;
+        string model;
+        double frequency;
+        int cores;
+    };
+
+    struct Computer
+    {
+        string id;
+        string brand;
+        string model;
+        Processor processor;
+        double ram;
+        double price;
+        string status;
+    };*/
+
+    do
+    {
+        printf("Въведете %d, за да промените сериен номер.\nВъведете %d, за да проемините марката.\nВъведете %d, за да промените модела.\nВъведете %d, за да промените RAM стойността.\nВъведете %d, за да промените цената.\nВъведете %d, за да промемите наличния статус.\nВъведете %d, за да направите промяна по данните на процесора.\nВъведете %d, за да прекратите корекцията на данни.\n",
+            1, 2, 3, 4, 5, 6, 7, 8);
+        do
+        {
+            printf("Въведете валидна меню опция [%d - %d]: ", 1, 8);
+            read_valid_integer_value(update_option);
+        } while (update_option < 1 || update_option > 8);
+
+        switch (update_option)
+        {
+        
+        }
+        cout << endl;
+    } while (update_option != 8);
+
+}
+
 
