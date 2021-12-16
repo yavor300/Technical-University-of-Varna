@@ -38,8 +38,6 @@ const int PRINT_CONFIGURATIONS_BY_BRAND_CHOICE = 4;
 const int EDIT_CONFIGURATION_CHOICE = 5;
 const int EXIT_FROM_MENU_CHOICE = 6;
 
-int main();
-
 /*
 * Prototypes
 */
@@ -57,16 +55,21 @@ bool configuration_exists_by_id(string id, Computer configurations[], int& prese
 void update_configuration(Computer configurations[], int& present_configurations_count);
 void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count);
 void update_configuration_brand(string& id, Computer configurations[], int& present_configurations_count);
+void update_configuration_model(string& id, Computer configurations[], int& present_configurations_count);
+void update_configuration_ram(string& id, Computer configurations[], int& present_configurations_count);
+void update_configuration_price(string& id, Computer configurations[], int& present_configurations_count);
+void update_configuration_status(string& id, Computer configurations[], int& present_configurations_count);
+void update_processor(string& configuration_id, Computer configurations[], int& present_configurations_count);
+void update_processor_manufacturer(string& id, Computer configurations[], int& present_configurations_count);
+void update_processor_model(string& id, Computer configurations[], int& present_configurations_count);
+void update_configuration_frequency(string& id, Computer configurations[], int& present_configurations_count);
+void update_configuration_cores(string& id, Computer configurations[], int& present_configurations_count);
 
 int main()
 {
     setlocale(LC_ALL, "BG");
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
-
-   
-
-
 
     int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
@@ -76,7 +79,6 @@ int main()
     Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, "available" };
     configurations[present_configurations_count++] = computer;
     
-
     do
     {
         printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете желан брой конфигурации с най-голяма тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да спрете програмата.\n",
@@ -315,32 +317,10 @@ bool configuration_exists_by_id(string id, Computer configurations[], int& prese
 
 void update_configuration(Computer configurations[], int& present_configurations_count)
 {
-    cout << "--- АКТУАЛИЗИРАНЕ НА КОНФИГУРАЦИЯ ---\n";
-    /*struct Processor
-  {
-      string manufacturer;
-      string model;
-      double frequency;
-      int cores;
-  };
-
-  struct Computer
-  {
-      string id;
-      string brand;
-      string model;
-      Processor processor;
-      double ram;
-      double price;
-      string status;
-  };*/
-
-    cout << "Въведете сериен номер на компютъра: ";
+    cout << "--- АКТУАЛИЗИРАНЕ НА КОНФИГУРАЦИЯ ---\nВъведете сериен номер на компютъра: ";
     cin.ignore();
     string id;
     getline(cin, id);
-
-    
 
     if (!configuration_exists_by_id(id, configurations, present_configurations_count))
     {
@@ -372,9 +352,33 @@ void update_configuration(Computer configurations[], int& present_configurations
             update_configuration_brand(id, configurations, present_configurations_count);
             cout << endl;
             break;
+        case 3:
+            cout << endl;
+            update_configuration_model(id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 4:
+            cout << endl;
+            update_configuration_ram(id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 5:
+            cout << endl;
+            update_configuration_price(id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 6:
+            cout << endl;
+            update_configuration_status(id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 7:
+            cout << endl;
+            update_processor(id, configurations, present_configurations_count);
+            cout << endl;
+            break;
         }
     } while (update_option != 8);
-
 }
 
 
@@ -422,16 +426,179 @@ void update_configuration_brand(string& id, Computer configurations[], int& pres
 void update_configuration_model(string& id, Computer configurations[], int& present_configurations_count)
 {
     cout << "--- ПРОМЯНА НА МОДЕЛ ---\nВъведете нов модел: ";
-    string new_brand;
+    string new_model;
     cin.ignore();
-    getline(cin, new_brand);
+    getline(cin, new_model);
 
     for (int i = 0; i < present_configurations_count; i++)
     {
         if (configurations[i].id.compare(id) == 0)
         {
-            configurations[i].brand = new_brand;
-            cout << "\nМарката е обновена успешно!";
+            configurations[i].model = new_model;
+            cout << "\nМоделът е обновен успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_ram(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА RAM СТОЙНОСТ ---\nВъведете нова RAM стойност: ";
+    double new_ram;
+    read_valid_double_value(new_ram);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].ram = new_ram;
+            cout << "\nRAM стойността е обновена успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_price(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА ЦЕНА ---\nВъведете нова цена: ";
+    double new_price;
+    read_valid_double_value(new_price);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].price = new_price;
+            cout << "\nЦената е обновена успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_status(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА НАЛИЧЕН СТАТУС ---\nВъведете нов наличен статус: ";
+    string new_status;
+    cin.ignore();
+    getline(cin, new_status);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].status = new_status;
+            cout << "\nСтатусът е обновен успешно!";
+            return;
+        }
+    }
+}
+
+void update_processor(string& configuration_id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- АКТУАЛИЗИРАНЕ НА ПРОЦЕСОР ---\n";
+
+    int update_option;
+    do
+    {
+        printf("\nВъведете % d, за да промените производителя.\nВъведете % d, за да проемините модела.\nВъведете % d, за да промените честотата.\nВъведете % d, за да промените броят ядра.\nВъведете % d, за да прекратите корекцията на данни.\n",
+            1, 2, 3, 4, 5);
+        do
+        {
+            printf("Въведете валидна меню опция [%d - %d]: ", 1, 5);
+            read_valid_integer_value(update_option);
+        } while (update_option < 1 || update_option > 5);
+
+        switch (update_option)
+        {
+        case 1:
+            cout << endl;
+            update_processor_manufacturer(configuration_id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 2:
+            cout << endl;
+            update_processor_model(configuration_id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 3:
+            cout << endl;
+            update_configuration_frequency(configuration_id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        case 4:
+            cout << endl;
+            update_configuration_cores(configuration_id, configurations, present_configurations_count);
+            cout << endl;
+            break;
+        }
+    } while (update_option != 5);
+}
+
+void update_processor_manufacturer(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА ПРОИЗВОДИТЕЛ ---\nВъведете нов производител: ";
+    string new_manufacturer;
+    cin.ignore();
+    getline(cin, new_manufacturer);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].processor.manufacturer = new_manufacturer;
+            cout << "\nПроизводителят е обновен успешно!";
+            return;
+        }
+    }
+}
+
+void update_processor_model(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА МОДЕЛ ---\nВъведете нов модел: ";
+    string new_model;
+    cin.ignore();
+    getline(cin, new_model);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].processor.model = new_model;
+            cout << "\nМоделът е обновен успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_frequency(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА ЧЕСТОТА ---\nВъведете нова честота: ";
+    double new_frequency;
+    read_valid_double_value(new_frequency);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].processor.frequency = new_frequency;
+            cout << "\nЧестотата е обновена успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_cores(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА БРОЙ ЯДРА ---\nВъведете нов брой ядра: ";
+    int new_cores;
+    read_valid_integer_value(new_cores);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].processor.cores = new_cores;
+            cout << "\nБроят ядра е обновен успешно!";
             return;
         }
     }
