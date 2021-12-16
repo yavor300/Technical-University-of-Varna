@@ -56,6 +56,7 @@ void process_print_configurations_by_brand_request(Computer configurations[], in
 bool configuration_exists_by_id(string id, Computer configurations[], int& present_configurations_count);
 void update_configuration(Computer configurations[], int& present_configurations_count);
 void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count);
+void update_configuration_brand(string& id, Computer configurations[], int& present_configurations_count);
 
 int main()
 {
@@ -63,9 +64,18 @@ int main()
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
 
+   
+
+
+
     int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
+
+    Processor processor = { "Intel", "i7", 3.60, 6 };
+    Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, "available" };
+    configurations[present_configurations_count++] = computer;
+    
 
     do
     {
@@ -357,6 +367,11 @@ void update_configuration(Computer configurations[], int& present_configurations
             update_configuration_id(id, configurations, present_configurations_count);
             cout << endl;
             break;
+        case 2:
+            cout << endl;
+            update_configuration_brand(id, configurations, present_configurations_count);
+            cout << endl;
+            break;
         }
     } while (update_option != 8);
 
@@ -381,6 +396,42 @@ void update_configuration_id(string old_id, Computer configurations[], int& pres
         {
             configurations[i].id = updated_id;
             cout << "\nСерийният номер е обновен успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_brand(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА МАРКА ---\nВъведете нова марка: ";
+    string new_brand;
+    cin.ignore();
+    getline(cin, new_brand);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].brand = new_brand;
+            cout << "\nМарката е обновена успешно!";
+            return;
+        }
+    }
+}
+
+void update_configuration_model(string& id, Computer configurations[], int& present_configurations_count)
+{
+    cout << "--- ПРОМЯНА НА МОДЕЛ ---\nВъведете нов модел: ";
+    string new_brand;
+    cin.ignore();
+    getline(cin, new_brand);
+
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].brand = new_brand;
+            cout << "\nМарката е обновена успешно!";
             return;
         }
     }
