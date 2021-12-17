@@ -23,7 +23,7 @@ struct Computer
     Processor processor;
     double ram;
     double price;
-    string status;
+    bool is_available;
 };
 
 /*
@@ -44,7 +44,7 @@ const int EXIT_FROM_MENU_CHOICE = 6;
 void process_add_configuration_request(int& present_configurations_count, Computer configurations[]);
 bool is_configurations_count_valid(int& configurations_count, int& present_configurations_count);
 void read_precessor_data(string& manufacturer, string& model, double& frequency, int& cores);
-void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, string& status);
+void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, bool& is_available);
 void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print);
 void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
 void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string brand);
@@ -64,6 +64,7 @@ void update_processor_manufacturer(string& id, Computer configurations[], int& p
 void update_processor_model(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_frequency(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_cores(string& id, Computer configurations[], int& present_configurations_count);
+bool is_configuration_available(string& id, Computer configurations[], int& present_configurations_count);
 
 int main()
 {
@@ -76,7 +77,7 @@ int main()
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
 
     Processor processor = { "Intel", "i7", 3.60, 6 };
-    Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, "available" };
+    Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, 0};
     configurations[present_configurations_count++] = computer;
     
     do
@@ -137,7 +138,8 @@ void process_add_configuration_request(int& present_configurations_count, Comput
     cin.ignore();
     if (is_configurations_count_valid(configurations_count, present_configurations_count))
     {
-        string processor_manufacturer, processor_model, computer_id, computer_brand, computer_model, computer_availability_status;
+        string processor_manufacturer, processor_model, computer_id, computer_brand, computer_model;
+        bool is_configuration_available;
         double processor_frequency, computer_ram, computer_price;
         int processor_cores;
 
@@ -149,13 +151,13 @@ void process_add_configuration_request(int& present_configurations_count, Comput
 
             cout << endl << "--- ИНФОРМАЦИЯ ЗА КОМПЮТЪР ---" << endl;
             cin.ignore();
-            read_computer_data(computer_id, computer_brand, computer_model, computer_ram, computer_price, computer_availability_status);
+            read_computer_data(computer_id, computer_brand, computer_model, computer_ram, computer_price, is_configuration_available);
             if (configuration_exists_by_id(computer_id, configurations, present_configurations_count))
             {
                 cout << "\nВече съществува конфигурация с този сериен номер!\nКОНФИГУРАЦИЯТА НЕ Е ДОБАВЕНА УСПЕШНО!\n";
                 return;
             }
-            Computer computer = { computer_id, computer_brand, computer_model, processor, computer_ram, computer_price, computer_availability_status };
+            Computer computer = { computer_id, computer_brand, computer_model, processor, computer_ram, computer_price, is_configuration_available };
 
             configurations[present_configurations_count++] = computer;
 
@@ -195,7 +197,7 @@ void read_precessor_data(string& manufacturer, string& model, double& frequency,
     read_valid_integer_value(cores);
 }
 
-void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, string& status)
+void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, bool& is_available)
 {
     cout << "Въведете сериен номер на компютъра: ";
     getline(cin, id);
@@ -207,9 +209,9 @@ void read_computer_data(string& id, string& brand, string& model, double& ram, d
     read_valid_double_value(ram);
     cout << "Въведете цена на компютъра: ";
     read_valid_double_value(price);
+    cout << "Налична ли е конфигурацията? (true/false): ";
     cin.ignore();
-    cout << "Въведете скаладова наличност на компютъра: ";
-    getline(cin, status);
+    cin >> boolalpha >> is_available;
 }
 
 void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print)
@@ -235,8 +237,8 @@ void print_configurations(Computer configurations[], int& present_configurations
     {  
         Computer computer = configurations[i];
         Processor processor = computer.processor;
-        printf("\nКонфигурация номер: %d\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nСтатус: %s\n",
-            i + 1, computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.status.c_str());
+        printf("\nКонфигурация номер: %d\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nНаличен статус: %s\n",
+            i + 1, computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "true" : "false");
     }
 }
 
@@ -249,8 +251,8 @@ void print_configurations_by_brand(Computer configurations[], int& present_confi
         if (computer.brand.compare(brand) == 0)
         {
             Processor processor = computer.processor;
-            printf("\nКонфигурация номер: %d\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nСтатус: %s\n",
-                i + 1, computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.status.c_str());
+            printf("\nКонфигурация номер: %d\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nНаличен статус: %s\n",
+                i + 1, computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "true" : "false");
             is_brand_existing = true;
         }
     }
@@ -325,6 +327,12 @@ void update_configuration(Computer configurations[], int& present_configurations
     if (!configuration_exists_by_id(id, configurations, present_configurations_count))
     {
         cout << "\nНе съществува конфигурация с този сериен номер!";
+        return;
+    }
+
+    if (!is_configuration_available(id, configurations, present_configurations_count))
+    {
+        cout << "\nКонфигурацията е продадена и не може да бъде редактирана!";
         return;
     }
 
@@ -478,16 +486,15 @@ void update_configuration_price(string& id, Computer configurations[], int& pres
 void update_configuration_status(string& id, Computer configurations[], int& present_configurations_count)
 {
     cout << "--- ПРОМЯНА НА НАЛИЧЕН СТАТУС ---\nВъведете нов наличен статус: ";
-    string new_status;
-    cin.ignore();
-    getline(cin, new_status);
+    bool new_available_status;
+    cin >> boolalpha >> new_available_status;
 
     for (int i = 0; i < present_configurations_count; i++)
     {
         if (configurations[i].id.compare(id) == 0)
         {
-            configurations[i].status = new_status;
-            cout << "\nСтатусът е обновен успешно!";
+            configurations[i].is_available = new_available_status;
+            cout << "\nНаличният статус е обновен успешно!";
             return;
         }
     }
@@ -602,4 +609,13 @@ void update_configuration_cores(string& id, Computer configurations[], int& pres
             return;
         }
     }
+}
+
+bool is_configuration_available(string& id, Computer configurations[], int& present_configurations_count)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0) return configurations[i].is_available;
+    }
+    return false;
 }
