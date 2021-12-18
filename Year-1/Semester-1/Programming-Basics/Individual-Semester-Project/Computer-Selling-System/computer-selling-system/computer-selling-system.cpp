@@ -37,6 +37,14 @@ const int PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE = 3;
 const int PRINT_CONFIGURATIONS_BY_BRAND_CHOICE = 4;
 const int EDIT_CONFIGURATION_CHOICE = 5;
 const int EXIT_FROM_MENU_CHOICE = 6;
+const int UPDATE_CONFIGURATION_ID_CHOICE = 1;
+const int UPDATE_CONFIGURATION_BRAND_CHOICE = 2;
+const int UPDATE_CONFIGURATION_MODEL_CHOICE = 3;
+const int UPDATE_CONFIGURATION_RAM_CHOICE = 4;
+const int UPDATE_CONFIGURATION_PRICE_CHOICE = 5;
+const int UPDATE_CONFIGURATION_AVAILABILITY_STATUS_CHOICE = 6;
+const int UPDATE_CONFIGURATION_PROCESSOR_CHOICE = 7;
+const int EXIT_FROM_UPDATE_MENU_CHOICE = 8;
 
 /*
 * Prototypes
@@ -47,13 +55,13 @@ void read_precessor_data(string& manufacturer, string& model, double& frequency,
 void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, bool& is_available);
 void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print);
 void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
-void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string brand);
+void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
 void read_valid_integer_value(int& value);
 void read_valid_double_value(double& value);
 void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
-bool configuration_exists_by_id(string id, Computer configurations[], int& present_configurations_count);
+bool configuration_exists_by_id(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration(Computer configurations[], int& present_configurations_count);
-void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count);
+void update_configuration_id(string& old_id, Computer configurations[], int& present_configurations_count);
 void update_configuration_brand(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_model(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_ram(string& id, Computer configurations[], int& present_configurations_count);
@@ -65,6 +73,7 @@ void update_processor_model(string& id, Computer configurations[], int& present_
 void update_configuration_frequency(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_cores(string& id, Computer configurations[], int& present_configurations_count);
 bool is_configuration_available(string& id, Computer configurations[], int& present_configurations_count);
+void print_sorted_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
 
 int main()
 {
@@ -110,14 +119,7 @@ int main()
 
         case PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE:
             cout << endl;
-
-            int configurations_to_print;
-
-            sort_configurations_by_processor_frequency_desc(configurations, present_configurations_count, sorted_configurations);
-            cout << "Въведете брой конфигурации за извеждане: ";
-            read_valid_integer_value(configurations_to_print);
-            print_configurations(sorted_configurations, present_configurations_count, configurations_to_print);
-
+            print_sorted_configurations_by_processor_frequency_desc(configurations, present_configurations_count, sorted_configurations);
             break;
 
         case EDIT_CONFIGURATION_CHOICE:
@@ -242,7 +244,7 @@ void print_configurations(Computer configurations[], int& present_configurations
     }
 }
 
-void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string brand)
+void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand)
 {
     bool is_brand_existing = false;
     for (int i = 0; i < present_configurations_count; i++)
@@ -308,13 +310,22 @@ void read_valid_double_value(double& value)
     }
 }
 
-bool configuration_exists_by_id(string id, Computer configurations[], int& present_configurations_count)
+bool configuration_exists_by_id(string& id, Computer configurations[], int& present_configurations_count)
 {
     for (int i = 0; i < present_configurations_count; i++)
     {
         if (configurations[i].id.compare(id) == 0) return true;
     }
     return false;
+}
+
+void print_sorted_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
+{
+    int configurations_to_print;
+    sort_configurations_by_processor_frequency_desc(configurations, present_configurations_count, sorted_configurations);
+    cout << "Въведете брой конфигурации за извеждане: ";
+    read_valid_integer_value(configurations_to_print);
+    print_configurations(sorted_configurations, present_configurations_count, configurations_to_print);
 }
 
 void update_configuration(Computer configurations[], int& present_configurations_count)
@@ -341,56 +352,56 @@ void update_configuration(Computer configurations[], int& present_configurations
     do
     {
         printf("\nВъведете % d, за да промените сериен номер.\nВъведете % d, за да проемините марката.\nВъведете % d, за да промените модела.\nВъведете % d, за да промените RAM стойността.\nВъведете % d, за да промените цената.\nВъведете % d, за да промемите наличния статус.\nВъведете % d, за да направите промяна по данните на процесора.\nВъведете % d, за да прекратите корекцията на данни.\n",
-            1, 2, 3, 4, 5, 6, 7, 8);
+            UPDATE_CONFIGURATION_ID_CHOICE, UPDATE_CONFIGURATION_BRAND_CHOICE, UPDATE_CONFIGURATION_MODEL_CHOICE, UPDATE_CONFIGURATION_RAM_CHOICE, UPDATE_CONFIGURATION_PRICE_CHOICE, UPDATE_CONFIGURATION_AVAILABILITY_STATUS_CHOICE, UPDATE_CONFIGURATION_PROCESSOR_CHOICE, EXIT_FROM_UPDATE_MENU_CHOICE);
         do
         {
-            printf("Въведете валидна меню опция [%d - %d]: ", 1, 8);
+            printf("Въведете валидна меню опция [%d - %d]: ", UPDATE_CONFIGURATION_ID_CHOICE, EXIT_FROM_UPDATE_MENU_CHOICE);
             read_valid_integer_value(update_option);
-        } while (update_option < 1 || update_option > 8);
+        } while (update_option < UPDATE_CONFIGURATION_ID_CHOICE || update_option > EXIT_FROM_UPDATE_MENU_CHOICE);
 
         switch (update_option)
         {
-        case 1:
+        case UPDATE_CONFIGURATION_ID_CHOICE:
             cout << endl;
             update_configuration_id(id, configurations, present_configurations_count);
             cout << endl;
             break;
-        case 2:
+        case UPDATE_CONFIGURATION_BRAND_CHOICE:
             cout << endl;
             update_configuration_brand(id, configurations, present_configurations_count);
             cout << endl;
             break;
-        case 3:
+        case UPDATE_CONFIGURATION_MODEL_CHOICE:
             cout << endl;
             update_configuration_model(id, configurations, present_configurations_count);
             cout << endl;
             break;
-        case 4:
+        case UPDATE_CONFIGURATION_RAM_CHOICE:
             cout << endl;
             update_configuration_ram(id, configurations, present_configurations_count);
             cout << endl;
             break;
-        case 5:
+        case UPDATE_CONFIGURATION_PRICE_CHOICE:
             cout << endl;
             update_configuration_price(id, configurations, present_configurations_count);
             cout << endl;
             break;
-        case 6:
+        case UPDATE_CONFIGURATION_AVAILABILITY_STATUS_CHOICE:
             cout << endl;
             update_configuration_status(id, configurations, present_configurations_count);
             cout << endl;
             break;
-        case 7:
+        case UPDATE_CONFIGURATION_PROCESSOR_CHOICE:
             cout << endl;
             update_processor(id, configurations, present_configurations_count);
             cout << endl;
             break;
         }
-    } while (update_option != 8);
+    } while (update_option != EXIT_FROM_UPDATE_MENU_CHOICE);
 }
 
 
-void update_configuration_id(string old_id, Computer configurations[], int& present_configurations_count)
+void update_configuration_id(string& old_id, Computer configurations[], int& present_configurations_count)
 {
     cout << "--- ПРОМЯНА НА СЕРИЕН НОМЕР ---\nВъведете нов сериен номер: ";
     string updated_id;
