@@ -84,6 +84,9 @@ bool is_configuration_available(string& id, Computer configurations[], int& pres
 void print_sorted_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
 void sell_configuration(Computer configurations[], int& present_configurations_count);
 void sell_configuration_by_id(Computer configurations[], int& present_configurations_count);
+void print_configuration(Computer computer);
+Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count);
+void change_configuration_availability_status(string& id, Computer configurations[], int& present_configurations_count);
 
 int main()
 {
@@ -96,13 +99,13 @@ int main()
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
 
     Processor processor = { "Intel", "i7", 3.60, 6 };
-    Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, 0};
+    Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, 1};
     configurations[present_configurations_count++] = computer;
     
     do
     {
-        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете желан брой конфигурации с най-голяма тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да спрете програмата.\n",
-            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
+        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете желан брой конфигурации с най-голяма тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да спрете програмата.\n",
+            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, SELL_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
         do
         {
             printf("Въведете валидна меню опция [%d - %d]: ", ADD_NEW_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
@@ -241,11 +244,6 @@ void print_configurations(Computer configurations[], int& present_configurations
     }
 
     cout << "\n--- ИНФОРМАЦИЯ ЗА " << configurations_count_to_print << " КОНФИГУРАЦИИ--- " << endl;
-    if (present_configurations_count == 0)
-    {
-        cout << "Няма запазени конфигурации." << endl;
-        return;
-    }
     for (int i = 0; i < configurations_count_to_print; i++)
     {  
         Computer computer = configurations[i];
@@ -669,5 +667,61 @@ void sell_configuration(Computer configurations[], int& present_configurations_c
 
 void sell_configuration_by_id(Computer configurations[], int& present_configurations_count)
 {
+    cout << "Въведете сериен номер на компютъра: ";
+    cin.ignore();
+    string id;
+    getline(cin, id);
 
+    if (!configuration_exists_by_id(id, configurations, present_configurations_count))
+    {
+        cout << "\nНе съществува конфигурация с този сериен номер!";
+        return;
+    }
+
+    if (!is_configuration_available(id, configurations, present_configurations_count))
+    {
+        cout << "\nКонфигурацията не е налична за продажба!";
+        return;
+    }
+
+    printf("\nКонфигурация със сериен номер %s е намерена успешно!\n\nДетайли за конфигурация:\n", id.c_str());
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+
+    cout << "\nВъведете цена: ";
+    double price_to_pay;
+    read_valid_double_value(price_to_pay);
+
+    if (price_to_pay < computer.price)
+    {
+        cout << "\nНедостатъчна сума пари!";
+        return;
+    }
+
+    change_configuration_availability_status(id, configurations, present_configurations_count);
+    double money_change = price_to_pay - computer.price;
+    printf("Конфигурацията е успешно продадена!\nРесто: %.2f\n", money_change);
+}
+
+Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0) return configurations[i];
+    }
+}
+
+void print_configuration(Computer computer)
+{
+    Processor processor = computer.processor;
+    printf("\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nНаличен статус: %s\n", 
+        computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "true" : "false");
+}
+
+void change_configuration_availability_status(string& id, Computer configurations[], int& present_configurations_count)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].id.compare(id) == 0) configurations[i].is_available = false;
+    }
 }
