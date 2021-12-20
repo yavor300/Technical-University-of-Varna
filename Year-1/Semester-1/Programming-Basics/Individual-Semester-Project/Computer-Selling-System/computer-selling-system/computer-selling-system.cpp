@@ -748,20 +748,63 @@ void sell_configuration_by_requirements(Computer configurations[], int& present_
     int found_configurations_count = 0;
 
     int selected_features = 0;
-    int actualt_features = 0;
+    int actual_features = 0;
+    //find_computers_with_requirements;
     for (int i = 0; i < present_configurations_count; i++)
     {
         selected_features = 0;
-        actualt_features = 0;
+        actual_features = 0;
         Computer computer = configurations[i];
 
-        if (processor_manufacturer != "")
+        if (!processor_manufacturer.empty())
         {
             selected_features++;
-            if (compare_strings_case_insensitive(computer.processor.manufacturer, processor_manufacturer)) actualt_features++;
+            if (compare_strings_case_insensitive(computer.processor.manufacturer, processor_manufacturer)) actual_features++;
         }
 
-        if (selected_features == actualt_features) found_configurations[found_configurations_count++] = computer;
+        if (!processor_model.empty())
+        {
+            selected_features++;
+            if (compare_strings_case_insensitive(computer.processor.model, processor_model)) actual_features++;
+        }
+
+        if (!processor_frequency.empty())
+        {
+            selected_features++;
+            if (computer.processor.frequency == stod(processor_frequency)) actual_features++;
+        }
+
+        if (!processor_cores.empty())
+        {
+            selected_features++;
+            if (computer.processor.cores == stoi(processor_cores)) actual_features++;
+        }
+
+        if (!computer_brand.empty())
+        {
+            selected_features++;
+            if (compare_strings_case_insensitive(computer.brand, computer_brand)) actual_features++;
+        }
+
+        if (!computer_model.empty())
+        {
+            selected_features++;
+            if (compare_strings_case_insensitive(computer.model, computer_model)) actual_features++;
+        }
+
+        if (!computer_ram.empty())
+        {
+            selected_features++;
+            if (computer.ram == stod(computer_ram)) actual_features++;
+        }
+
+        if (!computer_price.empty())
+        {
+            selected_features++;
+            if (computer.price == stod(computer_price)) actual_features++;
+        }
+
+        if (selected_features == actual_features) found_configurations[found_configurations_count++] = computer;
     }
 
     if (found_configurations_count > 0)
