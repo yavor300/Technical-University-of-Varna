@@ -87,6 +87,11 @@ void sell_configuration_by_id(Computer configurations[], int& present_configurat
 void print_configuration(Computer computer);
 Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count);
 void change_configuration_availability_status(string& id, Computer configurations[], int& present_configurations_count);
+void sell_configuration_by_requirements(Computer configurations[], int& present_configurations_count);
+void read_precessor_selling_data(string& manufacturer, string& model, string& frequency, string& cores);
+void read_computer_selling_data(string& brand, string& model, string& ram, string& price);
+bool compare_strings_case_insensitive(string first, string second);
+
 
 int main()
 {
@@ -138,7 +143,6 @@ int main()
         case SELL_CONFIGURATION_CHOICE:
             cout << endl;
             sell_configuration(configurations, present_configurations_count);
-            cout << endl;
             break;
         }
         cout << endl;
@@ -661,6 +665,12 @@ void sell_configuration(Computer configurations[], int& present_configurations_c
             sell_configuration_by_id(configurations, present_configurations_count);
             cout << endl;
             break;
+
+        case 2:
+            cout << endl;
+            sell_configuration_by_requirements(configurations, present_configurations_count);
+            cout << endl;
+            break;
         }
     } while (menu_choice != 3);
 }
@@ -700,7 +710,7 @@ void sell_configuration_by_id(Computer configurations[], int& present_configurat
 
     change_configuration_availability_status(id, configurations, present_configurations_count);
     double money_change = price_to_pay - computer.price;
-    printf("Конфигурацията е успешно продадена!\nРесто: %.2f\n", money_change);
+    printf("Конфигурацията е успешно продадена!\nРесто: %.2f лв.", money_change);
 }
 
 Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count)
@@ -724,4 +734,81 @@ void change_configuration_availability_status(string& id, Computer configuration
     {
         if (configurations[i].id.compare(id) == 0) configurations[i].is_available = false;
     }
+}
+
+void sell_configuration_by_requirements(Computer configurations[], int& present_configurations_count)
+{
+    string processor_manufacturer, processor_model, processor_frequency, processor_cores, computer_brand, computer_model, computer_ram, computer_price;
+
+    cin.ignore();
+    read_precessor_selling_data(processor_manufacturer, processor_model, processor_frequency, processor_cores);
+    read_computer_selling_data(computer_brand, computer_model, computer_ram, computer_price);
+
+    Computer found_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
+    int found_configurations_count = 0;
+
+    int selected_features = 0;
+    int actualt_features = 0;
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        selected_features = 0;
+        actualt_features = 0;
+        Computer computer = configurations[i];
+
+        if (processor_manufacturer != "")
+        {
+            selected_features++;
+            if (compare_strings_case_insensitive(computer.processor.manufacturer, processor_manufacturer)) actualt_features++;
+        }
+
+        if (selected_features == actualt_features) found_configurations[found_configurations_count++] = computer;
+    }
+
+    if (found_configurations_count > 0)
+    {
+        cout << "\nПодходящи конфигурации:\n\n";
+        print_configurations(found_configurations, found_configurations_count, found_configurations_count);
+    }
+
+    cout << "\nЖелаете ли да осъществите продажба? (Y/N): ";
+    char confirm;
+    cin >> confirm;
+
+    if (tolower(confirm) == 'y') sell_configuration_by_id(configurations, present_configurations_count);
+}
+
+void read_precessor_selling_data(string& manufacturer, string& model, string& frequency, string& cores)
+{
+    cout << "Въведете желан производител на процесора: ";
+    getline(cin, manufacturer);
+    cout << "Въведете желан модел на процесора: ";
+    getline(cin, model);
+    cout << "Въведете желана честота на процесора: ";
+    getline(cin, frequency);
+    cout << "Въведете брой ядра на процесора: ";
+    getline(cin, cores);
+}
+
+void read_computer_selling_data(string& brand, string& model, string& ram, string& price)
+{
+    cout << "Въведете желана марка на компютъра: ";
+    getline(cin, brand);
+    cout << "Въведете желан модел на компютъра: ";
+    getline(cin, model);
+    cout << "Въведете RAM на компютъра: ";
+    getline(cin, ram);
+    cout << "Въведете цена на компютъра: ";
+    getline(cin, price);
+}
+
+bool compare_strings_case_insensitive(string first, string second)
+{
+    if (first.length() != second.length()) return false;
+    
+    for (int i = 0; i < first.length(); i++)
+    {
+        if (tolower(first[i]) != tolower(second[i])) return false;
+    }
+
+    return true;
 }
