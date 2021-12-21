@@ -33,7 +33,7 @@ const int MAX_NUMBER_OF_CONFIGURATIONS = 100;
 const int INITIAL_CONFIGURATIONS_COUNT = 0;
 const int ADD_NEW_CONFIGURATION_CHOICE = 1;
 const int PRINT_ALL_CONFIGURATIONS_CHOICE = 2;
-const int PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE = 3;
+const int PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY = 3;
 const int PRINT_CONFIGURATIONS_BY_BRAND_CHOICE = 4;
 const int EDIT_CONFIGURATION_CHOICE = 5;
 const int SELL_CONFIGURATION_CHOICE = 6;
@@ -57,16 +57,27 @@ const int EXIT_FROM_UPDATE_PROCESSOR_MENU_CHOICE = 8;
 /*
 * Prototypes
 */
+void print_configuration(Computer computer);
+void print_all_configurations(Computer configurations[], int& present_configurations_count);
+void print_configurations_with_highest_processor_frequency(Computer configurations[], int& present_configurations_count);
+void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
+void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
+void print_existing_configurations_with_validations(Computer configurations[], int& present_configurations_count);
+
+
 void process_add_configuration_request(int& present_configurations_count, Computer configurations[]);
 bool is_configurations_count_valid(int& configurations_count, int& present_configurations_count);
 void read_precessor_data(string& manufacturer, string& model, double& frequency, int& cores);
 void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, bool& is_available);
-void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print);
-void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
-void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
+double find_max_processor_frequency(Computer configurations[], int& present_configurations_count);
+void print_configuraions_with_given_processor_frequency(Computer configurations[], int& present_configurations_count, double& processor_frequency);
+
+
+
 void read_valid_integer_value(int& value);
 void read_valid_double_value(double& value);
-void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
+
+
 bool configuration_exists_by_id(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration(Computer configurations[], int& present_configurations_count);
 void update_configuration_id(string& old_id, Computer configurations[], int& present_configurations_count);
@@ -81,10 +92,12 @@ void update_processor_model(string& id, Computer configurations[], int& present_
 void update_configuration_frequency(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_cores(string& id, Computer configurations[], int& present_configurations_count);
 bool is_configuration_available(string& id, Computer configurations[], int& present_configurations_count);
-void print_sorted_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
+
+
 void sell_configuration(Computer configurations[], int& present_configurations_count);
 void sell_configuration_by_id(Computer configurations[], int& present_configurations_count);
-void print_configuration(Computer computer);
+
+
 Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count);
 void change_configuration_availability_status(string& id, Computer configurations[], int& present_configurations_count);
 void sell_configuration_by_requirements(Computer configurations[], int& present_configurations_count);
@@ -111,8 +124,8 @@ int main()
     
     do
     {
-        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете желан брой конфигурации с най-голяма тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да спрете програмата.\n",
-            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, SELL_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
+        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете конфигурациите с най-висока тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да спрете програмата.\n",
+            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, SELL_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
         do
         {
             printf("Въведете валидна меню опция [%d - %d]: ", ADD_NEW_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
@@ -126,15 +139,15 @@ int main()
             break;
 
         case PRINT_ALL_CONFIGURATIONS_CHOICE:
-            print_configurations(configurations, present_configurations_count, present_configurations_count);
+            print_existing_configurations_with_validations(configurations, present_configurations_count);
             break;
 
         case PRINT_CONFIGURATIONS_BY_BRAND_CHOICE:
             process_print_configurations_by_brand_request(configurations, present_configurations_count);
             break;
 
-        case PRINT_SORTED_CONFIGURATIONS_BY_PROCESSOR_FREQUENCY_DESC_CHOICE:
-            print_sorted_configurations_by_processor_frequency_desc(configurations, present_configurations_count, sorted_configurations);
+        case PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY:
+            print_configurations_with_highest_processor_frequency(configurations, present_configurations_count);
             break;
 
         case EDIT_CONFIGURATION_CHOICE:
@@ -193,6 +206,14 @@ void process_add_configuration_request(int& present_configurations_count, Comput
     }
 }
 
+void print_all_configurations(Computer configurations[], int& present_configurations_count)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        print_configuration(configurations[i]);
+    }
+}
+
 void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count) {
     cout << "\nВъведете марка, за която искате да намерите конфигурации: ";
     string brand;
@@ -236,27 +257,16 @@ void read_computer_data(string& id, string& brand, string& model, double& ram, d
     cin >> boolalpha >> is_available;
 }
 
-void print_configurations(Computer configurations[], int& present_configurations_count, int& configurations_count_to_print)
+void print_existing_configurations_with_validations(Computer configurations[], int& present_configurations_count)
 {
     if (present_configurations_count == 0)
     {
         cout << "\nНяма запазени конфигурации." << endl;
         return;
     }
-    if (configurations_count_to_print > present_configurations_count)
-    {
-        cout << "\nВъведенения брой конфигурации надвишава броят на запазените конфигурации." << endl;
-        return;
-    }
 
-    cout << "\n--- ИНФОРМАЦИЯ ЗА " << configurations_count_to_print << " КОНФИГУРАЦИИ--- " << endl;
-    for (int i = 0; i < configurations_count_to_print; i++)
-    {  
-        Computer computer = configurations[i];
-        Processor processor = computer.processor;
-        printf("\nКонфигурация номер: %d\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nНаличен статус: %s\n",
-            i + 1, computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "true" : "false");
-    }
+    printf("\n--- ИНФОРМАЦИЯ ЗА ВСИЧКИ КОНФИГУРАЦИИ (%d) --- \n", present_configurations_count);
+    print_all_configurations(configurations, present_configurations_count);
 }
 
 void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand)
@@ -265,15 +275,13 @@ void print_configurations_by_brand(Computer configurations[], int& present_confi
     for (int i = 0; i < present_configurations_count; i++)
     {
         Computer computer = configurations[i];
-        if (computer.brand.compare(brand) == 0)
+        if (compare_strings_case_insensitive(computer.brand, brand))
         {
-            Processor processor = computer.processor;
-            printf("\nКонфигурация номер: %d\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nНаличен статус: %s\n",
-                i + 1, computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "true" : "false");
+            print_configuration(configurations[i]);
             is_brand_existing = true;
         }
     }
-    if (!is_brand_existing) printf("Конфигурации с марката %s не са намерени.\n", brand.c_str());
+    if (!is_brand_existing) printf("\nКонфигурации с марката %s не са намерени.\n", brand.c_str());
 }
 
 void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
@@ -334,13 +342,35 @@ bool configuration_exists_by_id(string& id, Computer configurations[], int& pres
     return false;
 }
 
-void print_sorted_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
+double find_max_processor_frequency(Computer configurations[], int& present_configurations_count)
 {
-    int configurations_to_print;
-    sort_configurations_by_processor_frequency_desc(configurations, present_configurations_count, sorted_configurations);
-    cout << "\nВъведете брой конфигурации за извеждане: ";
-    read_valid_integer_value(configurations_to_print);
-    print_configurations(sorted_configurations, present_configurations_count, configurations_to_print);
+    double max = configurations[0].processor.frequency;
+    for (int i = 1; i < present_configurations_count; i++)
+    {
+        if (configurations[i].processor.frequency > max) max = configurations[i].processor.frequency;
+    }
+    return max;
+}
+
+void print_configuraions_with_given_processor_frequency(Computer configurations[], int& present_configurations_count, double& processor_frequency)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].processor.frequency == processor_frequency) print_configuration(configurations[i]);
+    }
+}
+
+void print_configurations_with_highest_processor_frequency(Computer configurations[], int& present_configurations_count)
+{
+    if (present_configurations_count == 0)
+    {
+        cout << "\n Няма намерени конфигурации.\n";
+        return;
+    }
+
+    double highest_processor_frequency = find_max_processor_frequency(configurations, present_configurations_count);
+    cout << "\nКонфигурации с най-висока чeстота на процесора:\n";
+    print_configuraions_with_given_processor_frequency(configurations, present_configurations_count, highest_processor_frequency);
 }
 
 void update_configuration(Computer configurations[], int& present_configurations_count)
@@ -727,7 +757,7 @@ void print_configuration(Computer computer)
 {
     Processor processor = computer.processor;
     printf("\nСериен номер: %s\nМарка: %s\nМодел: %s\nRAM памет: %.2f\nПроцесор:\n\tПроизводител: %s\n\tМодел: %s\n\tТактова честота: %.2f\n\tБрой ядра: %d\nЦена: %.2f лв.\nНаличен статус: %s\n", 
-        computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "true" : "false");
+        computer.id.c_str(), computer.brand.c_str(), computer.model.c_str(), computer.ram, processor.manufacturer.c_str(), processor.model.c_str(), processor.frequency, processor.cores, computer.price, computer.is_available ? "в продажба" : "продадена");
 }
 
 void change_configuration_availability_status(string& id, Computer configurations[], int& present_configurations_count)
@@ -758,7 +788,7 @@ void sell_configuration_by_requirements(Computer configurations[], int& present_
     if (found_configurations_count > 0)
     {
         cout << "\nПодходящи конфигурации:\n\n";
-        print_configurations(found_configurations, found_configurations_count, found_configurations_count);
+        print_all_configurations(found_configurations, found_configurations_count);
     }
 
     cout << "\nЖелаете ли да осъществите продажба? (Y/N): ";
