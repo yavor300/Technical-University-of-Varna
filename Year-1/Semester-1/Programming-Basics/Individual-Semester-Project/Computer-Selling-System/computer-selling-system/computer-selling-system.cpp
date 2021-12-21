@@ -58,11 +58,11 @@ const int EXIT_FROM_UPDATE_PROCESSOR_MENU_CHOICE = 8;
 * Prototypes
 */
 void print_configuration(Computer computer);
+void print_existing_configurations_with_validations(Computer configurations[], int& present_configurations_count);
 void print_all_configurations(Computer configurations[], int& present_configurations_count);
 void print_configurations_with_highest_processor_frequency(Computer configurations[], int& present_configurations_count);
-void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
 void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
-void print_existing_configurations_with_validations(Computer configurations[], int& present_configurations_count);
+void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
 
 
 void process_add_configuration_request(int& present_configurations_count, Computer configurations[]);
@@ -71,13 +71,8 @@ void read_precessor_data(string& manufacturer, string& model, double& frequency,
 void read_computer_data(string& id, string& brand, string& model, double& ram, double& price, bool& is_available);
 double find_max_processor_frequency(Computer configurations[], int& present_configurations_count);
 void print_configuraions_with_given_processor_frequency(Computer configurations[], int& present_configurations_count, double& processor_frequency);
-
-
-
 void read_valid_integer_value(int& value);
 void read_valid_double_value(double& value);
-
-
 bool configuration_exists_by_id(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration(Computer configurations[], int& present_configurations_count);
 void update_configuration_id(string& old_id, Computer configurations[], int& present_configurations_count);
@@ -92,12 +87,8 @@ void update_processor_model(string& id, Computer configurations[], int& present_
 void update_configuration_frequency(string& id, Computer configurations[], int& present_configurations_count);
 void update_configuration_cores(string& id, Computer configurations[], int& present_configurations_count);
 bool is_configuration_available(string& id, Computer configurations[], int& present_configurations_count);
-
-
 void sell_configuration(Computer configurations[], int& present_configurations_count);
 void sell_configuration_by_id(Computer configurations[], int& present_configurations_count);
-
-
 Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count);
 void change_configuration_availability_status(string& id, Computer configurations[], int& present_configurations_count);
 void sell_configuration_by_requirements(Computer configurations[], int& present_configurations_count);
@@ -120,7 +111,33 @@ int main()
 
     Processor processor = { "Intel", "i7", 3.60, 6 };
     Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer2 = { "a2", "Nokia", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer3 = { "a3", "HP", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer4 = { "a4", "Apple", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer5 = { "a5", "Asus", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer6 = { "a6", "Huawei", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer7 = { "a7", "Samsung", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer8 = { "a8", "HTC", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer9 = { "a9", "Lenovo", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer10 = { "a10", "Logitech", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer11 = { "a11", "Acer", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer12 = { "a12", "Acer", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer13 = { "a13", "Acer", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer14 = { "a14", "Acer", "Nitro", processor, 16.0, 2200, 1};
     configurations[present_configurations_count++] = computer;
+    configurations[present_configurations_count++] = computer2;
+    configurations[present_configurations_count++] = computer3;
+    configurations[present_configurations_count++] = computer4;
+    configurations[present_configurations_count++] = computer5;
+    configurations[present_configurations_count++] = computer6;
+    configurations[present_configurations_count++] = computer7;
+    configurations[present_configurations_count++] = computer8;
+    configurations[present_configurations_count++] = computer9;
+    configurations[present_configurations_count++] = computer10;
+    configurations[present_configurations_count++] = computer11;
+    configurations[present_configurations_count++] = computer12;
+    configurations[present_configurations_count++] = computer13;
+    configurations[present_configurations_count++] = computer14;
     
     do
     {
@@ -682,7 +699,7 @@ void sell_configuration(Computer configurations[], int& present_configurations_c
     int menu_choice;
     do
     {
-        printf("\nВъведете %d, за да осъществите продажба по сериен номер.\nВъведете %d, за да осъществите продажба по определени характеристики.\nВъведете %d, за да прекратите продажбата.\n",
+        printf("\nВъведете %d, за да осъществите продажба по сериен номер.\nВъведете %d, за да осъществите продажба по определени характеристики.\nВъведете %d, за да напуснете продажното меню.\n",
             1, 2, 3);
         do
         {
@@ -693,15 +710,12 @@ void sell_configuration(Computer configurations[], int& present_configurations_c
         switch (menu_choice)
         {
         case 1:
-            cout << endl;
             sell_configuration_by_id(configurations, present_configurations_count);
-            cout << endl;
             break;
 
         case 2:
             cout << endl;
             sell_configuration_by_requirements(configurations, present_configurations_count);
-            cout << endl;
             break;
         }
     } while (menu_choice != 3);
@@ -709,14 +723,14 @@ void sell_configuration(Computer configurations[], int& present_configurations_c
 
 void sell_configuration_by_id(Computer configurations[], int& present_configurations_count)
 {
-    cout << "Въведете сериен номер на компютъра: ";
+    cout << "\nВъведете сериен номер на компютъра: ";
     cin.ignore();
     string id;
     getline(cin, id);
 
     if (!configuration_exists_by_id(id, configurations, present_configurations_count))
     {
-        cout << "\nНе съществува конфигурация с този сериен номер!";
+        cout << "\nНе съществува конфигурация с този сериен номер!\n";
         return;
     }
 
@@ -742,7 +756,7 @@ void sell_configuration_by_id(Computer configurations[], int& present_configurat
 
     change_configuration_availability_status(id, configurations, present_configurations_count);
     double money_change = price_to_pay - computer.price;
-    printf("Конфигурацията е успешно продадена!\nРесто: %.2f лв.", money_change);
+    printf("\nКонфигурацията е успешно продадена!\nРесто: %.2f лв.", money_change);
 }
 
 Computer get_configuration_by_id(string& id, Computer configurations[], int& present_configurations_count)
@@ -787,15 +801,21 @@ void sell_configuration_by_requirements(Computer configurations[], int& present_
 
     if (found_configurations_count > 0)
     {
-        cout << "\nПодходящи конфигурации:\n\n";
+        cout << "\nПодходящи конфигурации:\n";
         print_all_configurations(found_configurations, found_configurations_count);
     }
 
     cout << "\nЖелаете ли да осъществите продажба? (Y/N): ";
     char confirm;
     cin >> confirm;
+    while (tolower(confirm) != 'y' && tolower(confirm) != 'n')
+    {
+        cout << "Въведете Y, за да влезете в режим на продажба.\nВъведете N, за да откажете осъществяването на продажба.\nВъведете избор (Y/N): ";
+        cin >> confirm;
+    }
 
     if (tolower(confirm) == 'y') sell_configuration_by_id(configurations, present_configurations_count);
+    else cout << "\nПродажба по въведени харакетеристики бе отказана.\n";
 }
 
 void read_precessor_selling_data(string& manufacturer, string& model, string& frequency, string& cores)
