@@ -71,6 +71,7 @@ void process_print_configurations_by_brand_request(Computer configurations[], in
 void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
 void print_available_configurations_sorted_by_id(Computer configurations[], int& present_configurations_count);
 void print_configurations_by_availability_status(Computer configurations[], int& present_configurations_count, bool availability_status);
+void print_configurations_by_brand_and_ram_sorted_by_price_desc(Computer configurations[], int& present_configurations_count);
 
 void process_add_configuration_request(int& present_configurations_count, Computer configurations[]);
 bool is_configurations_count_valid(int& configurations_count, int& present_configurations_count);
@@ -108,7 +109,7 @@ void find_computers_with_requirements(Computer configurations[], int& present_co
 void make_configurations_audit(Computer configurations[], int& present_configurations_count);
 
 void sort_configurations_by_id(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
-
+void sort_configurations_by_price_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
 int find_min_number(int first, int second);
 
 int main()
@@ -120,7 +121,7 @@ int main()
     int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
 
-    Processor processor = { "Intel", "i7", 3.60, 6 };
+    /*Processor processor = { "Intel", "i7", 3.60, 6 };
     Computer computer = { "aaa", "Acer", "Nitro", processor, 16.0, 2200, 1};
     Computer computer2 = { "bbb", "Nokia", "Nitro", processor, 16.0, 2200, 1};
     Computer computer3 = { "aba", "HP", "Nitro", processor, 16.0, 2200, 1};
@@ -148,7 +149,7 @@ int main()
     configurations[present_configurations_count++] = computer11;
     configurations[present_configurations_count++] = computer12;
     configurations[present_configurations_count++] = computer13;
-    configurations[present_configurations_count++] = computer14;
+    configurations[present_configurations_count++] = computer14;*/
     
     do
     {
@@ -931,8 +932,7 @@ void make_configurations_audit(Computer configurations[], int& present_configura
             print_available_configurations_sorted_by_id(configurations, present_configurations_count);
             break;
 
-        case SELL_BY_REQUIREMENTS_CHOICE:
-            cout << endl;
+        case 2:
             sell_configuration_by_requirements(configurations, present_configurations_count);
             break;
         }
@@ -941,6 +941,12 @@ void make_configurations_audit(Computer configurations[], int& present_configura
 
 void print_available_configurations_sorted_by_id(Computer configurations[], int& present_configurations_count)
 {
+    if (present_configurations_count == 0)
+    {
+        cout << "\nНяма запазени конфигурации.\n";
+        return;
+    }
+
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
     sort_configurations_by_id(configurations, present_configurations_count, sorted_configurations);
     print_configurations_by_availability_status(sorted_configurations, present_configurations_count, true);
@@ -977,6 +983,27 @@ void sort_configurations_by_id(Computer configurations[], int& present_configura
     }
 }
 
+void sort_configurations_by_price_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
+{
+    for (int i = 0; i < present_configurations_count; i++) sorted_configurations[i] = configurations[i];
+
+    for (int i = 0; i < present_configurations_count - 1; i++)
+    {
+        bool swapped = false;
+        for (int j = 0; j < present_configurations_count - 1 - i; j++)
+        {
+            if (sorted_configurations[j].price < sorted_configurations[j + 1].price)
+            {
+                Computer temp = sorted_configurations[j];
+                sorted_configurations[j] = sorted_configurations[j + 1];
+                sorted_configurations[j + 1] = temp;
+                swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
+}
+
 int find_min_number(int first, int second)
 {
     if (first < second) return first;
@@ -989,4 +1016,9 @@ void print_configurations_by_availability_status(Computer configurations[], int&
     {
         if (configurations[i].is_available == availability_status) print_configuration(configurations[i]);
     }
+}
+
+void print_configurations_by_brand_and_ram_sorted_by_price_desc(Computer configurations[], int& present_configurations_count)
+{
+
 }
