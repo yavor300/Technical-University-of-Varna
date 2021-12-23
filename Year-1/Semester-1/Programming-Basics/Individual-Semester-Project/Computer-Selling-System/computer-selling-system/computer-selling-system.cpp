@@ -37,7 +37,8 @@ const int PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY = 3;
 const int PRINT_CONFIGURATIONS_BY_BRAND_CHOICE = 4;
 const int EDIT_CONFIGURATION_CHOICE = 5;
 const int SELL_CONFIGURATION_CHOICE = 6;
-const int EXIT_FROM_MENU_CHOICE = 7;
+const int MAKE_CONFIGURATIONS_AUDIT_CHOICE = 7;
+const int EXIT_FROM_MENU_CHOICE = 8;
 
 const int UPDATE_CONFIGURATION_ID_CHOICE = 1;
 const int UPDATE_CONFIGURATION_BRAND_CHOICE = 2;
@@ -47,6 +48,11 @@ const int UPDATE_CONFIGURATION_PRICE_CHOICE = 5;
 const int UPDATE_CONFIGURATION_AVAILABILITY_STATUS_CHOICE = 6;
 const int UPDATE_CONFIGURATION_PROCESSOR_CHOICE = 7;
 const int EXIT_FROM_CONFIGURATION_UPDATE_MENU_CHOICE = 8;
+
+const int SELL_BY_SERIAL_NUMBER_CHOICE = 1;
+const int SELL_BY_REQUIREMENTS_CHOICE = 2;
+const int EXIT_FROM_SELLING_MENU_CHOICE = 3;
+
 
 const int UPDATE_PROCESSOR_MANUFACTURER_CHOICE = 1;
 const int UPDATE_PROCESSOR_MODEL_CHOICE = 2;
@@ -63,7 +69,8 @@ void print_all_configurations(Computer configurations[], int& present_configurat
 void print_configurations_with_highest_processor_frequency(Computer configurations[], int& present_configurations_count);
 void process_print_configurations_by_brand_request(Computer configurations[], int& present_configurations_count);
 void print_configurations_by_brand(Computer configurations[], int& present_configurations_count, string& brand);
-
+void print_available_configurations_sorted_by_id(Computer configurations[], int& present_configurations_count);
+void print_configurations_by_availability_status(Computer configurations[], int& present_configurations_count, bool availability_status);
 
 void process_add_configuration_request(int& present_configurations_count, Computer configurations[]);
 bool is_configurations_count_valid(int& configurations_count, int& present_configurations_count);
@@ -98,6 +105,11 @@ bool compare_strings_case_insensitive(string first, string second);
 void find_computers_with_requirements(Computer configurations[], int& present_configurations_count, Computer found_configurations[], int& found_configurations_count,
     string& processor_manufacturer, string& processor_model, string& processor_frequency, string& processor_cores, string& computer_brand,
     string& computer_model, string& computer_ram, string& computer_price, int& selected_features, int& actual_features);
+void make_configurations_audit(Computer configurations[], int& present_configurations_count);
+
+void sort_configurations_by_id(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
+
+int find_min_number(int first, int second);
 
 int main()
 {
@@ -107,17 +119,16 @@ int main()
 
     int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
-    Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
 
     Processor processor = { "Intel", "i7", 3.60, 6 };
-    Computer computer = { "a1", "Acer", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer2 = { "a2", "Nokia", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer3 = { "a3", "HP", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer4 = { "a4", "Apple", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer5 = { "a5", "Asus", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer6 = { "a6", "Huawei", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer7 = { "a7", "Samsung", "Nitro", processor, 16.0, 2200, 1};
-    Computer computer8 = { "a8", "HTC", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer = { "aaa", "Acer", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer2 = { "bbb", "Nokia", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer3 = { "aba", "HP", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer4 = { "aab", "Apple", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer5 = { "baa", "Asus", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer6 = { "bba", "Huawei", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer7 = { "a1", "Samsung", "Nitro", processor, 16.0, 2200, 1};
+    Computer computer8 = { "a8", "HTC", "Nitro", processor, 16.0, 2200, 0};
     Computer computer9 = { "a9", "Lenovo", "Nitro", processor, 16.0, 2200, 1};
     Computer computer10 = { "a10", "Logitech", "Nitro", processor, 16.0, 2200, 1};
     Computer computer11 = { "a11", "Acer", "Nitro", processor, 16.0, 2200, 1};
@@ -141,8 +152,8 @@ int main()
     
     do
     {
-        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете конфигурациите с най-висока тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да спрете програмата.\n",
-            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, SELL_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
+        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете конфигурациите с най-висока тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да направите одит на конфигурациите.\nВъведете %d, за да спрете програмата.\n",
+            ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, SELL_CONFIGURATION_CHOICE, MAKE_CONFIGURATIONS_AUDIT_CHOICE, EXIT_FROM_MENU_CHOICE);
         do
         {
             printf("Въведете валидна меню опция [%d - %d]: ", ADD_NEW_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
@@ -175,6 +186,10 @@ int main()
         case SELL_CONFIGURATION_CHOICE:
             cout << endl;
             sell_configuration(configurations, present_configurations_count);
+            break;
+
+        case MAKE_CONFIGURATIONS_AUDIT_CHOICE:
+            make_configurations_audit(configurations, present_configurations_count);
             break;
         }
         cout << endl;
@@ -299,27 +314,6 @@ void print_configurations_by_brand(Computer configurations[], int& present_confi
         }
     }
     if (!is_brand_existing) printf("\nКонфигурации с марката %s не са намерени.\n", brand.c_str());
-}
-
-void sort_configurations_by_processor_frequency_desc(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
-{
-    for (int i = 0; i < present_configurations_count; i++) sorted_configurations[i] = configurations[i];
-
-    for (int i = 0; i < present_configurations_count - 1; i++)
-    {
-        bool swapped = false;
-        for (int j = 0; j < present_configurations_count - 1 - i; j++)
-        {
-            if (sorted_configurations[j].processor.frequency < sorted_configurations[j + 1].processor.frequency)
-            {
-                Computer temp = sorted_configurations[j];
-                sorted_configurations[j] = configurations[j + 1];
-                sorted_configurations[j + 1] = temp;
-                swapped = true;
-            }
-        }
-        if (!swapped) break;
-    }
 }
 
 void read_valid_integer_value(int& value)
@@ -700,20 +694,20 @@ void sell_configuration(Computer configurations[], int& present_configurations_c
     do
     {
         printf("\nВъведете %d, за да осъществите продажба по сериен номер.\nВъведете %d, за да осъществите продажба по определени характеристики.\nВъведете %d, за да напуснете продажното меню.\n",
-            1, 2, 3);
+            SELL_BY_SERIAL_NUMBER_CHOICE, SELL_BY_REQUIREMENTS_CHOICE, EXIT_FROM_SELLING_MENU_CHOICE);
         do
         {
-            printf("Въведете валидна меню опция [%d - %d]: ", 1, 3);
+            printf("Въведете валидна меню опция [%d - %d]: ", SELL_BY_SERIAL_NUMBER_CHOICE, EXIT_FROM_SELLING_MENU_CHOICE);
             read_valid_integer_value(menu_choice);
-        } while (menu_choice < 1 || menu_choice > 3);
+        } while (menu_choice < SELL_BY_SERIAL_NUMBER_CHOICE || menu_choice > EXIT_FROM_SELLING_MENU_CHOICE);
 
         switch (menu_choice)
         {
-        case 1:
+        case SELL_BY_SERIAL_NUMBER_CHOICE:
             sell_configuration_by_id(configurations, present_configurations_count);
             break;
 
-        case 2:
+        case SELL_BY_REQUIREMENTS_CHOICE:
             cout << endl;
             sell_configuration_by_requirements(configurations, present_configurations_count);
             break;
@@ -914,5 +908,85 @@ void find_computers_with_requirements(Computer configurations[], int& present_co
         }
 
         if (selected_features == actual_features) found_configurations[found_configurations_count++] = computer;
+    }
+}
+
+void make_configurations_audit(Computer configurations[], int& present_configurations_count)
+{
+    cout << "\n--- ОДИТ НА КОНФИГУРАЦИИ ---\n";
+    int menu_choice;
+    do
+    {
+        printf("\nВъведете %d, за да изведете всички конфигурации, които са в продажба, сортирани по сериен номер.\nВъведете %d, за да изведете всички конфигурации с даден модел процесор и RAM памет, сортирани по цена от най-скъпия към най-евтиния.\nВъведете %d, за да изведете продадените конфигурации, сортирани по модел на процесора.\nВъведете %d, за да напуснете одитното меню.\n",
+            1, 2, 3, 4);
+        do
+        {
+            printf("Въведете валидна меню опция [%d - %d]: ", 1, 4);
+            read_valid_integer_value(menu_choice);
+        } while (menu_choice < 1 || menu_choice > 4);
+
+        switch (menu_choice)
+        {
+        case 1:
+            print_available_configurations_sorted_by_id(configurations, present_configurations_count);
+            break;
+
+        case SELL_BY_REQUIREMENTS_CHOICE:
+            cout << endl;
+            sell_configuration_by_requirements(configurations, present_configurations_count);
+            break;
+        }
+    } while (menu_choice != 3);
+}
+
+void print_available_configurations_sorted_by_id(Computer configurations[], int& present_configurations_count)
+{
+    Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
+    sort_configurations_by_id(configurations, present_configurations_count, sorted_configurations);
+    print_configurations_by_availability_status(sorted_configurations, present_configurations_count, true);
+}
+
+void sort_configurations_by_id(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[])
+{
+    {
+        for (int i = 0; i < present_configurations_count; i++) sorted_configurations[i] = configurations[i];
+
+        for (int i = 0; i < present_configurations_count - 1; i++)
+        {
+            bool swapped = false;
+            for (int j = 0; j < present_configurations_count - 1 - i; j++)
+            {
+                Computer first = sorted_configurations[j];
+                Computer second = sorted_configurations[j + 1];
+                int min_id_length = find_min_number(first.id.length(), second.id.length());
+
+                for (int k = 0; k < min_id_length; k++)
+                {
+                    if (first.id[k] > second.id[k])
+                    {
+                        Computer temp = sorted_configurations[j];
+                        sorted_configurations[j] = sorted_configurations[j + 1];
+                        sorted_configurations[j + 1] = temp;
+                        swapped = true;
+                        break;
+                    }
+                }
+            }
+            if (!swapped) break;
+        }
+    }
+}
+
+int find_min_number(int first, int second)
+{
+    if (first < second) return first;
+    return second;
+}
+
+void print_configurations_by_availability_status(Computer configurations[], int& present_configurations_count, bool availability_status)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].is_available == availability_status) print_configuration(configurations[i]);
     }
 }
