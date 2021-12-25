@@ -2,6 +2,7 @@
 #include <string>
 #define NOMINMAX
 #include <Windows.h>
+#include <fstream>
 using namespace std;
 
 /*
@@ -31,6 +32,8 @@ struct Computer
 */
 const int MAX_NUMBER_OF_CONFIGURATIONS = 100;
 const int INITIAL_CONFIGURATIONS_COUNT = 0;
+const int DIGITS_TO_PRINT_AFTER_DECIMAL_POINT = 2;
+
 const int ADD_NEW_CONFIGURATION_CHOICE = 1;
 const int PRINT_ALL_CONFIGURATIONS_CHOICE = 2;
 const int PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY = 3;
@@ -120,7 +123,7 @@ void sort_configurations_by_price_desc(Computer configurations[], int& present_c
 void sort_configurations_by_processor_model(Computer configurations[], int& present_configurations_count, Computer sorted_configurations[]);
 
 int find_min_number(int first, int second);
-
+void store_configurations_in_file(Computer configurations[], int present_configurations_count);
 int main()
 {
     setlocale(LC_ALL, "BG");
@@ -205,6 +208,7 @@ int main()
         }
         cout << endl;
     } while (choice != EXIT_FROM_MENU_CHOICE);
+    store_configurations_in_file(configurations, present_configurations_count);
 }
 
 void process_add_configuration_request(int& present_configurations_count, Computer configurations[])
@@ -1099,4 +1103,39 @@ void print_available_configurations_sorted_by_processor_model(Computer configura
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
     sort_configurations_by_processor_model(configurations, present_configurations_count, sorted_configurations);
     print_configurations_by_availability_status(sorted_configurations, present_configurations_count, false);
+}
+
+void store_configurations_in_file(Computer configurations[], int present_configurations_count)
+{
+    fstream configurations_data;
+    configurations_data.open("configurations.dat", ios::out);
+
+    if (configurations_data.fail())
+    {
+        cout << "Грешка в отварянето на файла.";
+        return;
+    }
+
+    configurations_data.setf(ios::fixed);
+    configurations_data.setf(ios::showpoint);
+    configurations_data.precision(DIGITS_TO_PRINT_AFTER_DECIMAL_POINT);
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        Computer computer = configurations[i];
+        Processor processor = computer.processor;
+
+        string available_status = computer.is_available ? "в продажба" : "продадена";
+
+        configurations_data
+            << "Сериен номер: " << computer.id.c_str()
+            << "\nМарка: " << computer.brand.c_str()
+            << "\nМодел: " << computer.model.c_str()
+            << "\nRAM памет: " << computer.price
+            << "\nПроцесор: \n\tПроизводител: " << processor.manufacturer
+            << "\n\tМодел: " << processor.model
+            << "\n\tТактова честота: " << processor.frequency
+            << "\n\tБрой ядра: " << processor.cores
+            << "\nЦена: " << computer.price << " лв."
+            << "\nНаличен статус: " << available_status << "\n\n";
+    }
 }
