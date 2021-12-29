@@ -124,10 +124,12 @@ int find_min_number(int first, int second);
 void print_configurations_by_availability_status(Computer configurations[], int present_configurations_count, string available_status);
 void print_configurations_by_brand_and_ram_sorted_by_price_desc(Computer configurations[], int present_configurations_count);
 void sort_configurations_by_price_desc(Computer configurations[], int present_configurations_count, Computer sorted_configurations[]);
-void print_configurations_by_brand_and_ram(Computer configurations[], int present_configurations_count, string& brand, double ram);
-void print_available_configurations_sorted_by_processor_model(Computer configurations[], int present_configurations_count);
+void print_configurations_by_brand_and_ram(Computer configurations[], int present_configurations_count, string& processor_model, double ram);
+void print_unavailable_configurations_sorted_by_processor_model(Computer configurations[], int present_configurations_count);
 void sort_configurations_by_processor_model(Computer configurations[], int present_configurations_count, Computer sorted_configurations[]);
 void store_configurations_in_file(Computer configurations[], int present_configurations_count);
+bool configuration_exists_by_processor_model_and_ram(Computer configurations[], int present_configurations_count, string& processor_model, double ram);
+bool search_for_configurations_by_availability_status(Computer configurations[], int present_configurations_count, string available_status);
 
 int main()
 {
@@ -151,7 +153,6 @@ int main()
         } while (choice < ADD_NEW_CONFIGURATION_CHOICE || choice > EXIT_FROM_MENU_CHOICE);
 
         system("cls");
-
         switch (choice)
         {
         case ADD_NEW_CONFIGURATION_CHOICE:
@@ -493,7 +494,9 @@ void update_configuration(Computer configurations[], int present_configurations_
         return;
     }
 
-    printf("\nКонфигурация със сериен номер %s е намерена успешно!\n", id.c_str());
+    printf("\nКонфигурация със сериен номер %s е намерена успешно!\n\nДетайли за конфигурация:\n", id.c_str());
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
     int update_option;
     do
     {
@@ -533,15 +536,17 @@ void update_configuration(Computer configurations[], int present_configurations_
     } while (update_option != EXIT_FROM_CONFIGURATION_UPDATE_MENU_CHOICE);
 }
 
-
 void update_configuration_id(string& old_id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА СЕРИЕН НОМЕР =====\n\n";
-    string updated_id;
+    cout << "===== ПРОМЯНА НА СЕРИЕН НОМЕР НА КОНФИГУРАЦИЯ =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(old_id, configurations, present_configurations_count);
+    print_configuration(computer);
+    cout << endl;
 
+    string updated_id;
     do
     {
-        cout << "Въведете нов сериен номер: ";
+        cout << "Въведете нов сериен номер на кофигурацията: ";
         getline(cin, updated_id);
     } while (is_string_empty(updated_id));
 
@@ -566,12 +571,15 @@ void update_configuration_id(string& old_id, Computer configurations[], int pres
 
 void update_configuration_brand(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА МАРКА =====\n\n";
+    cout << "===== ПРОМЯНА НА МАРКА НА КОНФИГУРАЦИЯ =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+    cout << endl;
+
     string new_brand;
-    
     do
     {
-        cout << "Въведете нова марка: ";
+        cout << "Въведете нова марка на конфигурацията: ";
         getline(cin, new_brand);
     } while (is_string_empty(new_brand));
 
@@ -589,12 +597,15 @@ void update_configuration_brand(string& id, Computer configurations[], int prese
 
 void update_configuration_model(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА МОДЕЛ =====\n\n";
+    cout << "===== ПРОМЯНА НА МОДЕЛ НА КОНФИГУРАЦИЯ =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+    cout << endl;
+
     string new_model;
-    
     do
     {
-        cout << "Въведете нов модел: ";
+        cout << "Въведете нов модел на конфигурацията: ";
         getline(cin, new_model);
     } while (is_string_empty(new_model));
 
@@ -612,12 +623,16 @@ void update_configuration_model(string& id, Computer configurations[], int prese
 
 void update_configuration_ram(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА RAM СТОЙНОСТ =====\n\nВъведете нова RAM стойност: ";
+    cout << "===== ПРОМЯНА НА RAM СТОЙНОСТ НА КОНФИГУРАЦИЯ =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+
+    cout << "\nВъведете нова RAM стойност на конфигурацията: ";
     double new_ram;
     read_valid_double_value(new_ram);
     while (new_ram <= 0)
     {
-        cout << "RAM стойността трябва да е по-голяма от 0.\nВъведете нова RAM стойност: ";
+        cout << "RAM стойността трябва да е по-голяма от 0.\nВъведете нова RAM стойност на конфигурацията: ";
         read_valid_double_value(new_ram);
     }
 
@@ -635,12 +650,16 @@ void update_configuration_ram(string& id, Computer configurations[], int present
 
 void update_configuration_price(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА ЦЕНА =====\n\nВъведете нова цена: ";
+    cout << "===== ПРОМЯНА НА ЦЕНА НА КОНФИГУРАЦИЯ =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+
+    cout << "\nВъведете нова цена на конфигурацията: ";
     double new_price;
     read_valid_double_value(new_price);
     while (new_price <= 0)
     {
-        cout << "Цената трябва да е по-голяма от 0.\nВъведете нова цена: ";
+        cout << "Цената трябва да е по-голяма от 0.\nВъведете нова цена на конфигурацията: ";
         read_valid_double_value(new_price);
     }
 
@@ -658,8 +677,11 @@ void update_configuration_price(string& id, Computer configurations[], int prese
 
 void update_configuration_status(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА НАЛИЧЕН СТАТУС =====\n\nВъведете нов наличен статус: ";
-    
+    cout << "===== ПРОМЯНА НА НАЛИЧЕН СТАТУС НА КОНФИГУРАЦИЯ =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+
+    printf("\nВъведете нов наличен статус на конфигурацията (%s/%s): ", CONFIGURATION_IN_SELL_STATUS.c_str(), CONFIGURATION_SOLD_STATUS.c_str());
     string new_available_status;
     getline(cin, new_available_status);
     while (new_available_status != CONFIGURATION_IN_SELL_STATUS && new_available_status != CONFIGURATION_SOLD_STATUS)
@@ -716,9 +738,12 @@ void update_processor(string& configuration_id, Computer configurations[], int p
 
 void update_processor_manufacturer(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА ПРОИЗВОДИТЕЛ НА ПРОЦЕСОР =====\n\n";
+    cout << "===== ПРОМЯНА НА ПРОИЗВОДИТЕЛ НА ПРОЦЕСОР =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+    cout << endl;
+
     string new_manufacturer;
-    
     do
     {
         cout << "Въведете нов производител на процесора: ";
@@ -739,9 +764,12 @@ void update_processor_manufacturer(string& id, Computer configurations[], int pr
 
 void update_processor_model(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА МОДЕЛ НА ПРОЦЕСОР =====\n\n";
-    string new_model;
-    
+    cout << "===== ПРОМЯНА НА МОДЕЛ НА ПРОЦЕСОР =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+    cout << endl;
+
+    string new_model;    
     do
     {
         cout << "Въведете нов модел на процесора: ";
@@ -762,7 +790,11 @@ void update_processor_model(string& id, Computer configurations[], int present_c
 
 void update_configuration_frequency(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА ЧЕСТОТА НА ПРОЦЕСОР =====\n\nВъведете нова честота на процесора: ";
+    cout << "===== ПРОМЯНА НА ЧЕСТОТА НА ПРОЦЕСОР =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+
+    cout << "\nВъведете нова честота на процесора: ";
     double new_frequency;
     read_valid_double_value(new_frequency);
     while (new_frequency <= 0)
@@ -785,7 +817,11 @@ void update_configuration_frequency(string& id, Computer configurations[], int p
 
 void update_configuration_cores(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА БРОЙ ЯДРА НА ПРОЦЕСОР =====\n\nВъведете нов брой ядра на процесора: ";
+    cout << "===== ПРОМЯНА НА РОЙ ЯДРА НА ПРОЦЕСОР =====\n\nДетайли за конфигурация:\n";
+    Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    print_configuration(computer);
+
+    cout << "\nВъведете нов брой ядра на процесора: ";
     int new_cores;
     read_valid_integer_value(new_cores);
     while (new_cores <= 0)
@@ -836,6 +872,7 @@ void sell_configuration(Computer configurations[], int present_configurations_co
             read_valid_integer_value(menu_choice);
         } while (menu_choice < SELL_BY_SERIAL_NUMBER_CHOICE || menu_choice > EXIT_FROM_SELLING_MENU_CHOICE);
 
+        system("cls");
         switch (menu_choice)
         {
         case SELL_BY_SERIAL_NUMBER_CHOICE:
@@ -851,10 +888,15 @@ void sell_configuration(Computer configurations[], int present_configurations_co
 
 void sell_configuration_by_id(Computer configurations[], int present_configurations_count)
 {
-    cout << "\nВъведете сериен номер на компютъра: ";
-    
+    cout << "===== ПРОДАЖБА НА КОНФИГУРАЦИЯ ПО СЕРИЕН НОМЕР =====\n\n";
+
     string id;
-    getline(cin, id);
+    do
+    {
+        cout << "Въведете сериен номер на компютъра: ";
+        getline(cin, id);
+    } while (is_string_empty(id));
+    
 
     if (!configuration_exists_by_id(id, configurations, present_configurations_count))
     {
@@ -868,17 +910,17 @@ void sell_configuration_by_id(Computer configurations[], int present_configurati
         return;
     }
 
-    printf("\nКонфигурация със сериен номер %s е намерена успешно!\n\nДетайли за конфигурация:\n", id.c_str());
     Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
+    printf("\nКонфигурация със сериен номер %s е намерена успешно!\n\nДетайли за конфигурация:\n", id.c_str());
     print_configuration(computer);
 
-    cout << "\nВъведете цена: ";
+    cout << "\nВъведете цена за покупка: ";
     double price_to_pay;
     read_valid_double_value(price_to_pay);
 
     if (price_to_pay < computer.price)
     {
-        cout << "\nНедостатъчна сума пари!\n";
+        printf("\nНедостатъчна сума пари!\nНеобходима сума: %.2f лв.\n", computer.price - price_to_pay);
         return;
     }
 
@@ -912,8 +954,9 @@ void change_configuration_availability_status(string& id, Computer configuration
 
 void sell_configuration_by_requirements(Computer configurations[], int present_configurations_count)
 {
+    cout << "===== ПРОДАЖБА НА КОНФИГУРАЦИЯ ПО ХАРАКТЕРИСТИКИ =====\n\n* Ако желаете да пропуснете характерстика, оставете съответното полето празно.\n\n";
+
     string processor_manufacturer, processor_model, processor_frequency, processor_cores, computer_brand, computer_model, computer_ram, computer_price;
-    cout << endl;
     read_precessor_selling_data(processor_manufacturer, processor_model, processor_frequency, processor_cores);
     read_computer_selling_data(computer_brand, computer_model, computer_ram, computer_price);
 
@@ -946,7 +989,13 @@ void sell_configuration_by_requirements(Computer configurations[], int present_c
         cin >> confirm;
     }
 
-    if (tolower(confirm) == 'y') sell_configuration_by_id(configurations, present_configurations_count);
+    if (tolower(confirm) == 'y')
+    {
+        cout << endl;
+        cin.clear();
+        cin.ignore();
+        sell_configuration_by_id(configurations, present_configurations_count);
+    }
     else cout << "\nПродажба по въведени харакетеристики бе отказана.\n";
 }
 
@@ -956,9 +1005,9 @@ void read_precessor_selling_data(string& manufacturer, string& model, string& fr
     getline(cin, manufacturer);
     cout << "Въведете желан модел на процесора: ";
     getline(cin, model);
-    cout << "Въведете желана честота на процесора: ";
+    cout << "Въведете желана минимална честота на процесора: ";
     getline(cin, frequency);
-    cout << "Въведете брой ядра на процесора: ";
+    cout << "Въведете желан минимален брой ядра на процесора: ";
     getline(cin, cores);
 }
 
@@ -968,9 +1017,9 @@ void read_computer_selling_data(string& brand, string& model, string& ram, strin
     getline(cin, brand);
     cout << "Въведете желан модел на компютъра: ";
     getline(cin, model);
-    cout << "Въведете RAM на компютъра: ";
+    cout << "Въведете желана минимална RAM на компютъра: ";
     getline(cin, ram);
-    cout << "Въведете цена на компютъра: ";
+    cout << "Въведете максимална цена на компютъра: ";
     getline(cin, price);
 }
 
@@ -997,52 +1046,52 @@ void find_computers_with_requirements(Computer configurations[], int present_con
         actual_features = 0;
         Computer computer = configurations[i];
 
-        if (!processor_manufacturer.empty())
+        if (!is_string_empty(processor_manufacturer))
         {
             selected_features++;
             if (compare_strings_case_insensitive(computer.processor.manufacturer, processor_manufacturer)) actual_features++;
         }
 
-        if (!processor_model.empty())
+        if (!is_string_empty(processor_model))
         {
             selected_features++;
             if (compare_strings_case_insensitive(computer.processor.model, processor_model)) actual_features++;
         }
 
-        if (!processor_frequency.empty())
+        if (!is_string_empty(processor_frequency))
         {
             selected_features++;
-            if (computer.processor.frequency == stod(processor_frequency)) actual_features++;
+            if (computer.processor.frequency >= stod(processor_frequency)) actual_features++;
         }
 
-        if (!processor_cores.empty())
+        if (!is_string_empty(processor_cores))
         {
             selected_features++;
-            if (computer.processor.cores == stoi(processor_cores)) actual_features++;
+            if (computer.processor.cores >= stoi(processor_cores)) actual_features++;
         }
 
-        if (!computer_brand.empty())
+        if (!is_string_empty(computer_brand))
         {
             selected_features++;
             if (compare_strings_case_insensitive(computer.brand, computer_brand)) actual_features++;
         }
 
-        if (!computer_model.empty())
+        if (!is_string_empty(computer_model))
         {
             selected_features++;
             if (compare_strings_case_insensitive(computer.model, computer_model)) actual_features++;
         }
 
-        if (!computer_ram.empty())
+        if (!is_string_empty(computer_ram))
         {
             selected_features++;
-            if (computer.ram == stod(computer_ram)) actual_features++;
+            if (computer.ram >= stod(computer_ram)) actual_features++;
         }
 
-        if (!computer_price.empty())
+        if (!is_string_empty(computer_price))
         {
             selected_features++;
-            if (computer.price == stod(computer_price)) actual_features++;
+            if (computer.price <= stod(computer_price)) actual_features++;
         }
 
         if (selected_features == actual_features) found_configurations[found_configurations_count++] = computer;
@@ -1070,6 +1119,7 @@ void make_configurations_audit(Computer configurations[], int present_configurat
             read_valid_integer_value(menu_choice);
         } while (menu_choice < PRINT_AVAILABLE_CONFIGURATIONS_SORTED_BY_ID_CHOICE || menu_choice > EXIT_FROM_AUDIT_MENU_CHOICE);
 
+        system("cls");
         switch (menu_choice)
         {
         case PRINT_AVAILABLE_CONFIGURATIONS_SORTED_BY_ID_CHOICE:
@@ -1081,7 +1131,7 @@ void make_configurations_audit(Computer configurations[], int present_configurat
             break;
 
         case PRINT_AVAILABLE_CONFIGURATIONS_SORTED_BY_PROCESSOR_MODEL_CHOICE:
-            print_available_configurations_sorted_by_processor_model(configurations, present_configurations_count);
+            print_unavailable_configurations_sorted_by_processor_model(configurations, present_configurations_count);
             break;
         }
     } while (menu_choice != EXIT_FROM_AUDIT_MENU_CHOICE);
@@ -1089,15 +1139,31 @@ void make_configurations_audit(Computer configurations[], int present_configurat
 
 void print_available_configurations_sorted_by_id(Computer configurations[], int present_configurations_count)
 {
+    cout << "===== НАЛИЧНИ КОНФИГУРАЦИИ, СОРТИРАНИ ПО СЕРИЕН НОМЕР =====\n";
     if (present_configurations_count == 0)
     {
         cout << "\nНяма запазени конфигурации.\n";
         return;
     }
 
+    if (!search_for_configurations_by_availability_status(configurations, present_configurations_count, CONFIGURATION_IN_SELL_STATUS))
+    {
+        cout << "\nНяма налични конфигурации.\n";
+        return;
+    }
+
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
     sort_configurations_by_id(configurations, present_configurations_count, sorted_configurations);
     print_configurations_by_availability_status(sorted_configurations, present_configurations_count, CONFIGURATION_IN_SELL_STATUS);
+}
+
+bool search_for_configurations_by_availability_status(Computer configurations[], int present_configurations_count, string available_status)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (configurations[i].available_status == available_status) return true;
+    }
+    return false;
 }
 
 void sort_configurations_by_id(Computer configurations[], int present_configurations_count, Computer sorted_configurations[])
@@ -1164,33 +1230,58 @@ void print_configurations_by_availability_status(Computer configurations[], int 
     }
 }
 
-void print_configurations_by_brand_and_ram(Computer configurations[], int present_configurations_count, string& brand, double ram)
+bool configuration_exists_by_processor_model_and_ram(Computer configurations[], int present_configurations_count, string& processor_model, double ram)
 {
     for (int i = 0; i < present_configurations_count; i++)
     {
-        if (configurations[i].brand == brand && configurations[i].ram == ram) print_configuration(configurations[i]);
+        if (compare_strings_case_insensitive(configurations[i].processor.model, processor_model) && configurations[i].ram == ram) return true;
+    }
+    return false;
+}
+
+void print_configurations_by_brand_and_ram(Computer configurations[], int present_configurations_count, string& processor_model, double ram)
+{
+    for (int i = 0; i < present_configurations_count; i++)
+    {
+        if (compare_strings_case_insensitive(configurations[i].processor.model, processor_model)  && configurations[i].ram == ram) print_configuration(configurations[i]);
     }
 }
 
 void print_configurations_by_brand_and_ram_sorted_by_price_desc(Computer configurations[], int present_configurations_count)
 {
+    cout << "===== КОНФИГУРАЦИИ С ДАДЕН МОДЕЛ ПРОЦЕСОР И RAM ПАМЕТ, СОРТИРАНИ ОТ НАЙ-СКЪПАТА КЪМ НАЙ-ЕВТИНАТА =====\n\n";
+
     if (present_configurations_count == 0)
     {
         cout << "\nНяма запазени конфигурации.\n";
         return;
     }
 
-    cout << "\nВъведете желана марка: ";
-    cin.ignore();
-    string brand;
-    getline(cin, brand);
-    cout << "Въведете желана RAM стойност: ";
+    string processor_model;
+    do
+    {
+        cout << "Въведете желан модел процесор: ";
+        getline(cin, processor_model);
+    } while (is_string_empty(processor_model));
+
+    cout << "Въведете RAM на компютъра (GB): ";
     double ram;
-    cin >> ram;
+    read_valid_double_value(ram);
+    while (ram <= 0)
+    {
+        cout << "RAM стойността трябва да е по-голяма от 0.\nВъведете RAM на компютъра (GB): ";
+        read_valid_double_value(ram);
+    }
+
+    if (!configuration_exists_by_processor_model_and_ram(configurations, present_configurations_count, processor_model, ram))
+    {
+        printf("\nНе са намерени конфигурации с модел на процесора %s и RAM %.2f GB.\n", processor_model.c_str(), ram);
+        return;
+    }
 
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
     sort_configurations_by_price_desc(configurations, present_configurations_count, sorted_configurations);
-    print_configurations_by_brand_and_ram(sorted_configurations, present_configurations_count, brand, ram);
+    print_configurations_by_brand_and_ram(sorted_configurations, present_configurations_count, processor_model, ram);
 }
 
 void sort_configurations_by_processor_model(Computer configurations[], int present_configurations_count, Computer sorted_configurations[])
@@ -1222,17 +1313,25 @@ void sort_configurations_by_processor_model(Computer configurations[], int prese
     }
 }
 
-void print_available_configurations_sorted_by_processor_model(Computer configurations[], int present_configurations_count)
+void print_unavailable_configurations_sorted_by_processor_model(Computer configurations[], int present_configurations_count)
 {
+    cout << "===== ПРОДАДЕНИ КОНФИГУРАЦИИ, СОРТИРАНИ ПО МОДЕЛ НА ПРОЦЕСОРА =====\n";
+
     if (present_configurations_count == 0)
     {
         cout << "\nНяма запазени конфигурации.\n";
         return;
     }
 
+    if (!search_for_configurations_by_availability_status(configurations, present_configurations_count, CONFIGURATION_SOLD_STATUS))
+    {
+        cout << "\nНяма продадени конфигурации.\n";
+        return;
+    }
+
     Computer sorted_configurations[MAX_NUMBER_OF_CONFIGURATIONS];
     sort_configurations_by_processor_model(configurations, present_configurations_count, sorted_configurations);
-    print_configurations_by_availability_status(sorted_configurations, present_configurations_count, CONFIGURATION_IN_SELL_STATUS);
+    print_configurations_by_availability_status(sorted_configurations, present_configurations_count, CONFIGURATION_SOLD_STATUS);
 }
 
 void store_configurations_in_file(Computer configurations[], int present_configurations_count)
@@ -1274,6 +1373,7 @@ void store_configurations_in_file(Computer configurations[], int present_configu
         if (i != present_configurations_count - 1) configurations_data << "\n";
     }
     configurations_data.close();
+    printf("%d конфигурации бяха записани във файл.\n", present_configurations_count);
 }
 
 void read_configurations_from_file(Computer configurations[], int& present_configurations_count)
@@ -1331,7 +1431,9 @@ void read_configurations_from_file(Computer configurations[], int& present_confi
         computer.processor = processor;
         configurations[present_configurations_count++] = computer;
     }
+
     configurations_data.close();
+    printf("%d конфигурации бяха прочетени от файл.\n\n", present_configurations_count);
 }
 
 bool is_string_empty(string& input)
