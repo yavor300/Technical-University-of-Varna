@@ -709,7 +709,7 @@ void update_processor(string& configuration_id, Computer configurations[], int p
     int update_option;
     do
     {
-        printf("\nВъведете %d, за да промените производителя на процесора.\nВъведете %d, за да проемините модела на процесора.\nВъведете %d, за да промените честотата на процесора.\nВъведете %d, за да промените броят ядра на процесора.\nВъведете %d, за да прекратите корекцията на данни на процесора.\n",
+        printf("\nВъведете %d, за да промените производителя на процесора.\nВъведете %d, за да промeните модела на процесора.\nВъведете %d, за да промените честотата на процесора.\nВъведете %d, за да промените броят ядра на процесора.\nВъведете %d, за да прекратите корекцията на данни на процесора.\n",
             UPDATE_PROCESSOR_MANUFACTURER_CHOICE, UPDATE_PROCESSOR_MODEL_CHOICE, UPDATE_PROCESSOR_FREQUENCY_CHOICE, UPDATE_PROCESSOR_CORES_COUNT_CHOICE, EXIT_FROM_UPDATE_PROCESSOR_MENU_CHOICE);
         do
         {
@@ -817,7 +817,7 @@ void update_configuration_frequency(string& id, Computer configurations[], int p
 
 void update_configuration_cores(string& id, Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОМЯНА НА РОЙ ЯДРА НА ПРОЦЕСОР =====\n\nДетайли за конфигурация:\n";
+    cout << "===== ПРОМЯНА НА БРОЙ ЯДРА НА ПРОЦЕСОР =====\n\nДетайли за конфигурация:\n";
     Computer computer = get_configuration_by_id(id, configurations, present_configurations_count);
     print_configuration(computer);
 
@@ -917,6 +917,11 @@ void sell_configuration_by_id(Computer configurations[], int present_configurati
     cout << "\nВъведете цена за покупка: ";
     double price_to_pay;
     read_valid_double_value(price_to_pay);
+    while (price_to_pay <= 0)
+    {
+        cout << "Цената за покупка трябва да е по-голяма от 0.\nВъведете цена за покупка: ";
+        read_valid_double_value(price_to_pay);
+    }
 
     if (price_to_pay < computer.price)
     {
@@ -948,13 +953,17 @@ void change_configuration_availability_status(string& id, Computer configuration
 {
     for (int i = 0; i < present_configurations_count; i++)
     {
-        if (configurations[i].id.compare(id) == 0) configurations[i].available_status = CONFIGURATION_SOLD_STATUS;
+        if (configurations[i].id.compare(id) == 0)
+        {
+            configurations[i].available_status = CONFIGURATION_SOLD_STATUS;
+            return;
+        }
     }
 }
 
 void sell_configuration_by_requirements(Computer configurations[], int present_configurations_count)
 {
-    cout << "===== ПРОДАЖБА НА КОНФИГУРАЦИЯ ПО ХАРАКТЕРИСТИКИ =====\n\n* Ако желаете да пропуснете характерстика, оставете съответното полето празно.\n\n";
+    cout << "===== ПРОДАЖБА НА КОНФИГУРАЦИЯ ПО ХАРАКТЕРИСТИКИ =====\n\n* Ако желаете да пропуснете характерстика, оставете съответното поле празно.\n\n";
 
     string processor_manufacturer, processor_model, processor_frequency, processor_cores, computer_brand, computer_model, computer_ram, computer_price;
     read_precessor_selling_data(processor_manufacturer, processor_model, processor_frequency, processor_cores);
@@ -973,12 +982,9 @@ void sell_configuration_by_requirements(Computer configurations[], int present_c
         cout << "\nНе са намерени конфигурации отговарящи на посочените изисквания.\n";
         return;
     }
-
-    if (found_configurations_count > 0)
-    {
-        cout << "\nПодходящи конфигурации:\n";
-        print_all_configurations(found_configurations, found_configurations_count);
-    }
+    
+    cout << "\nПодходящи конфигурации:\n";
+    print_all_configurations(found_configurations, found_configurations_count);
 
     cout << "\nЖелаете ли да осъществите продажба? (Y/N): ";
     char confirm;
