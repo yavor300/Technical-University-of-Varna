@@ -137,23 +137,25 @@ int main()
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
 
-    int choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
+    int menu_choice, present_configurations_count(INITIAL_CONFIGURATIONS_COUNT);
     Computer configurations[MAX_NUMBER_OF_CONFIGURATIONS];
+
+    cout << "===== ИНФОРМАЦИОННА СИСТЕМА ЗА КОМПЮТЪРНИ КОНФИГУРАЦИИ =====\nРазработчик: Явор Чамов\n\n";
 
     read_configurations_from_file(configurations, present_configurations_count);
     
     do
     {
-        printf("Въведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете конфигурациите с най-висока тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да направите одит на конфигурациите.\nВъведете %d, за да спрете програмата.\n",
+        printf("===== НАЧАЛНО МЕНЮ =====\n\nВъведете %d, за да добавите нова конфигурация.\nВъведете %d, за да изведете всички конфигурации.\nВъведете %d, за да изведете конфигурациите с най-висока тактова честота на процесора.\nВъведете %d, за да изведете конфигурации от избрана марка.\nВъведете %d, за да редактирате конфигурация.\nВъведете %d, за да осъществите продажба.\nВъведете %d, за да направите одит на конфигурациите.\nВъведете %d, за да запазите съществуващите конфигурации във файл и да спрете програмата.\n",
             ADD_NEW_CONFIGURATION_CHOICE, PRINT_ALL_CONFIGURATIONS_CHOICE, PRINT_CONFIGURATIONS_WITH_HIGHEST_PROCESSOR_FREQUENCY, PRINT_CONFIGURATIONS_BY_BRAND_CHOICE, EDIT_CONFIGURATION_CHOICE, SELL_CONFIGURATION_CHOICE, MAKE_CONFIGURATIONS_AUDIT_CHOICE, EXIT_FROM_MENU_CHOICE);
         do
         {
             printf("Въведете валидна меню опция [%d - %d]: ", ADD_NEW_CONFIGURATION_CHOICE, EXIT_FROM_MENU_CHOICE);
-            read_valid_integer_value(choice);
-        } while (choice < ADD_NEW_CONFIGURATION_CHOICE || choice > EXIT_FROM_MENU_CHOICE);
+            read_valid_integer_value(menu_choice);
+        } while (menu_choice < ADD_NEW_CONFIGURATION_CHOICE || menu_choice > EXIT_FROM_MENU_CHOICE);
 
         system("cls");
-        switch (choice)
+        switch (menu_choice)
         {
         case ADD_NEW_CONFIGURATION_CHOICE:
             process_add_configuration_request(configurations, present_configurations_count);
@@ -184,7 +186,7 @@ int main()
             break;
         }
         cout << endl;
-    } while (choice != EXIT_FROM_MENU_CHOICE);
+    } while (menu_choice != EXIT_FROM_MENU_CHOICE);
 
     store_configurations_in_file(configurations, present_configurations_count);
 }
@@ -1249,7 +1251,7 @@ void print_configurations_by_brand_and_ram(Computer configurations[], int presen
 {
     for (int i = 0; i < present_configurations_count; i++)
     {
-        if (compare_strings_case_insensitive(configurations[i].processor.model, processor_model)  && configurations[i].ram == ram) print_configuration(configurations[i]);
+        if (compare_strings_case_insensitive(configurations[i].processor.model, processor_model) && configurations[i].ram == ram) print_configuration(configurations[i]);
     }
 }
 
@@ -1301,9 +1303,9 @@ void sort_configurations_by_processor_model(Computer configurations[], int prese
         {
             Processor first = sorted_configurations[j].processor;
             Processor second = sorted_configurations[j + 1].processor;
-            int min_id_length = find_min_number(first.model.length(), second.model.length());
+            int min_model_length = find_min_number(first.model.length(), second.model.length());
 
-            for (int k = 0; k < min_id_length; k++)
+            for (int k = 0; k < min_model_length; k++)
             {
                 if (first.model[k] > second.model[k])
                 {
