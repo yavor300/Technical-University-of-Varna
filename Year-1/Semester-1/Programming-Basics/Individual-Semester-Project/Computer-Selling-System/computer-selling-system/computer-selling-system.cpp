@@ -1701,6 +1701,8 @@ void sort_configurations_by_id(Computer configurations[], int present_configurat
 
             for (int k = 0; k < min_id_length; k++)
             {
+                if (first.id[k] < second.id[k]) break;
+
                 if (first.id[k] > second.id[k])
                 {
                     Computer temp = sorted_configurations[j];
@@ -1892,6 +1894,8 @@ void sort_configurations_by_processor_model(Computer configurations[], int prese
 
             for (int k = 0; k < min_model_length; k++)
             {
+                if (first.model[k] < second.model[k]) break;
+
                 if (first.model[k] > second.model[k])
                 {
                     Computer temp = sorted_configurations[j];
