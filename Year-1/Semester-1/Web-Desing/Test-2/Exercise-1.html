@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadacha 1</title>
+</head>
+<body>
+<form action="#" onsubmit="checkNumber()">
+  <label for="number">
+    <input type="text" id="number">
+  </label>
+  <input type="submit" value="Потвърди">
+</form>
+<p id="result"></p>
+<p id="biggest-number"></p>
+
+<script type="text/javascript">
+  function checkNumber() {
+    const number = document.getElementById('number').value;
+
+    if (number.length < 8 || number.length > 8) {
+      alert("Номерът трябва да е 8 символа");
+    } else {
+      const digits = [];
+      for (let i = 0; i < number.length; i++) {
+        digits[i] = Number(number[i]);
+      }
+      let max = digits[0];
+
+      for (let i = 1; i < digits.length; i++) {
+        if (digits[i] > max) {
+          max = digits[i];
+        }
+      }
+
+      let counter = 0;
+      for (let i = 0; i < digits.length; i++) {
+        if (digits[i] === max) {
+          counter++;
+        }
+      }
+
+      document.getElementById('result').innerHTML = `Най-голямата цифра ${max} се среща ${counter} пъти.`;
+      document.getElementById('biggest-number').innerHTML = digits[digits.length - 1];
+      document.getElementById('biggest-number').style.color = 'red';
+      document.getElementById('biggest-number').style.fontWeight = 'bold';
+    }
+  }
+</script>
+</body>
+</html>
