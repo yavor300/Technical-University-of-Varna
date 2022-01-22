@@ -8,7 +8,18 @@ void main()
     ofstream out_stream;
 
     in_stream.open("infile.dat");
+    if (in_stream.fail())
+    {
+        cout << "Input file opening failed.\n";
+        exit(1);
+    }
+
     out_stream.open("outfile.dat");
+    if (out_stream.fail())
+    {
+        cout << "Output file opening failed.\n";
+        exit(1);
+    }
 
     int first, second, third;
     in_stream >> first >> second >> third;
