@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
 #include <string>
 #include <cstring>
 using namespace std;
@@ -20,6 +21,11 @@ int main()
 	{
 		my_message_4[i] = 'X';
 	}
-		
 	cout << my_message_4;
+
+	strcpy(my_message_4, my_message_3);
+	cout << endl << my_message_4 << endl;
+	strcpy(my_message_4, "    ");
+	strncpy(my_message_4, my_message_3, 2);
+	cout << my_message_4 << endl;
 }
