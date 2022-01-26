@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-	char my_message_1[20] = "Hello, World!";
+	char my_message_1[30] = "Hello, World!";
 	char my_message_2[] = "Hello, World!";
 	char my_message_3[6] = { 'H', 'e', 'l', 'l', 'o', '\0' };
 	char my_message_4[] = { 'H', 'e', 'l', 'l', 'o', '\0' };
@@ -14,7 +14,7 @@ int main()
 	cout << my_message_1 << endl << my_message_2 << endl
 		<< my_message_3 << endl << my_message_4 << endl;
 	
-	cout << my_message_4 << " has length of " << strlen(my_message_3) << endl;
+	cout << my_message_4 << " has length of " << strlen(my_message_4) << endl;
 	cout << my_message_4 << " has size of " << sizeof(my_message_4) << endl;
 
 	for (int i = 0; i < strlen(my_message_4); i++)
@@ -34,4 +34,11 @@ int main()
 
 	if (strncmp(my_message_1, my_message_3, 4)) cout << "The first 4 characters are NOT equal!" << endl;
 	else cout << "The first 4 characters are equal!" << endl;
+
+	strcat(my_message_1, my_message_3);
+	cout << my_message_1 << endl; // Using the available 30 bytes
+	cout << strlen(my_message_1) << endl;
+	strncat(my_message_1, my_message_3, 2);
+	cout << my_message_1 << endl;
+	cout << strlen(my_message_1) << endl;
 }
