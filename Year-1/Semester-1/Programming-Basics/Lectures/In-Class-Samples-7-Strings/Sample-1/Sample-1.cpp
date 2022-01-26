@@ -28,4 +28,10 @@ int main()
 	strcpy(my_message_4, "    ");
 	strncpy(my_message_4, my_message_3, 2);
 	cout << my_message_4 << endl;
+
+	if (strcmp(my_message_1, my_message_2)) cout << "The strings are NOT equal!" << endl;
+	else cout << "The strings are equal!" << endl;
+
+	if (strncmp(my_message_1, my_message_3, 4)) cout << "The first 4 characters are NOT equal!" << endl;
+	else cout << "The first 4 characters are equal!" << endl;
 }
