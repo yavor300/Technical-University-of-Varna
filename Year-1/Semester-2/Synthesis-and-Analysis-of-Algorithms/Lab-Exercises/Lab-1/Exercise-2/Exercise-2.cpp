@@ -19,7 +19,8 @@ void fill_in_matrix(int matrix[][N])
 	{
 		for (int j = 0; j < N; j++)
 		{
-			matrix[i][j] = i + 1;
+			if (i == j) matrix[i][j] = 0;
+			else matrix[i][j] = i + 1;
 		}
 	}
 }
