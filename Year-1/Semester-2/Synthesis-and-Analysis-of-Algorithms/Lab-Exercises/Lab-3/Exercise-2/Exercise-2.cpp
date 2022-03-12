@@ -1,10 +1,10 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
 /*
-* Задача 2
+* Р—Р°РґР°С‡Р° 2
 *
-* Задача за Ханойските кули
+* Р—Р°РґР°С‡Р° Р·Р° РҐР°РЅРѕР№СЃРєРёС‚Рµ РєСѓР»Рё
 */
 void hanoj(char start_tower, char destination_tower, char help_tower, int disk_count)
 {
