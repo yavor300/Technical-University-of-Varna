@@ -1,10 +1,10 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
 /*
-* Задача 1
+* Р—Р°РґР°С‡Р° 1
 * 
-* Операции с указатели
+* РћРїРµСЂР°С†РёРё СЃ СѓРєР°Р·Р°С‚РµР»Рё
 */
 
 void main()
