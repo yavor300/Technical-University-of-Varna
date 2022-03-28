@@ -1,8 +1,8 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
 /*
-* Реализация на структурата списък
+* Р РµР°Р»РёР·Р°С†РёСЏ РЅР° СЃС‚СЂСѓРєС‚СѓСЂР°С‚Р° СЃРїРёСЃСЉРє
 */
 
 struct CustomList {
