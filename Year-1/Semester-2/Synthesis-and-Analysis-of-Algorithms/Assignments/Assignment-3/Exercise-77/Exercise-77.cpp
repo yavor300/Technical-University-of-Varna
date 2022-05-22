@@ -11,7 +11,6 @@ using namespace std;
 * дали в даден ориентиран граф има върхове с две входящи дъги
 */
 const int NUMBER_OF_NODES = 10;
-int numbers_to_add[] = { 10, -3, -2, -1, 0, 1, 2, 3, 4, 5, 11 };
 
 const int SEARCH_NODE_CHOICE = 1;
 const int SEARCH_ARC_CHOICE = 2;
