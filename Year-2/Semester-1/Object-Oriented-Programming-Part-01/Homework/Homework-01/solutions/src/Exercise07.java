@@ -32,6 +32,7 @@ public class Exercise07 {
     for (int i = 0; i < STUDENTS_COUNT; i++) {
       String studentId;
       do {
+        System.out.print("Въведете студентски номер: ");
         studentId = scanner.nextLine();
       } while (!isIdValid(studentId));
       studentIDs[i] = studentId;
@@ -55,7 +56,7 @@ public class Exercise07 {
     }
 
     for (Map.Entry<String, Integer> entry : groups.entrySet()) {
-      System.out.printf("%s - %d%n", entry.getKey(), entry.getValue());
+      System.out.printf("%s курс - %d%n", entry.getKey(), entry.getValue());
     }
 
   }
