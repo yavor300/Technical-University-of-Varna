@@ -1,3 +1,5 @@
+package exercise01;
+
 public class Item {
   private String type;
   private Integer quantity;
@@ -45,7 +47,7 @@ public class Item {
 
   @Override
   public String toString() {
-    return "Item{" +
+    return "exercise01.Item{" +
             "type='" + type + '\'' +
             ", quantity=" + quantity +
             ", price=" + price +
