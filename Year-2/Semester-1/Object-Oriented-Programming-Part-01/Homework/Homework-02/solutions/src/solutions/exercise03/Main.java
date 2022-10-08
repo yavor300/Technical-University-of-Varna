@@ -42,10 +42,6 @@ public class Main {
     return (int) ((Math.random() * (max - min)) + min);
   }
 
-  private static double getRandomDoubleNumber(double min, double max) {
-    return ((Math.random() * (max - min)) + min);
-  }
-
   private static String generateRandomCarNumber() {
     String result = "";
     result += (char) getRandomIntegerNumber(65, 91) + " " +
