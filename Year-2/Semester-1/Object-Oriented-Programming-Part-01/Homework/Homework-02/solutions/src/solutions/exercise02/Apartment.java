@@ -1,7 +1,5 @@
 package exercise02;
 
-import java.util.Objects;
-
 public class Apartment {
   private Integer floor;
   private Double squareFootage;

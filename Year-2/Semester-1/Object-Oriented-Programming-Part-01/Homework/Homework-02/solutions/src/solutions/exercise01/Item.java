@@ -47,11 +47,7 @@ public class Item {
 
   @Override
   public String toString() {
-    return "exercise01.Item{" +
-            "type='" + type + '\'' +
-            ", quantity=" + quantity +
-            ", price=" + price +
-            ", expirationDays=" + expirationDays +
-            '}';
+    return String.format("Item:%n\tType: %s%n\tQuantity: %d%n\tPrice: %.2f BGN.%n\tExpiration days: %d",
+            type, quantity, price, expirationDays);
   }
 }
