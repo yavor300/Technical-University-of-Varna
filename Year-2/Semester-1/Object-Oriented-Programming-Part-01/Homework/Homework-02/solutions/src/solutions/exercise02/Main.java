@@ -1,5 +1,13 @@
 package exercise02;
 
+/**
+ * Задача 2
+ *
+ * Дефинирайте клас Apartment, който описва апартамент с атрибути етаж, площ, брой стаи,
+ * изложение. Инициализирайте обектите с параметризиран конструктор. Като поведение използвайте
+ * методи за четене, текстово описание и равенство (по площ). Създайте масив от 10 обекта.
+ * Намерете и изведете апартамента с най-голяма площ.
+ */
 public class Main {
 
   public static void main(String[] args) {
@@ -38,9 +46,9 @@ public class Main {
   private static Apartment getBiggestApartment(Apartment[] apartments) {
     Apartment result = apartments[0];
     for (int i = 1; i < apartments.length; i++) {
-     if (apartments[i].getSquareFootage() > result.getSquareFootage()) {
-       result = apartments[i];
-     }
+      if (apartments[i].getSquareFootage() > result.getSquareFootage()) {
+        result = apartments[i];
+      }
     }
     return result;
   }
