@@ -1,7 +1,7 @@
 package exercise10;
 
 public class MobilePhone {
-  
+
   private String brand;
   private String memory;
   private String weight;
