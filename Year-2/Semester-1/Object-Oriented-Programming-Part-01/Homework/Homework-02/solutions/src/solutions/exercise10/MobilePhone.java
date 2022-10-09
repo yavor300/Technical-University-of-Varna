@@ -1,6 +1,7 @@
 package exercise10;
 
 public class MobilePhone {
+  
   private String brand;
   private String memory;
   private String weight;
@@ -21,6 +22,7 @@ public class MobilePhone {
 
   @Override
   public boolean equals(Object o) {
+
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 

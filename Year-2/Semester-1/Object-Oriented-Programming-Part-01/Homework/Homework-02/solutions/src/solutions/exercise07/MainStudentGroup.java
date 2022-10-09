@@ -9,11 +9,11 @@ package exercise07;
  * текстово описание и равенство (по всички атрибути). Създайте масив от 10 обекта.
  * Намерете и изведете групите с най-много студенти по курсове.
  */
-public class Main {
+public class MainStudentGroup {
 
-  private static final Integer STUDENTS_GROUP_COUNT = 10;
-  private static final Integer MIN_COURSE_INCLUSIVE = 1;
-  private static final Integer MAX_COURSE_EXCLUSIVE = 5;
+  private static final int STUDENTS_GROUP_COUNT = 10;
+  private static final int MIN_COURSE_INCLUSIVE = 1;
+  private static final int MAX_COURSE_EXCLUSIVE = 5;
 
   public static void main(String[] args) {
 

@@ -1,16 +1,23 @@
 package exercise01;
 
 public class Item {
-  private String type;
-  private Integer quantity;
-  private Double price;
-  private Integer expirationDays;
 
-  public Item(String type, Integer quantity, Double price, Integer expirationDays) {
+  private String type;
+  private int quantity;
+  private double price;
+  private int expirationDays;
+
+  public Item(String type, int quantity, double price, int expirationDays) {
     this.type = type;
     this.quantity = quantity;
     this.price = price;
     this.expirationDays = expirationDays;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Type: %s%nQuantity: %d%nPrice: %.2f BGN.%nExpiration days: %d",
+            getType(), getQuantity(), getPrice(), getExpirationDays());
   }
 
   public String getType() {
@@ -21,33 +28,27 @@ public class Item {
     this.type = type;
   }
 
-  public Integer getQuantity() {
+  public int getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(int quantity) {
     this.quantity = quantity;
   }
 
-  public Double getPrice() {
+  public double getPrice() {
     return price;
   }
 
-  public void setPrice(Double price) {
+  public void setPrice(double price) {
     this.price = price;
   }
 
-  public Integer getExpirationDays() {
+  public int getExpirationDays() {
     return expirationDays;
   }
 
-  public void setExpirationDays(Integer expirationDays) {
+  public void setExpirationDays(int expirationDays) {
     this.expirationDays = expirationDays;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Item:%n\tType: %s%n\tQuantity: %d%n\tPrice: %.2f BGN.%n\tExpiration days: %d",
-            type, quantity, price, expirationDays);
   }
 }

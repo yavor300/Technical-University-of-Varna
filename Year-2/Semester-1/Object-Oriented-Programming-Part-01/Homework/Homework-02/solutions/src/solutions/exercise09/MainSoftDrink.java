@@ -10,9 +10,9 @@ package exercise09;
  * (по наименование и количество захар). Създайте масив от 10 обекта.
  * Намерете и изведете средната стойност на захарта в напитките.
  */
-public class Main {
+public class MainSoftDrink {
 
-  private static final Integer DRINKS_COUNT = 10;
+  private static final int DRINKS_COUNT = 10;
 
   public static void main(String[] args) {
 

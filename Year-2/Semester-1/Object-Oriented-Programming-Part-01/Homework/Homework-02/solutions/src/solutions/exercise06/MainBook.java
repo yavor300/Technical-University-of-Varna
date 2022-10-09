@@ -12,8 +12,7 @@ import java.util.Scanner;
  * и равенство (по имена на автора и заглавие). Създайте масив от 10 обекта.
  * Намерете и изведете броя книги, издадени след зададена година.
  */
-public class Main {
-
+public class MainBook {
 
   private static final Integer BOOKS_COUNT = 10;
 
@@ -22,8 +21,9 @@ public class Main {
     Scanner scanner = new Scanner(System.in);
 
     Book[] books = initializeBooksData(BOOKS_COUNT);
+    System.out.println("Books info:\n");
     for (Book book : books) {
-      System.out.println(book);
+      System.out.println(book + "\n");
     }
 
     System.out.print("Get books after year: ");
@@ -32,11 +32,10 @@ public class Main {
     if (booksAfterYear == null) {
       System.out.println("No books found.");
     } else {
-      System.out.printf("%nDetails about books after year %d:%n", year);
+      System.out.printf("%nDetails about books after year %d:%n%n", year);
       for (Book book : booksAfterYear) {
-        System.out.println(book);
+        System.out.println(book + "\n");
       }
-
     }
   }
 
@@ -67,18 +66,6 @@ public class Main {
     return books;
   }
 
-  private static int getBooksAfterYearCount(int year, Book[] books) {
-
-    int counter = 0;
-    for (Book book : books) {
-      if (book.getYear() > year) {
-        counter++;
-      }
-    }
-
-    return counter;
-  }
-
   private static Book[] getBooksAfterYear(int year, Book[] books) {
 
     int booksAfterYearCount = getBooksAfterYearCount(year, books);
@@ -95,6 +82,18 @@ public class Main {
     }
 
     return result;
+  }
+
+  private static int getBooksAfterYearCount(int year, Book[] books) {
+
+    int counter = 0;
+    for (Book book : books) {
+      if (book.getYear() > year) {
+        counter++;
+      }
+    }
+
+    return counter;
   }
 
   private static int getRandomIntegerNumber(int min, int max) {

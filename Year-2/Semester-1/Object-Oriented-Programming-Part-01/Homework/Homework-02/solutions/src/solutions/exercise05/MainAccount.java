@@ -12,17 +12,18 @@ import java.util.Scanner;
  * (по валута и наличност). Създайте масив от 10 обекта.
  * Намерете и изведете средните наличности по тип валута.
  */
-public class Main {
+public class MainAccount {
 
-  private static final Integer ACCOUNTS_COUNT = 10;
+  private static final int ACCOUNTS_COUNT = 10;
 
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
 
     Account[] accounts = initializeAccountsData(ACCOUNTS_COUNT);
+    System.out.println("Accounts info:\n");
     for (Account account : accounts) {
-      System.out.println(account);
+      System.out.println(account + "\n");
     }
 
     System.out.print("Get average balance for currency: ");
@@ -56,15 +57,8 @@ public class Main {
     return accounts;
   }
 
-  private static int getRandomIntegerNumber(int min, int max) {
-    return (int) ((Math.random() * (max - min)) + min);
-  }
-
-  private static double getRandomDoubleNumber(double min, double max) {
-    return ((Math.random() * (max - min)) + min);
-  }
-
   private static double getAverageBalanceForCurrency(String currency, Account[] accounts) {
+
     int counter = 0;
     double totalBalance = 0;
 
@@ -80,5 +74,13 @@ public class Main {
     }
 
     return totalBalance / counter;
+  }
+
+  private static int getRandomIntegerNumber(int min, int max) {
+    return (int) ((Math.random() * (max - min)) + min);
+  }
+
+  private static double getRandomDoubleNumber(double min, double max) {
+    return ((Math.random() * (max - min)) + min);
   }
 }

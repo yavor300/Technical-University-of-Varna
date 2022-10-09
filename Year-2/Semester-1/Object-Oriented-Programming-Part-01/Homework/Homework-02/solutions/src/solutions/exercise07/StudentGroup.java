@@ -1,50 +1,19 @@
 package exercise07;
 
 public class StudentGroup {
+
   private String speciality;
-  private Integer course;
-  private Integer groupNumber;
-  private Integer studentsCount;
+  private int course;
+  private int groupNumber;
+  private int studentsCount;
 
   public StudentGroup() {
   }
 
-  public StudentGroup(String speciality, Integer course, Integer groupNumber, Integer studentsCount) {
+  public StudentGroup(String speciality, int course, int groupNumber, int studentsCount) {
     this.speciality = speciality;
     this.course = course;
     this.groupNumber = groupNumber;
-    this.studentsCount = studentsCount;
-  }
-
-  public String getSpeciality() {
-    return speciality;
-  }
-
-  public void setSpeciality(String speciality) {
-    this.speciality = speciality;
-  }
-
-  public Integer getCourse() {
-    return course;
-  }
-
-  public void setCourse(Integer course) {
-    this.course = course;
-  }
-
-  public Integer getGroupNumber() {
-    return groupNumber;
-  }
-
-  public void setGroupNumber(Integer groupNumber) {
-    this.groupNumber = groupNumber;
-  }
-
-  public Integer getStudentsCount() {
-    return studentsCount;
-  }
-
-  public void setStudentsCount(Integer studentsCount) {
     this.studentsCount = studentsCount;
   }
 
@@ -56,13 +25,46 @@ public class StudentGroup {
 
   @Override
   public boolean equals(Object o) {
+
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    StudentGroup studentGroup = (StudentGroup) o;
+    StudentGroup other = (StudentGroup) o;
 
-    if (!getSpeciality().equals(studentGroup.getSpeciality())) return false;
-    if (!getCourse().equals(studentGroup.getCourse())) return false;
-    return getGroupNumber().equals(studentGroup.getGroupNumber());
+    if (!getSpeciality().equals(other.getSpeciality())) return false;
+    if (getCourse() == (other.getCourse())) return false;
+    return getGroupNumber() == (other.getGroupNumber());
+  }
+
+  public String getSpeciality() {
+    return speciality;
+  }
+
+  public void setSpeciality(String speciality) {
+    this.speciality = speciality;
+  }
+
+  public int getCourse() {
+    return course;
+  }
+
+  public void setCourse(int course) {
+    this.course = course;
+  }
+
+  public int getGroupNumber() {
+    return groupNumber;
+  }
+
+  public void setGroupNumber(int groupNumber) {
+    this.groupNumber = groupNumber;
+  }
+
+  public int getStudentsCount() {
+    return studentsCount;
+  }
+
+  public void setStudentsCount(int studentsCount) {
+    this.studentsCount = studentsCount;
   }
 }

@@ -9,18 +9,19 @@ package exercise03;
  * Като поведение използвайте методи за четене и текстово описание.
  * Създайте масив от 10 обекта. Намерете и изведете автомобила с най-малък пробег.
  */
-public class Main {
+public class MainCar {
 
-  private static final Integer CARS_COUNT = 10;
+  private static final int CARS_COUNT = 10;
 
   public static void main(String[] args) {
 
     Car[] cars = initializeCarsData(CARS_COUNT);
+    System.out.println("Cars info:\n");
     for (Car car : cars) {
-      System.out.println(car);
+      System.out.println(car + "\n");
     }
 
-    System.out.printf("%nCar with lowest range:%n %s", getCarWithLowestRange(cars));
+    System.out.printf("Car with the lowest range:%n%s", getCarWithLowestRange(cars));
   }
 
   private static Car[] initializeCarsData(int dataCounter) {
@@ -38,19 +39,6 @@ public class Main {
     return cars;
   }
 
-  private static int getRandomIntegerNumber(int min, int max) {
-    return (int) ((Math.random() * (max - min)) + min);
-  }
-
-  private static String generateRandomCarNumber() {
-    String result = "";
-    result += (char) getRandomIntegerNumber(65, 91) + " " +
-            getRandomIntegerNumber(1000, 10000) + " " +
-            (char) getRandomIntegerNumber(65, 91) +
-            (char) getRandomIntegerNumber(65, 91);
-    return result;
-  }
-
   private static Car getCarWithLowestRange(Car[] cars) {
 
     Car result = cars[0];
@@ -61,5 +49,20 @@ public class Main {
     }
 
     return result;
+  }
+
+  private static String generateRandomCarNumber() {
+
+    String result = "";
+    result += (char) getRandomIntegerNumber(65, 91) + " " +
+            getRandomIntegerNumber(1000, 10000) + " " +
+            (char) getRandomIntegerNumber(65, 91) +
+            (char) getRandomIntegerNumber(65, 91);
+
+    return result;
+  }
+
+  private static int getRandomIntegerNumber(int min, int max) {
+    return (int) ((Math.random() * (max - min)) + min);
   }
 }

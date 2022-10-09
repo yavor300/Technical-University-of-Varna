@@ -10,17 +10,18 @@ import java.util.Scanner;
  * (по факултетен номер).Създайте масив от 10 обекта.
  * Намерете и изведете броя студенти със зададена фамилия.
  */
-public class Main {
+public class MainStudent {
 
-  private static final Integer STUDENTS_COUNT = 10;
+  private static final int STUDENTS_COUNT = 10;
 
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in);
 
     Student[] students = initializeStudentsData(STUDENTS_COUNT);
+    System.out.println("Students info:\n");
     for (Student student : students) {
-      System.out.println(student);
+      System.out.println(student + "\n");
     }
 
     System.out.print("Get count for students with last name: ");
@@ -53,10 +54,6 @@ public class Main {
     return students;
   }
 
-  private static int getRandomIntegerNumber(int min, int max) {
-    return (int) ((Math.random() * (max - min)) + min);
-  }
-
   private static int getCountForStudentsWithLastName(String lastName, Student[] students) {
 
     int result = 0;
@@ -68,5 +65,9 @@ public class Main {
     }
 
     return result;
+  }
+
+  private static int getRandomIntegerNumber(int min, int max) {
+    return (int) ((Math.random() * (max - min)) + min);
   }
 }

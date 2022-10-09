@@ -1,6 +1,7 @@
 package exercise04;
 
 public class Student {
+
   private String firstName;
   private String lastName;
   private String id;
@@ -11,6 +12,23 @@ public class Student {
     this.lastName = lastName;
     this.id = id;
     this.speciality = speciality;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Student other = (Student) o;
+
+    return id.equals(other.id);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("First name: %s%nLast name: %s%nId: %s%nSpeciality: %s",
+            getFirstName(), getLastName(), getId(), getSpeciality());
   }
 
   public String getFirstName() {
@@ -43,21 +61,5 @@ public class Student {
 
   public void setSpeciality(String speciality) {
     this.speciality = speciality;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    Student student = (Student) o;
-
-    return id.equals(student.id);
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Student:%n\tFirst name: %s%n\tLast name: %s%n\tId: %s%n\tSpeciality: %s",
-            firstName, lastName, id, speciality);
   }
 }

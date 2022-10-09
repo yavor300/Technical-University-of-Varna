@@ -9,9 +9,9 @@ package exercise10;
  * Създайте масив от 10 обекта. Намерете и изведете средното тегло на телефоните
  * и телефона с най-добра камера.
  */
-public class Main {
+public class MainMobilePhone {
 
-  private static final Integer PHONES_COUNT = 10;
+  private static final int PHONES_COUNT = 10;
 
   public static void main(String[] args) {
 

@@ -1,6 +1,7 @@
 package exercise03;
 
 public class Car {
+
   private String brand;
   private String number;
   private String range;
@@ -9,6 +10,12 @@ public class Car {
     this.brand = brand;
     this.number = number;
     this.range = range;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Brand: %s%nNumber: %s%nRange: %s",
+            getBrand(), getNumber(), getRange());
   }
 
   public String getBrand() {
@@ -33,11 +40,5 @@ public class Car {
 
   public void setRange(String range) {
     this.range = range;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Car:%n\tBrand: %s%n\tNumber: %s%n\tRange: %s",
-            brand, number, range);
   }
 }

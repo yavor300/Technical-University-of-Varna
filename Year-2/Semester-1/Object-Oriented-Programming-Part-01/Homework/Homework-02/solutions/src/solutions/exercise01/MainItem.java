@@ -2,20 +2,22 @@ package exercise01;
 
 /**
  * Задача 1
- *
+ * <p>
  * Дефинирайте клас Item, който описва стока с атрибути тип, количество,
  * единична цена и годност (брой дни). Като поведение използвайте методи за четене/запис,
  * метод за текстово описание. Създайте масив от 10 обекта.
  * Намерете и изведете средната цена.
  */
-public class Main {
-  private static final Integer PRODUCTS_COUNT = 10;
+public class MainItem {
+
+  private static final int PRODUCTS_COUNT = 10;
 
   public static void main(String[] args) {
 
     Item[] items = initializeData(PRODUCTS_COUNT);
+    System.out.println("Items info:\n");
     for (Item item : items) {
-      System.out.println(item);
+      System.out.println(item + "\n");
     }
 
     System.out.printf("Average price for product: %.2f BGN", getAveragePriceForProduct(items));

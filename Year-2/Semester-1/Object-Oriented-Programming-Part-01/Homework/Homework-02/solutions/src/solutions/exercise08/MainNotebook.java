@@ -10,9 +10,9 @@ package exercise08;
  * Създайте масив от 10 обекта.
  * Намерете и изведете брой тетрадки с меки корици и средната цена на тетрадките.
  */
-public class Main {
+public class MainNotebook {
 
-  private static final Integer NOTEBOOKS_COUNT = 10;
+  private static final int NOTEBOOKS_COUNT = 10;
 
   public static void main(String[] args) {
 
@@ -54,7 +54,7 @@ public class Main {
 
     int result = 0;
     for (Notebook notebook : notebooks) {
-      if (notebook.getWithHardCovers()) {
+      if (notebook.isWithHardCovers()) {
         result++;
       }
     }

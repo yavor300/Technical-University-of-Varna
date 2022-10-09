@@ -1,18 +1,38 @@
 package exercise06;
 
 public class Book {
+
   private String authorFirstName;
   private String authorLastName;
   private String title;
-  private Integer year;
-  private Integer pages;
+  private int year;
+  private int pages;
 
-  public Book(String authorFirstName, String authorLastName, String title, Integer year, Integer pages) {
+  public Book(String authorFirstName, String authorLastName, String title, int year, int pages) {
     this.authorFirstName = authorFirstName;
     this.authorLastName = authorLastName;
     this.title = title;
     this.year = year;
     this.pages = pages;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Author first name: %s%nAuthor last name: %s%nTitle: %s%nYear published: %d%nPages: %d",
+            getAuthorFirstName(), getAuthorLastName(), getTitle(), getYear(), getPages());
+  }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Book other = (Book) o;
+
+    if (!getAuthorFirstName().equals(other.getAuthorFirstName())) return false;
+    if (!getAuthorLastName().equals(other.getAuthorLastName())) return false;
+    return getTitle().equals(other.getTitle());
   }
 
   public String getAuthorFirstName() {
@@ -39,37 +59,19 @@ public class Book {
     this.title = title;
   }
 
-  public Integer getYear() {
+  public int getYear() {
     return year;
   }
 
-  public void setYear(Integer year) {
+  public void setYear(int year) {
     this.year = year;
   }
 
-  public Integer getPages() {
+  public int getPages() {
     return pages;
   }
 
-  public void setPages(Integer pages) {
+  public void setPages(int pages) {
     this.pages = pages;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Book:%n\tAuthor first name: %s%n\tAuthor last name: %s%n\tTitle: %s%n\tYear published: %d%n\tPages: %d",
-            authorFirstName, authorLastName, title, year, pages);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    Book book = (Book) o;
-
-    if (!authorFirstName.equals(book.authorFirstName)) return false;
-    if (!authorLastName.equals(book.authorLastName)) return false;
-    return title.equals(book.title);
   }
 }

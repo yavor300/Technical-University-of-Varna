@@ -1,11 +1,12 @@
 package exercise08;
 
 public class Notebook {
-  private Integer pages;
-  private Double price;
-  private Boolean isWithHardCovers;
 
-  public Notebook(Integer pages, Double price, Boolean isWithHardCovers) {
+  private int pages;
+  private double price;
+  private boolean isWithHardCovers;
+
+  public Notebook(int pages, double price, boolean isWithHardCovers) {
     this.pages = pages;
     this.price = price;
     this.isWithHardCovers = isWithHardCovers;
@@ -14,42 +15,43 @@ public class Notebook {
   @Override
   public String toString() {
     return String.format("Pages: %d%nPrice: %.2f BGN%nHard covers: %s",
-            getPages(), getPrice(), getWithHardCovers() ? "Yes" : "No");
+            getPages(), getPrice(), isWithHardCovers() ? "Yes" : "No");
   }
 
   @Override
   public boolean equals(Object o) {
+
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Notebook notebook = (Notebook) o;
+    Notebook other = (Notebook) o;
 
-    if (!getPages().equals(notebook.getPages())) return false;
-    if (!getPrice().equals(notebook.getPrice())) return false;
-    return getWithHardCovers().equals(notebook.getWithHardCovers());
+    if (getPages() == (other.getPages())) return false;
+    if (Math.abs(getPrice() - other.getPrice()) >= 0.01) return false;
+    return isWithHardCovers() == (other.isWithHardCovers());
   }
 
-  public Integer getPages() {
+  public int getPages() {
     return pages;
   }
 
-  public void setPages(Integer pages) {
+  public void setPages(int pages) {
     this.pages = pages;
   }
 
-  public Double getPrice() {
+  public double getPrice() {
     return price;
   }
 
-  public void setPrice(Double price) {
+  public void setPrice(double price) {
     this.price = price;
   }
 
-  public Boolean getWithHardCovers() {
+  public boolean isWithHardCovers() {
     return isWithHardCovers;
   }
 
-  public void setWithHardCovers(Boolean withHardCovers) {
+  public void setWithHardCovers(boolean withHardCovers) {
     isWithHardCovers = withHardCovers;
   }
 }

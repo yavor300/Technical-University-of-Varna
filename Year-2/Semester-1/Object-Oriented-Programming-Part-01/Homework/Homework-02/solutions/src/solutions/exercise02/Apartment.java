@@ -1,9 +1,10 @@
 package exercise02;
 
 public class Apartment {
-  private Integer floor;
-  private Double squareFootage;
-  private Integer rooms;
+
+  private int floor;
+  private double squareFootage;
+  private int rooms;
   private String location;
 
   public Apartment(Integer floor, Double squareFootage, Integer rooms, String location) {
@@ -11,6 +12,22 @@ public class Apartment {
     this.squareFootage = squareFootage;
     this.rooms = rooms;
     this.location = location;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Apartment other = (Apartment) o;
+
+    return Math.abs(getSquareFootage() - other.getSquareFootage()) < 0.01;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Floor: %d%nSquare footage: %.2f%nRooms: %d%nLocation: %s",
+            getFloor(), getSquareFootage(), getRooms(), getLocation());
   }
 
   public Integer getFloor() {
@@ -43,19 +60,5 @@ public class Apartment {
 
   public void setLocation(String location) {
     this.location = location;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Apartment:%n\tFloor: %d%n\tSquare footage: %.2f%n\tRooms: %d%n\tLocation: %s",
-            floor, squareFootage, rooms, location);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Apartment apartment = (Apartment) o;
-    return squareFootage.equals(apartment.squareFootage);
   }
 }

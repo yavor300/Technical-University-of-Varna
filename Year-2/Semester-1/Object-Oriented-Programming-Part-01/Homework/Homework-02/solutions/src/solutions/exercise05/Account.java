@@ -1,6 +1,7 @@
 package exercise05;
 
 public class Account {
+
   private String id;
   private String currency;
   private String balance;
@@ -11,6 +12,23 @@ public class Account {
     this.currency = currency;
     this.balance = balance;
     this.type = type;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Id: %s%nCurrency: %s%nBalance: %.2f %s%nType: %s",
+            getId(), getCurrency(), Double.parseDouble(getBalance()), getCurrency(), getType());
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Account other = (Account) o;
+
+    if (!getCurrency().equals(other.getCurrency())) return false;
+    return getBalance().equals(other.getBalance());
   }
 
   public String getId() {
@@ -43,22 +61,5 @@ public class Account {
 
   public void setType(String type) {
     this.type = type;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Account:%n\tId: %s%n\tCurrency: %s%n\tBalance: %.2f %s%n\tType: %s",
-            id, currency, Double.parseDouble(balance), currency, type);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    Account account = (Account) o;
-
-    if (!currency.equals(account.currency)) return false;
-    return balance.equals(account.balance);
   }
 }
