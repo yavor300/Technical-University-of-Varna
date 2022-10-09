@@ -15,7 +15,7 @@ public class SoftDrink {
 
   @Override
   public String toString() {
-    return String.format("name: %s%nExpiration date: %s%nSize: %s%nSugar: %.2f per 100 ml.",
+    return String.format("Name: %s%nExpiration date: %s%nSize: %s%nSugar: %.2f per 100 ml.",
             getName(), getExpirationDate(), getSize(), Double.parseDouble(getSugar()));
   }
 
