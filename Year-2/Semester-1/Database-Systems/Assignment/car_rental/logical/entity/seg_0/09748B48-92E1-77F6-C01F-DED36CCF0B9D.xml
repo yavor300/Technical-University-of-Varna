@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="09748B48-92E1-77F6-C01F-DED36CCF0B9D" name="car_models">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:01:33 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="545CAA80-C68B-49BD-EFD3-DABAA3CAE996">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:02:31 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="model" id="ECF31CFD-0A1D-4363-7AA3-AD0344BDA9B6">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:02:46 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="68B72FB1-FC14-2C7A-0F51-487ECB3883AE">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:22:54 UTC</createdTime>
+<generatorID>8A5DBAC4-E780-E182-2D95-FAC918FE186B</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<referedAttribute>447F1288-A5D7-2E13-0713-64378502D9AE</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="A2C7C646-773B-1256-31F2-59E3CAB2DFB1">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:43:34 UTC</createdTime>
+<generatorID>50E210FB-89C4-8849-0249-42671C27BDB6</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<referedAttribute>4DC4C743-8CA1-95A7-4C06-C409CBF2270A</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C3278DBC-87A0-9BD5-CF6B-8DC9D9A2193C" name="car_models PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:02:38 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="false"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="false"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>545CAA80-C68B-49BD-EFD3-DABAA3CAE996</attributeRef>
+<attributeRef>A2C7C646-773B-1256-31F2-59E3CAB2DFB1</attributeRef>
+<attributeRef>68B72FB1-FC14-2C7A-0F51-487ECB3883AE</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

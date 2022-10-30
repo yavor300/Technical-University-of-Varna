@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E6E1BB79-733C-01D4-3BC9-687FFAC42233" name="cars">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>CC9323F1-0444-53E4-4607-77262CAF2D44</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="car_id" id="EBD8C0FA-56EC-D575-CEAD-AAB400421A36">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>22F3A228-43D5-275C-C45F-09B569F38A64</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="price_per_day" id="A74AC0DA-A0C6-DAF9-967D-06839474C3A6">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>AA7EDAE1-BA55-1ED3-617B-FA21209C9FF8</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,4,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="car_model_id" id="520F054C-CB02-3668-0026-51B9F02D3596">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:43:31 UTC</createdTime>
+<generatorID>1B19D628-8274-E42F-A1C5-243F61E5E7D2</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2CD4EB4D-68CF-FD28-055E-4B5AB66E8A9D" referredColumn="53316F8B-928B-853E-0E43-A04B6F0516BE"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E94F5086-170F-C9D4-2BAA-FE4E20B0EA01" name="cars_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>CFBC11D4-7D0E-ABE6-5942-91F512004777</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EBD8C0FA-56EC-D575-CEAD-AAB400421A36"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="979621C5-68AC-6D87-BF29-EF36B096CDCD" name="cars_car_models_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:44:15 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="520F054C-CB02-3668-0026-51B9F02D3596"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

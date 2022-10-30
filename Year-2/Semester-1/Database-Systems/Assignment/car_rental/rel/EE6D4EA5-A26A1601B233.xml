@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="car_rental" id="EE6D4EA5-8591-E054-C8AB-A26A1601B233" mainViewID="354437E8-9346-7C41-4300-EC893F4F6631">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:13 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+<selectedRDBMSSite>32076570-2523-435C-2E92-BF29817DFF70</selectedRDBMSSite>
+</relationalModel>

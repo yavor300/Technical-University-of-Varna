@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EF0E6809-FC06-BE35-B675-217C91EF0979" name="car_models">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>09748B48-92E1-77F6-C01F-DED36CCF0B9D</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="car_model_id" id="53316F8B-928B-853E-0E43-A04B6F0516BE">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>545CAA80-C68B-49BD-EFD3-DABAA3CAE996</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="model" id="07125611-D085-54B5-2D70-8D8C7A9A0D1A">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>ECF31CFD-0A1D-4363-7AA3-AD0344BDA9B6</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="car_brand_id" id="467F239A-F2DC-D352-E4AF-0F0AA56F9CEA">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>68B72FB1-FC14-2C7A-0F51-487ECB3883AE</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BDD5E538-602B-96A2-7F86-9F500E644E63" referredColumn="46DA1205-890A-2405-9E38-5E88010C4595"/>
+</associations>
+</Column>
+<Column name="car_type_id" id="60B7DD39-A0C9-6F0C-5F31-9029589F6E76">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>A2C7C646-773B-1256-31F2-59E3CAB2DFB1</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="24AC68FC-F615-A9FC-2157-35194778FCC8" referredColumn="E7C810B0-E785-C044-2A0B-B1E4F944BD95"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3282274A-1ACE-24BE-A65B-E5D835EEC283" name="car_models_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>C3278DBC-87A0-9BD5-CF6B-8DC9D9A2193C</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="53316F8B-928B-853E-0E43-A04B6F0516BE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="79040AAB-1AD3-6E71-E88F-5BE250D8409F" name="car_models_car_types_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>50E210FB-89C4-8849-0249-42671C27BDB6</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="60B7DD39-A0C9-6F0C-5F31-9029589F6E76"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="61CB79EB-12B6-8306-C36E-7891BD43B922" name="car_models_car_brands_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>8A5DBAC4-E780-E182-2D95-FAC918FE186B</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="467F239A-F2DC-D352-E4AF-0F0AA56F9CEA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

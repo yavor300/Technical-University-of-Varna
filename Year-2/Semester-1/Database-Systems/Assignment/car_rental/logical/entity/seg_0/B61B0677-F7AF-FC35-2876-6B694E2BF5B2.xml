@@ -1,0 +1,67 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="B61B0677-F7AF-FC35-2876-6B694E2BF5B2" name="job_titles">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 09:43:27 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="609EDF3F-9254-DE9D-F2EB-B42F4445F17A">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 09:43:34 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="title" id="8077F09D-5D4E-CE3D-F2E5-9B77A3B42F6B">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 09:43:49 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="32B45F84-0935-0A77-A293-1A870267BA55" name="job_titles PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 09:43:44 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="false"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="false"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>609EDF3F-9254-DE9D-F2EB-B42F4445F17A</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

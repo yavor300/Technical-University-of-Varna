@@ -1,0 +1,51 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0CEEA85C-38D4-5D53-6161-6625085F2B1D" name="job_titles">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>B61B0677-F7AF-FC35-2876-6B694E2BF5B2</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="job_title_id" id="E5920E5C-33B9-49DD-2BB2-2FB0EEC117D6">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>609EDF3F-9254-DE9D-F2EB-B42F4445F17A</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<notNullConstraintName>NNC_job_titles_id</notNullConstraintName>
+</Column>
+<Column name="title" id="30AA36C1-9AF3-E1E1-D631-A36AA9104880">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>8077F09D-5D4E-CE3D-F2E5-9B77A3B42F6B</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<notNullConstraintName>NNC_job_titles_title</notNullConstraintName>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="73209659-F509-3E93-9394-5E0B3A8394BE" name="job_titles_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>32B45F84-0935-0A77-A293-1A870267BA55</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E5920E5C-33B9-49DD-2BB2-2FB0EEC117D6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

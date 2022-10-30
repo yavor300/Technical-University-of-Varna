@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_13" directorySegmentName="seg_0" id="18930282-582B-8C0E-6825-17717C88E00F">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:51:03 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<sourcePk>CFBC11D4-7D0E-ABE6-5942-91F512004777</sourcePk>
+<identifying>true</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>CC9323F1-0444-53E4-4607-77262CAF2D44</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>AADCE1CB-D8D2-A595-480E-5ACD5C82F8FE</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

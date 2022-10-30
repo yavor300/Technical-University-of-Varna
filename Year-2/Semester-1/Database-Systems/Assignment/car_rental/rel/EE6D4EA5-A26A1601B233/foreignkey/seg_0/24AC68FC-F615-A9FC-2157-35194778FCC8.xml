@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="24AC68FC-F615-A9FC-2157-35194778FCC8" containerWithKeyObject="EF0E6809-FC06-BE35-B675-217C91EF0979" localFKIndex="79040AAB-1AD3-6E71-E88F-5BE250D8409F" name="car_models_car_types_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:21:21 UTC</createdTime>
+<generatorID>50E210FB-89C4-8849-0249-42671C27BDB6</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<referredTableLongName>car_types</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E4839955-F284-512B-A614-26911027FE63</referredTableID>
+<keyObject>89AF5D6C-A751-11AF-DE7C-C94391E0615E</keyObject>
+<referredKeyID>89AF5D6C-A751-11AF-DE7C-C94391E0615E</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>car_type_id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

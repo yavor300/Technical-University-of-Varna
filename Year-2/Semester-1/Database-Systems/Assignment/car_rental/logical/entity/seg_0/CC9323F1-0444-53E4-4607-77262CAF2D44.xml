@@ -1,0 +1,119 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CC9323F1-0444-53E4-4607-77262CAF2D44" name="cars">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 08:50:20 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="22F3A228-43D5-275C-C45F-09B569F38A64">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 08:53:07 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="price_per_day" id="AA7EDAE1-BA55-1ED3-617B-FA21209C9FF8">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 08:57:22 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,4,2</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="1B19D628-8274-E42F-A1C5-243F61E5E7D2">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:31:18 UTC</createdTime>
+<generatorID>14B40AAA-80FC-8D19-322B-0FC19D810BCA</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<referedAttribute>545CAA80-C68B-49BD-EFD3-DABAA3CAE996</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id21" id="124BAEA1-26A4-1224-166B-7215CA0F3F77">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 10:43:34 UTC</createdTime>
+<generatorID>14B40AAA-80FC-8D19-322B-0FC19D810BCA</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<referedAttribute>A2C7C646-773B-1256-31F2-59E3CAB2DFB1</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="FCF6E91B-76F5-2D3E-0F0C-268520344A89">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 13:11:46 UTC</createdTime>
+<generatorID>14B40AAA-80FC-8D19-322B-0FC19D810BCA</generatorID>
+<ownerDesignName>car_rental</ownerDesignName>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="true"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="true"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<referedAttribute>68B72FB1-FC14-2C7A-0F51-487ECB3883AE</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="CFBC11D4-7D0E-ABE6-5942-91F512004777" name="car PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2022-10-30 08:53:18 UTC</createdTime>
+<ownerDesignName>car_rental</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="BCE7A8C0-F67A-6068-A256-EA1620F25A0A" value="false"/>
+<item key="D551DC26-79E5-21A9-F249-8E62456BD480" value="false"/>
+<item key="62BF4206-A8CE-3486-60DE-584EACEDF40B" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>22F3A228-43D5-275C-C45F-09B569F38A64</attributeRef>
+<attributeRef>1B19D628-8274-E42F-A1C5-243F61E5E7D2</attributeRef>
+<attributeRef>124BAEA1-26A4-1224-166B-7215CA0F3F77</attributeRef>
+<attributeRef>FCF6E91B-76F5-2D3E-0F0C-268520344A89</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
