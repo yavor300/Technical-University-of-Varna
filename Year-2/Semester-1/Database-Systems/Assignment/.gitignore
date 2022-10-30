@@ -2,5 +2,5 @@
 **/*.local
 **/*.git
 **/*.DS_Store
-car_rental
+/car_rental
 *.dmd

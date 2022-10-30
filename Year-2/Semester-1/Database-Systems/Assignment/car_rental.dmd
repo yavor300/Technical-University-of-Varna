@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="car_rental" id="F95927F6-7681-158E-4E6D-11FDF7EA08F9" version="3.5">
-<createdBy>Yavor</createdBy>
-<createdTime>2022-10-30 08:50:14 UTC</createdTime>
-<ownerDesignName>car_rental</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>F95927F6-7681-158E-4E6D-11FDF7EA08F9</designId>
-</OSDM_Design>
