@@ -1,6 +1,6 @@
 package bg.tu_varna.sit.task1;
 
-public class City {
+class City {
 
   private final String name;
   private int postalCode;

@@ -1,6 +1,6 @@
 package bg.tu_varna.sit.task1;
 
-public class Adult extends Person {
+class Adult extends Person {
 
   private final IdentificationCard identificationCard;
 

@@ -1,6 +1,6 @@
 package bg.tu_varna.sit.task1;
 
-public class Person {
+class Person {
 
   private String firstName;
   private String secondName;

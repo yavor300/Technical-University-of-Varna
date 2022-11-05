@@ -1,6 +1,6 @@
 package bg.tu_varna.sit.task1;
 
-public class IdentificationCard {
+class IdentificationCard {
 
   private final String number;
   private final int year;
