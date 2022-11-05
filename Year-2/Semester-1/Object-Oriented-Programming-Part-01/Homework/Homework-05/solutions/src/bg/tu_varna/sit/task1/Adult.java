@@ -4,7 +4,7 @@ public class Adult extends Person {
 
   private final IdentificationCard identificationCard;
 
-  public Adult(String firstName, String secondName, String thirdName, IdentificationCard identificationCard) {
+  Adult(String firstName, String secondName, String thirdName, IdentificationCard identificationCard) {
     super(firstName, secondName, thirdName);
     this.identificationCard = identificationCard;
   }
