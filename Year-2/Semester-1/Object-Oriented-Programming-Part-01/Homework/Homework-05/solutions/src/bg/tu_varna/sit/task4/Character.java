@@ -16,15 +16,15 @@ abstract class Character {
 
   abstract void defense(int takenDamage);
 
-  public double getLife() {
+  protected double getLife() {
     return life;
   }
 
-  public double getCurrentLife() {
+  protected double getCurrentLife() {
     return currentLife;
   }
 
-  public void setCurrentLife(double currentLife) {
+  protected void setCurrentLife(double currentLife) {
     this.currentLife = currentLife;
   }
 }
