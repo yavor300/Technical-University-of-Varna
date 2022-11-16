@@ -1,4 +1,4 @@
-package bg.tu_varna.sit.task1.impl;
+package bg.tu_varna.sit.task1;
 
 public class Author {
 

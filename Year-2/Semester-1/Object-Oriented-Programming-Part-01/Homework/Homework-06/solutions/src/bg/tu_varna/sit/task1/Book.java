@@ -1,6 +1,4 @@
-package bg.tu_varna.sit.task1.base;
-
-import bg.tu_varna.sit.task1.impl.Author;
+package bg.tu_varna.sit.task1;
 
 abstract public class Book implements Margin {
 

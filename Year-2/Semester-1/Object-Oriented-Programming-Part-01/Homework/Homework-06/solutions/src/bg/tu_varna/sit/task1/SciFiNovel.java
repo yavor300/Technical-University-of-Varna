@@ -1,6 +1,4 @@
-package bg.tu_varna.sit.task1.impl;
-
-import bg.tu_varna.sit.task1.base.Book;
+package bg.tu_varna.sit.task1;
 
 public class SciFiNovel extends Book {
 

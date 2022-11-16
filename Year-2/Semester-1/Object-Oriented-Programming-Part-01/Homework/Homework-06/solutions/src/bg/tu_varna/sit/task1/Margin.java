@@ -1,4 +1,4 @@
-package bg.tu_varna.sit.task1.base;
+package bg.tu_varna.sit.task1;
 
 public interface Margin {
 
