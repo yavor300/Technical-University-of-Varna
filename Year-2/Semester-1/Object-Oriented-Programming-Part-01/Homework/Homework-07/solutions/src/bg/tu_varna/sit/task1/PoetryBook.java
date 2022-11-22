@@ -1,0 +1,20 @@
+package bg.tu_varna.sit.task1;
+
+public class PoetryBook extends Book {
+
+  public PoetryBook(String title, Author author, int publishingYear, double price, CoverType coverType) {
+    super(title, author, publishingYear, price, coverType);
+  }
+
+  @Override
+  protected double getFinalPrice() {
+
+    return getPrice() + calculateMargin();
+  }
+
+  @Override
+  public double calculateMargin() {
+
+    return isHasHardCover() && getPublishingYear() > 2000 ? 0.01 * getPrice() : 0.05 * getPrice();
+  }
+}
