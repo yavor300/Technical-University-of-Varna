@@ -4,3 +4,5 @@
 **/*.DS_Store
 /car_rental
 *.dmd
+*.docx
+*.txt
