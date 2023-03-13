@@ -19,14 +19,14 @@ INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	TaskOne(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPTSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+											 _In_opt_ HINSTANCE hPrevInstance,
+											 _In_ LPTSTR    lpCmdLine,
+											 _In_ int       nCmdShow)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
- 	// TODO: Place code here.
+	// TODO: Place code here.
 	MSG msg;
 	HACCEL hAccelTable;
 
@@ -96,22 +96,22 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   HWND hWnd;
+	HWND hWnd;
 
-   hInst = hInstance; // Store instance handle in our global variable
+	hInst = hInstance; // Store instance handle in our global variable
 
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+	if (!hWnd)
+	{
+		return FALSE;
+	}
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
-   return TRUE;
+	return TRUE;
 }
 
 //
@@ -146,7 +146,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_T12:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, TaskOne);
-		 break;
+			break;
+		case ID_T11:
+			switch (MessageBox(hWnd,"Message Box", "MSG",MB_YESNOCANCEL | MB_ICONERROR)) {
+			case IDYES:
+				MessageBox(hWnd, "Yes", "MSG", MB_OK);
+				break;
+			case IDNO:
+				MessageBox(hWnd, "No", "MSG", MB_OK);
+				break;
+			case IDCANCEL:
+				MessageBox(hWnd, "Cancel", "MSG", MB_OK);
+				break;
+			default:
+				break;
+			}
+			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -172,6 +187,7 @@ INT_PTR CALLBACK TaskOne(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
+		SetDlgItemText(hDlg,IDC_EDIT1,"Hello, World!");
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
@@ -180,6 +196,34 @@ INT_PTR CALLBACK TaskOne(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 		}
+		else if (LOWORD(wParam) == IDC_BUTTON2)
+		{
+			char textFromFirstBox[100];
+			GetDlgItemText(hDlg, IDC_EDIT1, textFromFirstBox, 100);
+			SetDlgItemText(hDlg, IDC_EDIT3, textFromFirstBox);
+		}
+		else if (LOWORD(wParam) == IDC_BUTTON3)
+		{
+			char textFromSecondBox[100];
+			GetDlgItemText(hDlg, IDC_EDIT3, textFromSecondBox, 100);
+			SetDlgItemText(hDlg, IDC_EDIT1, textFromSecondBox);
+		}
+		else if (LOWORD(wParam) == IDC_PRESS) {
+			switch (MessageBox(hDlg,"Message Box", "MSG",MB_YESNOCANCEL | MB_ICONERROR)) {
+			case IDYES:
+				MessageBox(hDlg, "Yes", "MSG", MB_OK);
+				break;
+			case IDNO:
+				MessageBox(hDlg, "No", "MSG", MB_OK);
+				break;
+			case IDCANCEL:
+				MessageBox(hDlg, "Cancel", "MSG", MB_OK);
+				break;
+			default:
+				break;
+			}
+		}
+
 		break;
 	}
 	return (INT_PTR)FALSE;
