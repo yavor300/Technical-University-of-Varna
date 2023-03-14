@@ -2,3 +2,5 @@
 /obj
 *.cbp
 *.layout
+*.exe
+*.o
