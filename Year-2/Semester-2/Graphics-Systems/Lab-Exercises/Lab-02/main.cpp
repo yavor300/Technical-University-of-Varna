@@ -16,7 +16,7 @@ void draw_circle_with_fill() {
   setcolor(15);
   circle(100, 100, 50);
   setfillstyle(1, 12);
-  floodfill(100, 100, 15);
+  floodfill(0, 0, 15);
   getch();
 }
 
