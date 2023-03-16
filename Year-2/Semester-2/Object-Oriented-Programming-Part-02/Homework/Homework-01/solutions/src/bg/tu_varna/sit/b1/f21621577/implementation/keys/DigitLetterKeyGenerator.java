@@ -2,15 +2,16 @@ package bg.tu_varna.sit.b1.f21621577.implementation.keys;
 
 import bg.tu_varna.sit.b1.f21621577.base.generator.KeyGenerator;
 
-import java.io.IOException;
+import java.util.Random;
 
 public class DigitLetterKeyGenerator extends KeyGenerator {
 
-  public DigitLetterKeyGenerator() {
+  public DigitLetterKeyGenerator(Random random, StringBuilder stringBuilder) {
+    super(random, stringBuilder);
   }
 
-  public DigitLetterKeyGenerator(int length) {
-    super(length);
+  public DigitLetterKeyGenerator(int length, Random random, StringBuilder stringBuilder) {
+    super(length, random, stringBuilder);
   }
 
   @Override

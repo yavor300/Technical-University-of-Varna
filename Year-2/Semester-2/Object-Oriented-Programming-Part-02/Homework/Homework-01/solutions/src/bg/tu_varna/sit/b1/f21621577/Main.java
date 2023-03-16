@@ -1,62 +1,44 @@
 package bg.tu_varna.sit.b1.f21621577;
 
 import bg.tu_varna.sit.b1.f21621577.base.generator.Generator;
-import bg.tu_varna.sit.b1.f21621577.base.logger.FileLogger;
-import bg.tu_varna.sit.b1.f21621577.base.validator.Validator;
+import bg.tu_varna.sit.b1.f21621577.base.logger.Repository;
 import bg.tu_varna.sit.b1.f21621577.implementation.keys.DigitKeyGenerator;
 import bg.tu_varna.sit.b1.f21621577.implementation.keys.DigitLetterKeyGenerator;
-import bg.tu_varna.sit.b1.f21621577.implementation.logs.LocalFileErrorLogger;
-import bg.tu_varna.sit.b1.f21621577.implementation.logs.LocalFileKeyLogger;
-import bg.tu_varna.sit.b1.f21621577.implementation.validators.CreatedKeyFileValidator;
+import bg.tu_varna.sit.b1.f21621577.implementation.logs.LocalPlainTextKeyFileRepository;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 public class Main {
 
+  private final static String DEFAULT_DIRECTORY = "src/bg/tu_varna/sit/b1/f21621577/resources/";
+
   public static void main(String[] args) {
 
-    Generator digitKeyGenerator = new DigitKeyGenerator();
-    Generator digitLetterKeyGenerator = new DigitLetterKeyGenerator();
+    Random random = new Random();
+    StringBuilder stringBuilder = new StringBuilder();
 
-    FileLogger localFileKeyLogger = null;
+    File file = new File(DEFAULT_DIRECTORY + "LocalKeys.txt");
+    BufferedWriter writer;
     try {
-      localFileKeyLogger = new LocalFileKeyLogger("LocalKeys.txt");
+      writer = new BufferedWriter(new FileWriter(file, true));
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    localFileKeyLogger.log(digitKeyGenerator.generate());
-    localFileKeyLogger.log(digitKeyGenerator.generate());
+    Repository plainTextFileRepository = new LocalPlainTextKeyFileRepository(writer);
 
 
-    Validator validator = null;
+    Generator digitKeyGenerator = new DigitKeyGenerator(random, stringBuilder);
+    Generator digitLetterKeyGenerator = new DigitLetterKeyGenerator(random, stringBuilder);
+
     try {
-      validator = new CreatedKeyFileValidator(localFileKeyLogger);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    try {
-      System.out.println(validator.isValid("703104"));
+      plainTextFileRepository.save(digitKeyGenerator.generate());
+
     } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    try {
-
-
-    } catch (IOException ex) {
-      FileLogger localFileErrorLogger = new LocalFileErrorLogger("LocalErrors.txt");
-      try {
-        localFileErrorLogger.log(ex.getMessage());
-      } catch (IOException ex) {
-        ioException.printStackTrace();
-      }
-    }
-
-    try {
-      System.out.println(digitLetterKeyGenerator.generate());
-    } catch (IOException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
   }
 }

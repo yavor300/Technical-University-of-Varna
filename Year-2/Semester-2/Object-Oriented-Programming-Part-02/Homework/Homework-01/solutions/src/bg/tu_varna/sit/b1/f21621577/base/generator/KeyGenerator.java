@@ -5,14 +5,16 @@ import java.util.Random;
 public abstract class KeyGenerator implements Generator {
 
   private int length = 6;
-  private final Random random = new Random();
+  private final Random random;
   private final StringBuilder stringBuilder;
 
-  protected KeyGenerator() {
-    this.stringBuilder = new StringBuilder();
+  protected KeyGenerator(Random random, StringBuilder stringBuilder) {
+    this.random = random;
+    this.stringBuilder = stringBuilder;
   }
-  protected KeyGenerator(int length) {
-    this();
+
+  protected KeyGenerator(int length, Random random, StringBuilder stringBuilder) {
+    this(random, stringBuilder);
     this.length = length;
   }
 
