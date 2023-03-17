@@ -1,10 +1,11 @@
-package bg.tu_varna.sit.b1.f21621577.implementation.keys;
+package bg.tu_varna.sit.b1.f21621577.implementation.keys.generators;
 
 import bg.tu_varna.sit.b1.f21621577.base.generator.KeyGenerator;
+import bg.tu_varna.sit.b1.f21621577.implementation.keys.types.LetterDigitKey;
 
 import java.util.Random;
 
-public class DigitLetterKeyGenerator extends KeyGenerator {
+public class DigitLetterKeyGenerator extends KeyGenerator<LetterDigitKey> {
 
   public DigitLetterKeyGenerator(Random random, StringBuilder stringBuilder) {
     super(random, stringBuilder);
@@ -15,7 +16,7 @@ public class DigitLetterKeyGenerator extends KeyGenerator {
   }
 
   @Override
-  public String generate() {
+  public LetterDigitKey generate() {
 
     getStringBuilder().setLength(0);
 
@@ -31,6 +32,6 @@ public class DigitLetterKeyGenerator extends KeyGenerator {
       getStringBuilder().append((char) charCode);
     }
 
-    return getStringBuilder().toString();
+    return new LetterDigitKey(getStringBuilder().toString());
   }
 }

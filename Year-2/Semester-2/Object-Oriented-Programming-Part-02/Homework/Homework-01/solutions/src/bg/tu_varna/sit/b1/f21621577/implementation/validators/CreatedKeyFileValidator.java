@@ -15,7 +15,7 @@
 //
 //  public CreatedKeyFileValidator(FileRepository fileLogger) throws FileNotFoundException {
 //    this.fileLogger = fileLogger;
-//    this.inputReader = new BufferedReader(new FileReader(fileLogger.getFile()));
+//    this.inputReader = new BufferedReader(new FileReader(fileLogger.get()));
 //  }
 //
 //  @Override

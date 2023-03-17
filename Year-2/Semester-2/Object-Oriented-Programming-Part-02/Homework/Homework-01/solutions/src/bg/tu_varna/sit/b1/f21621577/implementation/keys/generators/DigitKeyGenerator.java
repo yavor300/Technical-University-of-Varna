@@ -1,10 +1,11 @@
-package bg.tu_varna.sit.b1.f21621577.implementation.keys;
+package bg.tu_varna.sit.b1.f21621577.implementation.keys.generators;
 
 import bg.tu_varna.sit.b1.f21621577.base.generator.KeyGenerator;
+import bg.tu_varna.sit.b1.f21621577.implementation.keys.types.DigitKey;
 
 import java.util.Random;
 
-public class DigitKeyGenerator extends KeyGenerator {
+public class DigitKeyGenerator extends KeyGenerator<DigitKey> {
 
   public DigitKeyGenerator(Random random, StringBuilder stringBuilder) {
     super(random, stringBuilder);
@@ -15,7 +16,7 @@ public class DigitKeyGenerator extends KeyGenerator {
   }
 
   @Override
-  public String generate() {
+  public DigitKey generate() {
 
     getStringBuilder().setLength(0);
 
@@ -27,6 +28,6 @@ public class DigitKeyGenerator extends KeyGenerator {
       getStringBuilder().append((char) charCode);
     }
 
-    return getStringBuilder().toString();
+    return new DigitKey(getStringBuilder().toString());
   }
 }

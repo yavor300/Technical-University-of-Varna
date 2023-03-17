@@ -1,10 +1,12 @@
 package bg.tu_varna.sit.b1.f21621577;
 
+import bg.tu_varna.sit.b1.f21621577.implementation.keys.types.DigitKey;
 import bg.tu_varna.sit.b1.f21621577.base.generator.Generator;
 import bg.tu_varna.sit.b1.f21621577.base.logger.Repository;
-import bg.tu_varna.sit.b1.f21621577.implementation.keys.DigitKeyGenerator;
-import bg.tu_varna.sit.b1.f21621577.implementation.keys.DigitLetterKeyGenerator;
-import bg.tu_varna.sit.b1.f21621577.implementation.logs.LocalPlainTextKeyFileRepository;
+import bg.tu_varna.sit.b1.f21621577.implementation.keys.generators.DigitKeyGenerator;
+import bg.tu_varna.sit.b1.f21621577.implementation.keys.generators.DigitLetterKeyGenerator;
+import bg.tu_varna.sit.b1.f21621577.implementation.keys.types.LetterDigitKey;
+import bg.tu_varna.sit.b1.f21621577.implementation.logs.PlainTextDigitKeyFile;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,13 +28,14 @@ public class Main {
     try {
       writer = new BufferedWriter(new FileWriter(file, true));
     } catch (IOException e) {
+
       throw new RuntimeException(e);
     }
-    Repository plainTextFileRepository = new LocalPlainTextKeyFileRepository(writer);
 
+    Repository<DigitKey> plainTextFileRepository = new PlainTextDigitKeyFile(writer);
 
-    Generator digitKeyGenerator = new DigitKeyGenerator(random, stringBuilder);
-    Generator digitLetterKeyGenerator = new DigitLetterKeyGenerator(random, stringBuilder);
+    Generator<DigitKey> digitKeyGenerator = new DigitKeyGenerator(random, stringBuilder);
+    Generator<LetterDigitKey> digitLetterKeyGenerator = new DigitLetterKeyGenerator(random, stringBuilder);
 
     try {
       plainTextFileRepository.save(digitKeyGenerator.generate());
