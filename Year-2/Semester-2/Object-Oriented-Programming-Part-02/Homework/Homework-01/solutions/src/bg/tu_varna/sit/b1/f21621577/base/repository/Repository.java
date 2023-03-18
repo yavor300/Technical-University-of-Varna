@@ -1,4 +1,4 @@
-package bg.tu_varna.sit.b1.f21621577.base.logger;
+package bg.tu_varna.sit.b1.f21621577.base.repository;
 
 import bg.tu_varna.sit.b1.f21621577.base.generator.GeneratedElement;
 

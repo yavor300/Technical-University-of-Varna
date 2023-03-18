@@ -1,7 +1,7 @@
-package bg.tu_varna.sit.b1.f21621577.implementation.keys.generators;
+package bg.tu_varna.sit.b1.f21621577.implementation.key.generator;
 
 import bg.tu_varna.sit.b1.f21621577.base.generator.KeyGenerator;
-import bg.tu_varna.sit.b1.f21621577.implementation.keys.types.LetterDigitKey;
+import bg.tu_varna.sit.b1.f21621577.implementation.key.type.LetterDigitKey;
 
 import java.util.Random;
 
