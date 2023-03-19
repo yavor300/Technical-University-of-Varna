@@ -40,7 +40,7 @@ DigitComparator:
 		BEQ L6
 		BGT L6
 		BLT L7
-	L6: UMULL R0,R1,R1,R3
+	L6: SMULL R0,R1,R1,R3
 		B CarryDozens
 	L7: ADDS R0,R0,R2
 		ADC R1,R1,R3
