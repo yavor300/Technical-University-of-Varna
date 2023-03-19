@@ -39,7 +39,11 @@ public class Main {
 
     System.out.println(realEstateAgency.showAllProperties());
 
-    firstAgent.deleteProperty(house);
+    if (firstAgent.deleteProperty(house)) {
+      System.out.println("Property is deleted successfully!");
+    } else {
+      System.out.println("Property deletion failed!");
+    }
 
     System.out.println(realEstateAgency.showAllProperties());
   }
