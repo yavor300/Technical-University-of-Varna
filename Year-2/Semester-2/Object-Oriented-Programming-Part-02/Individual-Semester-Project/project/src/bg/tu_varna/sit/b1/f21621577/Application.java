@@ -8,31 +8,45 @@ import bg.tu_varna.sit.b1.f21621577.table.writer.TableWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.EXIT_PROGRAM_MENU_COMMAND;
 
 public class Application {
 
   public static void main(String[] args) {
 
-    File file = new File(DEFAULT_RESOURCES_DIRECTORY + "data.txt");
-    TableReader tableReader;
-    try {
-       tableReader = new TableReader(file);
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-    }
+    Scanner scanner = new Scanner(System.in);
 
-    TableCell[][] cells;
-    try {
-       cells = tableReader.read();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    String menuChoice;
 
-    TableWriter tableWriter = new TableWriter();
-    tableWriter.write(cells);
+    do {
+      menuChoice = scanner.nextLine().trim();
 
-    System.out.println(TableRepository.getInstance().visualizeData());
+      switch (menuChoice.toUpperCase()) {
+        case "OPEN":
+          File file = new File(DEFAULT_RESOURCES_DIRECTORY + "data.txt");
+          TableReader tableReader;
+          try {
+            tableReader = new TableReader(file);
+          } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+          }
+
+          TableCell[][] cells;
+          try {
+            cells = tableReader.read();
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+
+          TableWriter tableWriter = new TableWriter();
+          tableWriter.write(cells);
+
+          System.out.println(TableRepository.getInstance().visualizeData());
+          break;
+      }
+    } while (EXIT_PROGRAM_MENU_COMMAND.equalsIgnoreCase(menuChoice));
   }
 }
