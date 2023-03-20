@@ -30,14 +30,15 @@ public class TableReader {
     int row = 0;
     String line;
     while ((line = inputReader.readLine()) != null) {
+      line = line.trim();
       String[] cells = line.split(CELLS_INPUT_SEPARATOR);
 
       for (int col = 0; col < cells.length; col++) {
         try {
-          int number = Integer.parseInt(cells[col]);
+          int number = Integer.parseInt(cells[col].trim());
           result[row][col] = new TableCell(number);
         } catch (NumberFormatException e) {
-          result[row][col] = new TableCell(cells[col]);
+          result[row][col] = new TableCell(cells[col].trim());
         }
       }
       row++;
