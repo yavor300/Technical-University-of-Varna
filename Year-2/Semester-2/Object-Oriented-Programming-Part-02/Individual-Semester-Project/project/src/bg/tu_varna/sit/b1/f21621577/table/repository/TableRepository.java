@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.table.repository;
 
+import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
+
 import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
@@ -11,7 +13,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
  */
 public class TableRepository {
 
-  private final String[][] table = new String[ROWS][COLS];
+  private final TableCell[][] table = new TableCell[ROWS][COLS];
 
   private TableRepository() {}
 
@@ -24,7 +26,7 @@ public class TableRepository {
     return Singleton.INSTANCE;
   }
 
-  public void save(String[][] data) {
+  public void save(TableCell[][] data) {
 
     for (int row = 0; row < 100; row++) {
       if (data[row][0] == null) {
@@ -34,6 +36,7 @@ public class TableRepository {
         if (data[row][col] == null) {
           break;
         }
+
         table[row][col] = data[row][col];
       }
     }
@@ -59,7 +62,7 @@ public class TableRepository {
     return stringBuilder.toString();
   }
 
-  public String[][] getTable() {
+  public TableCell[][] getTable() {
     return table;
   }
 }

@@ -1,5 +1,6 @@
 package bg.tu_varna.sit.b1.f21621577;
 
+import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 import bg.tu_varna.sit.b1.f21621577.table.writer.TableWriter;
@@ -22,7 +23,7 @@ public class Application {
       throw new RuntimeException(e);
     }
 
-    String[][] cells;
+    TableCell[][] cells;
     try {
        cells = tableReader.read();
     } catch (IOException e) {
