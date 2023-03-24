@@ -25,6 +25,8 @@ public class Application {
       menuChoice = scanner.nextLine().trim();
 
       switch (menuChoice.toUpperCase()) {
+
+        // TODO use factort pattern
         case "OPEN":
           File file = new File(DEFAULT_RESOURCES_DIRECTORY + "data.txt");
           TableReader tableReader;
