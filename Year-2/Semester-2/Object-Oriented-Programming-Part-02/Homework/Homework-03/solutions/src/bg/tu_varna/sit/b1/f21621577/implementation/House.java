@@ -14,7 +14,7 @@ public class House extends Building {
   }
 
   @Override
-  public String toString() {
+  public String sketch() {
     return String.format("%s%n\t\tBedrooms count: %d%n\t\tBathrooms count: %d",
             super.toString(), bedroomsCount, bathroomsCount);
   }

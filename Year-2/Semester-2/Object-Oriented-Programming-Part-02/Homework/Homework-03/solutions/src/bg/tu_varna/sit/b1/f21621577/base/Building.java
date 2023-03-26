@@ -18,6 +18,8 @@ public abstract class Building {
     this.price = price;
   }
 
+  public abstract String sketch();
+
   @Override
   public String toString() {
     return String.format("%s:%n\t\t%s%n\t\tArea: %.2f%n\t\tFull unfold area: %.2f%n\t\tFloors count: %d%n\t\tPrice: %.2f BGN",

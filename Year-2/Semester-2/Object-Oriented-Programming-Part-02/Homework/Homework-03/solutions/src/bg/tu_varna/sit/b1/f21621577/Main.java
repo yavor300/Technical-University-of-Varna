@@ -30,8 +30,8 @@ public class Main {
     Building apartment = BuildingFactory.getBuilding(new ApartmentBuildingFactory(architect, 75.45, 178.23, 3, 20000, 7));
     Building house = BuildingFactory.getBuilding(new HouseBuildingFactory(architect, 98.45, 323.23, 4, 40000, 7, 2));
 
-    System.out.printf("AbstractFactory Config:%n\t" + apartment);
+    System.out.printf("AbstractFactory Config:%n\t" + apartment.sketch());
     System.out.println();
-    System.out.printf("AbstractFactory Config:%n\t" + house);
+    System.out.printf("AbstractFactory Config:%n\t" + house.sketch());
   }
 }

@@ -12,7 +12,7 @@ public class Apartment extends Building {
   }
 
   @Override
-  public String toString() {
+  public String sketch() {
     return String.format("%s%n\t\tCount: %d", super.toString(), apartmentsCount);
   }
 
