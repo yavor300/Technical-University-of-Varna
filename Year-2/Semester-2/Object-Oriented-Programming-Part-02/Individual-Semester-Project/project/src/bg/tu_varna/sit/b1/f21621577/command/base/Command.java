@@ -10,5 +10,5 @@ public abstract class Command {
     this.arguments = arguments;
   }
 
-  protected abstract void execute() throws IOException;
+  public abstract void execute() throws IOException;
 }

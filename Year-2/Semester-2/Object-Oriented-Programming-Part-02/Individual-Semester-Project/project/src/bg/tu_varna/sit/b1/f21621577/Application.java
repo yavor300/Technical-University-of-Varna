@@ -1,5 +1,8 @@
 package bg.tu_varna.sit.b1.f21621577;
 
+import bg.tu_varna.sit.b1.f21621577.command.base.Command;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
@@ -20,6 +23,7 @@ public class Application {
     Scanner scanner = new Scanner(System.in);
 
     String menuChoice;
+    Command command;
 
     do {
       menuChoice = scanner.nextLine().trim();
@@ -28,6 +32,9 @@ public class Application {
 
         // TODO use factort pattern
         case "OPEN":
+
+          CommandFactory.getCommand(new OpenCommandFactory(null)).execute();
+
           File file = new File(DEFAULT_RESOURCES_DIRECTORY + "data.txt");
           TableReader tableReader;
           try {
