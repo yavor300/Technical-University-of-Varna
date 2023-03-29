@@ -3,59 +3,46 @@ package bg.tu_varna.sit.b1.f21621577;
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
-import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
-import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
-import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
-import bg.tu_varna.sit.b1.f21621577.table.writer.TableWriter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
-
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.EXIT_PROGRAM_MENU_COMMAND;
 
 public class Application {
 
   public static void main(String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
+    try (Scanner scanner = new Scanner(System.in)) {
 
-    String menuChoice;
-    Command command;
+      String menuChoice;
+      do {
 
-    do {
-      menuChoice = scanner.nextLine().trim();
+        List<String> input = new ArrayList<>(Arrays.asList(scanner.nextLine().trim().split("\\s+")));
 
-      switch (menuChoice.toUpperCase()) {
+        menuChoice = input.get(0).toUpperCase();
+        switch (menuChoice) {
+          case "OPEN":
+            input.remove(0);
+            executeOpenCommand(input);
+            break;
+          case "EXIT":
+            break;
+          default:
+            System.out.println("Invalid choice: " + menuChoice);
+            break;
+        }
+      } while (!menuChoice.equalsIgnoreCase("EXIT"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
-        // TODO use factort pattern
-        case "OPEN":
-
-          CommandFactory.getCommand(new OpenCommandFactory(null)).execute();
-
-          File file = new File(DEFAULT_RESOURCES_DIRECTORY + "data.txt");
-          TableReader tableReader;
-          try {
-            tableReader = new TableReader(file);
-          } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-          }
-
-          TableCell[][] cells;
-          try {
-            cells = tableReader.read();
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-
-          TableWriter tableWriter = new TableWriter();
-          tableWriter.write(cells);
-
-          System.out.println(TableRepository.getInstance().visualizeData());
-          break;
-      }
-    } while (EXIT_PROGRAM_MENU_COMMAND.equalsIgnoreCase(menuChoice));
+  private static void executeOpenCommand(List<String> input) throws IOException {
+    Command openCommand = CommandFactory.getCommand(new OpenCommandFactory(input));
+    if (openCommand != null) {
+      openCommand.execute();
+    }
   }
 }
