@@ -3,10 +3,9 @@ package bg.tu_varna.sit.b1.f21621577.table.reader;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
 
@@ -15,12 +14,12 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
  * validate it and prepare it for storing the client input
  * tot the actual table repository.
  */
-public class TableReader {
+public class TableReader implements AutoCloseable {
 
   private final BufferedReader inputReader;
 
-  public TableReader(File file) throws FileNotFoundException {
-    this.inputReader = new BufferedReader(new FileReader(file));
+  public TableReader(Path path) throws IOException {
+    this.inputReader = Files.newBufferedReader(path);
   }
 
   public TableCell[][] read() throws IOException {
@@ -45,5 +44,10 @@ public class TableReader {
     }
 
     return result;
+  }
+
+  @Override
+  public void close() throws IOException {
+    inputReader.close();
   }
 }
