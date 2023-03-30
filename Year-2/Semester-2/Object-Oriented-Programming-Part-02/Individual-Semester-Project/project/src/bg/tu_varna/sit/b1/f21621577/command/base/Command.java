@@ -16,7 +16,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
  */
 public abstract class Command {
 
-  private List<String> arguments;
+  private final List<String> arguments;
 
   public Command() {
     this.arguments = new ArrayList<>(Collections.singletonList(DEFAULT_TABLE_FILENAME));
@@ -47,19 +47,5 @@ public abstract class Command {
    */
   public List<String> getArguments() {
     return arguments;
-  }
-
-  /**
-   * Sets the arguments for the command.
-   *
-   * @param arguments the arguments for the command as a list of strings
-   */
-  public void setArguments(List<String> arguments) {
-
-    if (arguments == null || arguments.size() == 0) {
-      this.arguments = new ArrayList<>(Collections.singletonList(DEFAULT_TABLE_FILENAME));
-    }
-
-    this.arguments = arguments;
   }
 }
