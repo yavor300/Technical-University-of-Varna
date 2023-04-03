@@ -1,24 +1,16 @@
-
-@ 64-битовите числа без знак в регистри R3:R2 (Y1:Y0) и R1:R0 (Z1:Z0) да се
-@ умножат и 128-битовият резултат да се върне в рег. R3:R2:R1:R0 (A:B:C:D).
-@ Алгоритъм: Peter Norton, "Advanced Assembly Language", 1991, стр. 229-230
+@ 64-Р±РёС‚РѕРІРёС‚Рµ С‡РёСЃР»Р° Р±РµР· Р·РЅР°Рє РІ СЂРµРіРёСЃС‚СЂРё R3:R2 (Y1:Y0) Рё R1:R0 (Z1:Z0) РґР° СЃРµ
+@ СѓРјРЅРѕР¶Р°С‚ Рё 128-Р±РёС‚РѕРІРёСЏС‚ СЂРµР·СѓР»С‚Р°С‚ РґР° СЃРµ РІСЉСЂРЅРµ РІ СЂРµРі. R3:R2:R1:R0 (A:B:C:D).
+@ РђР»РіРѕСЂРёС‚СЉРј: Peter Norton, "Advanced Assembly Language", 1991, СЃС‚СЂ. 229-230
 
 .global	um64x64
 um64x64:
-    STMFD	SP!,{R4-R9,LR}	@ Save used registers
-
-    UMULL R7,R8,R3,R0			@ R3 * R0 -> R8:R7
-
-    UMULL R5,R6,R2,R0			@ R2 * R0 -> R6:R5
-
-    UMULL R0,R4,R1,R0			@ R1 * R0 -> R4:R0
-
-    ADDS R1,R4,R5   			@ R4 + R5 -> R1
-
-    ADCS R2,R6,R7				@ R6 + R7 + "carry" -> R2
-
-    ADC	 R3,R8,#0				@ R8 + "carry" -> R3
-    
+	STMFD	SP!,{R4-R9,LR}	@ Save used registers
+	UMULL R7,R8,R3,R0		@ R3 * R0 -> R8:R7
+	UMULL R5,R6,R2,R0		@ R2 * R0 -> R6:R5
+	UMULL R0,R4,R1,R0		@ R1 * R0 -> R4:R0
+	ADDS R1,R4,R5			@ R4 + R5 -> R1
+	ADCS R2,R6,R7			@ R6 + R7 + "carry" -> R2
+	ADC R3,R8,#0			@ R8 + "carry" -> R3
 	LDMFD	SP!,{R4-R9,PC}	@ Restore the registers and return to the main program
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -187,7 +179,7 @@ EndOfFileMsg:		.asciz "End of file reached! Not enough number!\n"
 EnoughNumbers:		.asciz "Read 4 numbers\n"
 ColonSpace:		.asciz": "
 comma:			.asciz ", " 	@ comma
-Colon:			.asciz ":" 	@colon - двуеточие
+Colon:			.asciz ":" 	@colon - РґРІСѓРµС‚РѕС‡РёРµ
 R3R2:			.asciz " R3:R2 = "
 R1R0:			.asciz "\n R1:R0 = "
 R3R2R1R0:		.asciz "\n\nOutput:\nR3:R2:R1:R0 = "
