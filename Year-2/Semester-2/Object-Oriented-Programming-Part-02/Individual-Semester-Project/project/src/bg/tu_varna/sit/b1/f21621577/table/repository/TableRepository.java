@@ -2,67 +2,137 @@ package bg.tu_varna.sit.b1.f21621577.table.repository;
 
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 
 /**
- * Singleton repository class that holds the table data
- * as well as methods for saving and visualizing the existing
- * records.
+ * The TableRepository class is responsible for storing and managing the table data.
+ * It is implemented as a singleton class to ensure that only one instance of the table is created.
  */
 public class TableRepository {
 
-  private final TableCell[][] table = new TableCell[ROWS][COLS];
+  private TableCell[][] table = new TableCell[ROWS][COLS];
 
-  private TableRepository() {}
+  private TableRepository() {
+  }
 
+  /**
+   * Private static inner class to implement the singleton pattern.
+   */
   private static class Singleton {
     private static final TableRepository INSTANCE
             = new TableRepository();
   }
 
+  /**
+   * Returns the instance of the TableRepository class.
+   *
+   * @return the instance of the TableRepository class
+   */
   public static TableRepository getInstance() {
     return Singleton.INSTANCE;
   }
 
+  /**
+   * Saves the given data into the table.
+   *
+   * @param data the data to be saved into the table
+   */
   public void save(TableCell[][] data) {
 
-    for (int row = 0; row < 100; row++) {
-      if (data[row][0] == null) {
-        break;
-      }
-      for (int col = 0; col < 100; col++) {
-        if (data[row][col] == null) {
-          break;
-        }
+    int maxRow = findMaxRowIndex(data);
+    int maxCol = findMaxColIndex(data);
 
-        table[row][col] = data[row][col];
-      }
-    }
+    TableCell[][] newData = createNewDataArray(maxRow, maxCol);
+    copyNonNullValues(data, newData, maxRow, maxCol);
+
+    table = newData;
   }
 
-  public String visualizeData() {
-
-    StringBuilder stringBuilder = new StringBuilder();
-
-    for (int row = 0; row < 100; row++) {
-      if (table[row][0] == null) {
-        break;
-      }
-      for (int col = 0; col < 100; col++) {
-        if (table[row][col] == null) {
-          break;
-        }
-        stringBuilder.append(table[row][col]).append(CELLS_SEPARATOR);
-      }
-      stringBuilder.append(System.lineSeparator());
-    }
-
-    return stringBuilder.toString();
-  }
-
+  /**
+   * Returns the current state of the table.
+   *
+   * @return the current state of the table
+   */
   public TableCell[][] getTable() {
     return table;
   }
+
+  /**
+   * Finds the maximum row index with non-null values in the given data.
+   *
+   * @param data the data to be searched for the maximum row index
+   * @return the maximum row index with non-null values
+   */
+  private int findMaxRowIndex(TableCell[][] data) {
+
+    int maxRow = -1;
+
+    for (int row = 0; row < data.length; row++) {
+      for (int col = 0; col < data[row].length; col++) {
+        if (data[row][col] != null) {
+          if (row > maxRow) {
+            maxRow = row;
+          }
+        }
+      }
+    }
+
+    return maxRow;
+  }
+
+  /**
+   * Finds the maximum column index with non-null values in the given data.
+   *
+   * @param data the data to be searched for the maximum column index
+   * @return the maximum column index with non-null values
+   */
+  private int findMaxColIndex(TableCell[][] data) {
+
+    int maxCol = -1;
+
+    for (TableCell[] datum : data) {
+      for (int col = 0; col < datum.length; col++) {
+        if (datum[col] != null) {
+          if (col > maxCol) {
+            maxCol = col;
+          }
+        }
+      }
+    }
+
+    return maxCol;
+  }
+
+  /**
+   * Creates a new table data array with the given maximum row and column indexes.
+   *
+   * @param maxRow the maximum row index
+   * @param maxCol the maximum column index
+   * @return a new table data array with the given maximum row and column indexes
+   */
+  private TableCell[][] createNewDataArray(int maxRow, int maxCol) {
+
+    return new TableCell[maxRow + 1][maxCol + 1];
+  }
+
+  /**
+   * Copies the non-null values from the source data array to the destination data array.
+   *
+   * @param source      the source data array to copy the non-null values from
+   * @param destination the destination data array to copy the non-null values to
+   * @param maxRow      the maximum row index
+   * @param maxCol      the maximum column index
+   */
+  private void copyNonNullValues(TableCell[][] source, TableCell[][] destination, int maxRow, int maxCol) {
+
+    for (int row = 0; row <= maxRow; row++) {
+      for (int col = 0; col <= maxCol; col++) {
+        if (source[row][col] != null) {
+          destination[row][col] = source[row][col];
+        }
+      }
+    }
+  }
+
 }
