@@ -2,17 +2,27 @@ package bg.tu_varna.sit.b1.f21621577.table.cell;
 
 public class TableCell {
 
-  private String data;
-  private final boolean isDigit;
-  private int number;
+  private CellType type;
+  private Object value;
 
-  public TableCell(String data) {
-    this.data = data;
-    this.isDigit = false;
+  public TableCell(CellType type, Object value) {
+    this.type = type;
+    this.value = value;
   }
 
-  public TableCell(int number) {
-    this.number = number;
-    this.isDigit = true;
+  public CellType getType() {
+    return type;
+  }
+
+  public void setType(CellType type) {
+    this.type = type;
+  }
+
+  public Object getValue() {
+    return value;
+  }
+
+  public void setValue(Object value) {
+    this.value = value;
   }
 }
