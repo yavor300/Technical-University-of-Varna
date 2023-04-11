@@ -50,6 +50,48 @@ public class TableRepository {
   }
 
   /**
+   * Gets the number of rows in the table.
+   *
+   * @return the number of rows in the table
+   */
+  public int getNumRows() {
+    return table.length;
+  }
+
+  /**
+   * Gets the number of columns in the table.
+   *
+   * @return the number of columns in the table
+   */
+  public int getNumColumns() {
+    if (table.length == 0) {
+      return 0;
+    } else {
+      return table[0].length;
+    }
+  }
+
+  /**
+   * Retrieves the table cell at the specified row and column indices.
+   *
+   * @param row    the row index of the cell
+   * @param column the column index of the cell
+   * @return the TableCell object at the specified indices
+   * @throws IllegalArgumentException if the specified row or column index is out of range
+   */
+  public TableCell getCell(int row, int column) {
+
+    if (row < 0 || row >= table.length) {
+      throw new IllegalArgumentException("Invalid row index: " + row);
+    }
+    if (column < 0 || column >= table[row].length) {
+      throw new IllegalArgumentException("Invalid column index: " + column);
+    }
+    return table[row][column];
+  }
+
+
+  /**
    * Returns the current state of the table.
    *
    * @return the current state of the table

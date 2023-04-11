@@ -3,10 +3,12 @@ package bg.tu_varna.sit.b1.f21621577;
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,6 +29,9 @@ public class Application {
             input.remove(0);
             executeOpenCommand(input);
             break;
+          case "PRINT":
+            executePrintCommand();
+            break;
           case "EXIT":
             break;
           default:
@@ -43,6 +48,13 @@ public class Application {
     Command openCommand = CommandFactory.getCommand(new OpenCommandFactory(input));
     if (openCommand != null) {
       openCommand.execute();
+    }
+  }
+
+  private static void executePrintCommand() throws IOException {
+    Command printCommand = CommandFactory.getCommand(new PrintCommandFactory(Collections.emptyList()));
+    if (printCommand != null) {
+      printCommand.execute();
     }
   }
 }

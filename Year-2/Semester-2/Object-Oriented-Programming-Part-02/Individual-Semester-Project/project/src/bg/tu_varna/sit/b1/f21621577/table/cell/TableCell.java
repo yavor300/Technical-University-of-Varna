@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
  */
 public class TableCell {
 
-  private final CellType type;
-  private final Object value;
+  private CellType type;
+  private Object value;
 
   /**
    * Constructs a new TableCell object with the specified data value.
@@ -18,55 +18,91 @@ public class TableCell {
    * @throws IllegalArgumentException if the data value is not a recognized type
    */
   public TableCell(String data) {
-    value = parseValue(data);
-    type = getType(value);
+    setValue(data);
+    setType(data);
   }
 
   /**
-   * Parses the specified data value and returns the corresponding object value.
+   * Returns the string representation of the cell's value.
+   * If the value is null, returns an empty string.
+   * If the value is an integer, returns the integer value as a string.
+   * If the value is a fractional number, returns the double value rounded to two decimal places as a string.
+   * If the value is a string or a formula, returns the value as a string.
    *
-   * @param data the data value to parse
-   * @return the corresponding object value
-   * @throws IllegalArgumentException if the data value is not a recognized type
+   * @return the string representation of the cell's value.
    */
-  private Object parseValue(String data) {
+  public String getValueAsString() {
 
-    if (isInteger(data)) {
-      return Integer.parseInt(data);
-    } else if (isFractionalNumber(data)) {
-      return Double.parseDouble(data);
-    } else if (isString(data)) {
-      return data;
-    } else if (isFormula(data)) {
-      return data;
+    if (value == null) {
+      return "";
     }
 
-    throw new IllegalArgumentException("Invalid input value!");
+    if (type == CellType.INTEGER) {
+      return String.format("%d", ((Number) value).intValue());
+    }
+
+    if (type == CellType.FRACTIONAL) {
+      return String.format("%.2f", ((Number) value).doubleValue());
+    }
+
+    return value.toString();
   }
 
   /**
-   * Returns the type of the specified value object.
+   * Returns the type of the cell value.
    *
-   * @param value the object value to get the type of
-   * @return the type of the object value
-   * @throws IllegalArgumentException if the object value is not a recognized type
+   * @return the type of the cell value
    */
-  private CellType getType(Object value) {
+  public CellType getType() {
+    return type;
+  }
+
+  /**
+   * Sets the value of the cell based on the provided data string. The data string is parsed
+   * and converted to the appropriate data type based on the cell's type.
+   *
+   * @param data the data string to set as the cell's value
+   * @throws IllegalArgumentException if the data string is invalid and cannot be parsed
+   *                                  into the appropriate data type
+   */
+  private void setValue(String data) {
+
+    if (isInteger(data)) {
+      this.value = Integer.parseInt(data);
+    } else if (isFractionalNumber(data)) {
+      this.value = Double.parseDouble(data);
+    } else if (isString(data)) {
+      this.value = data;
+    } else if (isFormula(data)) {
+      this.value = data;
+    } else {
+      throw new IllegalArgumentException("Invalid input value!");
+    }
+
+  }
+
+  /**
+   * Sets the cell type based on the provided value.
+   *
+   * @param value the value to set the type for
+   * @throws IllegalArgumentException if the provided value is not of a valid type
+   */
+  private void setType(Object value) {
 
     if (value instanceof Integer) {
-      return CellType.INTEGER;
+      this.type = CellType.INTEGER;
     } else if (value instanceof Double) {
-      return CellType.FRACTIONAL;
+      this.type = CellType.FRACTIONAL;
     } else if (value instanceof String) {
       String stringValue = (String) value;
       if (stringValue.startsWith("=")) {
-        return CellType.FORMULA;
+        this.type = CellType.FORMULA;
       } else {
-        return CellType.STRING;
+        this.type = CellType.STRING;
       }
+    } else {
+      throw new IllegalArgumentException("Invalid input type!");
     }
-
-    throw new IllegalArgumentException("Invalid input type!");
   }
 
   /**
