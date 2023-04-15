@@ -2,6 +2,7 @@ package bg.tu_varna.sit.b1.f21621577;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
 
@@ -31,6 +32,10 @@ public class Application {
           case "PRINT":
             executePrintCommand();
             break;
+          case "EDIT":
+            input.remove(0);
+            executeEditCommand(input);
+            break;
           case "EXIT":
             break;
           default:
@@ -46,14 +51,21 @@ public class Application {
   private static void executeOpenCommand(List<String> input) throws IOException {
     Command openCommand = CommandFactory.getCommand(new OpenCommandFactory(input));
     if (openCommand != null) {
-      openCommand.execute();
+      System.out.println(openCommand.execute());
     }
   }
 
   private static void executePrintCommand() throws IOException {
     Command printCommand = CommandFactory.getCommand(new PrintCommandFactory());
     if (printCommand != null) {
-      printCommand.execute();
+      System.out.println(printCommand.execute());
+    }
+  }
+
+  private static void executeEditCommand(List<String> arguments) throws IOException {
+    Command editCommand = CommandFactory.getCommand(new EditCommandFactory(arguments));
+    if (editCommand != null) {
+      System.out.println(editCommand.execute());
     }
   }
 }
