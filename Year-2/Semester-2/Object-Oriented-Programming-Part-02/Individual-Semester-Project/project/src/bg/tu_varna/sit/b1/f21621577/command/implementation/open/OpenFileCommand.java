@@ -35,19 +35,18 @@ public class OpenFileCommand extends ArgumentCommand {
   }
 
   /**
-   * Executes the command.
-   * Opens the table file specified in the arguments, reads its contents and saves them in the table repository.
+   * Executes the command by opening the table file specified in the arguments, reading its contents, and saving them in the table repository.
    *
-   * @return true if the command was executed successfully; false otherwise
+   * @return a message indicating whether the command was executed successfully or not
    */
   @Override
-  public boolean execute() {
+  public String execute() {
 
     try (TableReader tableReader = new TableReader(file)) {
       TableRepository.getInstance().save(tableReader.read());
-      return true;
+      return "Table opened successfully.";
     } catch (IOException e) {
-      return false;
+      return "Error opening table: " + e.getMessage();
     }
   }
 }
