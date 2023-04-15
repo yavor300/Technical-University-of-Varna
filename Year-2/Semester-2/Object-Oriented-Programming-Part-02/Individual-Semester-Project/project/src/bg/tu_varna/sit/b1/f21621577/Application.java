@@ -8,7 +8,6 @@ import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFac
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -52,7 +51,7 @@ public class Application {
   }
 
   private static void executePrintCommand() throws IOException {
-    Command printCommand = CommandFactory.getCommand(new PrintCommandFactory(Collections.emptyList()));
+    Command printCommand = CommandFactory.getCommand(new PrintCommandFactory());
     if (printCommand != null) {
       printCommand.execute();
     }
