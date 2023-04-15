@@ -7,20 +7,19 @@ import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 public class PrintFileCommand implements Command {
 
   /**
-   * Executes the command to display the contents of the table.
+   * Executes the command to display the contents of the table in a formatted string.
    *
-   * @return true if the command is executed successfully
+   * @return a string representing the contents of the table
    */
   @Override
-  public boolean execute() {
+  public String execute() {
 
     TableRepository table = TableRepository.getInstance();
     int numRows = table.getNumRows();
     int numCols = table.getNumColumns();
     int[] colWidths = computeColumnWidths(table, numRows, numCols);
-    printTableData(table, numRows, numCols, colWidths);
 
-    return true;
+    return getTableData(table, numRows, numCols, colWidths);
   }
 
   /**
@@ -51,35 +50,40 @@ public class PrintFileCommand implements Command {
     return colWidths;
   }
 
+
   /**
-   * Prints the table data to the console, using the provided table, number of rows and columns, and an array of column
-   * widths.
+   * Returns the string representation of the table data, formatted as a table with rows and columns.
    *
-   * @param table     the table containing the data to be printed
+   * @param table     the table repository object that holds the cell data
    * @param numRows   the number of rows in the table
    * @param numCols   the number of columns in the table
-   * @param colWidths an array of integers representing the maximum width of each column
+   * @param colWidths an array of integers containing the width of each column in characters
+   * @return a string representation of the table data
    */
-  private void printTableData(TableRepository table, int numRows, int numCols, int[] colWidths) {
+  private String getTableData(TableRepository table, int numRows, int numCols, int[] colWidths) {
+
+    StringBuilder tableData = new StringBuilder();
 
     for (int i = 0; i < numRows; i++) {
-      System.out.print("| ");
+      tableData.append("| ");
       for (int j = 0; j < numCols; j++) {
         TableCell cell = table.getCell(i, j);
         int colWidth = colWidths[j];
         if (cell != null) {
           String cellValue = cell.getValueAsString();
           if (j == 0) {
-            System.out.printf("%-" + colWidth + "s", cellValue);
+            tableData.append(String.format("%-" + colWidth + "s", cellValue));
           } else {
-            System.out.printf("%" + colWidth + "s", cellValue);
+            tableData.append(String.format("%" + colWidth + "s", cellValue));
           }
         } else {
-          System.out.printf("%" + colWidth + "s", "");
+          tableData.append(String.format("%" + colWidth + "s", ""));
         }
-        System.out.print(" | ");
+        tableData.append(" | ");
       }
-      System.out.println();
+      tableData.append(System.lineSeparator());
     }
+
+    return tableData.toString().trim();
   }
 }
