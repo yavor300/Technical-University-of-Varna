@@ -90,6 +90,18 @@ public class TableRepository {
     return table[row][column];
   }
 
+  public void setCell(int row, int col, TableCell cell) {
+
+    if (row < 0 || row >= getNumColumns()) {
+      throw new IllegalArgumentException("Invalid row index: " + row);
+    }
+    if (col < 0 || col >= getNumColumns()) {
+      throw new IllegalArgumentException("Invalid column index: " + col);
+    }
+
+    table[row][col] = cell;
+  }
+
 
   /**
    * Returns the current state of the table.
