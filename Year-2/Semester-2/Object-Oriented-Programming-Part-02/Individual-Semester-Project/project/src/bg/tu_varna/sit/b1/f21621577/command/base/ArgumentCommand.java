@@ -10,7 +10,7 @@ public abstract class ArgumentCommand implements Command {
 
   private final List<String> arguments;
 
-  public ArgumentCommand() {
+  protected ArgumentCommand() {
     this.arguments = new ArrayList<>(Collections.singletonList(DEFAULT_TABLE_FILENAME));
   }
 
@@ -19,7 +19,7 @@ public abstract class ArgumentCommand implements Command {
    *
    * @param arguments the arguments for the command
    */
-  public ArgumentCommand(List<String> arguments) {
+  protected ArgumentCommand(List<String> arguments) {
     this.arguments = arguments;
   }
 
@@ -28,7 +28,7 @@ public abstract class ArgumentCommand implements Command {
    *
    * @return the arguments for the command as a list of strings
    */
-  public List<String> getArguments() {
+  protected List<String> getArguments() {
     return arguments;
   }
 }
