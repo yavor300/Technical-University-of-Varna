@@ -4,13 +4,7 @@ import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
-import java.util.List;
-
-public class PrintFileCommand extends Command {
-
-  public PrintFileCommand(List<String> arguments) {
-    super(arguments);
-  }
+public class PrintFileCommand implements Command {
 
   /**
    * Executes the command to display the contents of the table.
