@@ -39,7 +39,7 @@ public class PrintFileCommand implements Command {
       int maxColWidth = 0;
       for (int i = 0; i < numRows; i++) {
         TableCell cell = table.getCell(i, j);
-        if (cell != null) {
+        if (cell.getType() != CellType.EMPTY) {
           String cellValue;
           if (cell.getType() == CellType.FORMULA) {
             cellValue = String.valueOf(
@@ -77,7 +77,7 @@ public class PrintFileCommand implements Command {
       for (int j = 0; j < numCols; j++) {
         TableCell cell = table.getCell(i, j);
         int colWidth = colWidths[j];
-        if (cell != null) {
+        if (cell.getType() != CellType.EMPTY) {
           String cellValue = cell.getValueAsString();
           if (cell.getType() == CellType.FORMULA) {
             cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
