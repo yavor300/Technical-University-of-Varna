@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_INPUT_SEPARATOR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 
 /**
  * Reader class that is needed to read the data from the file
