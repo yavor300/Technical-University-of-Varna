@@ -172,10 +172,12 @@ public class TableRepository {
   }
 
   /**
-   * Copies the non-null values from the source data array to the destination data array.
+   * Copies the non-null values from the source table cell array to the destination table cell array. If a
+   * null value is found in the source array, a new TableCell object is created with an empty value and
+   * assigned to the corresponding cell in the destination array.
    *
-   * @param source      the source data array to copy the non-null values from
-   * @param destination the destination data array to copy the non-null values to
+   * @param source      the source table cell array to copy the non-null values from
+   * @param destination the destination table cell array to copy the non-null values to
    * @param maxRow      the maximum row index
    * @param maxCol      the maximum column index
    */
@@ -185,6 +187,8 @@ public class TableRepository {
       for (int col = 0; col <= maxCol; col++) {
         if (source[row][col] != null) {
           destination[row][col] = source[row][col];
+        } else {
+          destination[row][col] = new TableCell();
         }
       }
     }
