@@ -4,5 +4,6 @@ public enum CellType {
   INTEGER,
   FRACTIONAL,
   STRING,
-  FORMULA
+  FORMULA,
+  EMPTY
 }
