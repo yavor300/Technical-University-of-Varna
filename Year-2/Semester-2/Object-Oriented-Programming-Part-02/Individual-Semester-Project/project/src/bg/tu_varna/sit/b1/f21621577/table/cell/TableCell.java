@@ -78,6 +78,8 @@ public class TableCell {
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
+    } else if (data.isEmpty()) {
+      this.value = null;
     } else {
       throw new IllegalArgumentException("Invalid input value!");
     }
@@ -102,6 +104,8 @@ public class TableCell {
       } else {
         this.type = CellType.STRING;
       }
+    } else if (value == null) {
+      this.type = CellType.EMPTY;
     } else {
       throw new IllegalArgumentException("Invalid input type!");
     }
