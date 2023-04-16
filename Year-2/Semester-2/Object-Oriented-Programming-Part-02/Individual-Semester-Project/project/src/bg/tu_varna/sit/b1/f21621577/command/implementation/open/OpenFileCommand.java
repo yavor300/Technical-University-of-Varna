@@ -45,7 +45,7 @@ public class OpenFileCommand extends ArgumentCommand {
     try (TableReader tableReader = new TableReader(file)) {
       TableRepository.getInstance().save(tableReader.read());
       return "Table opened successfully.";
-    } catch (IOException e) {
+    } catch (IOException | IllegalArgumentException e) {
       return "Error opening table: " + e.getMessage();
     }
   }
