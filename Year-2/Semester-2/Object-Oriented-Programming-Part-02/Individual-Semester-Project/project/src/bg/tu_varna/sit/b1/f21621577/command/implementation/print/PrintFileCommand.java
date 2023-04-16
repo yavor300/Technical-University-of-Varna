@@ -1,6 +1,8 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.print;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.formulacalculator.FormulaCalculator;
+import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
@@ -38,7 +40,13 @@ public class PrintFileCommand implements Command {
       for (int i = 0; i < numRows; i++) {
         TableCell cell = table.getCell(i, j);
         if (cell != null) {
-          String cellValue = cell.getValueAsString();
+          String cellValue;
+          if (cell.getType() == CellType.FORMULA) {
+            cellValue = String.valueOf(
+                    FormulaCalculator.getInstance().evaluate(cell.getValueAsString()));
+          } else {
+            cellValue = cell.getValueAsString();
+          }
           if (cellValue.length() > maxColWidth) {
             maxColWidth = cellValue.length();
           }
@@ -71,6 +79,9 @@ public class PrintFileCommand implements Command {
         int colWidth = colWidths[j];
         if (cell != null) {
           String cellValue = cell.getValueAsString();
+          if (cell.getType() == CellType.FORMULA) {
+            cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
+          }
           if (j == 0) {
             tableData.append(String.format("%-" + colWidth + "s", cellValue));
           } else {
