@@ -138,12 +138,10 @@ public class FormulaCalculator {
   }
 
   /**
-   * Retrieves the value of the cell referred to by the given cell reference string.
+   * Returns the numerical value of a given cell reference in the table.
    *
-   * @param cellRef the cell reference string in the format "R[row]C[column]"
-   * @return the numeric value of the cell
-   * @throws NumberFormatException     if the cell value cannot be parsed as a double
-   * @throws IndexOutOfBoundsException if the cell reference is invalid or out of range
+   * @param cellRef the reference to the cell, in the format "RxCy", where x is the row number and y is the column number
+   * @return the numerical value of the cell, or 0 if the cell value is not a valid number
    */
   private double getCellValue(String cellRef) {
 
@@ -153,7 +151,11 @@ public class FormulaCalculator {
 
     TableCell cell = TableRepository.getInstance().getCell(row, col);
 
-    return Double.parseDouble(cell.getValueAsString());
+    if (isInteger(cell.getValueAsString()) || isFractionalNumber(cell.getValueAsString())) {
+      return Double.parseDouble(cell.getValueAsString());
+    }
+
+    return 0;
   }
 
   /**

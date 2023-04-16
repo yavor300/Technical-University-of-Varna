@@ -87,6 +87,7 @@ public class TableRepository {
     if (column < 0 || column >= table[row].length) {
       throw new IllegalArgumentException("Invalid column index: " + column);
     }
+
     return table[row][column];
   }
 
