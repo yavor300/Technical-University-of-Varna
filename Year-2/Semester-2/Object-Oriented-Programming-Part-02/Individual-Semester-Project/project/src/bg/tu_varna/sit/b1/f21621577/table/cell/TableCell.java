@@ -26,6 +26,14 @@ public class TableCell {
   }
 
   /**
+   * Constructs a new TableCell object with an initial value of null and an initial type of EMPTY.
+   */
+  public TableCell() {
+    this.value = null;
+    this.type = CellType.EMPTY;
+  }
+
+  /**
    * Returns the string representation of the cell's value.
    * If the value is null, returns an empty string.
    * If the value is an integer, returns the integer value as a string.
@@ -70,7 +78,9 @@ public class TableCell {
    */
   private void setValue(String data) {
 
-    if (isInteger(data)) {
+    if (data.isEmpty()) {
+      this.value = null;
+    } else if (isInteger(data)) {
       this.value = Integer.parseInt(data);
     } else if (isFractionalNumber(data)) {
       this.value = Double.parseDouble(data);
@@ -78,8 +88,6 @@ public class TableCell {
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
-    } else if (data.isEmpty()) {
-      this.value = null;
     } else {
       throw new IllegalArgumentException("Invalid input value!");
     }
@@ -93,7 +101,9 @@ public class TableCell {
    */
   private void setType(Object value) {
 
-    if (value instanceof Integer) {
+    if (value == null) {
+      this.type = CellType.EMPTY;
+    } else if (value instanceof Integer) {
       this.type = CellType.INTEGER;
     } else if (value instanceof Double) {
       this.type = CellType.FRACTIONAL;
@@ -104,8 +114,6 @@ public class TableCell {
       } else {
         this.type = CellType.STRING;
       }
-    } else if (value == null) {
-      this.type = CellType.EMPTY;
     } else {
       throw new IllegalArgumentException("Invalid input type!");
     }
