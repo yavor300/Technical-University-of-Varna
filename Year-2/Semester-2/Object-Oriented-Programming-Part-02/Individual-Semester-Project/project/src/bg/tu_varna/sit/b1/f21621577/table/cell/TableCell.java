@@ -3,6 +3,9 @@ package bg.tu_varna.sit.b1.f21621577.table.cell;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
+import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
+
 /**
  * Represents a cell in a table.
  */
@@ -19,7 +22,7 @@ public class TableCell {
    */
   public TableCell(String data) {
     setValue(data);
-    setType(data);
+    setType(this.value);
   }
 
   /**
@@ -72,13 +75,12 @@ public class TableCell {
     } else if (isFractionalNumber(data)) {
       this.value = Double.parseDouble(data);
     } else if (isString(data)) {
-      this.value = data;
+      this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
     } else {
       throw new IllegalArgumentException("Invalid input value!");
     }
-
   }
 
   /**
@@ -106,37 +108,13 @@ public class TableCell {
   }
 
   /**
-   * Returns true if the specified data value is an integer, false otherwise.
-   *
-   * @param data the data value to check
-   * @return true if the data value is an integer, false otherwise
-   */
-  private boolean isInteger(String data) {
-    Pattern intPattern = Pattern.compile("^[+-]?\\d+$");
-    Matcher intMatcher = intPattern.matcher(data);
-    return intMatcher.matches();
-  }
-
-  /**
-   * Returns true if the specified data value is a fractional number, false otherwise.
-   *
-   * @param data the data value to check
-   * @return true if the data value is a fractional number, false otherwise
-   */
-  private boolean isFractionalNumber(String data) {
-    Pattern fractionalPattern = Pattern.compile("^[+-]?\\d+\\.\\d+$");
-    Matcher fractionalMatcher = fractionalPattern.matcher(data);
-    return fractionalMatcher.matches();
-  }
-
-  /**
    * Returns true if the specified data value is a string, false otherwise.
    *
    * @param data the data value to check
    * @return true if the data value is a string, false otherwise
    */
   private boolean isString(String data) {
-    Pattern stringPattern = Pattern.compile("^\"?.*\"?$");
+    Pattern stringPattern = Pattern.compile("^\".*\"$");
     Matcher stringMatcher = stringPattern.matcher(data);
     return stringMatcher.matches();
   }
@@ -149,5 +127,22 @@ public class TableCell {
    */
   private boolean isFormula(String data) {
     return data.startsWith("=");
+  }
+
+  /**
+   * Parses an input string by removing the first and last occurrence of quotes and replacing any escaped characters.
+   *
+   * @param input the input string to be parsed
+   * @return the parsed string with escaped characters replaced
+   */
+  private String parseEscapedString(String input) {
+
+    if (input.startsWith("\"") && input.endsWith("\"")) {
+      input = input.substring(1, input.length() - 1);
+    }
+
+    input = input.replaceAll("\\\\\"", "\"").replaceAll("\\\\\\\\", "\\\\");
+
+    return input;
   }
 }
