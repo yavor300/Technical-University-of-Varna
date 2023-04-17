@@ -2,6 +2,8 @@ package bg.tu_varna.sit.b1.f21621577.table.repository;
 
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
+import java.util.Arrays;
+
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 
@@ -11,6 +13,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
  */
 public class TableRepository {
 
+  private boolean isTableOpened = false;
   private TableCell[][] table = new TableCell[ROWS][COLS];
 
   private TableRepository() {
@@ -38,7 +41,7 @@ public class TableRepository {
    *
    * @param data the data to be saved into the table
    */
-  public void save(TableCell[][] data) {
+  public void loadData(TableCell[][] data) {
 
     int maxRow = findMaxRowIndex(data);
     int maxCol = findMaxColIndex(data);
@@ -47,6 +50,7 @@ public class TableRepository {
     copyNonNullValues(data, newData, maxRow, maxCol);
 
     table = newData;
+    isTableOpened = true;
   }
 
   /**
@@ -111,6 +115,26 @@ public class TableRepository {
    */
   public TableCell[][] getTable() {
     return table;
+  }
+
+  /**
+   * Returns a boolean indicating whether a table is currently opened.
+   *
+   * @return true if a table is opened, false otherwise
+   */
+  public boolean isTableOpened() {
+    return isTableOpened;
+  }
+
+  /**
+   * Clears the entire table by setting all cells to null values.
+   * This method also sets the isTableOpened flag to false.
+   */
+  public void clear() {
+    for (TableCell[] tableCells : table) {
+      Arrays.fill(tableCells, null);
+    }
+    this.isTableOpened = false;
   }
 
   /**
