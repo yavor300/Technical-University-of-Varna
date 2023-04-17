@@ -6,7 +6,7 @@ import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
-public class PrintFileCommand implements Command {
+public class PrintCommand implements Command {
 
   /**
    * Executes the command to display the contents of the table in a formatted string.

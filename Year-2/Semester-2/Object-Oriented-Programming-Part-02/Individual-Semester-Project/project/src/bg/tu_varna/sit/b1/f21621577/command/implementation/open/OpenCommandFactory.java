@@ -10,32 +10,32 @@ import java.util.List;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
 
 /**
- * A factory for creating an OpenFileCommand object with a list of arguments.
+ * A factory for creating an OpenCommand object with a list of arguments.
  */
 public class OpenCommandFactory implements CommandAbstractFactory {
 
   /**
-   * The list of arguments to be passed to the OpenFileCommand.
+   * The list of arguments to be passed to the OpenCommand.
    */
   private List<String> arguments;
 
   /**
-   * Constructs a new OpenCommandFactory object with a list of arguments.
+   * Constructs a new OpenCommand object with a list of arguments.
    *
-   * @param arguments the list of arguments to be passed to the OpenFileCommand
+   * @param arguments the list of arguments to be passed to the OpenCommand
    */
   public OpenCommandFactory(List<String> arguments) {
     setArguments(arguments);
   }
 
   /**
-   * Creates a new OpenFileCommand object with the list of arguments.
+   * Creates a new OpenCommand object with the list of arguments.
    *
-   * @return the new OpenFileCommand object
+   * @return the new OpenCommand object
    */
   @Override
   public Command createCommand() {
-    return new OpenFileCommand(arguments);
+    return new OpenCommand(arguments);
   }
 
   /**

@@ -14,23 +14,23 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIREC
 /**
  * A command class that opens a table file and saves its contents in the table repository.
  */
-public class OpenFileCommand extends ArgumentCommand {
+public class OpenCommand extends ArgumentCommand {
 
   private final TableRepository repository = TableRepository.getInstance();
   private Path file;
 
   /**
-   * Constructs an OpenFileCommand instance.
+   * Constructs an OpenCommand instance.
    */
-  public OpenFileCommand() {
+  public OpenCommand() {
   }
 
   /**
-   * Constructs an OpenFileCommand instance with a list of arguments.
+   * Constructs an OpenCommand instance with a list of arguments.
    *
    * @param arguments the list of arguments for the command
    */
-  public OpenFileCommand(List<String> arguments) {
+  public OpenCommand(List<String> arguments) {
     super(arguments);
     this.file = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
   }
