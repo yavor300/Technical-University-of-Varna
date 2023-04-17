@@ -16,6 +16,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIREC
  */
 public class OpenFileCommand extends ArgumentCommand {
 
+  private final TableRepository repository = TableRepository.getInstance();
   private Path file;
 
   /**
@@ -35,7 +36,8 @@ public class OpenFileCommand extends ArgumentCommand {
   }
 
   /**
-   * Executes the command by opening the table file specified in the arguments, reading its contents, and saving them in the table repository.
+   * Executes the command by opening the table file specified in the arguments, reading its contents,
+   * and loading them in the table repository.
    *
    * @return a message indicating whether the command was executed successfully or not
    */
@@ -43,7 +45,7 @@ public class OpenFileCommand extends ArgumentCommand {
   public String execute() {
 
     try (TableReader tableReader = new TableReader(file)) {
-      TableRepository.getInstance().save(tableReader.read());
+      repository.loadData(tableReader.read());
       return "Table opened successfully.";
     } catch (IOException | IllegalArgumentException e) {
       return "Error opening table: " + e.getMessage();
