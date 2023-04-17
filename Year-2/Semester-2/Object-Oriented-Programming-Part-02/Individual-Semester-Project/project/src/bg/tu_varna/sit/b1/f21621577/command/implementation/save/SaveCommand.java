@@ -1,19 +1,20 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.save;
 
-import bg.tu_varna.sit.b1.f21621577.command.base.Command;
+import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 import bg.tu_varna.sit.b1.f21621577.table.writer.TableWriter;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
 
 /**
  * Command class that saves the current table to a file.
  */
-public class SaveCommand implements Command {
+public class SaveCommand extends ArgumentCommand {
 
 
   private final TableRepository repository = TableRepository.getInstance();
@@ -26,6 +27,16 @@ public class SaveCommand implements Command {
    */
   public SaveCommand() {
     this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, repository.getTableFileName());
+  }
+
+  /**
+   * Constructs a SaveCommand instance with a list of arguments.
+   *
+   * @param arguments the list of arguments for the command
+   */
+  public SaveCommand(List<String> arguments) {
+    super(arguments);
+    this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
   }
 
   /**
@@ -48,4 +59,5 @@ public class SaveCommand implements Command {
 
     return "Table saved to file \"" + filePath.toString() + "\"";
   }
+
 }
