@@ -4,8 +4,7 @@ import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
 import java.util.Arrays;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
 
 /**
  * The TableRepository class is responsible for storing and managing the table data.
@@ -14,6 +13,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 public class TableRepository {
 
   private boolean isTableOpened = false;
+  private String tableFileName = DEFAULT_TABLE_FILENAME;
   private TableCell[][] table = new TableCell[ROWS][COLS];
 
   private TableRepository() {
@@ -124,6 +124,24 @@ public class TableRepository {
    */
   public boolean isTableOpened() {
     return isTableOpened;
+  }
+
+  /**
+   * Sets the file name of the currently opened table.
+   *
+   * @param tableFileName the file name to set
+   */
+  public void setTableFileName(String tableFileName) {
+    this.tableFileName = tableFileName;
+  }
+
+  /**
+   * Returns the file name of the currently opened table.
+   *
+   * @return the file name of the currently opened table
+   */
+  public String getTableFileName() {
+    return tableFileName;
   }
 
   /**
