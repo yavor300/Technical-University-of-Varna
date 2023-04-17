@@ -7,6 +7,7 @@ import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommandFac
 import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.save.SaveCommandFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class Application {
             break;
           case "CLOSE":
             executeCloseCommand();
+            break;
+          case "SAVE":
+            executeSaveCommand();
             break;
           case "EXIT":
             break;
@@ -78,6 +82,13 @@ public class Application {
     Command closeCommand = CommandFactory.getCommand(new CloseCommandFactory());
     if (closeCommand != null) {
       System.out.println(closeCommand.execute());
+    }
+  }
+
+  private static void executeSaveCommand() throws IOException {
+    Command saveCommand = CommandFactory.getCommand(new SaveCommandFactory());
+    if (saveCommand != null) {
+      System.out.println(saveCommand.execute());
     }
   }
 }
