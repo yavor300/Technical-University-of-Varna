@@ -16,12 +16,17 @@ public class PrintCommand implements Command {
   @Override
   public String execute() {
 
-    TableRepository table = TableRepository.getInstance();
-    int numRows = table.getNumRows();
-    int numCols = table.getNumColumns();
-    int[] colWidths = computeColumnWidths(table, numRows, numCols);
+    TableRepository repository = TableRepository.getInstance();
 
-    return getTableData(table, numRows, numCols, colWidths);
+    if (!repository.isTableOpened()) {
+      return "No table is currently opened.";
+    }
+
+    int numRows = repository.getNumRows();
+    int numCols = repository.getNumColumns();
+    int[] colWidths = computeColumnWidths(repository, numRows, numCols);
+
+    return getTableData(repository, numRows, numCols, colWidths);
   }
 
   /**
