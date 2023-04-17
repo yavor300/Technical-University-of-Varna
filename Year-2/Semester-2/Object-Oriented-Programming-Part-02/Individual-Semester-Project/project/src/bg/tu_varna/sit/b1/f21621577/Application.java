@@ -2,6 +2,8 @@ package bg.tu_varna.sit.b1.f21621577;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommand;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
@@ -36,6 +38,9 @@ public class Application {
             input.remove(0);
             executeEditCommand(input);
             break;
+          case "CLOSE":
+            executeCloseCommand();
+            break;
           case "EXIT":
             break;
           default:
@@ -66,6 +71,13 @@ public class Application {
     Command editCommand = CommandFactory.getCommand(new EditCommandFactory(arguments));
     if (editCommand != null) {
       System.out.println(editCommand.execute());
+    }
+  }
+
+  private static void executeCloseCommand() throws IOException {
+    Command closeCommand = CommandFactory.getCommand(new CloseCommandFactory());
+    if (closeCommand != null) {
+      System.out.println(closeCommand.execute());
     }
   }
 }
