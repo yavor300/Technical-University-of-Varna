@@ -9,7 +9,7 @@ import bg.tu_varna.sit.b1.f21621577.command.base.CommandAbstractFactory;
 public class PrintCommandFactory implements CommandAbstractFactory {
 
   /**
-   * Creates a new PrintFileCommand object with the list of arguments.
+   * Creates a new PrintFileCommand object.
    *
    * @return the new PrintFileCommand object
    */
