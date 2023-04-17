@@ -2,12 +2,12 @@ package bg.tu_varna.sit.b1.f21621577;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
-import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommand;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.save.SaveCommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.saveas.SaveAsCommandFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +44,10 @@ public class Application {
             break;
           case "SAVE":
             executeSaveCommand();
+            break;
+          case "SAVEAS":
+            input.remove(0);
+            executeSaveAsCommand(input);
             break;
           case "EXIT":
             break;
@@ -89,6 +93,13 @@ public class Application {
     Command saveCommand = CommandFactory.getCommand(new SaveCommandFactory());
     if (saveCommand != null) {
       System.out.println(saveCommand.execute());
+    }
+  }
+
+  private static void executeSaveAsCommand(List<String> arguments) throws IOException {
+    Command saveAsCommand = CommandFactory.getCommand(new SaveAsCommandFactory(arguments));
+    if (saveAsCommand != null) {
+      System.out.println(saveAsCommand.execute());
     }
   }
 }
