@@ -18,12 +18,17 @@ public class TableWriter implements AutoCloseable {
   private final BufferedWriter outputWriter;
 
   /**
-   * Constructs a new instance of {@link TableWriter}.
+   * Constructs a new TableWriter instance with the given file path.
+   * If the file does not exist, it will be created.
    *
-   * @param path the path to the file to write to
-   * @throws IOException if an I/O error occurs
+   * @param path the file path to write to
+   * @throws IOException if an I/O error occurs when creating the file or creating the BufferedWriter
    */
   public TableWriter(Path path) throws IOException {
+
+    if (!Files.exists(path)) {
+      Files.createFile(path);
+    }
     this.outputWriter = Files.newBufferedWriter(path);
   }
 
