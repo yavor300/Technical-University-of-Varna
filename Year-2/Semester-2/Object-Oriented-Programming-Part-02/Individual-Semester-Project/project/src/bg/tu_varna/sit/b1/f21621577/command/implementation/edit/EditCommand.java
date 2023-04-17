@@ -31,16 +31,22 @@ public class EditCommand extends ArgumentCommand {
   }
 
   /**
-   * Executes the command.
+   * Updates a cell in the currently opened table at the specified row and column with the given value.
    *
-   * @return a message indicating the result of the command execution
+   * @return a message indicating the result of the command execution, such as success or failure and the updated cell value
+   * @throws IndexOutOfBoundsException if the given row or column is out of bounds of the current table
+   * @throws NumberFormatException     if the given cell value cannot be parsed as a double
    */
   @Override
   public String execute() {
 
-    TableRepository table = TableRepository.getInstance();
+    TableRepository repository = TableRepository.getInstance();
 
-    TableCell oldCell = table.getCell(row, col);
+    if (!repository.isTableOpened()) {
+      return "No table is currently opened.";
+    }
+
+    TableCell oldCell = repository.getCell(row, col);
     if (oldCell == null) {
       oldCell = new TableCell("empty");
     }
@@ -52,7 +58,7 @@ public class EditCommand extends ArgumentCommand {
       return "Invalid cell value: " + e.getMessage();
     }
 
-    table.setCell(row, col, newCell);
+    repository.setCell(row, col, newCell);
 
     return "Cell (" + row + ", " + col + ") updated from \"" + oldCell.getValueAsString() + "\" to \"" + newCell.getValueAsString() + "\"";
   }
