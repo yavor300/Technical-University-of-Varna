@@ -4,6 +4,7 @@ import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.help.HelpCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.save.SaveCommandFactory;
@@ -48,6 +49,9 @@ public class Application {
           case "SAVEAS":
             input.remove(0);
             executeSaveAsCommand(input);
+            break;
+          case "HELP":
+            executeHelpCommand();
             break;
           case "EXIT":
             break;
@@ -100,6 +104,13 @@ public class Application {
     Command saveAsCommand = CommandFactory.getCommand(new SaveAsCommandFactory(arguments));
     if (saveAsCommand != null) {
       System.out.println(saveAsCommand.execute());
+    }
+  }
+
+  private static void executeHelpCommand() throws IOException {
+    Command helpCommand = CommandFactory.getCommand(new HelpCommandFactory());
+    if (helpCommand != null) {
+      System.out.println(helpCommand.execute());
     }
   }
 }
