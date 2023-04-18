@@ -85,11 +85,22 @@ public class TableCell {
     } else if (isFractionalNumber(data)) {
       this.value = Double.parseDouble(data);
     } else if (isString(data)) {
+      data = removeQuotes(data);
+      if (!areAllQuotesEscaped(data)) {
+        throw new IllegalArgumentException("Unescaped quotes!");
+      }
+      if (!areAllBackslashesEscaped(data)) {
+        throw new IllegalArgumentException("Unescaped backslash!");
+      }
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
     } else {
-      throw new IllegalArgumentException("Invalid input value!");
+      if (!isStringEnclosedInQuotes(data)) {
+        throw new IllegalArgumentException("Missing quote!");
+      } else {
+        throw new IllegalArgumentException("Invalid input value!");
+      }
     }
   }
 
@@ -149,12 +160,86 @@ public class TableCell {
    */
   private String parseEscapedString(String input) {
 
-    if (input.startsWith("\"") && input.endsWith("\"")) {
-      input = input.substring(1, input.length() - 1);
-    }
-
     input = input.replaceAll("\\\\\"", "\"").replaceAll("\\\\\\\\", "\\\\");
 
     return input;
+  }
+
+
+  /**
+   * Checks whether all quotes in a given string are escaped with a backslash.
+   *
+   * @param input the input string to check
+   * @return true if all quotes in the input string are escaped, false otherwise
+   */
+  private boolean areAllQuotesEscaped(String input) {
+
+    for (int i = 0; i < input.length(); i++) {
+
+      char c = input.charAt(i);
+
+      if (c == '\"' && i == 0) {
+        return false;
+      }
+
+      if (c == '\"' && input.charAt(i - 1) != '\\') {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Checks whether all backslashes in a string are escaped.
+   *
+   * @param input the input string to check
+   * @return true if all backslashes are escaped, false otherwise
+   */
+  private boolean areAllBackslashesEscaped(String input) {
+
+    input = input.replaceAll("\\\\\"", "");
+
+    for (int i = 0; i < input.length(); i++) {
+
+      char c = input.charAt(i);
+
+      if (c == '\\') {
+        if (i == input.length() - 1) {
+          return false;
+        } else if (input.charAt(i + 1) != '\\') {
+          return false;
+        }
+        i++;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Removes quotes surrounding the given string if they exist.
+   *
+   * @param input the input string to remove quotes from
+   * @return the input string with quotes removed if they existed, otherwise the input string unchanged
+   */
+  private String removeQuotes(String input) {
+
+    if (isStringEnclosedInQuotes(input)) {
+      return input.substring(1, input.length() - 1);
+    }
+
+    return input;
+  }
+
+  /**
+   * Checks if a given string is enclosed in double quotes.
+   *
+   * @param input the input string to check
+   * @return true if the input string starts and ends with double quotes, false otherwise
+   */
+  private boolean isStringEnclosedInQuotes(String input) {
+
+    return input.startsWith("\"") && input.endsWith("\"");
   }
 }
