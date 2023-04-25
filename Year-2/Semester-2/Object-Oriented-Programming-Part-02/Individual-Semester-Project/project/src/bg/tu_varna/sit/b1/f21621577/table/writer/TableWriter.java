@@ -46,7 +46,10 @@ public class TableWriter implements AutoCloseable {
       for (int col = 0; col < tableDatum.length; col++) {
         TableCell cell = tableDatum[col];
         if (cell.getType() == CellType.STRING) {
-          lineBuilder.append("\"").append(cell.getValueAsString()).append("\"");
+          String value = cell.getValueAsString();
+          value = value.replace("\\", "\\\\");
+          value = value.replace("\"", "\\\"");
+          lineBuilder.append("\"").append(value).append("\"");
         } else {
           lineBuilder.append(cell.getValueAsString());
         }
