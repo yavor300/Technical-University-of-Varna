@@ -87,19 +87,19 @@ public class TableCell {
     } else if (isString(data)) {
       data = removeQuotes(data);
       if (!areAllQuotesEscaped(data)) {
-        throw new IllegalArgumentException("Unescaped quotes!");
+        throw new IllegalArgumentException("Unescaped quotes: " + data );
       }
       if (!areAllBackslashesEscaped(data)) {
-        throw new IllegalArgumentException("Unescaped backslash!");
+        throw new IllegalArgumentException("Unescaped backslash: " + data);
       }
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
     } else {
       if (!isStringEnclosedInQuotes(data)) {
-        throw new IllegalArgumentException("Missing quote!");
+        throw new IllegalArgumentException("Missing quote: " + data);
       } else {
-        throw new IllegalArgumentException("Invalid input value!");
+        throw new IllegalArgumentException("Invalid input value: " + data);
       }
     }
   }
@@ -126,7 +126,7 @@ public class TableCell {
         this.type = CellType.STRING;
       }
     } else {
-      throw new IllegalArgumentException("Invalid input type!");
+      throw new IllegalArgumentException("Invalid input type for value: " + value);
     }
   }
 
