@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.formulacalculator;
 
+import bg.tu_varna.sit.b1.f21621577.exceptions.FormulaException;
+import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
@@ -47,7 +49,7 @@ public class FormulaCalculator {
    * @throws ArithmeticException      If the formula contains division by zero.
    * @throws IllegalArgumentException If the formula contains an invalid operator.
    */
-  public double evaluate(String formula) {
+  public double evaluate(String formula) throws FormulaException {
 
     List<String> tokens = tokenize(formula);
     Deque<Double> values = new ArrayDeque<>();
@@ -149,10 +151,27 @@ public class FormulaCalculator {
     int row = Integer.parseInt(parts[1]) - 1;
     int col = Integer.parseInt(parts[2]) - 1;
 
-    TableCell cell = TableRepository.getInstance().getCell(row, col);
+    TableCell cell;
+    try {
+      cell = TableRepository.getInstance().getCell(row, col);
+    } catch (IllegalArgumentException e) {
+      return 0;
+    }
 
-    if (isInteger(cell.getValueAsString()) || isFractionalNumber(cell.getValueAsString())) {
+    if (cell.getType() == CellType.INTEGER || cell.getType() == CellType.FRACTIONAL) {
       return Double.parseDouble(cell.getValueAsString());
+    }
+
+    if (cell.getType() == CellType.STRING) {
+      if (cell.getValueAsString().matches("\\d+(\\.\\d+)?")) {
+        return Double.parseDouble(cell.getValueAsString());
+      } else {
+        return 0.0;
+      }
+    }
+
+    if (cell.getType() == CellType.EMPTY) {
+      return 0.0;
     }
 
     return 0;
@@ -197,7 +216,7 @@ public class FormulaCalculator {
    * @throws ArithmeticException      if division by zero is attempted
    * @throws IllegalArgumentException if an invalid operator is provided
    */
-  private double applyOperation(char op, double b, double a) {
+  private double applyOperation(char op, double b, double a) throws FormulaException {
     switch (op) {
       case '+':
         return a + b;
@@ -207,7 +226,7 @@ public class FormulaCalculator {
         return a * b;
       case '/':
         if (b == 0) {
-          throw new ArithmeticException("Division by zero!");
+          throw new FormulaException("Division by zero!");
         }
         return a / b;
       case '^':
