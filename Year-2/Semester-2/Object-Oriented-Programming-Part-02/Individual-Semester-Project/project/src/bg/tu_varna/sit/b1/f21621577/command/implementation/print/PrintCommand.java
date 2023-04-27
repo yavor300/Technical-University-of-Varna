@@ -2,6 +2,7 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.print;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.formulacalculator.FormulaCalculator;
+import bg.tu_varna.sit.b1.f21621577.exceptions.FormulaException;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
@@ -47,8 +48,12 @@ public class PrintCommand implements Command {
         if (cell.getType() != CellType.EMPTY) {
           String cellValue;
           if (cell.getType() == CellType.FORMULA) {
-            cellValue = String.valueOf(
-                    FormulaCalculator.getInstance().evaluate(cell.getValueAsString()));
+            try {
+              cellValue = String.valueOf(
+                      FormulaCalculator.getInstance().evaluate(cell.getValueAsString()));
+            } catch (FormulaException e) {
+              cellValue = "ERROR";
+            }
           } else {
             cellValue = cell.getValueAsString();
           }
@@ -85,7 +90,11 @@ public class PrintCommand implements Command {
         if (cell.getType() != CellType.EMPTY) {
           String cellValue = cell.getValueAsString();
           if (cell.getType() == CellType.FORMULA) {
-            cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
+            try {
+              cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
+            } catch (FormulaException e) {
+              cellValue = "ERROR";
+            }
           }
           if (j == 0) {
             tableData.append(String.format("%-" + colWidth + "s", cellValue));
