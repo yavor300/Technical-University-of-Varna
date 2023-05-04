@@ -18,7 +18,7 @@ public class HelpCommand implements Command {
             "save                           saves the currently open file\n" +
             "saveas <file>                  saves the currently open file in <file>\n" +
             "print                          prints the table formatted to the console\n" +
-            "edit <row> <col> <new value>   edits the value at the given indexes with the new one \n" +
+            "edit <row> <col> <new value>   edits the value at the given indexes with the new one\n" +
             "help                           prints this information\n" +
             "exit                           exists the program\n"
                     .trim();
