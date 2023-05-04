@@ -1,10 +1,13 @@
 package bg.tu_varna.sit.b1.f21621577.table.repository;
 
+import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
 import java.util.Arrays;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 
 /**
  * The TableRepository class is responsible for storing and managing the table data.
@@ -95,6 +98,15 @@ public class TableRepository {
     return table[row][column];
   }
 
+
+  /**
+   * Sets the given {@link TableCell} object at the specified row and column index in the table.
+   *
+   * @param row  the row index of the cell to set
+   * @param col  the column index of the cell to set
+   * @param cell the {@link TableCell} object to set at the specified row and column index
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   */
   public void setCell(int row, int col, TableCell cell) {
 
     if (row < 0 || row >= getNumColumns()) {
@@ -106,7 +118,6 @@ public class TableRepository {
 
     table[row][col] = cell;
   }
-
 
   /**
    * Returns the current state of the table.
@@ -153,6 +164,108 @@ public class TableRepository {
       Arrays.fill(tableCells, null);
     }
     this.isTableOpened = false;
+  }
+
+  /**
+   * Scales the table to the specified size, creating new empty cells if necessary.
+   *
+   * @param newRowSize the new number of rows
+   * @param newColSize the new number of columns
+   * @throws IllegalArgumentException if either newRowSize or newColSize are negative
+   */
+  public void scale(int newRowSize, int newColSize) {
+
+    if (newRowSize < 0 || newColSize < 0) {
+      throw new IllegalArgumentException("Invalid size: " + newRowSize + " x " + newColSize);
+    }
+
+    TableCell[][] newTable = new TableCell[newRowSize][newColSize];
+
+    for (int row = 0; row < newRowSize; row++) {
+      for (int col = 0; col < newColSize; col++) {
+        if (row < table.length && col < table[row].length) {
+          newTable[row][col] = table[row][col];
+        } else {
+          newTable[row][col] = new TableCell();
+        }
+      }
+    }
+
+    table = newTable;
+  }
+
+  /**
+   * Removes empty rows and columns from the bottom and right side of the table. If the table is
+   * completely empty, this method does nothing.
+   * This method finds the last non-empty row and column, computes the new size of the table,
+   * creates a new table with the new size, and copies the non-empty cells to the new table.
+   *
+   * @throws IllegalArgumentException if any of the cell values are null
+   */
+  public void shrink() {
+
+    int lastNonEmptyRow = findLastNonEmptyRow();
+    int lastNonEmptyCol = findLastNonEmptyColumn();
+
+    if (lastNonEmptyRow < 0) {
+      return;
+    }
+
+    TableCell[][] newTable = createNewDataArray(lastNonEmptyRow, lastNonEmptyCol);
+
+    copyFilledCells(newTable, lastNonEmptyRow, lastNonEmptyCol);
+
+    table = newTable;
+  }
+
+  /**
+   * Finds the last non-empty row in the table.
+   *
+   * @return the index of the last non-empty row, or -1 if all rows are empty
+   */
+  private int findLastNonEmptyRow() {
+
+    for (int row = table.length - 1; row >= 0; row--) {
+      for (int col = table[row].length - 1; col >= 0; col--) {
+        if (!table[row][col].getType().equals(CellType.EMPTY)) {
+          return row;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Finds the index of the last non-empty column in the table.
+   *
+   * @return The index of the last non-empty column, or -1 if all columns are empty.
+   */
+  private int findLastNonEmptyColumn() {
+
+    for (int col = table[0].length - 1; col >= 0; col--) {
+      for (int row = table.length - 1; row >= 0; row--) {
+        if (!table[row][col].getType().equals(CellType.EMPTY)) {
+          return col;
+        }
+      }
+    }
+
+    return -1;
+  }
+
+  /**
+   * Copies the non-empty cells from the current table to a new table
+   *
+   * @param newTable        the new table to copy the non-empty cells to
+   * @param lastNonEmptyRow the index of the last non-empty row in the current table
+   * @param lastNonEmptyCol the index of the last non-empty column in the current table
+   */
+  private void copyFilledCells(TableCell[][] newTable, int lastNonEmptyRow, int lastNonEmptyCol) {
+    for (int row = 0; row <= lastNonEmptyRow; row++) {
+      for (int col = 0; col <= lastNonEmptyCol; col++) {
+        newTable[row][col] = table[row][col];
+      }
+    }
   }
 
   /**
