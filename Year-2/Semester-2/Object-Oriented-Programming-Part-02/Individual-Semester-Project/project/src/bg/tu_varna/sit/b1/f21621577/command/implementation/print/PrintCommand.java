@@ -42,7 +42,7 @@ public class PrintCommand implements Command {
 
     int[] colWidths = new int[numCols];
     for (int j = 0; j < numCols; j++) {
-      int maxColWidth = 0;
+      int maxColWidth = 1;
       for (int i = 0; i < numRows; i++) {
         TableCell cell = table.getCell(i, j);
         if (cell.getType() != CellType.EMPTY) {
