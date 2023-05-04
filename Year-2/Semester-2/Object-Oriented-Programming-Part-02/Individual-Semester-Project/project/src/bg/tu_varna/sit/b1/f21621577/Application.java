@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
+import bg.tu_varna.sit.b1.f21621577.command.enums.Commands;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
@@ -26,40 +27,43 @@ public class Application {
       do {
 
         List<String> input = new ArrayList<>(Arrays.asList(scanner.nextLine().trim().split("\\s+")));
+        menuChoice = input.get(0);
 
-        menuChoice = input.get(0).toUpperCase();
-        switch (menuChoice) {
-          case "OPEN":
+        Commands command;
+        try {
+          command = Commands.valueOf(menuChoice.toUpperCase());
+        } catch (IllegalArgumentException e) {
+          System.out.println("'" + menuChoice + "'" + " is not a command. See 'help'.");
+          continue;
+        }
+
+        switch (command) {
+          case OPEN:
             input.remove(0);
             executeOpenCommand(input);
             break;
-          case "PRINT":
+          case PRINT:
             executePrintCommand();
             break;
-          case "EDIT":
+          case EDIT:
             input.remove(0);
             executeEditCommand(input);
             break;
-          case "CLOSE":
+          case CLOSE:
             executeCloseCommand();
             break;
-          case "SAVE":
+          case SAVE:
             executeSaveCommand();
             break;
-          case "SAVEAS":
+          case SAVEAS:
             input.remove(0);
             executeSaveAsCommand(input);
             break;
-          case "HELP":
+          case HELP:
             executeHelpCommand();
             break;
-          case "EXIT":
-            break;
-          default:
-            System.out.println("Invalid choice: " + menuChoice);
-            break;
         }
-      } while (!menuChoice.equalsIgnoreCase("EXIT"));
+      } while (!menuChoice.equalsIgnoreCase(Commands.EXIT.getValue()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -101,10 +105,17 @@ public class Application {
   }
 
   private static void executeSaveAsCommand(List<String> arguments) throws IOException {
-    Command saveAsCommand = CommandFactory.getCommand(new SaveAsCommandFactory(arguments));
-    if (saveAsCommand != null) {
-      System.out.println(saveAsCommand.execute());
+
+    Command saveAsCommand;
+    try {
+      saveAsCommand = CommandFactory.getCommand(new SaveAsCommandFactory(arguments));
+      if (saveAsCommand != null) {
+        System.out.println(saveAsCommand.execute());
+      }
+    } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
     }
+
   }
 
   private static void executeHelpCommand() throws IOException {
