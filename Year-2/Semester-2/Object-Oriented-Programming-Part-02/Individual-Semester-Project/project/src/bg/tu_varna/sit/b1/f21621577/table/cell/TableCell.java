@@ -78,16 +78,20 @@ public class TableCell {
    */
   private void setValue(String data) {
 
-    if (data.isEmpty()) {
+    if (data.trim().isEmpty()) {
       this.value = null;
     } else if (isInteger(data)) {
       this.value = Integer.parseInt(data);
     } else if (isFractionalNumber(data)) {
       this.value = Double.parseDouble(data);
     } else if (isString(data)) {
-      data = removeQuotes(data);
+      data = removeQuotes(data).trim();
+      if (data.isEmpty()) {
+        this.value = null;
+        return;
+      }
       if (!areAllQuotesEscaped(data)) {
-        throw new IllegalArgumentException("Unescaped quotes: " + data );
+        throw new IllegalArgumentException("Unescaped quotes: " + data);
       }
       if (!areAllBackslashesEscaped(data)) {
         throw new IllegalArgumentException("Unescaped backslash: " + data);
