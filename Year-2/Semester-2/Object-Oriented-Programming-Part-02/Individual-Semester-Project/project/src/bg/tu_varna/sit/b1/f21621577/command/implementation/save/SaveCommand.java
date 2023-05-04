@@ -36,6 +36,12 @@ public class SaveCommand extends ArgumentCommand {
    */
   public SaveCommand(List<String> arguments) {
     super(arguments);
+
+    if (arguments == null || arguments.isEmpty()) {
+      throw new IllegalArgumentException("Command execution failed because of missing required arguments. " +
+              "Execute the 'help' command for guidance.");
+    }
+
     this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
   }
 
