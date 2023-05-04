@@ -46,10 +46,16 @@ public class EditCommand extends ArgumentCommand {
       return "No table is currently opened.";
     }
 
-    TableCell oldCell = repository.getCell(row, col);
-    if (oldCell == null) {
-      oldCell = new TableCell("empty");
+    int numRows = repository.getNumRows();
+    int numCols = repository.getNumColumns();
+
+    if (row >= numRows || col >= numCols) {
+      int newNumRows = Math.max(row + 1, numRows);
+      int newNumCols = Math.max(col + 1, numCols);
+      repository.scale(newNumRows, newNumCols);
     }
+
+    TableCell oldCell = repository.getCell(row, col);
 
     TableCell newCell;
     try {
@@ -59,6 +65,7 @@ public class EditCommand extends ArgumentCommand {
     }
 
     repository.setCell(row, col, newCell);
+    repository.shrink();
 
     return "Cell (" + row + ", " + col + ") updated from \"" + oldCell.getValueAsString() + "\" to \"" + newCell.getValueAsString() + "\"";
   }
