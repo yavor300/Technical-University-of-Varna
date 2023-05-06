@@ -1,8 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.print;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
-import bg.tu_varna.sit.b1.f21621577.command.implementation.formulacalculator.FormulaCalculator;
-import bg.tu_varna.sit.b1.f21621577.exceptions.FormulaException;
+import bg.tu_varna.sit.b1.f21621577.calculator.formula.FormulaCalculator;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
@@ -51,7 +50,7 @@ public class PrintCommand implements Command {
             try {
               cellValue = String.valueOf(
                       FormulaCalculator.getInstance().evaluate(cell.getValueAsString()));
-            } catch (FormulaException e) {
+            } catch (ArithmeticException e) {
               cellValue = "ERROR";
             }
           } else {
@@ -92,7 +91,7 @@ public class PrintCommand implements Command {
           if (cell.getType() == CellType.FORMULA) {
             try {
               cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
-            } catch (FormulaException e) {
+            } catch (ArithmeticException e) {
               cellValue = "ERROR";
             }
           }
