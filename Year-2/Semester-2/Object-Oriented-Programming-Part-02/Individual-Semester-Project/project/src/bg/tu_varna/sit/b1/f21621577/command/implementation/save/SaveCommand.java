@@ -19,8 +19,18 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
  */
 public class SaveCommand extends ArgumentCommand {
 
-
+  /**
+   * The table repository instance.
+   * <p>
+   * Инстанцията на хранилището на таблицата.
+   */
   private final TableRepository repository = TableRepository.getInstance();
+
+  /**
+   * The file path where the table should be saved.
+   * <p>
+   * Пътят на файла, където трябва да бъде запазена таблицата.
+   */
   private final Path filePath;
 
   /**
