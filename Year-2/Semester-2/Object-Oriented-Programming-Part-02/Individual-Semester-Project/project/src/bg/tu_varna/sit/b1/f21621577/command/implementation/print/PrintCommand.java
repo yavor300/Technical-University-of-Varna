@@ -109,6 +109,10 @@ public class PrintCommand implements Command {
       tableData.append(System.lineSeparator());
     }
 
+    if (tableData.toString().trim().isEmpty()) {
+      return "There is no data present in the table. Add some data by modifying the file or using the 'edit' command.";
+    }
+
     return tableData.toString().trim();
   }
 }
