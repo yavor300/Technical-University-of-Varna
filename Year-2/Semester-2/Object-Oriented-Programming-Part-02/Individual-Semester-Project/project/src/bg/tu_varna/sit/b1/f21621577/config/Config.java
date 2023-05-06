@@ -33,5 +33,8 @@ public class Config {
 
   public static final String INVALID_ROW_COL_NUMBER = "Invalid row or column number.";
 
+  public static final String DIVISION_BY_ZERO_ERROR = "Division by zero!";
+
+  public static final String INVALID_OPERATOR_MESSAGE = "Invalid operator: %c";
 
 }
