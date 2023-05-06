@@ -13,7 +13,18 @@ import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
  */
 public class TableCell {
 
+  /**
+   * The type of data stored in this cell.
+   * <p>
+   * Типът данни, съхранявани в тази клетка.
+   */
   private CellType type;
+
+  /**
+   * The value stored in this cell.
+   * <p>
+   * Стойността, съхранена в тази клетка.
+   */
   private Object value;
 
   /**
