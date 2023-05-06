@@ -20,7 +20,8 @@ public class CloseCommand implements Command {
    * <p>
    * Пакетно частен конструктор за създаване на обект {@code CloseCommand}.
    */
-  CloseCommand() { }
+  CloseCommand() {
+  }
 
   /**
    * Executes the close command by clearing the data of the currently opened table from the repository.
