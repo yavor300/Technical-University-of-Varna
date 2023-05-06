@@ -29,7 +29,7 @@ public class Config {
 
   public static final String EDIT_TOO_MANY_ARGS_ERROR_MESSAGE = "Too many arguments.";
 
-  public static final String EDIT_USAGE_ERROR_MESSAGE = "Usage: edit <row> <col> <value>\"";
+  public static final String EDIT_USAGE_ERROR_MESSAGE = "Usage: edit <row> <col> <value>";
 
   public static final String INVALID_ROW_COL_NUMBER = "Invalid row or column number.";
 
@@ -40,6 +40,12 @@ public class Config {
   public static final String TABLE_OPENED_SUCCESSFULLY_MESSAGE = "Table opened successfully.";
 
   public static final String ERROR_OPENING_TABLE = "Error opening table: %s";
+
+  public static final String ERROR_SAVING_CHANGES = "Changes were not saved: %s";
+
+  public static final String MISSING_FILE_ARGUMENT_ERROR = "Changes were not saved due to missing command argument! Usage: saveas <file>";
+
+  public static final String TABLE_SAVED_MESSAGE = "Table saved to file \"%s\"";
 
 
 }
