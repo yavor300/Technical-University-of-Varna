@@ -12,6 +12,8 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
 
 /**
  * Writer class that is needed to write the table data to a file.
+ * <p>
+ * Клас Writer, който е необходим за запис на данните от таблицата във файл.
  */
 public class TableWriter implements AutoCloseable {
 
@@ -20,23 +22,37 @@ public class TableWriter implements AutoCloseable {
   /**
    * Constructs a new TableWriter instance with the given file path.
    * If the file does not exist, it will be created.
+   * <p>
+   * Конструира нова инстанция на TableWriter с дадения файлов път.
+   * Ако файлът не съществува, той ще бъде създаден.
    *
    * @param path the file path to write to
+   *             <p>
+   *             пътя на файла за запис
    * @throws IOException if an I/O error occurs when creating the file or creating the BufferedWriter
+   *                     <p>
+   *                     ако възникне I/O грешка при създаване на файла или създаване на BufferedWriter
    */
   public TableWriter(Path path) throws IOException {
 
     if (!Files.exists(path)) {
       Files.createFile(path);
     }
+
     this.outputWriter = Files.newBufferedWriter(path);
   }
 
   /**
    * Writes the given table data to the output writer.
+   * <p>
+   * Записва дадените таблични данни в изходния файл.
    *
    * @param tableData the table data to write
+   *                  <p>
+   *                  данните от таблицата за запис
    * @throws IOException if an I/O error occurs
+   *                     <p>
+   *                     ако възникне I/O грешка
    */
   public void write(TableCell[][] tableData) throws IOException {
 
@@ -67,8 +83,12 @@ public class TableWriter implements AutoCloseable {
 
   /**
    * Closes the output writer.
+   * <p>
+   * Затваря изходния запис.
    *
    * @throws IOException if an I/O error occurs
+   *                     <p>
+   *                     ако възникне I/O грешка
    */
   @Override
   public void close() throws IOException {
