@@ -13,6 +13,11 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.TABLE_DATA_CLEARED_MESS
  */
 public class CloseCommand implements Command {
 
+  /**
+   * The TableRepository instance used to perform the operation of closing a table.
+   * <p>
+   * Инстанцията TableRepository, използвана за извършване на операцията по затваряне на таблица.
+   */
   private final TableRepository repository = TableRepository.getInstance();
 
   /**
