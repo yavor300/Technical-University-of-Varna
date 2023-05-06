@@ -37,4 +37,9 @@ public class Config {
 
   public static final String INVALID_OPERATOR_MESSAGE = "Invalid operator: %c";
 
+  public static final String TABLE_OPENED_SUCCESSFULLY_MESSAGE = "Table opened successfully.";
+
+  public static final String ERROR_OPENING_TABLE = "Error opening table: %s";
+
+
 }
