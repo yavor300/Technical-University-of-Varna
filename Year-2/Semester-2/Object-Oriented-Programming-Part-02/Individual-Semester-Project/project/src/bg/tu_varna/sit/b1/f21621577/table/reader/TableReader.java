@@ -20,6 +20,11 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
  */
 public class TableReader implements AutoCloseable {
 
+  /**
+   * A BufferedReader object used to read from the input stream of the table file.
+   * <p>
+   * Обект BufferedReader, използван за четене от входния поток на табличния файл.
+   */
   private final BufferedReader inputReader;
 
   /**
