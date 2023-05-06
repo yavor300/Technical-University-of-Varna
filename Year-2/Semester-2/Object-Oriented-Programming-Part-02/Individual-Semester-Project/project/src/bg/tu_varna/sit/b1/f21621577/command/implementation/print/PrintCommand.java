@@ -22,6 +22,14 @@ import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 public class PrintCommand implements Command {
 
   /**
+   * Package-private constructor for creating a {@code PrintCommand} object.
+   * <p>
+   * Пакетно частен конструктор за създаване на обект {@code PrintCommand}.
+   */
+  PrintCommand() {
+  }
+
+  /**
    * Executes the command to display the contents of the table in a formatted string.
    * <p>
    * Изпълнява командата за показване на съдържанието на таблицата във форматиран низ.
