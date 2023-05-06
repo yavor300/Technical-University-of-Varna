@@ -24,7 +24,13 @@ import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
  */
 public class FormulaCalculator {
 
+  /**
+   * A singleton instance of the {@link FormulaCalculator} class.
+   * <p>
+   * Единична инстанциа на класа {@link FormulaCalculator}.
+   */
   private static FormulaCalculator instance = null;
+
   /**
    * This pattern matches strings that start with either an uppercase or lowercase 'R', followed by one or more digits,
    * then followed by either an uppercase or lowercase 'C', and then followed by one or more digits.
