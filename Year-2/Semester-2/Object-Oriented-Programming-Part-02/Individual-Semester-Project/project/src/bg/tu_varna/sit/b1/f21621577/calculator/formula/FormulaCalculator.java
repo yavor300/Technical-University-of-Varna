@@ -1,4 +1,4 @@
-package bg.tu_varna.sit.b1.f21621577.command.implementation.formulacalculator;
+package bg.tu_varna.sit.b1.f21621577.calculator.formula;
 
 import bg.tu_varna.sit.b1.f21621577.exceptions.FormulaException;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
