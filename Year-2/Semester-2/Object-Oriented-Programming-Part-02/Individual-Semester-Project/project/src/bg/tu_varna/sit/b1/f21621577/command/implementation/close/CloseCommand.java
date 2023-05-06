@@ -16,6 +16,13 @@ public class CloseCommand implements Command {
   private final TableRepository repository = TableRepository.getInstance();
 
   /**
+   * Package-private constructor for creating a {@code CloseCommand} object.
+   * <p>
+   * Пакетно частен конструктор за създаване на обект {@code CloseCommand}.
+   */
+  CloseCommand() { }
+
+  /**
    * Executes the close command by clearing the data of the currently opened table from the repository.
    * <p>
    * Изпълнява командата за затваряне, като изчиства данните от текущо отворената таблица от хранилището.
