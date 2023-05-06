@@ -14,6 +14,9 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 /**
  * A reader class that is used to read data from a file, validate it,
  * and prepare it for storing the client input in the actual table repository.
+ * <p>
+ * Клас четец, който се използва за четене на данни от файл, валидиране,
+ * подготвяне за съхраняване на входа на клиента в действителното хранилище на таблици.
  */
 public class TableReader implements AutoCloseable {
 
@@ -22,22 +25,37 @@ public class TableReader implements AutoCloseable {
   /**
    * Constructs a new {@code TableReader} instance with the specified file path. If the file does not exist, a new file
    * will be created.
+   * <p>
+   * Създава нов екземпляр на {@code TableReader} с посочения път на файла.
+   * Ако файлът не съществува, нов файл ще бъде създаден.
    *
    * @param path the path of the file to read
+   *             <p>
+   *             пътя на файла за четене
    * @throws IOException if an I/O error occurs while opening the file
+   *                     <p>
+   *                     ако възникне I/O грешка при отваряне на файла
    */
   public TableReader(Path path) throws IOException {
+
     if (!Files.exists(path)) {
       Files.createFile(path);
     }
+
     this.inputReader = Files.newBufferedReader(path);
   }
 
   /**
    * Reads the data from the file and returns a 2D array of {@code TableCell} objects.
+   * <p>
+   * Чете данните от файла и връща 2D масив от обекти {@code TableCell}.
    *
    * @return a 2D array of {@code TableCell} objects
+   * <p>
+   * 2D масив от {@code TableCell} обекти
    * @throws IOException if an I/O error occurs while reading the file
+   *                     <p>
+   *                     ако възникне I/O грешка при четене на файла
    */
   public TableCell[][] read() throws IOException {
 
@@ -62,8 +80,12 @@ public class TableReader implements AutoCloseable {
 
   /**
    * Closes the input stream.
+   * <p>
+   * Затваря входния поток.
    *
    * @throws IOException if an I/O error occurs while closing the stream
+   *                     <p>
+   *                     ако възникне I/O грешка при затваряне на потока
    */
   @Override
   public void close() throws IOException {
