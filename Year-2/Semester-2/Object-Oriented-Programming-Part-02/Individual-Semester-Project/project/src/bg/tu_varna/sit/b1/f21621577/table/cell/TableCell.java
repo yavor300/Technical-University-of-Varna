@@ -91,20 +91,16 @@ public class TableCell {
         return;
       }
       if (!areAllQuotesEscaped(data)) {
-        throw new IllegalArgumentException("Unescaped quotes: " + data);
+        throw new IllegalArgumentException(data + " has unescaped quotes.");
       }
       if (!areAllBackslashesEscaped(data)) {
-        throw new IllegalArgumentException("Unescaped backslash: " + data);
+        throw new IllegalArgumentException(data + " has unescaped backslash.");
       }
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
     } else {
-      if (!isStringEnclosedInQuotes(data)) {
-        throw new IllegalArgumentException("Missing quote: " + data);
-      } else {
-        throw new IllegalArgumentException("Invalid input value: " + data);
-      }
+      throw new IllegalArgumentException(data + " is unknown data type.");
     }
   }
 
