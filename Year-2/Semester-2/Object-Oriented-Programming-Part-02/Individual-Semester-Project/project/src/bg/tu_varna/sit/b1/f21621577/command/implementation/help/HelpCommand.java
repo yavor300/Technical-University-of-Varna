@@ -2,12 +2,20 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.help;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 
+/**
+ * Implementation of the {@link Command} interface that displays a list of available commands.
+ * <p>
+ * Реализация на интерфейса {@link Command}, която показва списък с налични команди.
+ */
 public class HelpCommand implements Command {
 
   /**
    * Executes the command to display a list of available commands.
+   * <p>
+   * Изпълнява командата, за да покаже списък с налични команди.
    *
    * @return a message indicating the available commands
+   * съобщение, указващо наличните команди
    */
   @Override
   public String execute() {
