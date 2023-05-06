@@ -30,7 +30,7 @@ public class OpenCommand extends ArgumentCommand {
    *                  <p>
    *                  списъка с аргументи за командата
    */
-  public OpenCommand(List<String> arguments) {
+  OpenCommand(List<String> arguments) {
     super(arguments);
     this.file = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
   }
