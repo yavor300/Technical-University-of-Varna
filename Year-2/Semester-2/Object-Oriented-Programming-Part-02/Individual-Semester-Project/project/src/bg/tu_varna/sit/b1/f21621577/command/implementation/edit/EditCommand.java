@@ -26,8 +26,8 @@ public class EditCommand extends ArgumentCommand {
    */
   public EditCommand(List<String> arguments) {
     super(arguments);
-    validateArguments(arguments);
-    parseArguments(arguments);
+    validateArguments();
+    parseArguments();
   }
 
   /**
@@ -61,7 +61,7 @@ public class EditCommand extends ArgumentCommand {
     try {
       newCell = new TableCell(newValue);
     } catch (IllegalArgumentException e) {
-      return "Invalid cell value: " + e.getMessage();
+      return "Error editing the cell: " + e.getMessage();
     }
 
     repository.setCell(row, col, newCell);
@@ -73,11 +73,10 @@ public class EditCommand extends ArgumentCommand {
   /**
    * Validates the arguments for the command.
    *
-   * @param arguments the arguments for the command
    * @throws IllegalArgumentException if the number of arguments is less than 3
    */
-  private void validateArguments(List<String> arguments) {
-    if (arguments.size() < 3) {
+  private void validateArguments() {
+    if (getArguments().size() < 3) {
       throw new IllegalArgumentException("Not enough arguments. Usage: edit <row> <col> <value>");
     }
   }
@@ -85,18 +84,16 @@ public class EditCommand extends ArgumentCommand {
   /**
    * Parses the arguments for the command.
    *
-   * @param arguments the arguments for the command
    * @throws IllegalArgumentException if the row or column number cannot be parsed as an integer
    */
-  private void parseArguments(List<String> arguments) {
+  private void parseArguments() {
     try {
-      this.row = Integer.parseInt(arguments.get(0));
-      this.col = Integer.parseInt(arguments.get(1));
+      this.row = Integer.parseInt(getArguments().get(0));
+      this.col = Integer.parseInt(getArguments().get(1));
     } catch (NumberFormatException e) {
       throw new IllegalArgumentException("Invalid row or column number.");
     }
-    this.newValue = arguments.get(2);
+    this.newValue = getArguments().get(2);
   }
-
 
 }
