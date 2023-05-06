@@ -21,6 +21,11 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
  */
 public abstract class ArgumentCommand implements Command {
 
+  /**
+   * The list of arguments to be used by this command.
+   * <p>
+   * Списъкът с аргументи, които да се използват от тази команда.
+   */
   private final List<String> arguments;
 
   /**
