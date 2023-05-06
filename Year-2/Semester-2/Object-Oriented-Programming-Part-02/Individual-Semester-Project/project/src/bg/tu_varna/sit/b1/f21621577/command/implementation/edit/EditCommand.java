@@ -19,10 +19,32 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
  */
 public class EditCommand extends ArgumentCommand {
 
+  /**
+   * The number of allowed arguments for the edit command.
+   * <p>
+   * Броят разрешени аргументи за командата за редактиране.
+   */
   private static final int ALLOWED_ARGUMENTS_COUNT = 3;
 
+  /**
+   * The row index of the cell to be edited.
+   * <p>
+   * Индексът на реда на клетката, която ще се редактира.
+   */
   private int row;
+
+  /**
+   * The column index of the cell to be edited.
+   * <p>
+   * Индексът на колоната на клетката, която ще се редактира.
+   */
   private int col;
+
+  /**
+   * The new value to be set for the cell.
+   * <p>
+   * Новата стойност, която трябва да бъде зададена за клетката.
+   */
   private String newValue;
 
   /**
