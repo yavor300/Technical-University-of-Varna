@@ -3,6 +3,9 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.close;
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NO_TABLE_OPENED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.TABLE_DATA_CLEARED_MESSAGE;
+
 /**
  * A command that closes the currently opened table by clearing its data from the repository.
  * <p>
@@ -26,9 +29,9 @@ public class CloseCommand implements Command {
 
     if (repository.isTableOpened()) {
       repository.clear();
-      return "Table data cleared successfully.";
+      return TABLE_DATA_CLEARED_MESSAGE;
     } else {
-      return "No table is currently opened.";
+      return NO_TABLE_OPENED_MESSAGE;
     }
   }
 }
