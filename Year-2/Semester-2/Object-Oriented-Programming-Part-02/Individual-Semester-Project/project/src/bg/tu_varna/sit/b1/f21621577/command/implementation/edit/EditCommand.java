@@ -42,7 +42,7 @@ public class EditCommand extends ArgumentCommand {
    *                                  <p>
    *                                  ако дадената стойност на клетката не може да бъде представена като число
    */
-  public EditCommand(List<String> arguments) {
+  EditCommand(List<String> arguments) {
     super(arguments);
     validateArguments();
     parseArguments();
