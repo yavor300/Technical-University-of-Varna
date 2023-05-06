@@ -18,7 +18,18 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
  */
 public class OpenCommand extends ArgumentCommand {
 
+  /**
+   * The instance of the repository that stores the table.
+   * <p>
+   * Инстанцията на хранилището, което съхранява таблицата.
+   */
   private final TableRepository repository = TableRepository.getInstance();
+
+  /**
+   * The path to the file that contains the table data.
+   * <p>
+   * Пътят до файла, който съдържа данните от таблицата.
+   */
   private final Path file;
 
   /**
