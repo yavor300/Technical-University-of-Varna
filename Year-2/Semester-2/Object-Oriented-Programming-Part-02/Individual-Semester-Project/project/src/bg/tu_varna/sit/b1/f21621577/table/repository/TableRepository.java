@@ -16,8 +16,27 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
  */
 public class TableRepository {
 
+  /**
+   * A boolean flag indicating whether a table is currently open.
+   * <p>
+   * Булев флаг, показващ дали таблицата е отворена в момента.
+   */
   private boolean isTableOpened = false;
+
+  /**
+   * The name of the table file. The default value is DEFAULT_TABLE_FILENAME.
+   * <p>
+   * Името на файла на таблицата. Стойността по подразбиране е DEFAULT_TABLE_FILENAME.
+   */
   private String tableFileName = DEFAULT_TABLE_FILENAME;
+
+  /**
+   * A two-dimensional array representing the contents of the table. The array is of size ROWS x COLS, where ROWS and
+   * COLS are constants.
+   * <p>
+   * Двуизмерен масив, представящ съдържанието на таблицата. Масивът е с размер ROWS x COLS, където ROWS и
+   * COLS са константи.
+   */
   private TableCell[][] table = new TableCell[ROWS][COLS];
 
   /**
