@@ -32,7 +32,7 @@ public class SaveCommand extends ArgumentCommand {
    * което се получава чрез свързване на директорията с ресурси по подразбиране и името на файла на текущо
    * отворената таблица в хранилището.
    */
-  public SaveCommand() {
+  SaveCommand() {
     this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, repository.getTableFileName());
   }
 
