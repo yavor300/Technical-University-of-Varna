@@ -154,4 +154,25 @@ public class Config {
    */
   public static final String TABLE_SAVED_MESSAGE = "Table saved to file \"%s\"";
 
+  /**
+   * A constant string representing the error message for an invalid row index.
+   * <p>
+   * Константен низ, представляващ съобщението за грешка за невалиден индекс на ред.
+   */
+  public static final String INVALID_ROW_INDEX_MESSAGE = "Invalid row index: %d";
+
+  /**
+   * A constant string representing the error message for an invalid column index.
+   * <p>
+   * Константен низ, представляващ съобщението за грешка за невалиден индекс на колона.
+   */
+  public static final String INVALID_COL_INDEX_MESSAGE = "Invalid col index: %d";
+
+  /**
+   * A message indicating that an invalid size was provided to a method.
+   * <p>
+   * Съобщение, указващо, че на метод е предоставен невалиден размер.
+   */
+  public static final String INVALID_SIZE_ERROR_MESSAGE = "Invalid size: %d x %d";
+
 }
