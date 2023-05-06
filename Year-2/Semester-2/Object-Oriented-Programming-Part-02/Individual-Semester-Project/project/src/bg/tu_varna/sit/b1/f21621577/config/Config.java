@@ -21,4 +21,17 @@ public class Config {
 
   public static final String NO_TABLE_OPENED_MESSAGE = "No table is currently opened.";
 
+  public static final String ERROR_EDITING_CELL_MESSAGE = "Error editing the cell: %s";
+
+  public static final String CELL_UPDATED_MESSAGE = "Cell (%d, %d) updated from \"%s\" to \"%s\"";
+
+  public static final String EDIT_NOT_ENOUGH_ARGS_ERROR_MESSAGE = "Not enough arguments.";
+
+  public static final String EDIT_TOO_MANY_ARGS_ERROR_MESSAGE = "Too many arguments.";
+
+  public static final String EDIT_USAGE_ERROR_MESSAGE = "Usage: edit <row> <col> <value>\"";
+
+  public static final String INVALID_ROW_COL_NUMBER = "Invalid row or column number.";
+
+
 }
