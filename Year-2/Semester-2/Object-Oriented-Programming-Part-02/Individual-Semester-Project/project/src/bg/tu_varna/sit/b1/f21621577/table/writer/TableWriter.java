@@ -17,6 +17,11 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
  */
 public class TableWriter implements AutoCloseable {
 
+  /**
+   * The buffered writer used to write to the output file.
+   * <p>
+   * Буферираният писател, използван за запис в изходния файл.
+   */
   private final BufferedWriter outputWriter;
 
   /**
