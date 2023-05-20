@@ -3,8 +3,8 @@ package bg.tu_varna.sit.b1.f21621577.table.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.FRACTIONAL_NUMBER_PATTERN;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INTEGER_NUMBER_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.FRACTIONAL_NUMBER_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.INTEGER_NUMBER_PATTERN;
 
 /**
  * A utility class that provides methods for working with cell data types.

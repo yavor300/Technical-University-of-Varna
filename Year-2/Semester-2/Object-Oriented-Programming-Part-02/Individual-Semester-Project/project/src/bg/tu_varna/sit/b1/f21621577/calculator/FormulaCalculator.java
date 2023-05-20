@@ -1,21 +1,13 @@
 package bg.tu_varna.sit.b1.f21621577.calculator;
 
-import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
-import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
-import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
+import bg.tu_varna.sit.b1.f21621577.table.cell.*;
+import bg.tu_varna.sit.b1.f21621577.table.repository.*;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELL_REFERENCE_PATTERN;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INTEGER_OR_FRACTIONAL_NUMBER_PATTERN;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DIVISION_BY_ZERO_ERROR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_OPERATOR_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.MATH_ALLOWED_OPERATORS;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ROW_OR_COLUMN_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
 

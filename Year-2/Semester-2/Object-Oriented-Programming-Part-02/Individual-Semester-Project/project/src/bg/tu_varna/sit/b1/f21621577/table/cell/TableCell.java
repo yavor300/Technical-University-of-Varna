@@ -1,21 +1,9 @@
 package bg.tu_varna.sit.b1.f21621577.table.cell;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.BACKSLASH_ESCAPING_COMMA;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.BACKSLASH_ESCAPING_QUOTE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_BACKSLASH;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_COMMA;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_DOUBLE_QUOTE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_INPUT_TYPE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_ESCAPED_BACKSLASH;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_ESCAPED_COMMA;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_ESCAPED_DOUBLE_QUOTE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.STRING_IN_QUOTES_PATTERN;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.UNESCAPED_BACKSLASH_ERROR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.UNESCAPED_QUOTES_ERROR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.UNKNOWN_DATA_TYPE_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
 

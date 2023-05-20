@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_INPUT_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.CELLS_INPUT_SEPARATOR;
 
 /**
  * A reader class that is used to read data from a file, validate it,

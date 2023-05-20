@@ -20,7 +20,7 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COMMAND_NOT_FOUND_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN;
 
 /**
  * The Engine class is responsible for starting and running the application.

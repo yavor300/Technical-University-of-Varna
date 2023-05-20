@@ -9,11 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DOUBLE_BACKSLASH;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_CELLS_OUTPUT_SEPARATOR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_QUOTE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_UNESCAPED_QUOTE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.SINGLE_BACKSLASH;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 
 /**
  * Writer class that is needed to write the table data to a file.
