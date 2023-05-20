@@ -9,7 +9,7 @@ import java.nio.file.Path;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.CELLS_INPUT_SEPARATOR;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.CELLS_INPUT_SEPARATOR_PATTERN;
 
 /**
  * A reader class that is used to read data from a file, validate it,
@@ -71,7 +71,7 @@ public class TableReader implements AutoCloseable {
 
     while ((line = inputReader.readLine()) != null) {
       line = line.trim();
-      String[] cells = line.split(CELLS_INPUT_SEPARATOR);
+      String[] cells = line.split(CELLS_INPUT_SEPARATOR_PATTERN);
 
       for (int col = 0; col < cells.length; col++) {
         result[row][col] = new TableCell(cells[col].trim());

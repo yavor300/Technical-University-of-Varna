@@ -28,6 +28,14 @@ public class Config {
    */
   public static final String CELLS_OUTPUT_SEPARATOR = ",";
 
+
+  /**
+   * The separator used for reading on input cell values.
+   * <p>
+   * Разделителят, използван за четене при въвеждане на стойностите на клетката.
+   */
+  public static final String CELLS_INPUT_SEPARATOR = ",";
+
   /**
    * The default directory for table resource files.
    * <p>

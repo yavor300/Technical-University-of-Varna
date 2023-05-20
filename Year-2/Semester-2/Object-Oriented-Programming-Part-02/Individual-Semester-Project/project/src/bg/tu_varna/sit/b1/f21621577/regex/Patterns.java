@@ -1,19 +1,20 @@
 package bg.tu_varna.sit.b1.f21621577.regex;
 
+import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_INPUT_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
 
 public class Patterns {
 
   /**
    * The separator used for inputting cell values.
-   * The regular expression (?<!\\), is a negative lookbehind assertion that matches a comma
+   * The regular expression (?<!\\), is a negative lookbehind assertion that matches a CELLS_INPUT_SEPARATOR
    * (",") character but only if it is not preceded by a backslash ("\").
    * <p>
    * Разделителят, използван за въвеждане на стойности на клетките.
-   * Регулярният израз (?<!\\) е отрицателно твърдение за ретроспектива, което съвпада със запетая
+   * Регулярният израз (?<!\\) е отрицателно твърдение за ретроспектива, което съвпада със CELLS_INPUT_SEPARATOR
    * (","), но само ако не е предшестван от обратна наклонена черта ("\").
    */
-  public static final String CELLS_INPUT_SEPARATOR = "(?<!\\\\),";
+  public static final String CELLS_INPUT_SEPARATOR_PATTERN = "(?<!\\\\)" + CELLS_INPUT_SEPARATOR;
 
   /**
    * The regular expression pattern used to match cell references.
