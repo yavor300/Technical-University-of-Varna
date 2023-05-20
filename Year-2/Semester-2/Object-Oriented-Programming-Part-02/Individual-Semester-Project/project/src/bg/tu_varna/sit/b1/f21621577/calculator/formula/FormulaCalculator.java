@@ -10,8 +10,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DIVISION_BY_ZERO_ERROR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_OPERATOR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
 
@@ -38,7 +37,7 @@ public class FormulaCalculator {
    * Този модел съвпада с низове, които започват с главна или малка буква 'R', последвани от една или повече цифри,
    * последвани от главна или малка буква 'C' и след това последвани от една или повече цифри.
    */
-  private final Pattern cellRefPattern = Pattern.compile("[rR](\\d+)[cC](\\d+)");
+  private final Pattern cellRefPattern = Pattern.compile(CELL_REFERENCE_PATTERN);
 
   /**
    * Private constructor to prevent external instantiation
@@ -267,7 +266,7 @@ public class FormulaCalculator {
    */
   private double getCellValue(String cellRef) {
 
-    String[] parts = cellRef.split("R|C");
+    String[] parts = cellRef.split(ROW_OR_COLUMN_PATTERN);
     int row = Integer.parseInt(parts[1]) - 1;
     int col = Integer.parseInt(parts[2]) - 1;
 
@@ -283,7 +282,7 @@ public class FormulaCalculator {
     }
 
     if (cell.getType() == CellType.STRING) {
-      if (cell.getValueAsString().matches("\\d+(\\.\\d+)?")) {
+      if (cell.getValueAsString().matches(DECIMAL_NUMBER_PATTERN)) {
         return Double.parseDouble(cell.getValueAsString());
       } else {
         return 0.0;
@@ -314,7 +313,7 @@ public class FormulaCalculator {
    * вярно, ако токенът е оператор (+, -, *, / или ^); невярно в противен случай
    */
   private boolean isOperator(String token) {
-    return token.length() == 1 && "+-*/^".contains(token);
+    return token.length() == 1 && MATH_ALLOWED_OPERATORS.contains(token);
   }
 
   /**
