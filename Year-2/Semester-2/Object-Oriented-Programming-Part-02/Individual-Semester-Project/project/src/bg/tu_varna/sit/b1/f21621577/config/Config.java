@@ -28,7 +28,6 @@ public class Config {
    */
   public static final String CELLS_OUTPUT_SEPARATOR = ",";
 
-
   /**
    * The separator used for reading on input cell values.
    * <p>
