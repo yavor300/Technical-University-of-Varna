@@ -188,7 +188,6 @@ public class Config {
    */
   public static final String CELL_REFERENCE_PATTERN = "[rR](\\d+)[cC](\\d+)";
 
-
   /**
    * Regular expression pattern for matching row or column indicators.
    * The pattern matches either 'R' or 'C' characters.
@@ -202,25 +201,48 @@ public class Config {
    */
   public static final String ROW_OR_COLUMN_PATTERN = "R|C";
 
-
   /**
-   * The regular expression pattern for matching decimal numbers.
+   * The regular expression pattern for matching integer or fractional numbers.
    * This pattern matches numeric values that may include an optional decimal part.
    * It can match integers (e.g., "42") as well as decimal numbers (e.g., "3.14").
    * The decimal part is optional, allowing for whole numbers to be matched as well.
    * The pattern breakdown:
+   * - "^[+-]?" checks whether the number contains a sign
    * - "\\d+" matches one or more digits before the decimal point.
    * - "(\\.\\d+)?" matches an optional decimal point followed by one or more digits.
    * <p>
-   * Образецът на регулярен израз за съвпадение на десетични числа.
+   * Образецът на регулярен израз за съвпадение на цели или дробни числа.
    * Този модел съответства на числови стойности, които може да включват незадължителна десетична част.
    * Може да съпоставя цели числа (напр. "42"), както и десетични числа (напр. "3,14").
    * Десетичната част не е задължителна, което позволява съпоставяне и на цели числа.
    * Разбивка на модела:
+   * - "^[+-]?" проверява дали числото съдържа знак
    * - "\\d+" съвпада с една или повече цифри преди десетичната запетая.
    * - "(\\.\\d+)?" съвпада с незадължителна десетична точка, последвана от една или повече цифри.
    */
-  public static final String DECIMAL_NUMBER_PATTERN = "\\d+(\\.\\d+)?";
+  public static final String INTEGER_OR_FRACTIONAL_NUMBER_PATTERN = "^[+-]?\\d+(\\.\\d+)?$";
+
+  /**
+   * Represents the regular expression pattern for matching a fractional number.
+   * The pattern matches a string that starts with an optional plus or minus sign,
+   * followed by one or more digits, a decimal point, and one or more digits after the decimal point.
+   * <p>
+   * Представлява шаблона на регулярен израз за съпоставяне на дробно число.
+   * Моделът съответства на низ, който започва с незадължителен знак плюс или минус,
+   * последвано от една или повече цифри, десетична запетая и една или повече цифри след десетичната запетая.
+   */
+  public static final String FRACTIONAL_NUMBER_PATTERN = "^[+-]?\\d+\\.\\d+$";
+
+  /**
+   * Represents the regular expression pattern for matching an integer number.
+   * The pattern matches a string that starts with an optional plus or minus sign,
+   * followed by one or more digits.
+   * <p>
+   * Представлява модела на регулярен израз за съвпадение на цяло число.
+   * Моделът съответства на низ, който започва с незадължителен знак плюс или минус,
+   * последвано от една или повече цифри.
+   */
+  public static final String INTEGER_NUMBER_PATTERN = "^[+-]?\\d+$";
 
   /**
    * The set of allowed mathematical operators.
@@ -247,5 +269,148 @@ public class Config {
    */
   public static final String NO_DATA_MESSAGE = "There is no data present in the table. Add some data by modifying the file or using the 'edit' command.";
 
+  /**
+   * Error message indicating that a string has unescaped quotes.
+   * <p>
+   * Съобщение за грешка, показващо, че низ има необработени кавички.
+   */
+  public static final String UNESCAPED_QUOTES_ERROR = " has unescaped quotes.";
+
+  /**
+   * Error message indicating that a string has unescaped backslash.
+   * <p>
+   * Съобщение за грешка, показващо, че низ има необработени наклонени черти.
+   */
+  public static final String UNESCAPED_BACKSLASH_ERROR = " has unescaped backslash.";
+
+  /**
+   * Error message indicating that the data type is unknown.
+   * <p>
+   * Съобщение за грешка, показващо, че типът на данните е неизвестен.
+   */
+  public static final String UNKNOWN_DATA_TYPE_MESSAGE = " is unknown data type.";
+
+  /**
+   * Represents the error message for invalid input type.
+   * <p>
+   * Представлява съобщение за грешка за невалиден тип въвеждане.
+   */
+  public static final String INVALID_INPUT_TYPE = "Invalid input type for value: ";
+
+  /**
+   * Represents the regular expression pattern for matching a string enclosed in double quotes.
+   * <p>
+   * Представлява шаблона на регулярен израз за съвпадение на низ, ограден в двойни кавички.
+   */
+  public static final String STRING_IN_QUOTES_PATTERN = "^\".*\"$";
+
+  /**
+   * Represents the escaped double quote character: \".
+   * <p>
+   * Представлява обработеният символ двойни кавички: \".
+   */
+  public static final String ESCAPED_DOUBLE_QUOTE = "\\\\\"";
+
+  /**
+   * Represents the escaped backslash character: \\.
+   * <p>
+   * Представлява обработеният символ наклонена черта: \\".
+   */
+  public static final String ESCAPED_BACKSLASH = "\\\\\\\\";
+
+  /**
+   * Represents the escaped comma character: \,
+   * <p>
+   * Представлява обработеният символ запетая: \,
+   */
+  public static final String ESCAPED_COMMA = "\\\\,";
+
+  /**
+   * Represents the non escaped double quote character: ".
+   * <p>
+   * Представлява необработеният символ двойни кавички: ".
+   */
+  public static final String NON_ESCAPED_DOUBLE_QUOTE = "\"";
+
+  /**
+   * Represents the non escaped backslash character: \.
+   * <p>
+   * Представлява необработеният символ наклонена черта: \".
+   */
+  public static final String NON_ESCAPED_BACKSLASH = "\\\\";
+
+
+  /**
+   * Represents the non escaped comma character: ,
+   * <p>
+   * Представлява необработеният символ запетая: ,
+   */
+  public static final String NON_ESCAPED_COMMA = ",";
+
+
+  /**
+   * Represents the string value for escaping a double quote using a backslash.
+   * <p>
+   * Представлява стойността на низа за обработване на двойни кавички с помощта на обратна наклонена черта.
+   */
+  public static final String BACKSLASH_ESCAPING_QUOTE = "\\\\\"";
+
+  /**
+   * Represents the string value for escaping a comma using a backslash.
+   * <p>
+   * Представлява стойността на низа за обработване на запетая с помощта на обратна наклонена черта.
+   */
+  public static final String BACKSLASH_ESCAPING_COMMA = "\\\\,";
+
+  /**
+   * Represents the string constant for a single backslash character.
+   * <p>
+   * Представлява низовата константа за единичен обратен знак наклонена черта.
+   */
+  public static final String SINGLE_BACKSLASH = "\\";
+
+  /**
+   * Represents the string constant for a double backslash character.
+   * <p>
+   * Представлява низовата константа за двоен обратен знак наклонена черта.
+   */
+  public static final String DOUBLE_BACKSLASH = SINGLE_BACKSLASH + SINGLE_BACKSLASH;
+
+  /**
+   * Represents the string constant for an unescaped double quote character.
+   * <p>
+   * Представлява константата на низа за необработен символ двойна кавичка.
+   */
+  public static final String NON_UNESCAPED_QUOTE = "\"";
+
+  /**
+   * Represents the string constant for an escaped double quote character.
+   * <p>
+   * Представлява константата на низа за обработен символ двойна кавичка.
+   */
+  public static final String ESCAPED_QUOTE = "\\\"";
+
+  /**
+   * The escaped separator used for outputting cell values.
+   * <p>
+   * Обработеният разделител, използван за извеждане на стойностите на клетката.
+   */
+  public static final String ESCAPED_CELLS_OUTPUT_SEPARATOR = SINGLE_BACKSLASH + CELLS_OUTPUT_SEPARATOR;
+
+  /**
+   * The regex pattern can be used in Java's split() method to split
+   * a string into words while preserving quoted sections.
+   * <p>
+   * Моделът на regex може да се използва в метода split() на Java за разделяне
+   * низ в думи, като се запазват секциите оградени с кавички.
+   */
+  public static final String DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN = " (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+
+  /**
+   * Error message template displayed when a command is not found.
+   * <p>
+   * Шаблон за съобщение за грешка, показван, когато команда не бъде намерена.
+   */
+  public static final String COMMAND_NOT_FOUND_MESSAGE = "'%s' is not a command. See 'help'.";
 
 }
