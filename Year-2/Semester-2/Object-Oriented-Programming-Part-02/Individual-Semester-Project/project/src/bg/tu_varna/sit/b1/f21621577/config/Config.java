@@ -26,7 +26,7 @@ public class Config {
    * <p>
    * Разделителят, използван за въвеждане на стойности на клетките.
    */
-  public static final String CELLS_INPUT_SEPARATOR = ",";
+  public static final String CELLS_INPUT_SEPARATOR = "(?<!\\\\),";
 
   /**
    * The separator used for outputting cell values.
@@ -174,5 +174,64 @@ public class Config {
    * Съобщение, указващо, че на метод е предоставен невалиден размер.
    */
   public static final String INVALID_SIZE_ERROR_MESSAGE = "Invalid size: %d x %d";
+
+  /**
+   * The regular expression pattern used to match cell references.
+   * The pattern matches cell references in the format [rR](\d+)[cC](\d+),
+   * where 'r' or 'R' represents the row number and 'c' or 'C' represents the column number.
+   * The row and column numbers are represented by one or more digits.
+   * <p>
+   * Образецът на регулярен израз, използван за съпоставяне на препратки към клетки.
+   * Моделът съответства на препратките към клетки във формат [rR](\d+)[cC](\d+),
+   * където „r“ или „R“ представлява номера на реда, а „c“ или „C“ представлява номера на колоната.
+   * Номерата на редовете и колоните са представени с една или повече цифри.
+   */
+  public static final String CELL_REFERENCE_PATTERN = "[rR](\\d+)[cC](\\d+)";
+
+
+  /**
+   * Regular expression pattern for matching row or column indicators.
+   * The pattern matches either 'R' or 'C' characters.
+   * Example usage:
+   * - R or C: to indicate a row or column respectively.
+   * <p>
+   * Образец на регулярен израз за съпоставяне на индикатори за ред или колона.
+   * Моделът съвпада или със знаци 'R', или 'C'.
+   * Примерна употреба:
+   * - R или C: за обозначаване съответно на ред или колона.
+   */
+  public static final String ROW_OR_COLUMN_PATTERN = "R|C";
+
+
+  /**
+   * The regular expression pattern for matching decimal numbers.
+   * This pattern matches numeric values that may include an optional decimal part.
+   * It can match integers (e.g., "42") as well as decimal numbers (e.g., "3.14").
+   * The decimal part is optional, allowing for whole numbers to be matched as well.
+   * The pattern breakdown:
+   * - "\\d+" matches one or more digits before the decimal point.
+   * - "(\\.\\d+)?" matches an optional decimal point followed by one or more digits.
+   * <p>
+   * Образецът на регулярен израз за съвпадение на десетични числа.
+   * Този модел съответства на числови стойности, които може да включват незадължителна десетична част.
+   * Може да съпоставя цели числа (напр. "42"), както и десетични числа (напр. "3,14").
+   * Десетичната част не е задължителна, което позволява съпоставяне и на цели числа.
+   * Разбивка на модела:
+   * - "\\d+" съвпада с една или повече цифри преди десетичната запетая.
+   * - "(\\.\\d+)?" съвпада с незадължителна десетична точка, последвана от една или повече цифри.
+   */
+  public static final String DECIMAL_NUMBER_PATTERN = "\\d+(\\.\\d+)?";
+
+  /**
+   * The set of allowed mathematical operators.
+   * This string contains the operators that are allowed for mathematical operations.
+   * It includes addition (+), subtraction (-), multiplication (*), division (/), and exponentiation (^).
+   * <p>
+   * Набор от разрешени математически оператори.
+   * Този низ съдържа операторите, които са разрешени за математически операции.
+   * Включва събиране (+), изваждане (-), умножение (*), деление (/) и степенуване (^).
+   */
+  public static final String MATH_ALLOWED_OPERATORS = "+-*/^";
+
 
 }
