@@ -5,7 +5,11 @@ import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
 import java.util.Arrays;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_ROW_INDEX_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_SIZE_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
 
 /**
  * The TableRepository class is responsible for storing and managing the table data.
