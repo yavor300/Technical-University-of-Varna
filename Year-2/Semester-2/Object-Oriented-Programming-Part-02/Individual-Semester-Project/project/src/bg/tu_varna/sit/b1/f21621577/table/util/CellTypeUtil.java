@@ -3,6 +3,9 @@ package bg.tu_varna.sit.b1.f21621577.table.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static bg.tu_varna.sit.b1.f21621577.config.Config.FRACTIONAL_NUMBER_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INTEGER_NUMBER_PATTERN;
+
 /**
  * A utility class that provides methods for working with cell data types.
  * <p>
@@ -23,7 +26,7 @@ public class CellTypeUtil {
    * true, ако стойността на данните е дробно число, false в противен случай
    */
   public static boolean isFractionalNumber(String data) {
-    Pattern fractionalPattern = Pattern.compile("^[+-]?\\d+\\.\\d+$");
+    Pattern fractionalPattern = Pattern.compile(FRACTIONAL_NUMBER_PATTERN);
     Matcher fractionalMatcher = fractionalPattern.matcher(data);
     return fractionalMatcher.matches();
   }
@@ -41,7 +44,7 @@ public class CellTypeUtil {
    * true, ако стойността на данните е цяло число, false в противен случай
    */
   public static boolean isInteger(String data) {
-    Pattern intPattern = Pattern.compile("^[+-]?\\d+$");
+    Pattern intPattern = Pattern.compile(INTEGER_NUMBER_PATTERN);
     Matcher intMatcher = intPattern.matcher(data);
     return intMatcher.matches();
   }
