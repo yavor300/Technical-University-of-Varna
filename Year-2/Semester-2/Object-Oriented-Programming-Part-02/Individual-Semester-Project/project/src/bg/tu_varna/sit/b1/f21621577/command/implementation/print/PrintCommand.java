@@ -6,6 +6,8 @@ import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
+import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+
 /**
  * A command that displays the contents of the table in a formatted string.
  * This command reads the cell data from the current table repository object and
@@ -44,7 +46,7 @@ public class PrintCommand implements Command {
     TableRepository repository = TableRepository.getInstance();
 
     if (!repository.isTableOpened()) {
-      return "No table is currently opened.";
+      return NO_TABLE_OPENED_MESSAGE;
     }
 
     int numRows = repository.getNumRows();
@@ -119,7 +121,7 @@ public class PrintCommand implements Command {
               cellValue = String.valueOf(
                       FormulaCalculator.getInstance().evaluate(cell.getValueAsString()));
             } catch (ArithmeticException e) {
-              cellValue = "ERROR";
+              cellValue = CELL_ERROR_VALUE;
             }
           } else {
             cellValue = cell.getValueAsString();
@@ -206,7 +208,7 @@ public class PrintCommand implements Command {
             try {
               cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
             } catch (ArithmeticException e) {
-              cellValue = "ERROR";
+              cellValue = CELL_ERROR_VALUE;
             }
           }
           if (j == 0) {
@@ -223,7 +225,7 @@ public class PrintCommand implements Command {
     }
 
     if (tableData.toString().trim().isEmpty()) {
-      return "There is no data present in the table. Add some data by modifying the file or using the 'edit' command.";
+      return NO_DATA_MESSAGE;
     }
 
     return tableData.toString().trim();
