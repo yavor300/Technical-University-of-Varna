@@ -10,7 +10,12 @@ import java.util.Deque;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.CELL_REFERENCE_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INTEGER_OR_FRACTIONAL_NUMBER_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.DIVISION_BY_ZERO_ERROR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_OPERATOR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.MATH_ALLOWED_OPERATORS;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ROW_OR_COLUMN_PATTERN;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
 
@@ -282,7 +287,7 @@ public class FormulaCalculator {
     }
 
     if (cell.getType() == CellType.STRING) {
-      if (cell.getValueAsString().matches(DECIMAL_NUMBER_PATTERN)) {
+      if (cell.getValueAsString().matches(INTEGER_OR_FRACTIONAL_NUMBER_PATTERN)) {
         return Double.parseDouble(cell.getValueAsString());
       } else {
         return 0.0;
