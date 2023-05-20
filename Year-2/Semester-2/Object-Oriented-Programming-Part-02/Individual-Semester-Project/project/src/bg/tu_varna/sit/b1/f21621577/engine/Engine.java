@@ -209,7 +209,7 @@ public class Engine {
      */
     private void executeSaveAsCommand(List<String> arguments) {
       try {
-        CommandFactory.getCommand(new SaveAsCommandFactory(arguments)).execute();
+        System.out.println(CommandFactory.getCommand(new SaveAsCommandFactory(arguments)).execute());
       } catch (IllegalArgumentException | IOException e) {
         System.out.println(e.getMessage());
       }
