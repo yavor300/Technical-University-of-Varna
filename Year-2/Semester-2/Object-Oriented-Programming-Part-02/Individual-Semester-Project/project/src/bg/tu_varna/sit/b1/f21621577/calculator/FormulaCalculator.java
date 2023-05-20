@@ -1,12 +1,13 @@
 package bg.tu_varna.sit.b1.f21621577.calculator;
 
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.DIVISION_BY_ZERO_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_OPERATOR_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.cell.*;
 import bg.tu_varna.sit.b1.f21621577.table.repository.*;
 
 import java.util.*;
 import java.util.regex.*;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
@@ -378,7 +379,7 @@ public class FormulaCalculator {
         return a * b;
       case '/':
         if (b == 0) {
-          throw new ArithmeticException(DIVISION_BY_ZERO_ERROR);
+          throw new ArithmeticException(DIVISION_BY_ZERO_ERROR_MESSAGE);
         }
         return a / b;
       case '^':

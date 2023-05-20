@@ -1,18 +1,17 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.edit;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.CELL_UPDATED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.EDIT_NOT_ENOUGH_ARGS_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.EDIT_TOO_MANY_ARGS_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.EDIT_USAGE_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_EDITING_CELL_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_ROW_COL_NUMBER_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_TABLE_OPENED_MESSAGE;
 import java.util.List;
-
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELL_UPDATED_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.EDIT_NOT_ENOUGH_ARGS_ERROR_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.EDIT_TOO_MANY_ARGS_ERROR_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.EDIT_USAGE_ERROR_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ERROR_EDITING_CELL_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_ROW_COL_NUMBER;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NO_TABLE_OPENED_MESSAGE;
 
 /**
  * An implementation of the {@link ArgumentCommand} interface that represents the "edit" command.
@@ -153,7 +152,7 @@ public class EditCommand extends ArgumentCommand {
       this.row = Integer.parseInt(getArguments().get(0)) - 1;
       this.col = Integer.parseInt(getArguments().get(1)) - 1;
     } catch (NumberFormatException e) {
-      throw new IllegalArgumentException(INVALID_ROW_COL_NUMBER);
+      throw new IllegalArgumentException(INVALID_ROW_COL_NUMBER_MESSAGE);
     }
 
     this.newValue = getArguments().get(2);

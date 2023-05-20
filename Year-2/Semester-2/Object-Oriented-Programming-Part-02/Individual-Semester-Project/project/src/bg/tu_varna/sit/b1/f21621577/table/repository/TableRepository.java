@@ -1,15 +1,15 @@
 package bg.tu_varna.sit.b1.f21621577.table.repository;
 
-import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
-import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
-
-import java.util.Arrays;
-
 import static bg.tu_varna.sit.b1.f21621577.config.Config.COLS;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_ROW_INDEX_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_SIZE_ERROR_MESSAGE;
+
 import static bg.tu_varna.sit.b1.f21621577.config.Config.ROWS;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_COL_INDEX_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_ROW_INDEX_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_SIZE_ERROR_MESSAGE;
+import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
+import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
+import java.util.Arrays;
 
 /**
  * The TableRepository class is responsible for storing and managing the table data.
@@ -151,7 +151,7 @@ public class TableRepository {
       throw new IllegalArgumentException(String.format(INVALID_ROW_INDEX_MESSAGE, row));
     }
     if (column < 0 || column >= table[row].length) {
-      throw new IllegalArgumentException(String.format(INVALID_ROW_INDEX_MESSAGE, column));
+      throw new IllegalArgumentException(String.format(INVALID_COL_INDEX_MESSAGE, column));
     }
 
     return table[row][column];

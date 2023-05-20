@@ -1,10 +1,9 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.close;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_TABLE_OPENED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_DATA_CLEARED_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
-
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NO_TABLE_OPENED_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.TABLE_DATA_CLEARED_MESSAGE;
 
 /**
  * A command that closes the currently opened table by clearing its data from the repository.

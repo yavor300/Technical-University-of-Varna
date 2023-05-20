@@ -1,6 +1,8 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.open;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_OPENING_TABLE_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_OPENED_SUCCESSFULLY_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
@@ -65,7 +67,7 @@ public class OpenCommand extends ArgumentCommand {
       repository.setTableFileName(file.getFileName().toString());
       return TABLE_OPENED_SUCCESSFULLY_MESSAGE;
     } catch (IOException | IllegalArgumentException e) {
-      return String.format(ERROR_OPENING_TABLE, e.getMessage());
+      return String.format(ERROR_OPENING_TABLE_MESSAGE, e.getMessage());
     }
   }
 }

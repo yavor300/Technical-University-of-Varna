@@ -1,6 +1,10 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.save;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_SAVING_CHANGES_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.MISSING_FILE_ARGUMENT_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_TABLE_OPENED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_SAVED_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 import bg.tu_varna.sit.b1.f21621577.table.writer.TableWriter;
 
@@ -11,10 +15,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.ERROR_SAVING_CHANGES;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.MISSING_FILE_ARGUMENT_ERROR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.NO_TABLE_OPENED_MESSAGE;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.TABLE_SAVED_MESSAGE;
+
 
 /**
  * Command class that saves the current table to a file.
@@ -73,7 +74,7 @@ public class SaveCommand extends ArgumentCommand {
     super(arguments);
 
     if (arguments == null || arguments.isEmpty()) {
-      throw new IllegalArgumentException(MISSING_FILE_ARGUMENT_ERROR);
+      throw new IllegalArgumentException(MISSING_FILE_ARGUMENT_ERROR_MESSAGE);
     }
 
     this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
@@ -98,7 +99,7 @@ public class SaveCommand extends ArgumentCommand {
     try (TableWriter writer = new TableWriter(filePath)) {
       writer.write(repository.getTable());
     } catch (IOException e) {
-      return String.format(ERROR_SAVING_CHANGES, e.getMessage());
+      return String.format(ERROR_SAVING_CHANGES_MESSAGE, e.getMessage());
     }
 
     return String.format(TABLE_SAVED_MESSAGE, filePath.toString());

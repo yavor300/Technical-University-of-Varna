@@ -1,8 +1,11 @@
 package bg.tu_varna.sit.b1.f21621577.table.cell;
 
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_INPUT_TYPE_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.UNESCAPED_BACKSLASH_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.UNESCAPED_QUOTES_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.UNKNOWN_DATA_TYPE_MESSAGE;
 import java.util.regex.*;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
@@ -129,10 +132,10 @@ public class TableCell {
         return;
       }
       if (!areAllQuotesEscaped(data)) {
-        throw new IllegalArgumentException(data + UNESCAPED_QUOTES_ERROR);
+        throw new IllegalArgumentException(data + UNESCAPED_QUOTES_ERROR_MESSAGE);
       }
       if (!areAllBackslashesEscaped(data)) {
-        throw new IllegalArgumentException(data + UNESCAPED_BACKSLASH_ERROR);
+        throw new IllegalArgumentException(data + UNESCAPED_BACKSLASH_ERROR_MESSAGE);
       }
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
@@ -170,7 +173,7 @@ public class TableCell {
         this.type = CellType.STRING;
       }
     } else {
-      throw new IllegalArgumentException(INVALID_INPUT_TYPE + value);
+      throw new IllegalArgumentException(INVALID_INPUT_TYPE_MESSAGE + value);
     }
   }
 
