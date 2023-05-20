@@ -9,6 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.DOUBLE_BACKSLASH;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_CELLS_OUTPUT_SEPARATOR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_UNESCAPED_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.SINGLE_BACKSLASH;
 
 /**
  * Writer class that is needed to write the table data to a file.
@@ -66,11 +71,13 @@ public class TableWriter implements AutoCloseable {
 
       for (int col = 0; col < tableDatum.length; col++) {
         TableCell cell = tableDatum[col];
+
         if (cell.getType() == CellType.STRING) {
           String value = cell.getValueAsString();
-          value = value.replace("\\", "\\\\");
-          value = value.replace("\"", "\\\"");
-          lineBuilder.append("\"").append(value).append("\"");
+          value = value.replace(SINGLE_BACKSLASH, DOUBLE_BACKSLASH);
+          value = value.replace(NON_UNESCAPED_QUOTE, ESCAPED_QUOTE);
+          value = value.replace(CELLS_OUTPUT_SEPARATOR, ESCAPED_CELLS_OUTPUT_SEPARATOR);
+          lineBuilder.append(NON_UNESCAPED_QUOTE).append(value).append(NON_UNESCAPED_QUOTE);
         } else {
           lineBuilder.append(cell.getValueAsString());
         }
