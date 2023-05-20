@@ -3,6 +3,19 @@ package bg.tu_varna.sit.b1.f21621577.table.cell;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static bg.tu_varna.sit.b1.f21621577.config.Config.BACKSLASH_ESCAPING_COMMA;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.BACKSLASH_ESCAPING_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_BACKSLASH;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_COMMA;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ESCAPED_DOUBLE_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_INPUT_TYPE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_ESCAPED_BACKSLASH;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_ESCAPED_COMMA;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NON_ESCAPED_DOUBLE_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.STRING_IN_QUOTES_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.UNESCAPED_BACKSLASH_ERROR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.UNESCAPED_QUOTES_ERROR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.UNKNOWN_DATA_TYPE_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
 
@@ -80,7 +93,7 @@ public class TableCell {
     }
 
     if (type == CellType.FRACTIONAL) {
-      return String.format("%.2f", ((Number) value).doubleValue());
+      return String.format("%.2f", ((Number) value).doubleValue()).replace(",", ".");
     }
 
     return value.toString();
@@ -128,16 +141,16 @@ public class TableCell {
         return;
       }
       if (!areAllQuotesEscaped(data)) {
-        throw new IllegalArgumentException(data + " has unescaped quotes.");
+        throw new IllegalArgumentException(data + UNESCAPED_QUOTES_ERROR);
       }
       if (!areAllBackslashesEscaped(data)) {
-        throw new IllegalArgumentException(data + " has unescaped backslash.");
+        throw new IllegalArgumentException(data + UNESCAPED_BACKSLASH_ERROR);
       }
       this.value = parseEscapedString(data);
     } else if (isFormula(data)) {
       this.value = data;
     } else {
-      throw new IllegalArgumentException(data + " is unknown data type.");
+      throw new IllegalArgumentException(data + UNKNOWN_DATA_TYPE_MESSAGE);
     }
   }
 
@@ -169,7 +182,7 @@ public class TableCell {
         this.type = CellType.STRING;
       }
     } else {
-      throw new IllegalArgumentException("Invalid input type for value: " + value);
+      throw new IllegalArgumentException(INVALID_INPUT_TYPE + value);
     }
   }
 
@@ -187,7 +200,7 @@ public class TableCell {
    */
   private boolean isString(String data) {
 
-    Pattern stringPattern = Pattern.compile("^\".*\"$");
+    Pattern stringPattern = Pattern.compile(STRING_IN_QUOTES_PATTERN);
     Matcher stringMatcher = stringPattern.matcher(data);
 
     return stringMatcher.matches();
@@ -223,7 +236,9 @@ public class TableCell {
    */
   private String parseEscapedString(String input) {
 
-    input = input.replaceAll("\\\\\"", "\"").replaceAll("\\\\\\\\", "\\\\");
+    input = input.replaceAll(ESCAPED_DOUBLE_QUOTE, NON_ESCAPED_DOUBLE_QUOTE)
+            .replaceAll(ESCAPED_BACKSLASH, NON_ESCAPED_BACKSLASH)
+            .replaceAll(ESCAPED_COMMA, NON_ESCAPED_COMMA);
 
     return input;
   }
@@ -273,7 +288,8 @@ public class TableCell {
    */
   private boolean areAllBackslashesEscaped(String input) {
 
-    input = input.replaceAll("\\\\\"", "");
+    input = input.replaceAll(BACKSLASH_ESCAPING_QUOTE, "");
+    input = input.replaceAll(BACKSLASH_ESCAPING_COMMA, "");
 
     for (int i = 0; i < input.length(); i++) {
 
