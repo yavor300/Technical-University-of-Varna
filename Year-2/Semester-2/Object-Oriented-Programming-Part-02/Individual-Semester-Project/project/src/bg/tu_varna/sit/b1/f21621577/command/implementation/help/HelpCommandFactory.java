@@ -2,7 +2,6 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.help;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.command.base.CommandAbstractFactory;
-import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommand;
 
 /**
  * A factory for creating a HelpCommand object with a list of arguments.
