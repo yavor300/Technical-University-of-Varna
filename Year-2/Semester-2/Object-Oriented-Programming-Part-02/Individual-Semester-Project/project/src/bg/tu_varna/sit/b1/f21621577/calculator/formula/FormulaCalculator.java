@@ -253,8 +253,10 @@ public class FormulaCalculator {
 
   /**
    * Returns the numerical value of a given cell reference in the table.
+   * Recursion is used to calculate the cell value if it is another formula.
    * <p>
    * Връща числовата стойност на дадена препратка към клетка в таблицата.
+   * Използва се рекурсия, за да се изчисли стойността на клетката ако е формула.
    *
    * @param cellRef the reference to the cell, in the format "RxCy", where x is the row number and y is the column number
    *                <p>
@@ -290,6 +292,10 @@ public class FormulaCalculator {
 
     if (cell.getType() == CellType.EMPTY) {
       return 0.0;
+    }
+
+    if (cell.getType() == CellType.FORMULA) {
+      return this.evaluate(cell.getValueAsString());
     }
 
     return 0;
