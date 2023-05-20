@@ -233,5 +233,19 @@ public class Config {
    */
   public static final String MATH_ALLOWED_OPERATORS = "+-*/^";
 
+  /**
+   * The value indicating an error in a cell.
+   * <p>
+   * Стойността, показваща грешка в клетка.
+   */
+  public static final String CELL_ERROR_VALUE = "ERROR";
+
+  /**
+   * A constant representing the message indicating the absence of data in the table.
+   * <p>
+   * Константа, представляваща съобщението, показващо липсата на данни в таблицата.
+   */
+  public static final String NO_DATA_MESSAGE = "There is no data present in the table. Add some data by modifying the file or using the 'edit' command.";
+
 
 }
