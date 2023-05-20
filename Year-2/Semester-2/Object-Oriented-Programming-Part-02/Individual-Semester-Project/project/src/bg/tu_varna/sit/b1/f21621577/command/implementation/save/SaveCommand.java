@@ -10,7 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ERROR_SAVING_CHANGES;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.MISSING_FILE_ARGUMENT_ERROR;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NO_TABLE_OPENED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.TABLE_SAVED_MESSAGE;
 
 /**
  * Command class that saves the current table to a file.
