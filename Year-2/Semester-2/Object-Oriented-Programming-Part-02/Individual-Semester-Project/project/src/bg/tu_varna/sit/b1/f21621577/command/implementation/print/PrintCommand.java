@@ -1,7 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.print;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
-import bg.tu_varna.sit.b1.f21621577.calculator.formula.FormulaCalculator;
+import bg.tu_varna.sit.b1.f21621577.calculator.FormulaCalculator;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
