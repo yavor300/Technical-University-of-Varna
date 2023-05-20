@@ -8,8 +8,8 @@ import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.MATH_ALLOWED_OPERATORS
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ROW_OR_COLUMN_PATTERN;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
-import bg.tu_varna.sit.b1.f21621577.table.repository.*;
 
+import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
