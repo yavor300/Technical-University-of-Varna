@@ -1,5 +1,10 @@
 package bg.tu_varna.sit.b1.f21621577.table.writer;
 
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.DOUBLE_BACKSLASH;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_CELLS_OUTPUT_SEPARATOR;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.NON_UNESCAPED_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.SINGLE_BACKSLASH;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 
@@ -9,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 
 /**
  * Writer class that is needed to write the table data to a file.

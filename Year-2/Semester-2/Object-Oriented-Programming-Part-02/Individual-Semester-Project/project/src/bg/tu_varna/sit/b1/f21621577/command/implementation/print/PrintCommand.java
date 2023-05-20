@@ -140,7 +140,6 @@ public class PrintCommand implements Command {
     return colWidths;
   }
 
-
   /**
    * Returns the string representation of the table data, formatted as a table with rows and columns.
    * It creates a StringBuilder object called tableData and iterates through each row of the table,

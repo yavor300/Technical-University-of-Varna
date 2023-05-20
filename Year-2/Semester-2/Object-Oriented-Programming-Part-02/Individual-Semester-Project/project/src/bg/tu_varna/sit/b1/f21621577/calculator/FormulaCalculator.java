@@ -2,15 +2,22 @@ package bg.tu_varna.sit.b1.f21621577.calculator;
 
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.DIVISION_BY_ZERO_ERROR_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_OPERATOR_MESSAGE;
-import bg.tu_varna.sit.b1.f21621577.table.cell.*;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.CELL_REFERENCE_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.INTEGER_OR_FRACTIONAL_NUMBER_PATTERN;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.MATH_ALLOWED_OPERATORS;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ROW_OR_COLUMN_PATTERN;
+import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
+import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.*;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.*;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
+import java.util.regex.Pattern;
 
 /**
  * A class that can evaluate formulas using the reverse Polish notation algorithm.

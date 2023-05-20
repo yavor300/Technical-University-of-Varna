@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.open;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_OPENING_TABLE_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_OPENED_SUCCESSFULLY_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
@@ -10,8 +11,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
 
 /**
  * A command class that opens a table file and saves its contents in the table repository.
