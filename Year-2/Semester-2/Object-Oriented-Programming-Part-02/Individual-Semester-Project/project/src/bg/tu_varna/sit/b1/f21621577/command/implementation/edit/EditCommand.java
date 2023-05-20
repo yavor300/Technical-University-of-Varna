@@ -6,7 +6,13 @@ import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
 import java.util.List;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.*;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.CELL_UPDATED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.EDIT_NOT_ENOUGH_ARGS_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.EDIT_TOO_MANY_ARGS_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.EDIT_USAGE_ERROR_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.ERROR_EDITING_CELL_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.INVALID_ROW_COL_NUMBER;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.NO_TABLE_OPENED_MESSAGE;
 
 /**
  * An implementation of the {@link ArgumentCommand} interface that represents the "edit" command.
