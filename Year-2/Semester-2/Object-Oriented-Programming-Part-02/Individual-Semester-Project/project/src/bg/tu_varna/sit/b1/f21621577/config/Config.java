@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.config;
 
+import java.io.File;
+
 /**
  * This class contains static constants used throughout the application for configuration purposes.
  * <p>
@@ -40,7 +42,8 @@ public class Config {
    * <p>
    * Директорията по подразбиране за файлове с ресурси на таблица.
    */
-  public static final String DEFAULT_RESOURCES_DIRECTORY = "src/bg/tu_varna/sit/b1/f21621577/resources/";
+  public static final String DEFAULT_RESOURCES_DIRECTORY =
+          new File(Config.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
 
   /**
    * The default filename for new tables.
