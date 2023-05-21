@@ -1,10 +1,20 @@
 #!/bin/bash
 
-artifacts="artifacts/"
+artifacts="artifacts"
 pattern="program-[0-9]+\.[0-9]+\.[0-9]+\.jar"
 
-files=($(ls -1 $artifacts | grep -E $pattern | sort -V))
-latestFile=${files[-1]}
+if [[ $# -eq 0 ]]; then
+  files=($(find "$artifacts" -name "*.jar" -type f -regex ".*/$pattern" | sort -V))
+  latestFile=${files[-1]}
+else
+  version="$1"
+  files=($(find "$artifacts" -name "*.jar" -type f -regex ".*/program-$version\.jar"))
+  latestFile=${files[0]}
+fi
 
-echo "Starting jar file with name: $latestFile"
-java -jar "$artifacts/$latestFile"
+if [[ -z $latestFile ]]; then
+  echo "No matching jar file found."
+else
+  echo "Starting jar file: $latestFile"
+  java -jar "$latestFile"
+fi
