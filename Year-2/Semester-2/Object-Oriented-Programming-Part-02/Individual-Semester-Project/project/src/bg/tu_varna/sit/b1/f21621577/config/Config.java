@@ -27,18 +27,11 @@ public class Config {
   public static final int COLS;
 
   /**
-   * The separator used for outputting cell values.
+   * The separator used for separating input and output cell values.
    * <p>
-   * Разделителят, използван за извеждане на стойностите на клетката.
+   * Разделителят, използван за разделяне на стойностите при четене и извеждане.
    */
-  public static final String CELLS_OUTPUT_SEPARATOR;
-
-  /**
-   * The separator used for reading on input cell values.
-   * <p>
-   * Разделителят, използван за четене при въвеждане на стойностите на клетката.
-   */
-  public static final String CELLS_INPUT_SEPARATOR;
+  public static final String CELLS_SEPARATOR;
 
   /**
    * The default directory for table resource files.
@@ -71,8 +64,7 @@ public class Config {
 
     ROWS = Integer.parseInt(properties.getProperty("rows", "100"));
     COLS = Integer.parseInt(properties.getProperty("cols", "100"));
-    CELLS_OUTPUT_SEPARATOR = properties.getProperty("cells.output.separator", ",");
-    CELLS_INPUT_SEPARATOR = properties.getProperty("cells.input.separator", ",");
+    CELLS_SEPARATOR = properties.getProperty("cells.separator", ",");
     RESOURCES_DIRECTORY = properties.getProperty("resources.directory",
             new File(Config.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent());
     DEFAULT_TABLE_FILENAME = properties.getProperty("default.table.filename", "data.csv");

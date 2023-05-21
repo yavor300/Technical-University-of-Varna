@@ -5,14 +5,14 @@ import static bg.tu_varna.sit.b1.f21621577.constants.Messages.UNESCAPED_BACKSLAS
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.UNESCAPED_QUOTES_ERROR_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.UNKNOWN_DATA_TYPE_MESSAGE;
 
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.BACKSLASH_ESCAPING_COMMA;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.BACKSLASH_ESCAPING_INPUT_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.BACKSLASH_ESCAPING_QUOTE;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_BACKSLASH;
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_COMMA;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_INPUT_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_DOUBLE_QUOTE;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.NON_ESCAPED_BACKSLASH;
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.NON_ESCAPED_COMMA;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.NON_ESCAPED_DOUBLE_QUOTE;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.NON_ESCAPED_INPUT_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.STRING_IN_QUOTES_PATTERN;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isFractionalNumber;
 import static bg.tu_varna.sit.b1.f21621577.table.util.CellTypeUtil.isInteger;
@@ -238,7 +238,7 @@ public class TableCell {
 
     input = input.replaceAll(ESCAPED_DOUBLE_QUOTE, NON_ESCAPED_DOUBLE_QUOTE)
             .replaceAll(ESCAPED_BACKSLASH, NON_ESCAPED_BACKSLASH)
-            .replaceAll(ESCAPED_COMMA, NON_ESCAPED_COMMA);
+            .replaceAll(ESCAPED_INPUT_SEPARATOR, NON_ESCAPED_INPUT_SEPARATOR);
 
     return input;
   }
@@ -289,7 +289,7 @@ public class TableCell {
   private boolean areAllBackslashesEscaped(String input) {
 
     input = input.replaceAll(BACKSLASH_ESCAPING_QUOTE, "");
-    input = input.replaceAll(BACKSLASH_ESCAPING_COMMA, "");
+    input = input.replaceAll(BACKSLASH_ESCAPING_INPUT_SEPARATOR, "");
 
     for (int i = 0; i < input.length(); i++) {
 

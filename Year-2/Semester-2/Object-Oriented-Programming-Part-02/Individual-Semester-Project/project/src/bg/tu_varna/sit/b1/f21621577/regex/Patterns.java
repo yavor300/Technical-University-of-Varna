@@ -1,7 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.regex;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_INPUT_SEPARATOR;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
+
+import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_SEPARATOR;
 
 public class Patterns {
 
@@ -14,7 +14,7 @@ public class Patterns {
    * Регулярният израз е отрицателно твърдение за ретроспектива, което съвпада със CELLS_INPUT_SEPARATOR
    * (","), но само ако не е предшестван от обратна наклонена черта ("\").
    */
-  public static final String CELLS_INPUT_SEPARATOR_PATTERN = "(?<!\\\\)" + CELLS_INPUT_SEPARATOR;
+  public static final String CELLS_INPUT_SEPARATOR_PATTERN = "(?<!\\\\)" + CELLS_SEPARATOR;
 
   /**
    * The regular expression pattern used to match cell references.
@@ -118,11 +118,11 @@ public class Patterns {
   public static final String ESCAPED_BACKSLASH = "\\\\\\\\";
 
   /**
-   * Represents the escaped comma character: \,
+   * Represents the escaped input separator.
    * <p>
-   * Представлява обработеният символ запетая: \,
+   * Представлява обработеният входен разделител.
    */
-  public static final String ESCAPED_COMMA = "\\\\,";
+  public static final String ESCAPED_INPUT_SEPARATOR = "\\\\" + CELLS_SEPARATOR;
 
   /**
    * Represents the non escaped double quote character: ".
@@ -148,11 +148,11 @@ public class Patterns {
   public static final String DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN = " (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 
   /**
-   * Represents the non escaped comma character: ,
+   * Represents the non escaped input separator.
    * <p>
-   * Представлява необработеният символ запетая: ,
+   * Представлява необработеният воден разделител.
    */
-  public static final String NON_ESCAPED_COMMA = ",";
+  public static final String NON_ESCAPED_INPUT_SEPARATOR = CELLS_SEPARATOR;
 
   /**
    * Represents the string value for escaping a double quote using a backslash.
@@ -162,11 +162,11 @@ public class Patterns {
   public static final String BACKSLASH_ESCAPING_QUOTE = "\\\\\"";
 
   /**
-   * Represents the string value for escaping a comma using a backslash.
+   * Represents the string value for escaping the input separator.
    * <p>
-   * Представлява стойността на низа за обработване на запетая с помощта на обратна наклонена черта.
+   * Представлява стойността на низа за обработване на входният разделител.
    */
-  public static final String BACKSLASH_ESCAPING_COMMA = "\\\\,";
+  public static final String BACKSLASH_ESCAPING_INPUT_SEPARATOR = "\\\\" + CELLS_SEPARATOR;
 
   /**
    * Represents the string constant for a single backslash character.
@@ -201,6 +201,6 @@ public class Patterns {
    * <p>
    * Обработеният разделител, използван за извеждане на стойностите на клетката.
    */
-  public static final String ESCAPED_CELLS_OUTPUT_SEPARATOR = SINGLE_BACKSLASH + CELLS_OUTPUT_SEPARATOR;
+  public static final String ESCAPED_CELLS_OUTPUT_SEPARATOR = SINGLE_BACKSLASH + CELLS_SEPARATOR;
 
 }

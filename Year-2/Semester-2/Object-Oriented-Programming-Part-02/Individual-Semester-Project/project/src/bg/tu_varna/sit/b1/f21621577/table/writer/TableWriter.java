@@ -1,5 +1,6 @@
 package bg.tu_varna.sit.b1.f21621577.table.writer;
 
+import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.DOUBLE_BACKSLASH;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_CELLS_OUTPUT_SEPARATOR;
 import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.ESCAPED_QUOTE;
@@ -12,8 +13,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static bg.tu_varna.sit.b1.f21621577.config.Config.CELLS_OUTPUT_SEPARATOR;
 
 /**
  * Writer class that is needed to write the table data to a file.
@@ -76,13 +75,13 @@ public class TableWriter implements AutoCloseable {
           String value = cell.getValueAsString();
           value = value.replace(SINGLE_BACKSLASH, DOUBLE_BACKSLASH);
           value = value.replace(NON_UNESCAPED_QUOTE, ESCAPED_QUOTE);
-          value = value.replace(CELLS_OUTPUT_SEPARATOR, ESCAPED_CELLS_OUTPUT_SEPARATOR);
+          value = value.replace(CELLS_SEPARATOR, ESCAPED_CELLS_OUTPUT_SEPARATOR);
           lineBuilder.append(NON_UNESCAPED_QUOTE).append(value).append(NON_UNESCAPED_QUOTE);
         } else {
           lineBuilder.append(cell.getValueAsString());
         }
         if (col < tableDatum.length - 1) {
-          lineBuilder.append(CELLS_OUTPUT_SEPARATOR);
+          lineBuilder.append(CELLS_SEPARATOR);
         }
       }
 
