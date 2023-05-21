@@ -3,6 +3,7 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.open;
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_OPENING_TABLE_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_ALREADY_OPENED_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_OPENED_SUCCESSFULLY_MESSAGE;
 import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
@@ -60,6 +61,10 @@ public class OpenCommand extends ArgumentCommand {
    */
   @Override
   public String execute() {
+
+    if (repository.isTableOpened()) {
+      return TABLE_ALREADY_OPENED_MESSAGE;
+    }
 
     try (TableReader tableReader = new TableReader(file)) {
       repository.loadData(tableReader.read());
