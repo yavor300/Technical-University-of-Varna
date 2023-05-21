@@ -2,15 +2,18 @@
 
 versionFile="VERSION"
 version=$(cat "$versionFile")
-fileWithoutVersion="program"
-fileWithVersion="$fileWithoutVersion-$version"
+jarName="program"
+jarNameWithVersion="$jarName-$version"
+artifacts="artifacts/"
 
-if [ -e "$fileWithoutVersion-"* ]; then
-    rm "$fileWithoutVersion-"*
+if [[ ! -d "$artifacts" ]]; then
+  mkdir -p "$artifacts"
 fi
 
-find . -type f -name "*.java" > sources.txt
-javac -encoding UTF-8 -d bin "@sources.txt"
-jar cmvf META-INF/MANIFEST.MF "$fileWithVersion.jar" -C bin/ .
+find . -type f -name "*.java" > classes.txt
+javac -encoding UTF-8 -d bin @"classes.txt"
+jar cmvf META-INF/MANIFEST.MF "$jarNameWithVersion.jar" -C bin/ .
+cp "$jarNameWithVersion.jar" "$artifacts"
+rm "$jarNameWithVersion.jar"
 rm -rf bin
-rm sources.txt
+rm classes.txt

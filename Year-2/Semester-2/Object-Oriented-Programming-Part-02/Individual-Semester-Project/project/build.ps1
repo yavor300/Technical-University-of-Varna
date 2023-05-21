@@ -1,13 +1,19 @@
 $versionFile = "VERSION"
 $version = Get-Content $versionFile -Raw
-$file_without_version = "program"
-$file_with_version = "$file_without_version-$version"
+$jarName = "program"
+$jarNameWithVersion = "$jarName-$version"
+$artifacts = "artifacts/"
 
-if (Test-Path $file_without_version-*) {
-    Remove-Item $file_without_version-*
+if (-not (Test-Path -Path $artifacts)) {
+    New-Item -ItemType Directory -Path $artifacts -Force
 }
-Get-ChildItem -Recurse -Filter "*.java" | ForEach-Object { $_.FullName } > sources.txt
-javac -encoding UTF-8 -d bin @(Get-Content sources.txt)
-jar cmvf META-INF/MANIFEST.MF "$file_with_version.jar" -C bin/ .
+
+Get-ChildItem -Recurse -Filter "*.java" | ForEach-Object { $_.FullName } > classes.txt
+javac -encoding UTF-8 -d bin @(Get-Content classes.txt)
+jar cmvf META-INF/MANIFEST.MF "$jarNameWithVersion.jar" -C bin/ .
+Copy-Item -Path "$jarNameWithVersion.jar" -Destination $artifacts
+Remove-Item "$jarNameWithVersion.jar"
+
+
 Remove-Item -Path bin -Recurse -Force
-Remove-Item -Path sources.txt -Force
+Remove-Item -Path classes.txt -Force
