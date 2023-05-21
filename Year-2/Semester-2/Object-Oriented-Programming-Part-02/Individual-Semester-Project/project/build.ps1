@@ -5,7 +5,7 @@ $jarNameWithVersion = "$jarName-$version"
 $artifacts = "artifacts/"
 
 if (-not (Test-Path -Path $artifacts)) {
-    New-Item -ItemType Directory -Path $artifacts -Force
+  New-Item -ItemType Directory -Path $artifacts -Force
 }
 
 Get-ChildItem -Recurse -Filter "*.java" | ForEach-Object { $_.FullName } > classes.txt
