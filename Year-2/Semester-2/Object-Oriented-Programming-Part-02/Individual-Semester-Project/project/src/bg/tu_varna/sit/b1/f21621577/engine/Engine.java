@@ -52,6 +52,8 @@ public class Engine {
         List<String> input = new ArrayList<>(Arrays.asList(scanner.nextLine().trim().split(DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN)));
         String menuChoice = input.get(0);
 
+        if (menuChoice.trim().isEmpty()) continue;
+
         Commands command;
         try {
           command = Commands.valueOf(menuChoice.toUpperCase());
