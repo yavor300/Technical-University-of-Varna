@@ -1,4 +1,6 @@
-$file = "program.jar"
+$versionFile = "VERSION"
+$version = Get-Content $versionFile -Raw
+$file = "program-$version.jar"
 
 if (Test-Path $file) {
     Remove-Item $file
