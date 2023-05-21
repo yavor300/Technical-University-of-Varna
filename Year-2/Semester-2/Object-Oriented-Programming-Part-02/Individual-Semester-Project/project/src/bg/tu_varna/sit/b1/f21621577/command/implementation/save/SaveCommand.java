@@ -5,6 +5,7 @@ import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_SAVING_CHANG
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.MISSING_FILE_ARGUMENT_ERROR_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_TABLE_OPENED_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_SAVED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 import bg.tu_varna.sit.b1.f21621577.table.writer.TableWriter;
 
@@ -102,6 +103,7 @@ public class SaveCommand extends ArgumentCommand {
       return String.format(ERROR_SAVING_CHANGES_MESSAGE, e.getMessage());
     }
 
+    setStatusCode(SUCCESSFUL_STATUS_CODE);
     return String.format(TABLE_SAVED_MESSAGE, filePath.toString());
   }
 }

@@ -7,6 +7,8 @@ import static bg.tu_varna.sit.b1.f21621577.constants.Messages.EDIT_TOO_MANY_ARGS
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.EDIT_USAGE_ERROR_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_EDITING_CELL_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INVALID_ROW_COL_NUMBER_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.UNSUCCESSFUL_STATUS_CODE;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
@@ -115,6 +117,7 @@ public class EditCommand extends ArgumentCommand {
 
     repository.setCell(row, col, newCell);
     repository.shrink();
+    setStatusCode(SUCCESSFUL_STATUS_CODE);
 
     return String.format(CELL_UPDATED_MESSAGE, row + 1, col + 1, oldCell.getValueAsString(), newCell.getValueAsString());
   }

@@ -2,13 +2,14 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.help;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.HELP_COMMAND_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
 
 /**
  * Implementation of the {@link Command} interface that displays a list of available commands.
  * <p>
  * Реализация на интерфейса {@link Command}, която показва списък с налични команди.
  */
-public class HelpCommand implements Command {
+public class HelpCommand extends Command {
 
   /**
    * Package-private constructor for creating a {@code HelpCommand} object.
@@ -29,6 +30,7 @@ public class HelpCommand implements Command {
   @Override
   public String execute() {
 
+    setStatusCode(SUCCESSFUL_STATUS_CODE);
     return HELP_COMMAND_MESSAGE.trim();
   }
 }

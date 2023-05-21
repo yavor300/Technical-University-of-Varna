@@ -5,23 +5,23 @@ import bg.tu_varna.sit.b1.f21621577.command.implementation.CommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.close.CloseCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.edit.EditCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.help.HelpCommandFactory;
+import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommand;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.open.OpenCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.print.PrintCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.save.SaveCommandFactory;
 import bg.tu_varna.sit.b1.f21621577.command.implementation.saveas.SaveAsCommandFactory;
-
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.COMMAND_NOT_FOUND_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.HELP_COMMAND_MESSAGE;
-import java.io.IOException;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
+import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Consumer;
-
-import static bg.tu_varna.sit.b1.f21621577.regex.Patterns.DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN;
 
 /**
  * The Engine class is responsible for starting and running the application.
@@ -147,10 +147,10 @@ public class Engine {
      *                  Аргументите за командата.
      */
     private void executeOpenCommand(List<String> arguments) {
-      try {
-        System.out.println(CommandFactory.getCommand(new OpenCommandFactory(arguments)).execute());
-      } catch (IOException e) {
-        System.out.println(e.getMessage());
+      OpenCommand open = (OpenCommand) CommandFactory.getCommand(new OpenCommandFactory(arguments));
+      System.out.println(open.execute());
+      if (open.getStatusCode() != SUCCESSFUL_STATUS_CODE) {
+        executeExitCommand(Collections.emptyList());
       }
     }
 
@@ -164,11 +164,8 @@ public class Engine {
      *                  Аргументите за командата.
      */
     private void executePrintCommand(List<String> arguments) {
-      try {
-        System.out.println(CommandFactory.getCommand(new PrintCommandFactory()).execute());
-      } catch (IOException e) {
-        System.out.println(e.getMessage());
-      }
+
+      System.out.println(CommandFactory.getCommand(new PrintCommandFactory()).execute());
     }
 
     /**
@@ -183,7 +180,7 @@ public class Engine {
     private void executeEditCommand(List<String> arguments) {
       try {
         System.out.println(CommandFactory.getCommand(new EditCommandFactory(arguments)).execute());
-      } catch (IllegalArgumentException | IOException e) {
+      } catch (IllegalArgumentException e) {
         System.out.println(e.getMessage());
       }
     }
@@ -198,11 +195,8 @@ public class Engine {
      *                  Аргументите за командата.
      */
     private void executeCloseCommand(List<String> arguments) {
-      try {
-        System.out.println(CommandFactory.getCommand(new CloseCommandFactory()).execute());
-      } catch (IOException e) {
-        System.out.println(e.getMessage());
-      }
+
+      System.out.println(CommandFactory.getCommand(new CloseCommandFactory()).execute());
     }
 
     /**
@@ -215,11 +209,8 @@ public class Engine {
      *                  Аргументите за командата.
      */
     private void executeSaveCommand(List<String> arguments) {
-      try {
-        System.out.println(CommandFactory.getCommand(new SaveCommandFactory()).execute());
-      } catch (IOException e) {
-        System.out.println(e.getMessage());
-      }
+
+      System.out.println(CommandFactory.getCommand(new SaveCommandFactory()).execute());
     }
 
     /**
@@ -234,7 +225,7 @@ public class Engine {
     private void executeSaveAsCommand(List<String> arguments) {
       try {
         System.out.println(CommandFactory.getCommand(new SaveAsCommandFactory(arguments)).execute());
-      } catch (IllegalArgumentException | IOException e) {
+      } catch (IllegalArgumentException e) {
         System.out.println(e.getMessage());
       }
     }
@@ -249,11 +240,8 @@ public class Engine {
      *                  Аргументите за командата.
      */
     private void executeHelpCommand(List<String> arguments) {
-      try {
-        System.out.println(CommandFactory.getCommand(new HelpCommandFactory()).execute());
-      } catch (IOException e) {
-        System.out.println(e.getMessage());
-      }
+
+      System.out.println(CommandFactory.getCommand(new HelpCommandFactory()).execute());
     }
 
     /**
@@ -266,7 +254,8 @@ public class Engine {
      *                  Аргументите за командата.
      */
     private void executeExitCommand(List<String> arguments) {
-      System.exit(0);
+
+      System.exit(SUCCESSFUL_STATUS_CODE);
     }
   }
 }

@@ -193,4 +193,12 @@ public class Messages {
                   "edit <row> <col> <new value>   edits the value at the given indexes with the new one\n" +
                   "help                           prints this information\n" +
                   "exit                           exists the program\n";
+
+  /**
+   * Error message indicating that a string has unescaped quotes.
+   * <p>
+   * Съобщение за грешка, показващо, че низ има необработени кавички.
+   */
+  public static final String INSUFFICIENT_ROW_OR_COLUMNS_ERROR_MESSAGE = "Insufficient rows or columns to load the table.\n" +
+          "Increase the 'rows' or 'cols' value in the config.properties file.";
 }

@@ -3,6 +3,8 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.close;
 import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_TABLE_OPENED_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_DATA_CLEARED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.UNSUCCESSFUL_STATUS_CODE;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
 /**
@@ -10,7 +12,7 @@ import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
  * <p>
  * Команда, която затваря текущо отворената таблица, като изчиства нейните данни от хранилището.
  */
-public class CloseCommand implements Command {
+public class CloseCommand extends Command {
 
   /**
    * The TableRepository instance used to perform the operation of closing a table.
@@ -41,6 +43,7 @@ public class CloseCommand implements Command {
 
     if (repository.isTableOpened()) {
       repository.clear();
+      setStatusCode(SUCCESSFUL_STATUS_CODE);
       return TABLE_DATA_CLEARED_MESSAGE;
     } else {
       return NO_TABLE_OPENED_MESSAGE;

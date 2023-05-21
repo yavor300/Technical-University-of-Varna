@@ -19,7 +19,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_TABLE_FILENAME;
  * което позволява предаване на потребителски списък с аргументи. Той също така предоставя метод за извличане на текущия списък с аргументи.
  * Подкласовете могат да добавят допълнителни полета, конструктори и методи, ако е необходимо, за да реализират специфичното си поведение.
  */
-public abstract class ArgumentCommand implements Command {
+public abstract class ArgumentCommand extends Command {
 
   /**
    * The list of arguments to be used by this command.

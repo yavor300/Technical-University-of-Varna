@@ -4,6 +4,7 @@ import bg.tu_varna.sit.b1.f21621577.command.base.Command;
 import bg.tu_varna.sit.b1.f21621577.calculator.FormulaCalculator;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_DATA_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.NO_TABLE_OPENED_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
 import bg.tu_varna.sit.b1.f21621577.table.cell.CellType;
 import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
@@ -24,7 +25,7 @@ import static bg.tu_varna.sit.b1.f21621577.config.Config.CELL_ERROR_VALUE;
  * низово представяне на данните от таблицата. Ако в момента няма отворена маса,
  * командата връща съобщение, което показва, че няма отворена таблица.
  */
-public class PrintCommand implements Command {
+public class PrintCommand extends Command {
 
   /**
    * Package-private constructor for creating a {@code PrintCommand} object.
@@ -56,6 +57,7 @@ public class PrintCommand implements Command {
     int numCols = repository.getNumColumns();
     int[] colWidths = computeColumnWidths(repository, numRows, numCols);
 
+    setStatusCode(SUCCESSFUL_STATUS_CODE);
     return getTableData(repository, numRows, numCols, colWidths);
   }
 

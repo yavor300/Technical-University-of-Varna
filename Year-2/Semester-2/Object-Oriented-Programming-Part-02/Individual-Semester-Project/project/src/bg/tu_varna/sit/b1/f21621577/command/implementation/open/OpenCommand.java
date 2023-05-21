@@ -3,11 +3,12 @@ package bg.tu_varna.sit.b1.f21621577.command.implementation.open;
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
 import static bg.tu_varna.sit.b1.f21621577.config.Config.RESOURCES_DIRECTORY;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_OPENING_TABLE_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.INSUFFICIENT_ROW_OR_COLUMNS_ERROR_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_ALREADY_OPENED_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_OPENED_SUCCESSFULLY_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.StatusCodes.SUCCESSFUL_STATUS_CODE;
 import bg.tu_varna.sit.b1.f21621577.table.reader.TableReader;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -69,9 +70,12 @@ public class OpenCommand extends ArgumentCommand {
     try (TableReader tableReader = new TableReader(file)) {
       repository.loadData(tableReader.read());
       repository.setTableFileName(file.getFileName().toString());
+      setStatusCode(SUCCESSFUL_STATUS_CODE);
       return TABLE_OPENED_SUCCESSFULLY_MESSAGE;
     } catch (IOException | IllegalArgumentException e) {
       return String.format(ERROR_OPENING_TABLE_MESSAGE, e.getMessage());
+    } catch (ArrayIndexOutOfBoundsException e) {
+      return INSUFFICIENT_ROW_OR_COLUMNS_ERROR_MESSAGE;
     }
   }
 }
