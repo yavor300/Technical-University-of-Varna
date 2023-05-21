@@ -1,7 +1,7 @@
 $versionFile = "VERSION"
 $version = Get-Content $versionFile -Raw
 $file_without_version = "program"
-$file_with_version = "program-$version"
+$file_with_version = "$file_without_version-$version"
 
 if (Test-Path $file_without_version-*) {
     Remove-Item $file_without_version-*
