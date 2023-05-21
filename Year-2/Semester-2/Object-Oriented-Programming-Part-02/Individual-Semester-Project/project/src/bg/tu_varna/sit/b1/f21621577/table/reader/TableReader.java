@@ -43,6 +43,10 @@ public class TableReader implements AutoCloseable {
    */
   public TableReader(Path path) throws IOException {
 
+    if (!Files.exists(path.getParent())) {
+      Files.createDirectories(path.getParent());
+    }
+
     if (!Files.exists(path)) {
       Files.createFile(path);
     }

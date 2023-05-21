@@ -1,7 +1,7 @@
 package bg.tu_varna.sit.b1.f21621577.command.implementation.open;
 
 import bg.tu_varna.sit.b1.f21621577.command.base.ArgumentCommand;
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.RESOURCES_DIRECTORY;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.ERROR_OPENING_TABLE_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_ALREADY_OPENED_MESSAGE;
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.TABLE_OPENED_SUCCESSFULLY_MESSAGE;
@@ -45,7 +45,7 @@ public class OpenCommand extends ArgumentCommand {
    */
   OpenCommand(List<String> arguments) {
     super(arguments);
-    this.file = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
+    this.file = Paths.get(RESOURCES_DIRECTORY, arguments.get(0));
   }
 
   /**

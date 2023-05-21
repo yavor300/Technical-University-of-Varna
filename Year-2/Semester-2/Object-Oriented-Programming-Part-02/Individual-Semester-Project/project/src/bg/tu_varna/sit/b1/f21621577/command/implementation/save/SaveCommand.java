@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static bg.tu_varna.sit.b1.f21621577.config.Config.DEFAULT_RESOURCES_DIRECTORY;
+import static bg.tu_varna.sit.b1.f21621577.config.Config.RESOURCES_DIRECTORY;
 
 
 /**
@@ -48,7 +48,7 @@ public class SaveCommand extends ArgumentCommand {
    * отворената таблица в хранилището.
    */
   SaveCommand() {
-    this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, repository.getTableFileName());
+    this.filePath = Paths.get(RESOURCES_DIRECTORY, repository.getTableFileName());
   }
 
   /**
@@ -77,7 +77,7 @@ public class SaveCommand extends ArgumentCommand {
       throw new IllegalArgumentException(MISSING_FILE_ARGUMENT_ERROR_MESSAGE);
     }
 
-    this.filePath = Paths.get(DEFAULT_RESOURCES_DIRECTORY, arguments.get(0));
+    this.filePath = Paths.get(RESOURCES_DIRECTORY, arguments.get(0));
   }
 
   /**

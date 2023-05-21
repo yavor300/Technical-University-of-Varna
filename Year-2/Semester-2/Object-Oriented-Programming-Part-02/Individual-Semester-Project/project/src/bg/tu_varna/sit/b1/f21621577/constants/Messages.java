@@ -184,6 +184,7 @@ public class Messages {
    */
   public static final String HELP_COMMAND_MESSAGE =
           "The following commands are supported:\n" +
+                  "open                           opens the default table file name specified by the default.table.filename property\n" +
                   "open <file_name>               opens <file_name>. Will be created if not existing.\n" +
                   "close                          closes currently opened file\n" +
                   "save                           saves the currently open file\n" +
