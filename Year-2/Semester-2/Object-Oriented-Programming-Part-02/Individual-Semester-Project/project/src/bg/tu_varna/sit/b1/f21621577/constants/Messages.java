@@ -176,4 +176,20 @@ public class Messages {
    * Шаблон за съобщение за грешка, показван, когато команда не бъде намерена.
    */
   public static final String COMMAND_NOT_FOUND_MESSAGE = "'%s' is not a command. See 'help'.";
+
+  /**
+   * Help command message.
+   * <p>
+   * Съобщение при команда 'help'.
+   */
+  public static final String HELP_COMMAND_MESSAGE =
+          "The following commands are supported:\n" +
+                  "open <file_name>               opens <file_name>. Will be created if not existing.\n" +
+                  "close                          closes currently opened file\n" +
+                  "save                           saves the currently open file\n" +
+                  "saveas <file_name>             saves the currently open file in <file_name>\n" +
+                  "print                          prints the table formatted to the console\n" +
+                  "edit <row> <col> <new value>   edits the value at the given indexes with the new one\n" +
+                  "help                           prints this information\n" +
+                  "exit                           exists the program\n";
 }

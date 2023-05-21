@@ -11,6 +11,7 @@ import bg.tu_varna.sit.b1.f21621577.command.implementation.save.SaveCommandFacto
 import bg.tu_varna.sit.b1.f21621577.command.implementation.saveas.SaveAsCommandFactory;
 
 import static bg.tu_varna.sit.b1.f21621577.constants.Messages.COMMAND_NOT_FOUND_MESSAGE;
+import static bg.tu_varna.sit.b1.f21621577.constants.Messages.HELP_COMMAND_MESSAGE;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +48,8 @@ public class Engine {
    */
   public void start() {
 
+    printStartupHeader();
+
     try (Scanner scanner = new Scanner(System.in)) {
       while (true) {
         List<String> input = new ArrayList<>(Arrays.asList(scanner.nextLine().trim().split(DO_NOT_SPLIT_IF_ENCLOSED_IN_QUOTES_PATTERN)));
@@ -65,6 +68,25 @@ public class Engine {
         commandExecutor.executeCommand(command, input.subList(1, input.size()));
       }
     }
+  }
+
+  /**
+   * Prints the header for the CLI application.
+   * The header consists of an ASCII art logo and additional information.
+   * <p>
+   * Отпечатва заглавието за CLI приложението.
+   * Заглавието се състои от ASCII арт лого и допълнителна информация.
+   */
+  private void printStartupHeader() {
+
+    System.out.println("  _____  _    ____  _     _____       _    ____  ____  \n" +
+            " |_   _|/ \\  | __ )| |   | ____|     / \\  |  _ \\|  _ \\ \n" +
+            "   | | / _ \\ |  _ \\| |   |  _|      / _ \\ | |_) | |_) |\n" +
+            "   | |/ ___ \\| |_) | |___| |___    / ___ \\|  __/|  __/ \n" +
+            "   |_/_/   \\_\\____/|_____|_____|  /_/   \\_\\_|   |_|    \n" +
+            "                                                       ");
+    System.out.println("Author: Yavor Chamov\n");
+    System.out.println(HELP_COMMAND_MESSAGE);
   }
 
   /**
