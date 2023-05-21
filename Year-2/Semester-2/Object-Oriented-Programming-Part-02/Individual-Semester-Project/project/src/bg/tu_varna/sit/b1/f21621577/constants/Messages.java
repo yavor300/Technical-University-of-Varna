@@ -12,9 +12,16 @@ public class Messages {
   /**
    * The message displayed when no table is currently opened.
    * <p>
-   * Съобщението, което се показва, когато в момента няма отворена маса.
+   * Съобщението, което се показва, когато в момента няма отворена таблица.
    */
   public static final String NO_TABLE_OPENED_MESSAGE = "No table is currently opened.";
+
+  /**
+   * The message displayed when a table is currently opened.
+   * <p>
+   * Съобщението, което се показва, когато в момента има отворена таблица.
+   */
+  public static final String TABLE_ALREADY_OPENED_MESSAGE = "Table is already opened.";
 
   /**
    * The error message displayed when editing a cell fails.
@@ -133,7 +140,7 @@ public class Messages {
    * <p>
    * Константа, представляваща съобщението, показващо липсата на данни в таблицата.
    */
-  public static final String NO_DATA_MESSAGE = "There is no data present in the table. Add some data by modifying the file or using the 'edit' command.";
+  public static final String NO_DATA_MESSAGE = "No data is currently present in the table.\nTo add data, close the table using the 'close' command and modify the file,\nor use the 'edit' command to make changes directly.";
 
   /**
    * Error message indicating that a string has unescaped quotes.
