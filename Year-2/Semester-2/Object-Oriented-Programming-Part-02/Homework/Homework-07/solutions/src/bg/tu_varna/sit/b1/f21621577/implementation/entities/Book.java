@@ -3,9 +3,9 @@ package bg.tu_varna.sit.b1.f21621577.implementation.entities;
 import bg.tu_varna.sit.b1.f21621577.base.entities.Product;
 import bg.tu_varna.sit.b1.f21621577.base.visitor.OrderVisitor;
 
-public class Toy extends Product {
+public class Book extends Product {
 
-  public Toy(double price) {
+  public Book(double price) {
     super(price);
   }
 
