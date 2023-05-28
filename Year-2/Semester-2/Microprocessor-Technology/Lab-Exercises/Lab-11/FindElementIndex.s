@@ -5,7 +5,7 @@
 
 .global  FindElementIndex
 FindElementIndex:
-  MOV R1,=NUMBERS  @ Начален адрес на масива
+  LDR R1,=NUMBERS  @ Начален адрес на масива
   MOV R2,#9        @ Последен индекс на масива
   MOV R3,#11       @ Числото (думата), което търсим
   MOV R0,#-1       @ Инициализиране на резултата
