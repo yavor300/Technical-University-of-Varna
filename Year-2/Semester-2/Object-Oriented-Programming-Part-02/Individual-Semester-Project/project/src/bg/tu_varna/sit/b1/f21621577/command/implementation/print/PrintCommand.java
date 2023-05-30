@@ -10,6 +10,7 @@ import bg.tu_varna.sit.b1.f21621577.table.cell.TableCell;
 import bg.tu_varna.sit.b1.f21621577.table.repository.TableRepository;
 
 import static bg.tu_varna.sit.b1.f21621577.config.Config.CELL_ERROR_VALUE;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -125,7 +126,7 @@ public class PrintCommand extends Command {
             try {
               cellValue = String.valueOf(
                       FormulaCalculator.getInstance().evaluate(cell.getValueAsString()));
-            } catch (ArithmeticException e) {
+            } catch (ArithmeticException | NoSuchElementException e) {
               cellValue = CELL_ERROR_VALUE;
             }
           } else {
@@ -211,7 +212,7 @@ public class PrintCommand extends Command {
           if (cell.getType() == CellType.FORMULA) {
             try {
               cellValue = String.valueOf(FormulaCalculator.getInstance().evaluate(cellValue));
-            } catch (ArithmeticException e) {
+            } catch (ArithmeticException | NoSuchElementException e) {
               cellValue = CELL_ERROR_VALUE;
             }
           }
