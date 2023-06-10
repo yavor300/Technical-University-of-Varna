@@ -1,89 +1,72 @@
 #include <graphics.h>
-
 #include <iostream>
-
 using namespace std;
-int main() {
-  //съпоставяща хистограма
-  //пример: прием на бакалаври,магистри,аео за последните 4 години
-  //всяко стълбче представлява приема за съответната година по трите компонента, оцветени с
-  //различен цвят
-  float b[4] = {
-    25,
-    22,
-    18,
-    27
-  }; //прием бакалаври за 4 гогини
 
-  float m[4] = {
-    5,
-    12,
-    18,
-    8
-  }; //прием магистри за 4 години
-  float a[4] = {
-    5,
-    6,
-    9,
-    8
-  }; //прием АЕО за 4 гогини
-  //надписите, които ще са текст под всяко стълбче, се четат от файл или клавиатура или масив
-  char labels[][20] = {
-    "2016",
-    "2017",
-    "2018",
-    "2019"
-  };
-  int winwidth = 800, winheight = 600; // параметри на прозореца на графичната система
-  int Px = 600, Py = 500, D = 50, Ds = 60, Dc = 60, x0 = 100, y0 = 550; //параметри на графичния прозорец, в който
-  //ще се изобразят данните (вътре в прозореца на графичната система)
-  int n = 4, i;
-  //скалният коефициент се определя от максималния прием по трите пера за година
-  float s[n];
-  for (int i = 1; i < n; i++) {
-    s[i] = b[i] + m[i] + a[i];
-  }
-  float smax = 0;
-  for (int i = 1; i < n; i++) {
-    if (s[i] > smax) smax = s[i];
-  }
-  float ss = smax / Px; //скален коефициент
-  // инициализация на графичната система чрез отваряне на графичен прозорец със зададен размер
-  initwindow(winwidth, winheight);
-  //изчертаване на графичния прозорец
-  line(x0, y0, x0 + Px, y0); //хоризонтaлнa ос
-  line(x0, y0, x0, y0 - Py); //вертикална ос
+/*
+ *Да се представят във вид на съпоставяща хоризонтална хистограма (фиг.6.2)
+ данните за приетите студенти последните 4 години в три категории
+ – бакалаври, магистри и доктори в задаен графичен прозорец.
+ Условието на задачата е като в задача 6.1, но визуализираните стълбчета са хоризонтални.
+ */
+int main()
+{
+	int b[4] = { 25, 22, 18, 27 };
 
-  int I = Px / D; // брой деления по скалата със стойностите
-  char text[10];
-  //изчертаване и надписване на деленията по оста със стойностите
-  for (i = 0; i <= I; i++) {
-    line(x0 + i * D, y0, x0 + i * D, y0 + 3); //изчертаване на деленията
-    gcvt(i * D * ss, 3.2, text); //преобразуване на реалната стойност, съответстваща на //делението в
-    //символен низ
-    settextjustify(1, 2);
-    outtextxy(x0 + i * D, y0 + 5, text); // извеждане на стойността, съответстваща на делението
-  }
-  //надписване на оста с надписите
-  for (i = 1; i <= n; i++) {
-    settextjustify(2, 1);
-    outtextxy(x0 - 10, y0 - i * (Ds + Dc) + Ds / 2, labels[i - 1]); // извеждане на надписите, съответстващи на
-    //данните
-  }
+	int m[4] = { 5, 12, 18, 8 };
 
-  // изобразяване на стълбчетата, съответстващи на данните
-  for (i = 1; i < n + 1; i++) {
-    setfillstyle(1, RED);
-    bar(x0, y0 - i * (Ds + Dc), x0 + (b[i - 1]) / ss, y0 - i * (Ds + Dc) + Ds);
+	int a[4] = { 5, 6, 9, 8 };
 
-    setfillstyle(1, GREEN);
+	char labels[][20] = { "2016", "2017", "2018", "2019" };
 
-    bar(x0 + (b[i - 1]) / ss, y0 - i * (Ds + Dc), x0 + (b[i - 1] + m[i - 1]) / ss, y0 - i * (Ds + Dc) + Ds);
+	int winwidth = 800;
+	int winheight = 600;
+	int Px = 600, Py = 500, D = 50, Ds = 60, Dc = 60, x0 = 100, y0 = 550;
+	int n = sizeof(b) / sizeof(b[0]);
 
-    setfillstyle(1, YELLOW);
+	int acceptedStudentsCount[n];
+	for (int i = 0; i < n; i++)
+	{
+		acceptedStudentsCount[i] = b[i] + m[i] + a[i];
+	}
 
-    bar(x0 + (b[i - 1] + m[i - 1]) / ss, y0 - i * (Ds + Dc), x0 + (b[i - 1] + m[i - 1] + a[i - 1]) / ss, y0 - i * (Ds + Dc) + Ds);
-  }
-  getch();
-  return 0;
+	double acceptedStudentsMax = acceptedStudentsCount[0];
+	for (int i = 1; i < n; i++)
+	{
+		if (acceptedStudentsCount[i] > acceptedStudentsMax) acceptedStudentsMax = acceptedStudentsCount[i];
+	}
+
+	double s = acceptedStudentsMax / Px;
+
+	initwindow(winwidth, winheight);
+	line(x0, y0, x0 + Px, y0);
+	line(x0, y0, x0, y0 - Py);
+
+	int l = Px / D;
+	char text[10];
+	for (int i = 0; i <= l; i++)
+	{
+		line(x0 + i *D, y0, x0 + i *D, y0 + 3);
+		gcvt(i *D *s, 3.2, text);
+		settextjustify(1, 2);
+		outtextxy(x0 + i *D, y0 + 5, text);
+	}
+
+	for (int i = 1; i <= n; i++)
+	{
+		settextjustify(2, 1);
+		outtextxy(x0 - 10, y0 - i *(Ds + Dc) + Ds / 2, labels[i - 1]);
+	}
+
+	for (int i = 1; i < n + 1; i++)
+	{
+		setfillstyle(1, RED);
+		bar(x0, y0 - i *(Ds + Dc), x0 + (b[i - 1]) / s, y0 - i *(Ds + Dc) + Ds);
+		setfillstyle(1, GREEN);
+		bar(x0 + b[i - 1] / s, y0 - i *(Ds + Dc), x0 + (b[i - 1] + m[i - 1]) / s, y0 - i *(Ds + Dc) + Ds);
+		setfillstyle(1, YELLOW);
+		bar(x0 + (b[i - 1] + m[i - 1]) / s, y0 - i *(Ds + Dc), x0 + (b[i - 1] + m[i - 1] + a[i - 1]) / s, y0 - i *(Ds + Dc) + Ds);
+	}
+
+	getch();
+	return 0;
 }
