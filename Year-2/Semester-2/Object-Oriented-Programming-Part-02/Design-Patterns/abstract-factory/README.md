@@ -1,4 +1,4 @@
-# Simple Factory Pattern
+# Abstract Factory Pattern
 
 ## Definition
 
