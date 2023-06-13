@@ -8,6 +8,7 @@ public class Client {
   public static void main(String[] args) {
 
     Subject proxy = new ProxySubject();
-    proxy.doSomeWork();
+    proxy.doSomeWork("Sam");
+    proxy.doSomeWork("Yavor");
   }
 }

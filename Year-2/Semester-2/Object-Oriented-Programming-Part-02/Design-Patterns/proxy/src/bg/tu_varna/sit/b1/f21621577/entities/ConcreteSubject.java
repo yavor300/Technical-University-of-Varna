@@ -7,8 +7,8 @@ class ConcreteSubject implements Subject {
   ConcreteSubject() { }
 
   @Override
-  public void doSomeWork() {
+  public void doSomeWork(String user) {
 
-    System.out.println("The doSomeWork() is executed.");
+    System.out.println(user + " invokes the method-doSomeWork().");
   }
 }
