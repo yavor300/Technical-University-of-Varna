@@ -1,4 +1,4 @@
-# Simple Factory Pattern
+# Factory Method Pattern
 
 ## Definition
 
