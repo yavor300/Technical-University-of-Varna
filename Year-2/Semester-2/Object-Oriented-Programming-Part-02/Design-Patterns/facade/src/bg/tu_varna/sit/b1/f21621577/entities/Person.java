@@ -1,12 +1,12 @@
 package bg.tu_varna.sit.b1.f21621577.entities;
 
-class Person {
+public class Person {
 
   private final String name;
   private final double assetValue;
-  private boolean previousLoanExist;
+  private final boolean previousLoanExist;
 
-  Person(String name, double assetValue, boolean previousLoanExist) {
+  public Person(String name, double assetValue, boolean previousLoanExist) {
 
     this.name = name;
     this.assetValue = assetValue;
@@ -27,4 +27,6 @@ class Person {
 
     return previousLoanExist;
   }
+
+
 }
