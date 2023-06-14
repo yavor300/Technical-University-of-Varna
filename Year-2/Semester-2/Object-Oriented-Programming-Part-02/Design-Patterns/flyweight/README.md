@@ -1,12 +1,12 @@
-# Prototype Pattern
+# Flyweight Pattern
 
 ## Definition
 
-It specifies the kinds of objects to create using a prototypical instance and creates new objects by copying this prototype.
+It uses sharing to support large numbers of fine-grained objects efficiently.
+
 ## Concept
 
-This pattern provides an alternative method for instantiating new objects by copying or cloning an instance of an existing object. Thus, you can avoid the expense of creating a new instance using this concept. 
-
+Sometimes you need to handle lots of objects that are very similar (but not the same). But the constraint is that you cannot create all of them to lessen resource and memory usage. The Flyweight pattern is made to handle these scenarios.
 ## Class Diagram
 
 ![Class Diagram](class-diagram.jpg)

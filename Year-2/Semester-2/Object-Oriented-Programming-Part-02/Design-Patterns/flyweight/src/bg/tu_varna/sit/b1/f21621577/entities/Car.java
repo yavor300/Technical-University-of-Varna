@@ -4,7 +4,7 @@ import bg.tu_varna.sit.b1.f21621577.base.Vehicle;
 
 class Car implements Vehicle {
 
-  private String description;
+  private final String description;
 
   Car(String description) {
     this.description = description;
