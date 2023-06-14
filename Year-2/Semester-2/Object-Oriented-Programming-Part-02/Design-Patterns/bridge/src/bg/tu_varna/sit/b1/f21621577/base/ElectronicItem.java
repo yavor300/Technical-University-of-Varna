@@ -6,7 +6,7 @@ public abstract class ElectronicItem {
   private final PriceType priceType;
 
   protected ElectronicItem(PriceType priceType, String productType) {
-    
+
     this.priceType = priceType;
     this.productType = productType;
   }
