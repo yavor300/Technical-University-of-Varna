@@ -107,7 +107,7 @@ BEGIN
     EXIT WHEN product_cursor%NOTFOUND;
 
     v_has_records := TRUE;
-    DBMS_OUTPUT.PUT_LINE('Product ID: ' || v_product_id || ', Product Name: ' || v_product_name || ', Group Name: ' || v_group_name || ', Price: ' || v_price || ', Available Quantity: ' || v_available_quantity || ', Import Date: ' || TO_CHAR(v_import_date, 'MM/DD/YYYY'));
+    DBMS_OUTPUT.PUT_LINE('Product Name: ' || v_product_name || ', Group Name: ' || v_group_name || ', Price: ' || v_price || ', Available Quantity: ' || v_available_quantity || ', Import Date: ' || TO_CHAR(v_import_date, 'MM/DD/YYYY'));
   END LOOP;
 
   CLOSE product_cursor;

@@ -26,19 +26,18 @@ CREATE OR REPLACE PROCEDURE generate_sale_report(
   v_end_row       NUMBER := NVL(p_batch_end, 10);
   v_sale_id       NUMBER;
   v_sale_date     DATE;
-  v_product_name  VARCHAR(255);
+  v_products      VARCHAR(255);
   v_sold_quantity NUMBER;
   v_unit_price    NUMBER;
-  v_total         NUMBER;
+  v_sale_total         NUMBER;
 
   CURSOR sale_cursor IS
     SELECT 
-      subq.sale_id, 
-      subq.sale_date,
-      subq.product_name, 
-      subq.sold_quantity, 
-      subq.unit_price,
-      subq.total
+      sale_id, 
+      sale_date,
+      LISTAGG(product_name || ' (Qty: ' || sold_quantity || ', Unit Price: ' || unit_price || ')', '; ') 
+        WITHIN GROUP (ORDER BY product_name) AS products,
+      SUM(total) AS sale_total
     FROM 
       (SELECT 
           s.sale_id,
@@ -53,9 +52,10 @@ CREATE OR REPLACE PROCEDURE generate_sale_report(
         JOIN inventory i ON i.inventory_id = isale.inventory_id
         JOIN product p ON p.product_id = i.product_id
         WHERE s."date" BETWEEN v_start_date AND v_end_date
-      ) subq
-    WHERE 
-      subq.row_num BETWEEN v_start_row AND v_end_row;
+      )
+      WHERE row_num BETWEEN v_start_row AND v_end_row
+    GROUP BY sale_id, sale_date
+    ORDER BY sale_date, sale_id;
 
 BEGIN
   validate_batch_numbers(v_start_row, v_end_row);
@@ -65,18 +65,14 @@ BEGIN
 
   OPEN sale_cursor;
   LOOP
-    FETCH sale_cursor INTO v_sale_id, v_sale_date, v_product_name, v_sold_quantity, v_unit_price, v_total;
+    FETCH sale_cursor INTO v_sale_id, v_sale_date, v_products, v_sale_total;
     EXIT WHEN sale_cursor%NOTFOUND;
-
-    DBMS_OUTPUT.PUT_LINE(
-      'Sale ID: ' || v_sale_id || ', ' || 
+  
+    DBMS_OUTPUT.PUT_LINE( 
       'Sale date: ' || TO_CHAR(v_sale_date, 'DD-MON-YYYY') || ', ' || 
-      'Product name: ' || v_product_name || ', ' || 
-      'Sold quantity: ' || v_sold_quantity || ', ' || 
-      'Unit price: ' || TO_CHAR(v_unit_price, '9999.99') || ', ' || 
-      'Total: ' || TO_CHAR(v_total, '9999.99')
+      'Products: ' || v_products || ', ' || 
+      'Total Sale Value: ' || TO_CHAR(v_sale_total, '9999.99')
     );
-
   END LOOP;
   CLOSE sale_cursor;
 

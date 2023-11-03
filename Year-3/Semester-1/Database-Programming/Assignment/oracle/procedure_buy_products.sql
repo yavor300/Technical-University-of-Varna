@@ -43,15 +43,13 @@ BEGIN
     RAISE_APPLICATION_ERROR(-20012, 'This employee is not allowed to process sales.');
   END IF;
 
-  INSERT INTO sale ("date", customer_id, employee_id)
-  VALUES (SYSDATE, p_customer_id, p_employee_id)
-  RETURNING sale_id INTO v_sale_id;
+  add_sale(SYSDATE, p_customer_id, p_employee_id, v_sale_id);
 
   FOR i IN 1..p_product_ids.COUNT LOOP
     v_available_qty := get_total_available_qty(p_product_ids(i));
 
     IF v_available_qty < p_requested_qtys(i) THEN
-      RAISE_APPLICATION_ERROR(-20010, 'Insufficient stock available for product ID ' || p_product_ids(i));
+      RAISE_APPLICATION_ERROR(-20010, 'Insufficient stock available for product ' || get_product_name(p_product_ids(i)));
     END IF;
 
     v_remaining_qty := p_requested_qtys(i);
@@ -60,8 +58,7 @@ BEGIN
       v_current_inventory_qty := LEAST(v_remaining_qty, rec.quantity);
       v_current_inventory_id := rec.inventory_id;
 
-      INSERT INTO inventory_sale (sold_quantity, inventory_id, sale_id)
-      VALUES (v_current_inventory_qty, v_current_inventory_id, v_sale_id);
+      add_inventory_sale(v_current_inventory_qty, v_current_inventory_id, v_sale_id);
 
       v_remaining_qty := v_remaining_qty - v_current_inventory_qty;
     END LOOP;
