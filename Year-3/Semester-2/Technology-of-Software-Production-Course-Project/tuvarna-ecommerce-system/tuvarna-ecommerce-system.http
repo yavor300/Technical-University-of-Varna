@@ -1,0 +1,6 @@
+@tuvarna_ecommerce_system_HostAddress = http://localhost:5141
+
+GET {{tuvarna_ecommerce_system_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
