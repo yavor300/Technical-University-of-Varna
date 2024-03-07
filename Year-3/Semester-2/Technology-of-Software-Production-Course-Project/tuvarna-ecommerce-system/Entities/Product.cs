@@ -6,19 +6,41 @@ namespace tuvarna_ecommerce_system.Entities
     public class Product : BaseEntity
     {
         [Required]
-        [StringLength(255)]
+        [StringLength(128)]
         public string Name { get; set; }
 
-        [StringLength(1000)]
+        [Required]
+        [StringLength(1024)]
         public string Description { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18,2)")]
+        [StringLength(256)]
+        public string ShortDescription { get; set; }
+
+        [Required]
+        [Column(TypeName = "decimal(6,2)")]
         public decimal Price { get; set; }
 
+        [Column(TypeName = "decimal(6,2)")]
+        public decimal? DiscountPrice { get; set; }
+
+        [Required]
         public string ImageUrl { get; set; }
 
         [Required]
         public int StockQuantity { get; set; }
+
+        [Required]
+        [StringLength(6)]
+        public string Sku { get; set; }
+
+        [Required]
+        public ProductTypeEnum ProductType { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; } = null!;
+
+        public ICollection<Tag> Tags { get; set; }
     }
 }

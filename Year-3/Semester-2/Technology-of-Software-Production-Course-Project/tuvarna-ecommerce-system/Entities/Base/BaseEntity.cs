@@ -7,6 +7,6 @@ namespace tuvarna_ecommerce_system.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }
