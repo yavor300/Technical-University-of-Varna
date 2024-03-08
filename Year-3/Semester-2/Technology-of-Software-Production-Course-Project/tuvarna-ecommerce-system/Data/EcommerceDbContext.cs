@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using tuvarna_ecommerce_system.Entities;
+using tuvarna_ecommerce_system.Models.Entities;
 
 namespace tuvarna_ecommerce_system.Data
 {
@@ -12,6 +12,7 @@ namespace tuvarna_ecommerce_system.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,15 @@ namespace tuvarna_ecommerce_system.Data
                 .WithOne(e => e.Category)
                 .HasForeignKey(e => e.CategoryId)
                 .IsRequired();
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Category>()
+                .Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(32);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using tuvarna_ecommerce_system.Models.Entities.Base;
 
-namespace tuvarna_ecommerce_system.Entities
+namespace tuvarna_ecommerce_system.Models.Entities
 {
     public class Product : BaseEntity
     {

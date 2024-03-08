@@ -12,8 +12,8 @@ using tuvarna_ecommerce_system.Data;
 namespace tuvarna_ecommerce_system.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    [Migration("20240307202405_AddProductTypeToProduct")]
-    partial class AddProductTypeToProduct
+    [Migration("20240308192552_CategoryNameConstraints")]
+    partial class CategoryNameConstraints
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace tuvarna_ecommerce_system.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.Category", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,10 +44,13 @@ namespace tuvarna_ecommerce_system.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.Product", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +104,7 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.ProductTag", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.ProductTag", b =>
                 {
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -116,7 +119,7 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.ToTable("ProductTags");
                 });
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.Tag", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,9 +137,9 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.Product", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Product", b =>
                 {
-                    b.HasOne("tuvarna_ecommerce_system.Entities.Category", "Category")
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -145,15 +148,15 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.ProductTag", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.ProductTag", b =>
                 {
-                    b.HasOne("tuvarna_ecommerce_system.Entities.Product", "Product")
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("tuvarna_ecommerce_system.Entities.Tag", "Tag")
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -164,7 +167,7 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("tuvarna_ecommerce_system.Entities.Category", b =>
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Category", b =>
                 {
                     b.Navigation("Products");
                 });

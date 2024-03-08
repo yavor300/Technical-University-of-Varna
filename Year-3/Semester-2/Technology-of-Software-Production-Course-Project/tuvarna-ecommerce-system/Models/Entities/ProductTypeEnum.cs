@@ -1,4 +1,4 @@
-﻿namespace tuvarna_ecommerce_system.Entities
+﻿namespace tuvarna_ecommerce_system.Models.Entities
 {
     public enum ProductTypeEnum
     {
