@@ -99,6 +99,31 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             }
         }
 
+        public async Task<CategoryReadDTO> GetCategoryByNameAsync(CategoryGetByNameDTO categoryDto)
+        {
+            try
+            {
+                var category = await _categoryRepository.GetByNameAsync(categoryDto.Name);
+
+                return new CategoryReadDTO
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description
+                };
+            }
+            catch (CategoryNotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
         private void HandleDbUpdateException(DbUpdateException ex, CategoryCreateDTO categoryDto)
         {
             if (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))

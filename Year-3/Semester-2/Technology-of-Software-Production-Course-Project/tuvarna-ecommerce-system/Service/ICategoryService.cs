@@ -9,6 +9,8 @@ namespace tuvarna_ecommerce_system.Service
         Task<CategoryReadDTO> PatchCategoryAsync(CategoryPatchDTO categoryDto);
 
         Task<CategoryReadDTO> GetCategoryByIdAsync(CategoryGetByIdDTO categoryDto);
+
+        Task<CategoryReadDTO> GetCategoryByNameAsync(CategoryGetByNameDTO categoryDto);
     }
 
 }

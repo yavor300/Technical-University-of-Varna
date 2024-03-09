@@ -61,9 +61,10 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         public async Task<Category> GetByNameAsync(string name)
         {
 
+            string normalizedName = name.ToLowerInvariant();
             var category = await _context.Categories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Name.ToLowerInvariant() == name);
+                .FirstOrDefaultAsync(c => c.Name == normalizedName);
 
             if (category == null)
             {
