@@ -6,6 +6,7 @@ using tuvarna_ecommerce_system.Service.Implementation;
 using tuvarna_ecommerce_system.Service;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using tuvarna_ecommerce_system.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,17 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 var app = builder.Build();
+
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseSerilogRequestLogging(options => {
+    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) => {
+        if (httpContext.Items.ContainsKey("X-Correlation-ID"))
+        {
+            diagnosticContext.Set("CorrelationId", httpContext.Items["X-Correlation-ID"]);
+        }
+    };
+    options.MessageTemplate = "Handled {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms {CorrelationId}";
+});
 
 // Ensure the database is up-to-date with the latest migrations
 using (var scope = app.Services.CreateScope())

@@ -101,6 +101,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
         public async Task<CategoryReadDTO> GetCategoryByNameAsync(CategoryGetByNameDTO categoryDto)
         {
+
             try
             {
                 var category = await _categoryRepository.GetByNameAsync(categoryDto.Name);
