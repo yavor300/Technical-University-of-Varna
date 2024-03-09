@@ -44,3 +44,4 @@ msbuild.wrn
 db
 setenv.bat
 appsettings.json
+logs/

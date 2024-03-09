@@ -5,5 +5,7 @@ namespace tuvarna_ecommerce_system.Data.Repositories
     public interface ICategoryRepository
     {
         Task<Category> CreateAsync(Category category);
+
+        Task<Category> PatchAsync(int id, string? name, string? description);
     }
 }

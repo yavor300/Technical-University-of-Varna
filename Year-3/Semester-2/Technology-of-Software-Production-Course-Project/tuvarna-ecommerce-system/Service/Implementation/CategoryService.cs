@@ -42,6 +42,36 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 HandleDbUpdateException(ex, categoryDto);
                 throw;
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
+        public async Task<CategoryReadDTO> PatchCategoryAsync(CategoryPatchDTO categoryDto)
+        {
+            try
+            {
+                var updatedCategory = await _categoryRepository.PatchAsync(categoryDto.Id, categoryDto.Name, categoryDto.Description);
+
+                return new CategoryReadDTO
+                {
+                    Id = updatedCategory.Id,
+                    Name = updatedCategory.Name,
+                    Description = updatedCategory.Description
+                };
+            }
+            catch (CategoryNotFoundException ex)
+            {
+                _logger.LogError(ex, "Category with ID {CategoryId} not found.", categoryDto.Id);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
         }
 
         private void HandleDbUpdateException(DbUpdateException ex, CategoryCreateDTO categoryDto)

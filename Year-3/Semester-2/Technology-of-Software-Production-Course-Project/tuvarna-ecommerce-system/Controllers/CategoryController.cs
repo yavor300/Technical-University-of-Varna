@@ -33,12 +33,35 @@ namespace tuvarna_ecommerce_system.Controllers
             {
                 return Conflict(new { message = ex.Message });
             }
-            catch (Exception)
+            catch (InternalServerErrorException ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpPatch("edit")]
+        public async Task<ActionResult<CategoryReadDTO>> PatchCategory([FromBody] CategoryPatchDTO categoryDto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation failed", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            try
+            {
+                var updatedCategoryDto = await _categoryService.PatchCategoryAsync(categoryDto);
+                return Ok(updatedCategoryDto);
+            }
+            catch (CategoryNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
             }
         }
     }
 
 }
-

@@ -1,0 +1,49 @@
+curl -v -X POST "http://localhost:5141/api/v1/categories/add" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Name": "PhoneS",
+           "Description": "Gadgets and devices."
+         }'
+
+# Patch category name and desc]
+curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Id": 1,
+           "Name": "Phones",
+           "Description": "Updated Category Description"
+         }'
+
+# Patch invalid Id
+curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Id": -1,
+           "Name": "Updated Category Name",
+           "Description": "Updated Category Description"
+         }'
+
+# Patch only the category name
+curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Id": 1,
+           "Name": "Updated Category Name"
+         }'
+
+# Patch only the category description
+curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Id": 1,
+           "Description": "Updated Category Description to a new one"
+         }'
+
+# Patch with longer name than 32 chars
+curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Id": 1,
+           "Name": "Long name here Long name here Long name here Long name here Long name here"
+         }'
+
