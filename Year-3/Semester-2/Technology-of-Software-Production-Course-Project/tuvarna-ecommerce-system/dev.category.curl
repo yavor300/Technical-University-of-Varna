@@ -1,7 +1,7 @@
 curl -v -X POST "http://localhost:5141/api/v1/categories/add" \
      -H "Content-Type: application/json" \
      -d '{
-           "Name": "PhoneS",
+           "Name": "Phones",
            "Description": "Gadgets and devices."
          }'
 
@@ -47,3 +47,6 @@ curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
            "Name": "Long name here Long name here Long name here Long name here Long name here"
          }'
 
+curl -v "http://localhost:5141/api/v1/categories/get/1"
+
+curl -v "http://localhost:5141/api/v1/categories/get/null"

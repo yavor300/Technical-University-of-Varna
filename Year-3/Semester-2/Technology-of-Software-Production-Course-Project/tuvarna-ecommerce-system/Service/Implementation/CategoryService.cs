@@ -64,7 +64,32 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             }
             catch (CategoryNotFoundException ex)
             {
-                _logger.LogError(ex, "Category with ID {CategoryId} not found.", categoryDto.Id);
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
+        public async Task<CategoryReadDTO> GetCategoryByIdAsync(CategoryGetByIdDTO categoryGetByIdDto)
+        {
+            try
+            {
+                var category = await _categoryRepository.GetByIdAsync(categoryGetByIdDto.Id);
+
+                return new CategoryReadDTO
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description
+                };
+            }
+            catch (CategoryNotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
             catch (Exception ex)

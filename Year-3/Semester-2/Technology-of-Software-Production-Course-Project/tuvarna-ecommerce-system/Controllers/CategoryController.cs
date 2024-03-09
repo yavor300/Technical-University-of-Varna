@@ -62,6 +62,31 @@ namespace tuvarna_ecommerce_system.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+        [HttpGet("get/{id}")]
+        public async Task<ActionResult<CategoryReadDTO>> GetCategoryById([FromRoute] CategoryGetByIdDTO dto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation failed", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            try
+            {
+                var categoryDto = await _categoryService.GetCategoryByIdAsync(dto);
+                return Ok(categoryDto);
+            }
+            catch (CategoryNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
     }
 
 }
