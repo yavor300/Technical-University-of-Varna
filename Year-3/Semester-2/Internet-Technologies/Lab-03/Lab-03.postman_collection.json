@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "8aec4d21-4246-4c8c-b024-8782813410d3",
+		"name": "Lab-03",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15180253"
+	},
+	"item": [
+		{
+			"name": "api/v1/tasks/add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<task>\r\n<heading>Java Homework</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/add 400",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<task>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/add/bulk",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<tasks>\r\n<task>\r\n<heading>Java Homework</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>\r\n<task>\r\n<heading>Java Homework</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>\r\n<task>\r\n<heading>Java Homework</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>\r\n</tasks>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/add/bulk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"add",
+						"bulk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/add/bulk 400",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<tasks>\r\n<task>\r\n<heading>Java Homework</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>\r\n<task>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>\r\n<task>\r\n<heading>Java Homework</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>\r\n</tasks>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/add/bulk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"add",
+						"bulk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/edit",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<task>\r\n<id>1</id>\r\n<heading>C#</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/edit 400",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<task>\r\n<id>1</id>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/edit 404",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<task>\r\n<id>1</id>\r\n<heading>C++</heading>\r\n<description>OOP</description>\r\n<deadline>2024-05-04T12:12</deadline>\r\n</task>"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/delete/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tasks/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
