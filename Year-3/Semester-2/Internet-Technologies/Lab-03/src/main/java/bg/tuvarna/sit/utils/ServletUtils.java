@@ -41,7 +41,7 @@ public class ServletUtils {
       try {
         resp.getWriter().write("An internal error occurred. Please try again later.");
       } catch (IOException ex) {
-        // In real scenario a logger should be used
+        // TODO: In real project a logger should be used to log that type of error
         System.err.println("An exception occurred while handling another exception: " + ex.getMessage());
       }
     }

@@ -77,6 +77,15 @@ public class TaskServiceImpl implements TaskService {
     return convertToReadDto(updatedTask);
   }
 
+  @Override
+  public TaskResponseDto delete(String id) throws TaskNotFoundException, TaskValidationException {
+
+    long taskId = parseAndValidateId(id);
+    Task task = deleteTaskById(taskId);
+
+    return convertToReadDto(task);
+  }
+
   private void validateTaskDto(TaskRequestAddDto dto) throws TaskValidationException {
 
     if (dto.getHeading() == null || dto.getDescription() == null || dto.getDeadline() == null) {
@@ -147,13 +156,14 @@ public class TaskServiceImpl implements TaskService {
 
   private Collection<TaskResponseDto> convertAllToResponseDto(Collection<Task> tasks) {
 
-    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    // IT can work without formatter
+    // DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     return tasks.stream()
             .map(task -> new TaskResponseDto(
                     Long.toString(task.getId()),
                     task.getHeading(),
                     task.getDescription(),
-                    task.getDeadline().format(formatter)))
+                    task.getDeadline().toString()))
             .collect(Collectors.toList());
   }
 
@@ -173,6 +183,16 @@ public class TaskServiceImpl implements TaskService {
   private Task fetchTaskById(long taskId) throws TaskNotFoundException {
 
     Task task = repository.getById(taskId);
+    if (task == null) {
+      throw new TaskNotFoundException("Task with ID " + taskId + " not found.");
+    }
+
+    return task;
+  }
+
+  private Task deleteTaskById(long taskId) throws TaskNotFoundException {
+
+    Task task = repository.delete(taskId);
     if (task == null) {
       throw new TaskNotFoundException("Task with ID " + taskId + " not found.");
     }

@@ -15,4 +15,6 @@ public interface TaskRepository {
   Collection<Task> getAll();
 
   Task put(long id, String heading, String description, LocalDateTime deadline);
+
+  Task delete(long id);
 }

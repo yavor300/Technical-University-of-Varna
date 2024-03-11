@@ -20,4 +20,6 @@ public interface TaskService {
   TaskResponseBulkDto getAll();
 
   TaskResponseDto put(TaskRequestPutDto dto) throws TaskNotFoundException, TaskValidationException;
+
+  TaskResponseDto delete(String id) throws TaskNotFoundException, TaskValidationException;
 }

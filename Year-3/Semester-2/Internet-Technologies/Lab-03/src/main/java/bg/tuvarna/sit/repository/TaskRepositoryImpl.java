@@ -77,4 +77,17 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     return task;
   }
+
+  @Override
+  public Task delete(long id) {
+
+    Task taskToRemove = getById(id);
+
+    if (taskToRemove != null) {
+      tasks.remove(taskToRemove);
+      return taskToRemove;
+    }
+
+    return null;
+  }
 }

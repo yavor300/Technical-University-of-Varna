@@ -37,6 +37,11 @@ public class TaskRequestAddDto {
     return deadline;
   }
 
+  /**
+   * We will receive data and time in format: 2024-05-04T12:12.
+   * Only parsing is required.
+   * We can skip specifying any formatters.
+   */
   public static class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
 
     public LocalDateTime unmarshal(String v) {
