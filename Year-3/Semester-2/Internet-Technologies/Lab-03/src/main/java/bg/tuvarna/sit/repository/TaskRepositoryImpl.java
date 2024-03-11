@@ -11,9 +11,18 @@ public class TaskRepositoryImpl implements TaskRepository {
   private final Collection<Task> tasks;
   private final AtomicLong idGenerator;
 
-  public TaskRepositoryImpl(Collection<Task> tasks) {
-    this.tasks = tasks;
+  private TaskRepositoryImpl() {
+
+    this.tasks = new ArrayList<>();
     this.idGenerator = new AtomicLong(0);
+  }
+
+  private static class SingletonHelper {
+    private static final TaskRepositoryImpl INSTANCE = new TaskRepositoryImpl();
+  }
+
+  public static TaskRepositoryImpl getInstance() {
+    return SingletonHelper.INSTANCE;
   }
 
   @Override

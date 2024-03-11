@@ -10,6 +10,7 @@ import bg.tuvarna.sit.models.dto.TaskResponseBulkDto;
 import bg.tuvarna.sit.models.dto.TaskResponseDto;
 import bg.tuvarna.sit.models.entities.Task;
 import bg.tuvarna.sit.repository.TaskRepository;
+import bg.tuvarna.sit.repository.TaskRepositoryImpl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -19,8 +20,16 @@ import java.util.stream.Collectors;
 public class TaskServiceImpl implements TaskService {
   private final TaskRepository repository;
 
-  public TaskServiceImpl(TaskRepository repository) {
-    this.repository = repository;
+  private TaskServiceImpl(TaskRepositoryImpl instance) {
+    this.repository = instance;
+  }
+
+  private static class SingletonHelper {
+    private static final TaskServiceImpl INSTANCE = new TaskServiceImpl(TaskRepositoryImpl.getInstance());
+  }
+
+  public static TaskServiceImpl getInstance() {
+    return SingletonHelper.INSTANCE;
   }
 
   @Override
