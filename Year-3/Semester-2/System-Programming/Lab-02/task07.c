@@ -4,20 +4,23 @@
 
 int main(void)
 {
-  pid_t pid, pid2;
+
+  pid_t pid;
   pid = fork();
   if (pid == -1) {
     perror("fork");
     exit(EXIT_FAILURE);
   } else if (pid == 0) {
-    printf("Child\n");
-    sleep(5); // Child sleeps for 5 seconds
-    printf("%d\n", getppid()); // Child prints its parent's PID
+    printf("Child was created with pid %d.\n", pid);
+    printf("Waiting for parent process to exit...\n");
+    sleep(2);
+    printf("New parent pid: %d.\n", getppid());
     exit(0);
   } else {
-    sleep(2); // Parent sleeps for 2 seconds
-    printf("Parent created child with pid %d\n", pid);
-    exit(0); // Parent exits
+    sleep(1);
+    printf("Parent process is terminating...\n");
+    exit(0);
   }
+
   return 0;
 }
