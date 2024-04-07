@@ -5,6 +5,14 @@ curl -v -X POST "http://localhost:5141/api/v1/categories/add" \
            "Description": "Gadgets and devices."
          }'
 
+curl -v -X POST "http://localhost:5141/api/v1/categories/add" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "Name": "PhonesWithImage",
+           "Description": "Gadgets and devices.",
+           "ImageUrl": "./phones.jpg"
+         }'
+
 # Patch category name and desc]
 curl -v -X PATCH "http://localhost:5141/api/v1/categories/edit" \
      -H "Content-Type: application/json" \

@@ -11,5 +11,8 @@ namespace tuvarna_ecommerce_system.Models.DTOs
 
         [StringLength(128)]
         public string? Description { get; set; }
+
+        [StringLength(256)]
+        public string? ImageUrl { get; set; }
     }
 }

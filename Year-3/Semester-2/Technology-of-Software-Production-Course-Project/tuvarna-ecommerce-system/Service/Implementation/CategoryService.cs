@@ -23,7 +23,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             var category = new Category
             {
                 Name = categoryDto.Name,
-                Description = categoryDto.Description
+                Description = categoryDto.Description,
+                ImageUrl = categoryDto.ImageUrl
             };
 
             try
@@ -34,7 +35,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 {
                     Id = createdCategory.Id,
                     Name = createdCategory.Name,
-                    Description = createdCategory.Description
+                    Description = createdCategory.Description,
+                    ImageUrl = createdCategory.ImageUrl
                 };
             }
             catch (DbUpdateException ex)
@@ -59,7 +61,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 {
                     Id = updatedCategory.Id,
                     Name = updatedCategory.Name,
-                    Description = updatedCategory.Description
+                    Description = updatedCategory.Description,
+                    ImageUrl = updatedCategory.ImageUrl
                 };
             }
             catch (CategoryNotFoundException ex)
@@ -84,7 +87,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Description = category.Description
+                    Description = category.Description,
+                    ImageUrl = category.ImageUrl
                 };
             }
             catch (CategoryNotFoundException ex)
@@ -110,7 +114,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Description = category.Description
+                    Description = category.Description,
+                    ImageUrl = category.ImageUrl
                 };
             }
             catch (CategoryNotFoundException ex)

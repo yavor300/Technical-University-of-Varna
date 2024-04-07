@@ -12,6 +12,9 @@ namespace tuvarna_ecommerce_system.Models.Entities
         [StringLength(128)]
         public string? Description { get; set; }
 
+        [StringLength(256)]
+        public string? ImageUrl { get; set; }
+
         public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

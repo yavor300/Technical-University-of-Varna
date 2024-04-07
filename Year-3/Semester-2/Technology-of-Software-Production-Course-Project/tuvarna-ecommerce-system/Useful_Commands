@@ -1,0 +1,2 @@
+Add-Migration AddUniqueConstraintToCategoryName
+Update-Database
