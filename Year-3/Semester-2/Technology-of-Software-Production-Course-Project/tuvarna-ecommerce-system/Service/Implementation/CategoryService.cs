@@ -1,9 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using tuvarna_ecommerce_system.Data.Repositories;
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Models.Entities;
+using tuvarna_ecommerce_system.Utils;
 
 namespace tuvarna_ecommerce_system.Service.Implementation
 {
@@ -41,7 +41,10 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             }
             catch (DbUpdateException ex)
             {
-                HandleDbUpdateException(ex, categoryDto);
+                ExceptionHandlerUtil.HandleDbUpdateException<CategoryService>(_logger, ex, categoryDto.Name, 
+                    "Attempted to add a duplicate category: {EntityName}",
+                    "Database exception occurred while adding a new category. {EntityName}"
+                    );
                 throw;
             }
             catch (Exception ex)
@@ -128,17 +131,6 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 _logger.LogError(ex, "An unexpected error occurred.");
                 throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
             }
-        }
-
-        private void HandleDbUpdateException(DbUpdateException ex, CategoryCreateDTO categoryDto)
-        {
-            if (ex.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
-            {
-                _logger.LogError(ex, "Attempted to add a duplicate category: {CategoryName}", categoryDto.Name);
-                throw new CustomDuplicateKeyException($"A category with the name {categoryDto.Name} already exists.", ex);
-            }
-
-            _logger.LogError(ex, "Database exception occurred while adding a new category.");
         }
     }
 }

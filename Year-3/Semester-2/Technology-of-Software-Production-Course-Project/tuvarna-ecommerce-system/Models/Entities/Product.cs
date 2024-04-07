@@ -42,7 +42,7 @@ namespace tuvarna_ecommerce_system.Models.Entities
 
         public Category Category { get; set; } = null!;
 
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; } = [];
 
         public ICollection<ProductImage> AdditionalImages { get; set; } = new List<ProductImage>();
     }

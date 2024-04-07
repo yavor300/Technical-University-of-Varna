@@ -35,6 +35,15 @@ namespace tuvarna_ecommerce_system.Data
                 .Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(32);
+
+            modelBuilder.Entity<Tag>()
+                .HasIndex(t => t.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Tags)
+                .WithMany(e => e.Products)
+                .UsingEntity<ProductTag>();
         }
     }
 }

@@ -7,8 +7,7 @@ namespace tuvarna_ecommerce_system.Models.Entities
     {
         [Required]
         [StringLength(32)]
-        public string Name { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public required string Name { get; set; }
+        public ICollection<Product> Products { get; set; } = [];
     }
 }
-
