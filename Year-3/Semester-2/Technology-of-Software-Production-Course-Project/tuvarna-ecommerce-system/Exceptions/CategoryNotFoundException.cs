@@ -1,21 +1,23 @@
 ﻿namespace tuvarna_ecommerce_system.Exceptions
 {
-    public class CategoryNotFoundException : Exception
+    public class EntityNotFoundException : Exception
     {
-        public int CategoryId { get; }
+        public int EntityId { get; }
+        public string EntityName { get; }
 
-        public CategoryNotFoundException(int categoryId)
-            : base($"Category with ID {categoryId} not found.")
+        public EntityNotFoundException(int id, string entityName)
+            : base($"{entityName} with ID {id} not found.")
         {
-            CategoryId = categoryId;
+            EntityId = id;
+            EntityName = entityName;
         }
 
-        public CategoryNotFoundException(string message)
+        public EntityNotFoundException(string message)
             : base(message)
         {
         }
 
-        public CategoryNotFoundException(string message, Exception innerException)
+        public EntityNotFoundException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

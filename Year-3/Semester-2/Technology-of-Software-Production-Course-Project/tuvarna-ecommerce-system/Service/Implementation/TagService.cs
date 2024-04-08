@@ -52,5 +52,35 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
             }
         }
+
+        public async Task<TagReadDTO> PatchTagAsync(TagPatchDTO dto)
+        {
+
+            try
+            {
+                var updated = await _tagRepository.PatchAsync(dto.Id, dto.Name);
+
+                return new TagReadDTO
+                {
+                    Id = updated.Id,
+                    Name = updated.Name
+                };
+            }
+            catch (EntityNotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
     }
 }

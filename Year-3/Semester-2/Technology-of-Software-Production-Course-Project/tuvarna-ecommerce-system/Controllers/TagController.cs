@@ -2,6 +2,7 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
+using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {
@@ -34,6 +35,34 @@ namespace tuvarna_ecommerce_system.Controllers
                 return CreatedAtAction(nameof(CreateTag), new { id = createdTagDto.Id }, createdTagDto);
             }
             catch (CustomDuplicateKeyException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpPatch("edit")]
+        public async Task<ActionResult<TagReadDTO>> PatchTag([FromBody] TagPatchDTO dto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation failed", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            try
+            {
+                var updated = await _tagService.PatchTagAsync(dto);
+                return Ok(updated);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
             {
                 return Conflict(new { message = ex.Message });
             }

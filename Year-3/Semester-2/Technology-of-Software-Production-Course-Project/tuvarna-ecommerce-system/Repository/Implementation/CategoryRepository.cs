@@ -29,7 +29,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
-                throw new CategoryNotFoundException(id);
+                throw new EntityNotFoundException(id, "Category");
             }
 
             if (!string.IsNullOrEmpty(name))
@@ -63,7 +63,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
-                throw new CategoryNotFoundException(id);
+                throw new EntityNotFoundException(id, "Category");
             }
 
             return category;
@@ -79,7 +79,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             if (category == null)
             {
-                throw new CategoryNotFoundException($"Category with name {name} not found.");
+                throw new EntityNotFoundException($"Category with name {name} not found.");
             }
 
             return category;

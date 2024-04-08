@@ -1,4 +1,6 @@
-﻿using tuvarna_ecommerce_system.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using tuvarna_ecommerce_system.Data;
+using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.Entities;
 
 namespace tuvarna_ecommerce_system.Repository.Implementation
@@ -18,6 +20,35 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             tag.Name = tag.Name.ToLowerInvariant();
             _context.Tags.Add(tag);
+            await _context.SaveChangesAsync();
+            return tag;
+        }
+
+        public async Task<Tag> PatchAsync(int id, string name)
+        {
+
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag == null)
+            {
+                throw new EntityNotFoundException(id, "Tag");
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                string normalizedName = name.ToLowerInvariant();
+
+                var existingTag = await _context.Tags
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(t => t.Id != id && t.Name == normalizedName);
+
+                if (existingTag != null)
+                {
+                    throw new InvalidOperationException($"A tag with the name {name} already exists.");
+                }
+
+                tag.Name = normalizedName;
+            }
+
             await _context.SaveChangesAsync();
             return tag;
         }

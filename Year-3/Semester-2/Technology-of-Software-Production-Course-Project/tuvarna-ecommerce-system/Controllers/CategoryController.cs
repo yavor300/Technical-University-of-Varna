@@ -53,7 +53,7 @@ namespace tuvarna_ecommerce_system.Controllers
                 var updatedCategoryDto = await _categoryService.PatchCategoryAsync(categoryDto);
                 return Ok(updatedCategoryDto);
             }
-            catch (CategoryNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
             }
@@ -81,7 +81,7 @@ namespace tuvarna_ecommerce_system.Controllers
                 var categoryDto = await _categoryService.GetCategoryByIdAsync(dto);
                 return Ok(categoryDto);
             }
-            catch (CategoryNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
             }
@@ -105,7 +105,7 @@ namespace tuvarna_ecommerce_system.Controllers
                 var categoryDto = await _categoryService.GetCategoryByNameAsync(dto);
                 return Ok(categoryDto);
             }
-            catch (CategoryNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
             }

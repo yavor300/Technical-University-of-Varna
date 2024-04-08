@@ -68,7 +68,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ImageUrl = updatedCategory.ImageUrl
                 };
             }
-            catch (CategoryNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
@@ -99,7 +99,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ImageUrl = category.ImageUrl
                 };
             }
-            catch (CategoryNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
@@ -126,7 +126,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ImageUrl = category.ImageUrl
                 };
             }
-            catch (CategoryNotFoundException ex)
+            catch (EntityNotFoundException ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
