@@ -8,5 +8,7 @@ namespace tuvarna_ecommerce_system.Service
         Task<TagReadDTO> AddTagAsync(TagCreateDTO dto);
 
         Task<TagReadDTO> PatchTagAsync(TagPatchDTO dto);
+
+        Task<TagReadAllDTO> GetAllTagsAsync();
     }
 }

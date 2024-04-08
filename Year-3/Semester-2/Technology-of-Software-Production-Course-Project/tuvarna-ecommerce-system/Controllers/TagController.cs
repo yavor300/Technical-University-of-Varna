@@ -71,5 +71,19 @@ namespace tuvarna_ecommerce_system.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult<TagReadAllDTO>> GetAllTags()
+        {
+            try
+            {
+                var tagsDto = await _tagService.GetAllTagsAsync();
+                return Ok(tagsDto);
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
     }
 }
