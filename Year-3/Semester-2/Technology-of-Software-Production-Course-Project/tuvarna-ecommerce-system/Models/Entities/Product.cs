@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using tuvarna_ecommerce_system.Models.Entities.Base;
 
 namespace tuvarna_ecommerce_system.Models.Entities
@@ -19,17 +18,7 @@ namespace tuvarna_ecommerce_system.Models.Entities
         public string ShortDescription { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(6,2)")]
-        public decimal Price { get; set; }
-
-        [Column(TypeName = "decimal(6,2)")]
-        public decimal? DiscountPrice { get; set; }
-
-        [Required]
         public string ImageUrl { get; set; }
-
-        [Required]
-        public int StockQuantity { get; set; }
 
         [Required]
         [StringLength(6)]
@@ -45,5 +34,7 @@ namespace tuvarna_ecommerce_system.Models.Entities
         public ICollection<Tag> Tags { get; set; } = [];
 
         public ICollection<ProductImage> AdditionalImages { get; set; } = new List<ProductImage>();
+
+        public ICollection<ProductInventory> Inventories { get; set; } = new List<ProductInventory>();
     }
 }

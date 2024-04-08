@@ -13,6 +13,8 @@ namespace tuvarna_ecommerce_system.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductInventory> ProductInventory { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +46,12 @@ namespace tuvarna_ecommerce_system.Data
                 .HasMany(e => e.Tags)
                 .WithMany(e => e.Products)
                 .UsingEntity<ProductTag>();
+
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.Inventories)
+                .WithOne(i => i.Product)
+                .HasForeignKey(i => i.ProductId);
+
         }
     }
 }
