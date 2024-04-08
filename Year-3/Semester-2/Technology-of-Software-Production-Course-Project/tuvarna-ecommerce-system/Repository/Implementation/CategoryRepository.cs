@@ -34,7 +34,18 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             if (!string.IsNullOrEmpty(name))
             {
-                category.Name = name.ToLowerInvariant();
+                string normalizedName = name.ToLowerInvariant();
+
+                var existingCategory = await _context.Categories
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.Id != id && c.Name == normalizedName);
+
+                if (existingCategory != null)
+                {
+                    throw new InvalidOperationException($"A category with the name {name} already exists.");
+                }
+
+                category.Name = normalizedName;
             }
 
             if (!string.IsNullOrEmpty(description))

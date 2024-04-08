@@ -57,6 +57,10 @@ namespace tuvarna_ecommerce_system.Controllers
             {
                 return NotFound(new { message = ex.Message });
             }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
             catch (InternalServerErrorException ex)
             {
                 return StatusCode(500, new { message = ex.Message });

@@ -73,6 +73,11 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred.");
