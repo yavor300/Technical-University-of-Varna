@@ -24,6 +24,11 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             return tag;
         }
 
+        public async Task<List<Tag>> GetAllAsync()
+        {
+            return await _context.Tags.ToListAsync();
+        }
+
         public async Task<Tag> PatchAsync(int id, string name)
         {
 

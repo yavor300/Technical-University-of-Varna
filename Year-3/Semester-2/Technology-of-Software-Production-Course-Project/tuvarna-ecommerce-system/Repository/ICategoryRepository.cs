@@ -11,5 +11,7 @@ namespace tuvarna_ecommerce_system.Data.Repositories
         Task<Category> GetByIdAsync(int id);
 
         Task<Category> GetByNameAsync(string name);
+
+        Task<List<Category>> GetAllAsync();
     }
 }

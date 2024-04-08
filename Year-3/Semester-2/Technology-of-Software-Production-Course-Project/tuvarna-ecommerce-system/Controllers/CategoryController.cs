@@ -114,6 +114,19 @@ namespace tuvarna_ecommerce_system.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
-    }
 
+        [HttpGet]
+        public async Task<ActionResult<CategoryReadAllDTO>> GetAllCategories()
+        {
+            try
+            {
+                var categoriesDto = await _categoryService.GetAllCategoriesAsync();
+                return Ok(categoriesDto);
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+    }
 }

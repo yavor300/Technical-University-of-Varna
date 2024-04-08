@@ -8,5 +8,7 @@ namespace tuvarna_ecommerce_system.Repository
         Task<Tag> CreateAsync(Tag tag);
 
         Task<Tag> PatchAsync(int id, string name);
+
+        Task<List<Tag>> GetAllAsync();
     }
 }

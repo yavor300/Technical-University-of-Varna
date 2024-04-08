@@ -137,5 +137,33 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
             }
         }
+
+        public async Task<CategoryReadAllDTO> GetAllCategoriesAsync()
+        {
+            try
+            {
+                var categories = await _categoryRepository.GetAllAsync();
+
+                var categoryDtos = categories.Select(category => new CategoryReadDTO
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description,
+                    ImageUrl = category.ImageUrl
+                }).ToList();
+
+                var result = new CategoryReadAllDTO
+                {
+                    Categories = categoryDtos
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
     }
 }

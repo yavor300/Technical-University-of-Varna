@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace tuvarna_ecommerce_system.Models.DTOs
+﻿namespace tuvarna_ecommerce_system.Models.DTOs
 {
     public class CategoryReadDTO
     {

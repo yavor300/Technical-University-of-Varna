@@ -84,5 +84,10 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             return category;
         }
+
+        public async Task<List<Category>> GetAllAsync()
+        {
+            return await _context.Categories.ToListAsync();
+        }
     }
 }
