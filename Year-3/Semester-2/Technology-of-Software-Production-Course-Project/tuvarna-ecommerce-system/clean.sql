@@ -1,6 +1,9 @@
 DROP TABLE ProductTags;
-DROP TABLE ProductImage;
+DROP TABLE ProductImages;
 DROP TABLE Tags;
+DROP TABLE ProductInventory;
+DROP TABLE SaleItems;
+DROP TABLE Sales;
 DROP TABLE Products;
 DROP TABLE Categories;
 DROP TABLE __EFMigrationsHistory;

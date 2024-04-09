@@ -15,6 +15,8 @@ namespace tuvarna_ecommerce_system.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductInventory> ProductInventory { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleItem> SaleItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,6 +53,21 @@ namespace tuvarna_ecommerce_system.Data
                 .HasMany(p => p.Inventories)
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId);
+
+            modelBuilder.Entity<Sale>()
+            .HasMany(s => s.SaleItems)
+            .WithOne(si => si.Sale)
+            .HasForeignKey(si => si.SaleId);
+
+            modelBuilder.Entity<SaleItem>()
+                .HasOne(si => si.Product)
+                .WithMany()
+                .HasForeignKey(si => si.ProductId);
+
+            modelBuilder.Entity<Administrator>().ToTable("Administrators");
+            modelBuilder.Entity<Employee>().ToTable("Employees");
+            modelBuilder.Entity<Customer>().ToTable("Customers");
+
 
         }
     }

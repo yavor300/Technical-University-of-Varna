@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using tuvarna_ecommerce_system.Models.Entities.Base;
+using tuvarna_ecommerce_system.Models.Entities.Enums;
 
 namespace tuvarna_ecommerce_system.Models.Entities
 {
