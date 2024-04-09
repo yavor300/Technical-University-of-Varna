@@ -4,7 +4,6 @@ namespace tuvarna_ecommerce_system.Models.DTOs
 {
     public class ProductAddDTO : IValidatableObject
     {
-
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(128, ErrorMessage = "Name must be less than 128 characters.")]
         public string Name { get; set; }
@@ -23,21 +22,25 @@ namespace tuvarna_ecommerce_system.Models.DTOs
         [Required(ErrorMessage = "Product type is required.")]
         public string ProductType { get; set; }
 
-        public int CategoryId { get; set; }
+        [Required(ErrorMessage = "Category name is required.")]
+        public string CategoryName { get; set; }
 
-        public List<int> TagIds { get; set; } = new List<int>();
+        public List<TagDTO> Tags { get; set; } = new List<TagDTO>();
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (CategoryId == 0)
+            var duplicateTags = Tags.GroupBy(t => t.Name).Where(g => g.Count() > 1).Select(g => g.Key);
+            foreach (var duplicateTag in duplicateTags)
             {
-                yield return new ValidationResult($"The {nameof(CategoryId)} field is required.", new[] { nameof(CategoryId) });
-            }
-
-            if (CategoryId < 0)
-            {
-                yield return new ValidationResult($"The {nameof(CategoryId)} field must be a positive number.", new[] { nameof(CategoryId) });
+                yield return new ValidationResult($"Duplicate tag: {duplicateTag}", new[] { nameof(Tags) });
             }
         }
+    }
+
+    public class TagDTO
+    {
+        [Required(ErrorMessage = "Tag name is required.")]
+        [StringLength(32, ErrorMessage = "Tag name must be less than 32 characters.")]
+        public string Name { get; set; }
     }
 }
