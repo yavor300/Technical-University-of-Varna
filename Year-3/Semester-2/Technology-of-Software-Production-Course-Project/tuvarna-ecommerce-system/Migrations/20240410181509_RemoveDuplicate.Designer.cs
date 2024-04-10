@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tuvarna_ecommerce_system.Data;
 
@@ -11,9 +12,11 @@ using tuvarna_ecommerce_system.Data;
 namespace tuvarna_ecommerce_system.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240410181509_RemoveDuplicate")]
+    partial class RemoveDuplicate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace tuvarna_ecommerce_system.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ProductTag", b =>
-                {
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("ProductTag");
-                });
 
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Administrator", b =>
                 {
@@ -245,6 +233,21 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.ToTable("ProductInventory");
                 });
 
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.ProductTag", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ProductTags");
+                });
+
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Sale", b =>
                 {
                     b.Property<int>("Id")
@@ -318,21 +321,6 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("ProductTag", b =>
-                {
-                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Product", b =>
                 {
                     b.HasOne("tuvarna_ecommerce_system.Models.Entities.Category", "Category")
@@ -364,6 +352,25 @@ namespace tuvarna_ecommerce_system.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.ProductTag", b =>
+                {
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Sale", b =>

@@ -11,7 +11,7 @@ namespace tuvarna_ecommerce_system.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<ProductTag> ProductTags { get; set; }
+        //public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductInventory> ProductInventory { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
@@ -22,8 +22,7 @@ namespace tuvarna_ecommerce_system.Data
         {
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.Tags)
-                .WithMany(e => e.Products)
-                .UsingEntity<ProductTag>();
+                .WithMany(e => e.Products);
 
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Products)
@@ -43,11 +42,6 @@ namespace tuvarna_ecommerce_system.Data
             modelBuilder.Entity<Tag>()
                 .HasIndex(t => t.Name)
                 .IsUnique();
-
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.Tags)
-                .WithMany(e => e.Products)
-                .UsingEntity<ProductTag>();
 
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Inventories)

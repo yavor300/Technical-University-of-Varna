@@ -2,7 +2,7 @@
 
 namespace tuvarna_ecommerce_system.Models.DTOs
 {
-    public class ProductAddDTO : IValidatableObject
+    public class ProductCreateDTO : IValidatableObject
     {
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(128, ErrorMessage = "Name must be less than 128 characters.")]
@@ -25,7 +25,7 @@ namespace tuvarna_ecommerce_system.Models.DTOs
         [Required(ErrorMessage = "Category name is required.")]
         public string CategoryName { get; set; }
 
-        public List<TagDTO> Tags { get; set; } = new List<TagDTO>();
+        public List<TagCreateDTO> Tags { get; set; } = new List<TagCreateDTO>();
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -35,12 +35,5 @@ namespace tuvarna_ecommerce_system.Models.DTOs
                 yield return new ValidationResult($"Duplicate tag: {duplicateTag}", new[] { nameof(Tags) });
             }
         }
-    }
-
-    public class TagDTO
-    {
-        [Required(ErrorMessage = "Tag name is required.")]
-        [StringLength(32, ErrorMessage = "Tag name must be less than 32 characters.")]
-        public string Name { get; set; }
     }
 }

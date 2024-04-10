@@ -2,7 +2,6 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
-using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {

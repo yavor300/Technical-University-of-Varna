@@ -29,6 +29,21 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             return await _context.Tags.ToListAsync();
         }
 
+        public async Task<Tag> GetByNameAsync(string name)
+        {
+            string normalizedName = name.ToLowerInvariant();
+            var tag = await _context.Tags
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Name == normalizedName);
+
+            if (tag == null)
+            {
+                throw new EntityNotFoundException($"Tag with name {name} not found.");
+            }
+
+            return tag;
+        }
+
         public async Task<Tag> PatchAsync(int id, string name)
         {
 

@@ -10,5 +10,7 @@ namespace tuvarna_ecommerce_system.Repository
         Task<Tag> PatchAsync(int id, string name);
 
         Task<List<Tag>> GetAllAsync();
+
+        Task<Tag> GetByNameAsync(string name);
     }
 }
