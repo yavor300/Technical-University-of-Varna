@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using tuvarna_ecommerce_system.Data;
+using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.Entities;
 
 namespace tuvarna_ecommerce_system.Repository.Implementation
@@ -31,6 +32,18 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             product.Tags = productTags;
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            return product;
+        }
+
+        public async Task<Product> GetByIdAsync(int id)
+        {
+
+            var product = await _context.Products.Include(p => p.Tags).FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+            {
+                throw new EntityNotFoundException(id, "Product");
+            }
 
             return product;
         }

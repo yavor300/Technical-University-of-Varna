@@ -2,6 +2,7 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
+using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {
@@ -31,6 +32,30 @@ namespace tuvarna_ecommerce_system.Controllers
             {
                 var createdDto = await _service.AddAsync(dto);
                 return CreatedAtAction(nameof(Create), new { id = createdDto.Id }, createdDto);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductReadDTO>> GetById([FromRoute] ProductGetByIdDTO dto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation failed", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            try
+            {
+                var result = await _service.GetByIdAsync(dto);
+                return Ok(result);
             }
             catch (EntityNotFoundException ex)
             {

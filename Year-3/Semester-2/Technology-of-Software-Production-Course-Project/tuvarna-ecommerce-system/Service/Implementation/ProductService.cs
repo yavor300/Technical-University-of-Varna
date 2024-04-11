@@ -60,11 +60,56 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ShortDescription = createdProduct.ShortDescription,
                     ImageUrl = createdProduct.ImageUrl,
                     ProductType = createdProduct.ProductType.ToString(),
-                    CategoryName = category.Name,
+                    Category = new CategoryReadDTO
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        Description = category.Description,
+                        ImageUrl = category.ImageUrl
+                    },
                     Tags = createdProduct.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
                 };
 
                 return response;
+            }
+            catch (EntityNotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
+        public async Task<ProductReadDTO> GetByIdAsync(ProductGetByIdDTO dto)
+        {
+
+            try
+            {
+                var product = await _repository.GetByIdAsync(dto.Id);
+                var category = await _categoryRepository.GetByIdAsync(product.CategoryId);
+
+                return new ProductReadDTO
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Sku = product.Sku,
+                    Description = product.Description,
+                    ShortDescription = product.ShortDescription,
+                    ImageUrl = product.ImageUrl,
+                    ProductType = product.ProductType.ToString(),
+                    Category = new CategoryReadDTO
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        Description = category.Description,
+                        ImageUrl = category.ImageUrl
+                    },
+                    Tags = product.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
+                };
             }
             catch (EntityNotFoundException ex)
             {

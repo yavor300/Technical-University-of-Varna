@@ -7,5 +7,6 @@ namespace tuvarna_ecommerce_system.Service
 
         Task<ProductReadDTO> AddAsync(ProductCreateDTO dto);
 
+        Task<ProductReadDTO> GetByIdAsync(ProductGetByIdDTO dto);
     }
 }

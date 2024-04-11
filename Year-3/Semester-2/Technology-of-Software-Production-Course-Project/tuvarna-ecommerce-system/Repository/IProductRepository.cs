@@ -6,5 +6,7 @@ namespace tuvarna_ecommerce_system.Repository
     {
 
         Task<Product> CreateAsync(Product category, List<Tag> tags);
+
+        Task<Product> GetByIdAsync(int id);
     }
 }
