@@ -2,7 +2,6 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
-using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {
@@ -33,6 +32,10 @@ namespace tuvarna_ecommerce_system.Controllers
                 var createdDto = await _service.AddAsync(dto);
                 return CreatedAtAction(nameof(Create), new { id = createdDto.Id }, createdDto);
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
@@ -60,6 +63,38 @@ namespace tuvarna_ecommerce_system.Controllers
             catch (EntityNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpPatch("edit")]
+        public async Task<ActionResult<ProductReadDTO>> Edit([FromBody] ProductPatchDTO dto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation failed", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            try
+            {
+                var patchedDto = await _service.PatchAsync(dto);
+                return Ok(patchedDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
             }
             catch (InternalServerErrorException ex)
             {

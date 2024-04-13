@@ -10,5 +10,7 @@ namespace tuvarna_ecommerce_system.Service
         Task<TagReadDTO> PatchTagAsync(TagPatchDTO dto);
 
         Task<TagReadAllDTO> GetAllTagsAsync();
+
+        Task<TagReadDTO> Delete(int id);
     }
 }

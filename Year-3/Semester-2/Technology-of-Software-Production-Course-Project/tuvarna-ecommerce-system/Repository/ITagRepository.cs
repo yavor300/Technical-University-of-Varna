@@ -12,5 +12,7 @@ namespace tuvarna_ecommerce_system.Repository
         Task<List<Tag>> GetAllAsync();
 
         Task<Tag> GetByNameAsync(string name);
+
+        Task<Tag> Delete(int id);
     }
 }

@@ -62,7 +62,9 @@ namespace tuvarna_ecommerce_system.Data
             modelBuilder.Entity<Employee>().ToTable("Employees");
             modelBuilder.Entity<Customer>().ToTable("Customers");
 
-
+            modelBuilder.Entity<Tag>().HasQueryFilter(t => !t.IsDeleted);
+            modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

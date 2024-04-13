@@ -48,6 +48,40 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             return product;
         }
 
+        public async Task<Product> PatchAsync(Product updatedProduct)
+        {
+
+            var existingProduct = await GetByIdAsync(updatedProduct.Id);
+
+            existingProduct.Name = updatedProduct.Name;
+            existingProduct.Description = updatedProduct.Description;
+            existingProduct.ShortDescription = updatedProduct.ShortDescription;
+            existingProduct.ImageUrl = updatedProduct.ImageUrl;
+            existingProduct.ProductType = updatedProduct.ProductType;
+            existingProduct.CategoryId = updatedProduct.CategoryId;
+
+            if (updatedProduct.Tags != null)
+            {
+                existingProduct.Tags.Clear();
+                foreach (var tag in updatedProduct.Tags)
+                {
+                    var existingTag = await _context.Tags.FindAsync(tag.Id);
+                    if (existingTag != null)
+                    {
+                        if (_context.Entry(existingTag).State == EntityState.Detached)
+                        {
+                            _context.Tags.Attach(existingTag);
+                        }
+                        existingProduct.Tags.Add(existingTag);
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return existingProduct;
+        }
+
         private string GenerateUniqueSku()
         {
             var random = new Random();

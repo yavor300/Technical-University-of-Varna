@@ -72,6 +72,11 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
                 return response;
             }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
             catch (EntityNotFoundException ex)
             {
                 _logger.LogError(ex, ex.Message);
@@ -110,6 +115,76 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     },
                     Tags = product.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
                 };
+            }
+            catch (EntityNotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
+        public async Task<ProductReadDTO> PatchAsync(ProductPatchDTO updated)
+        {
+            try
+            {
+                var productToPatch = await _repository.GetByIdAsync(updated.Id);
+
+                var newCategory = await _categoryRepository.GetByNameAsync(updated.CategoryName);
+
+                var productType = Enum.Parse<ProductTypeEnum>(updated.ProductType, true);
+
+                var updatedProduct = new Product
+                {
+                    Id = updated.Id,
+                    Name = updated.Name,
+                    Description = updated.Description,
+                    ShortDescription = updated.ShortDescription,
+                    ImageUrl = updated.ImageUrl,
+                    ProductType = productType,
+                    CategoryId = newCategory.Id
+                };
+
+                var tags = new List<Tag>();
+
+                foreach (var tagDto in updated.Tags)
+                {
+                    var tag = await _tagRepository.GetByNameAsync(tagDto.Name);
+                    tags.Add(tag);
+                }
+                updatedProduct.Tags = tags;
+
+                var patched = await _repository.PatchAsync(updatedProduct);
+
+                var response = new ProductReadDTO
+                {
+                    Id = patched.Id,
+                    Name = patched.Name,
+                    Sku = patched.Sku,
+                    Description = patched.Description,
+                    ShortDescription = patched.ShortDescription,
+                    ImageUrl = patched.ImageUrl,
+                    ProductType = patched.ProductType.ToString(),
+                    Category = new CategoryReadDTO
+                    {
+                        Id = newCategory.Id,
+                        Name = newCategory.Name,
+                        Description = newCategory.Description,
+                        ImageUrl = newCategory.ImageUrl
+                    },
+                    Tags = patched.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
+                };
+
+                return response;
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
             }
             catch (EntityNotFoundException ex)
             {

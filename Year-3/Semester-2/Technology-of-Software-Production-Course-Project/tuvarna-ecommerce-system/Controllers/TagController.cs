@@ -84,5 +84,28 @@ namespace tuvarna_ecommerce_system.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<TagReadDTO>> Delete(int Id)
+        {
+
+            try
+            {
+                var deleted = await _tagService.Delete(Id);
+                return Ok(deleted);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
     }
 }

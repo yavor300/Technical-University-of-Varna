@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Models.Entities;
@@ -101,6 +102,42 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 };
 
                 return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
+        public async Task<TagReadDTO> Delete(int Id)
+        {
+
+            if (Id == 0)
+            {
+                throw new InvalidDataException($"The {nameof(Id)} field is required.");
+            }
+
+            if (Id < 0)
+            {
+                throw new InvalidDataException($"The {nameof(Id)} field must be a positive number.");
+            }
+
+            try
+            {
+
+                var deleted = await _tagRepository.Delete(Id);
+
+                return new TagReadDTO
+                {
+                    Id = deleted.Id,
+                    Name = deleted.Name
+                };
+            }
+            catch (EntityNotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
             }
             catch (Exception ex)
             {

@@ -24,6 +24,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             return tag;
         }
 
+
         public async Task<List<Tag>> GetAllAsync()
         {
             return await _context.Tags.ToListAsync();
@@ -70,6 +71,20 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             }
 
             await _context.SaveChangesAsync();
+            return tag;
+        }
+
+        public async Task<Tag> Delete(int id)
+        {
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag == null)
+            {
+                throw new EntityNotFoundException(id, "Tag");
+            }
+
+            tag.IsDeleted = true;
+            await _context.SaveChangesAsync();
+
             return tag;
         }
     }
