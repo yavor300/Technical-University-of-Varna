@@ -38,7 +38,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ShortDescription = dto.ShortDescription,
                     ImageUrl = dto.ImageUrl,
                     ProductType = productType,
-                    CategoryId = category.Id
+                    CategoryId = category.Id,
+                    Category = category
                 };
 
                 var tags = new List<Tag>();

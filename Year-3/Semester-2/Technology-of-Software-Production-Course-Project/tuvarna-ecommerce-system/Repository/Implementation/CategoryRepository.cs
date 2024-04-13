@@ -15,13 +15,30 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             _context = context;
         }
 
-        public async Task<Category> CreateAsync(Category category)
+        public async Task<Category> CreateAsync(Category newCategory)
         {
-            category.Name = category.Name.ToLowerInvariant();
-            _context.Categories.Add(category);
+            var existingCategory = await _context.Categories
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(c => c.Name.Equals(newCategory.Name.ToLowerInvariant()));
+
+            if (existingCategory != null)
+            {
+                if (existingCategory.IsDeleted)
+                {
+                    existingCategory.IsDeleted = false;
+                    existingCategory.Description = newCategory.Description;
+                    existingCategory.ImageUrl = newCategory.ImageUrl;
+                    await _context.SaveChangesAsync();
+                    return existingCategory;
+                }
+            }
+
+            newCategory.Name = newCategory.Name.ToLowerInvariant();
+            _context.Categories.Add(newCategory);
             await _context.SaveChangesAsync();
-            return category;
+            return newCategory;
         }
+
 
         public async Task<Category> PatchAsync(int id, string? name, string? description)
         {
@@ -74,7 +91,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             string normalizedName = name.ToLowerInvariant();
             var category = await _context.Categories
-                .AsNoTracking()
+                .Include(c => c.Products)
                 .FirstOrDefaultAsync(c => c.Name == normalizedName);
 
             if (category == null)
@@ -88,6 +105,20 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         public async Task<List<Category>> GetAllAsync()
         {
             return await _context.Categories.ToListAsync();
+        }
+
+        public async Task<Category> Delete(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                throw new EntityNotFoundException(id, "Category");
+            }
+
+            category.IsDeleted = true;
+            await _context.SaveChangesAsync();
+
+            return category;
         }
     }
 }

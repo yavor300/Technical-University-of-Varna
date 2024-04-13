@@ -20,15 +20,6 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         {
 
             product.Sku = GenerateUniqueSku();
-            // Ensure EF knows these tags are existing entities
-            foreach (var tag in productTags)
-            {
-                if (_context.Entry(tag).State == EntityState.Detached)
-                {
-                    _context.Tags.Attach(tag);
-                }
-            }
-
             product.Tags = productTags;
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -81,6 +72,17 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             return existingProduct;
         }
+
+        public async Task<List<Product>> GetByCategoryId(int Id)
+        {
+            // Query products by category ID, excluding those marked as deleted
+            return await _context.Products
+                .Where(p => p.CategoryId == Id && !p.IsDeleted)
+                .Include(p => p.Category)
+                .Include(p => p.Tags)
+                .ToListAsync();
+        }
+
 
         private string GenerateUniqueSku()
         {

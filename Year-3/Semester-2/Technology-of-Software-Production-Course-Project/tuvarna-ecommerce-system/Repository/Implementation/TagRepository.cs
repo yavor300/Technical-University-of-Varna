@@ -18,6 +18,21 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         public async Task<Tag> CreateAsync(Tag tag)
         {
 
+            var existing = await _context.Tags
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(t => t.Name.Equals(tag.Name.ToLowerInvariant()));
+
+            if (existing != null)
+            {
+                if (existing.IsDeleted)
+                {
+                    existing.IsDeleted = false;
+                    existing.Name = tag.Name.ToLowerInvariant();
+                    await _context.SaveChangesAsync();
+                    return existing;
+                }
+            }
+
             tag.Name = tag.Name.ToLowerInvariant();
             _context.Tags.Add(tag);
             await _context.SaveChangesAsync();
@@ -34,7 +49,6 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         {
             string normalizedName = name.ToLowerInvariant();
             var tag = await _context.Tags
-                .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Name == normalizedName);
 
             if (tag == null)

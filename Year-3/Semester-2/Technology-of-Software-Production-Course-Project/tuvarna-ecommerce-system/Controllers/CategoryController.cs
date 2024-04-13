@@ -2,6 +2,7 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
+using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {
@@ -122,6 +123,29 @@ namespace tuvarna_ecommerce_system.Controllers
             {
                 var categoriesDto = await _categoryService.GetAllCategoriesAsync();
                 return Ok(categoriesDto);
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<CategoryReadDTO>> Delete(int Id)
+        {
+
+            try
+            {
+                var deleted = await _categoryService.Delete(Id);
+                return Ok(deleted);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
             catch (InternalServerErrorException ex)
             {

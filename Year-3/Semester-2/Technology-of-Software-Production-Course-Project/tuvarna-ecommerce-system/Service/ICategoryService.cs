@@ -13,5 +13,7 @@ namespace tuvarna_ecommerce_system.Service
         Task<CategoryReadDTO> GetCategoryByNameAsync(CategoryGetByNameDTO categoryDto);
 
         Task<CategoryReadAllDTO> GetAllCategoriesAsync();
+
+        Task<CategoryReadDTO> Delete(int Id);
     }
 }
