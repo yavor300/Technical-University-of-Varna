@@ -28,9 +28,9 @@ namespace tuvarna_ecommerce_system.Models.Entities
         [Required]
         public ProductTypeEnum ProductType { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public Category Category { get; set; } = null!;
+        public Category Category { get; set; }
 
         public ICollection<Tag> Tags { get; set; } = [];
 

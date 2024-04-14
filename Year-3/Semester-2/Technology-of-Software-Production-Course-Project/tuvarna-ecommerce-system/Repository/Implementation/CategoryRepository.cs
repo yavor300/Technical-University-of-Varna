@@ -109,13 +109,21 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
         public async Task<Category> Delete(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories.Include(c => c.Products)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (category == null)
             {
                 throw new EntityNotFoundException(id, "Category");
             }
 
             category.IsDeleted = true;
+
+            foreach (var product in category.Products)
+            {
+                product.CategoryId = null;
+                product.Category = null;
+            }
+
             await _context.SaveChangesAsync();
 
             return category;

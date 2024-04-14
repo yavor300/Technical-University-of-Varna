@@ -10,7 +10,7 @@
         public string ShortDescription { get; set; }
         public string ImageUrl { get; set; }
         public string ProductType { get; set; }
-        public CategoryReadDTO Category { get; set; }
+        public CategoryReadDTO? Category { get; set; }
         public List<TagReadDTO> Tags { get; set; } = new List<TagReadDTO>();
     }
 }

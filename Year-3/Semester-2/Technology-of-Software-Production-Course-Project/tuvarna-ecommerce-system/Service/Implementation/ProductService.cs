@@ -27,7 +27,11 @@ namespace tuvarna_ecommerce_system.Service.Implementation
         {
             try
             {
-                var category = await _categoryRepository.GetByNameAsync(dto.CategoryName);
+                Category category = null;
+                if (!string.IsNullOrWhiteSpace(dto.CategoryName))
+                {
+                    category = await _categoryRepository.GetByNameAsync(dto.CategoryName);
+                }
 
                 var productType = Enum.Parse<ProductTypeEnum>(dto.ProductType, true);
 
@@ -38,8 +42,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ShortDescription = dto.ShortDescription,
                     ImageUrl = dto.ImageUrl,
                     ProductType = productType,
-                    CategoryId = category.Id,
-                    Category = category
+                    CategoryId = category?.Id
                 };
 
                 var tags = new List<Tag>();
@@ -61,7 +64,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ShortDescription = createdProduct.ShortDescription,
                     ImageUrl = createdProduct.ImageUrl,
                     ProductType = createdProduct.ProductType.ToString(),
-                    Category = new CategoryReadDTO
+                    Category = category == null ? null : new CategoryReadDTO
                     {
                         Id = category.Id,
                         Name = category.Name,
@@ -96,7 +99,24 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             try
             {
                 var product = await _repository.GetByIdAsync(dto.Id);
-                var category = await _categoryRepository.GetByIdAsync(product.CategoryId);
+
+
+                CategoryReadDTO categoryDto = null;
+                if (product.CategoryId.HasValue) 
+                {
+                    var category = await _categoryRepository.GetByIdAsync(product.CategoryId.Value);
+                    if (category != null)
+                    {
+                        categoryDto = new CategoryReadDTO
+                        {
+                            Id = category.Id,
+                            Name = category.Name,
+                            Description = category.Description,
+                            ImageUrl = category.ImageUrl
+                        };
+                    }
+                }
+
 
                 return new ProductReadDTO
                 {
@@ -107,13 +127,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ShortDescription = product.ShortDescription,
                     ImageUrl = product.ImageUrl,
                     ProductType = product.ProductType.ToString(),
-                    Category = new CategoryReadDTO
-                    {
-                        Id = category.Id,
-                        Name = category.Name,
-                        Description = category.Description,
-                        ImageUrl = category.ImageUrl
-                    },
+                    Category = categoryDto,
                     Tags = product.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
                 };
             }

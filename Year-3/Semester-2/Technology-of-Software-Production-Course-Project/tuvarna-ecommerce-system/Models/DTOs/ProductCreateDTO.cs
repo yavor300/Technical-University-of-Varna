@@ -22,8 +22,7 @@ namespace tuvarna_ecommerce_system.Models.DTOs
         [Required(ErrorMessage = "Product type is required.")]
         public string ProductType { get; set; }
 
-        [Required(ErrorMessage = "Category name is required.")]
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
 
         public List<TagCreateDTO> Tags { get; set; } = new List<TagCreateDTO>();
 

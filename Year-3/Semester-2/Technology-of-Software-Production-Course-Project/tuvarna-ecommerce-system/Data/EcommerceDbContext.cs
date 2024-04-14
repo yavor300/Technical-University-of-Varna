@@ -11,7 +11,6 @@ namespace tuvarna_ecommerce_system.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        //public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductInventory> ProductInventory { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
@@ -28,7 +27,7 @@ namespace tuvarna_ecommerce_system.Data
                 .HasMany(e => e.Products)
                 .WithOne(e => e.Category)
                 .HasForeignKey(e => e.CategoryId)
-                .IsRequired();
+                .IsRequired(false);
 
             modelBuilder.Entity<Category>()
                 .HasIndex(c => c.Name)
