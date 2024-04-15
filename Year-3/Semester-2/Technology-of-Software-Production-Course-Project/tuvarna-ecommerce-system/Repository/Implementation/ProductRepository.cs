@@ -30,7 +30,11 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         public async Task<Product> GetByIdAsync(int id)
         {
 
-            var product = await _context.Products.Include(p => p.Tags).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products
+                .Include(p => p.Tags)
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (product == null)
             {
                 throw new EntityNotFoundException(id, "Product");
@@ -51,7 +55,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             existingProduct.ProductType = updatedProduct.ProductType;
             existingProduct.CategoryId = updatedProduct.CategoryId;
 
-            if (updatedProduct.Tags != null)
+            if (updatedProduct.Tags != null && updatedProduct.Tags.Count > 0)
             {
                 existingProduct.Tags.Clear();
                 foreach (var tag in updatedProduct.Tags)
@@ -59,10 +63,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
                     var existingTag = await _context.Tags.FindAsync(tag.Id);
                     if (existingTag != null)
                     {
-                        if (_context.Entry(existingTag).State == EntityState.Detached)
-                        {
-                            _context.Tags.Attach(existingTag);
-                        }
+                        _context.Tags.Attach(existingTag);
                         existingProduct.Tags.Add(existingTag);
                     }
                 }

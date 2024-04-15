@@ -57,6 +57,11 @@ namespace tuvarna_ecommerce_system.Data
                 .WithMany()
                 .HasForeignKey(si => si.ProductId);
 
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.AdditionalImages)
+                .WithOne(i => i.Product)
+                .HasForeignKey(i => i.ProductId);
+
             modelBuilder.Entity<Administrator>().ToTable("Administrators");
             modelBuilder.Entity<Employee>().ToTable("Employees");
             modelBuilder.Entity<Customer>().ToTable("Customers");
@@ -64,6 +69,7 @@ namespace tuvarna_ecommerce_system.Data
             modelBuilder.Entity<Tag>().HasQueryFilter(t => !t.IsDeleted);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<ProductImage>().HasQueryFilter(pI => !pI.IsDeleted);
         }
     }
 }

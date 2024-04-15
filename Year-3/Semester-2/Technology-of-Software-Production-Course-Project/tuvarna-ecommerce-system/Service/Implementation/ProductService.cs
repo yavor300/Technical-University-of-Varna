@@ -149,30 +149,33 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             {
                 var productToPatch = await _repository.GetByIdAsync(updated.Id);
 
-                var newCategory = await _categoryRepository.GetByNameAsync(updated.CategoryName);
-
-                var productType = Enum.Parse<ProductTypeEnum>(updated.ProductType, true);
+                Category newCategory = null;
+                if (updated.CategoryName != null)
+                {
+                    newCategory = await _categoryRepository.GetByNameAsync(updated.CategoryName);
+                }
 
                 var updatedProduct = new Product
                 {
                     Id = updated.Id,
-                    Name = updated.Name,
-                    Description = updated.Description,
-                    ShortDescription = updated.ShortDescription,
-                    ImageUrl = updated.ImageUrl,
-                    ProductType = productType,
-                    CategoryId = newCategory.Id
+                    Name = updated.Name != null ? updated.Name : productToPatch.Name,
+                    Description = updated.Description != null ? updated.Description : productToPatch.Description,
+                    ShortDescription = updated.ShortDescription != null ? updated.ShortDescription : productToPatch.ShortDescription,
+                    ImageUrl = updated.ImageUrl != null ? updated.ImageUrl : productToPatch.ImageUrl,
+                    ProductType = updated.ProductType != null ? Enum.Parse<ProductTypeEnum>(updated.ProductType, true) : productToPatch.ProductType,
+                    CategoryId = newCategory != null ? newCategory.Id : productToPatch.CategoryId,
                 };
 
                 var tags = new List<Tag>();
-
-                foreach (var tagDto in updated.Tags)
-                {
-                    var tag = await _tagRepository.GetByNameAsync(tagDto.Name);
-                    tags.Add(tag);
+                if (updated.Tags != null) {
+                    foreach (var tagDto in updated.Tags)
+                    {
+                        var tag = await _tagRepository.GetByNameAsync(tagDto.Name);
+                        tags.Add(tag);
+                    }
+                    updatedProduct.Tags = tags;
                 }
-                updatedProduct.Tags = tags;
-
+                
                 var patched = await _repository.PatchAsync(updatedProduct);
 
                 var response = new ProductReadDTO
@@ -184,13 +187,13 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ShortDescription = patched.ShortDescription,
                     ImageUrl = patched.ImageUrl,
                     ProductType = patched.ProductType.ToString(),
-                    Category = new CategoryReadDTO
+                    Category = patched.Category != null ? new CategoryReadDTO
                     {
-                        Id = newCategory.Id,
-                        Name = newCategory.Name,
-                        Description = newCategory.Description,
-                        ImageUrl = newCategory.ImageUrl
-                    },
+                        Id = patched.Category.Id,
+                        Name = patched.Category.Name,
+                        Description = patched.Category.Description,
+                        ImageUrl = patched.Category.ImageUrl
+                    } : null,
                     Tags = patched.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
                 };
 
