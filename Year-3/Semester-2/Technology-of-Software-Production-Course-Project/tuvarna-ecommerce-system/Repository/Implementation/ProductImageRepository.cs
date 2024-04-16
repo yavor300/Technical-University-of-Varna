@@ -1,4 +1,5 @@
-﻿using tuvarna_ecommerce_system.Data;
+﻿using Azure;
+using tuvarna_ecommerce_system.Data;
 using tuvarna_ecommerce_system.Models.Entities;
 
 namespace tuvarna_ecommerce_system.Repository.Implementation
@@ -13,9 +14,12 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             _context = context;
         }
 
-        public Task<ProductImage> CreateAsync(ProductImage entity)
+        public async Task<ProductImage> CreateAsync(ProductImage entity)
         {
-            throw new NotImplementedException();
+
+            _context.ProductImages.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }

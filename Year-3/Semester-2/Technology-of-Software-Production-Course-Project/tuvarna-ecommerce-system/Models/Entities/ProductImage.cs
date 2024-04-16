@@ -14,6 +14,6 @@ namespace tuvarna_ecommerce_system.Models.Entities
         public int ProductId { get; set; }
 
         [ForeignKey("ProductId")]
-        public required Product Product { get; set; }
+        public Product Product { get; set; }
     }
 }

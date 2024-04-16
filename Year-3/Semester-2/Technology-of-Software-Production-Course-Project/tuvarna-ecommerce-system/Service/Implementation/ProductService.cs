@@ -13,14 +13,16 @@ namespace tuvarna_ecommerce_system.Service.Implementation
         private readonly IProductRepository _repository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ITagRepository _tagRepository;
+        private readonly IProductImageService _productImageService;
         private readonly ILogger<ProductService> _logger;
 
-        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, ITagRepository tagRepository, ILogger<ProductService> logger)
+        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, ITagRepository tagRepository, ILogger<ProductService> logger, IProductImageService productImageService)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _logger = logger;
+            _productImageService = productImageService;
         }
 
         public async Task<ProductReadDTO> AddAsync(ProductCreateDTO dto)
@@ -55,6 +57,17 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
                 var createdProduct = await _repository.CreateAsync(product, tags);
 
+
+                foreach (var imageDto in dto.Images)
+                {
+                    ProductImageCreateDTO imageCreateDTO = new ProductImageCreateDTO
+                    {
+                        ImageUrl = imageDto.ImageUrl,
+                        ProductId = createdProduct.Id,
+                    };
+                    await _productImageService.CreateAsync(imageCreateDTO);
+                }
+
                 var response = new ProductReadDTO
                 {
                     Id = createdProduct.Id,
@@ -71,7 +84,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         Description = category.Description,
                         ImageUrl = category.ImageUrl
                     },
-                    Tags = createdProduct.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
+                    Tags = createdProduct.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList(),
+                    Images = createdProduct.AdditionalImages.Select(i => new ProductImageReadDTO { Id = i.Id, ImageUrl = i.ImageUrl }).ToList()
                 };
 
                 return response;

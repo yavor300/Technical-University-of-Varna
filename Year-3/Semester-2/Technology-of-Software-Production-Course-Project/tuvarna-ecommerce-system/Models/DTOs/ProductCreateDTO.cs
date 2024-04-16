@@ -26,6 +26,8 @@ namespace tuvarna_ecommerce_system.Models.DTOs
 
         public List<TagCreateDTO> Tags { get; set; } = new List<TagCreateDTO>();
 
+        public List<ProductImageCreateDTO> Images { get; set; } = new List<ProductImageCreateDTO>();
+
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var duplicateTags = Tags.GroupBy(t => t.Name).Where(g => g.Count() > 1).Select(g => g.Key);
