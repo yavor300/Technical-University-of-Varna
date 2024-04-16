@@ -2,6 +2,7 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
+using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {
@@ -95,6 +96,26 @@ namespace tuvarna_ecommerce_system.Controllers
             catch (InvalidOperationException ex)
             {
                 return Conflict(new { message = ex.Message });
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("category/{CategoryName}")]
+        public async Task<ActionResult<ProductReadAllDTO>> GetByCategoryName([FromRoute] ProductsGetByCategoryNameDTO dto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation failed", errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            try
+            {
+                var response = await _service.GetByCategoryName(dto.CategoryName);
+                return Ok(response);
             }
             catch (InternalServerErrorException ex)
             {

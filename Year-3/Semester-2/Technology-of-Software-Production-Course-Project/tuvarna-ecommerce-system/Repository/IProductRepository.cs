@@ -11,6 +11,6 @@ namespace tuvarna_ecommerce_system.Repository
 
         Task<Product> PatchAsync(Product updated);
 
-        Task<List<Product>> GetByCategoryId(int Id);
+        Task<List<Product>> GetByCategoryName(string name);
     }
 }

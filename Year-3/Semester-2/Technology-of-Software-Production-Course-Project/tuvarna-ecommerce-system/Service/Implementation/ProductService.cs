@@ -107,6 +107,48 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             }
         }
 
+        public async Task<ProductReadAllDTO> GetByCategoryName(string name)
+        {
+            try
+            {
+                var products = await _repository.GetByCategoryName(name);
+                var productDtos = products.Select(p => new ProductReadDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Sku = p.Sku,
+                    Description = p.Description,
+                    ShortDescription = p.ShortDescription,
+                    ImageUrl = p.ImageUrl,
+                    ProductType = p.ProductType.ToString(),
+                    Category = p.Category != null ? new CategoryReadDTO
+                    {
+                        Id = p.Category.Id,
+                        Name = p.Category.Name,
+                        Description = p.Category.Description,
+                        ImageUrl = p.Category.ImageUrl
+                    } : null,
+                    Tags = p.Tags.Select(t => new TagReadDTO
+                    {
+                        Id = t.Id,
+                        Name = t.Name
+                    }).ToList(),
+                    Images = p.AdditionalImages.Select(i => new ProductImageReadDTO
+                    {
+                        Id = i.Id,
+                        ImageUrl = i.ImageUrl
+                    }).ToList()
+                }).ToList();
+
+                return new ProductReadAllDTO { Products = productDtos };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
         public async Task<ProductReadDTO> GetByIdAsync(ProductGetByIdDTO dto)
         {
 

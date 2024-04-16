@@ -75,13 +75,14 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             return existingProduct;
         }
 
-        public async Task<List<Product>> GetByCategoryId(int Id)
+        public async Task<List<Product>> GetByCategoryName(string name)
         {
-            // Query products by category ID, excluding those marked as deleted
+
             return await _context.Products
-                .Where(p => p.CategoryId == Id && !p.IsDeleted)
+                .Where(p => p.Category.Name == name && !p.IsDeleted)
                 .Include(p => p.Category)
                 .Include(p => p.Tags)
+                .Include(p => p.AdditionalImages)
                 .ToListAsync();
         }
 
