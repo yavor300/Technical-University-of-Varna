@@ -33,6 +33,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             var product = await _context.Products
                 .Include(p => p.Tags)
                 .Include(p => p.Category)
+                .Include(p => p.AdditionalImages)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
