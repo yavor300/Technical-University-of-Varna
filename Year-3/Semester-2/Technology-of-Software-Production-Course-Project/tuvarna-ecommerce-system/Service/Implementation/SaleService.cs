@@ -17,10 +17,6 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             _logger = logger;
         }
 
-
-
-
-
         public async Task<SaleReadDTO> CreateAsync(DateTime dateTime)
         {
             try
