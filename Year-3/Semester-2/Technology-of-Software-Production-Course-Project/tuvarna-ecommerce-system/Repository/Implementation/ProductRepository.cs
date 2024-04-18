@@ -34,6 +34,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
                 .Include(p => p.Tags)
                 .Include(p => p.Category)
                 .Include(p => p.AdditionalImages)
+                .Include(p => p.Inventories)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)

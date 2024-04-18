@@ -185,7 +185,16 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ProductType = product.ProductType.ToString(),
                     Category = categoryDto,
                     Tags = product.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList(),
-                    Images = product.AdditionalImages.Select(i => new ProductImageReadDTO { Id = i.Id, ImageUrl = i.ImageUrl }).ToList()
+                    Images = product.AdditionalImages.Select(i => new ProductImageReadDTO { Id = i.Id, ImageUrl = i.ImageUrl }).ToList(),
+                    Inventories = product.Inventories.Select(i => new ProductInventoryReadDTO
+                    {
+                        Id = i.Id,
+                        Price = i.Price,
+                        DiscountPrice = i.DiscountPrice,
+                        StockQuantity = i.StockQuantity,
+                        ImportDate = i.ImportDate,
+                        ProductId = i.ProductId
+                    }).ToList(),
                 };
             }
             catch (EntityNotFoundException ex)

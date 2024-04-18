@@ -54,8 +54,15 @@ namespace tuvarna_ecommerce_system.Data
 
             modelBuilder.Entity<SaleItem>()
                 .HasOne(si => si.Product)
-                .WithMany()
-                .HasForeignKey(si => si.ProductId);
+                .WithMany(p => p.SaleItems)
+                .HasForeignKey(si => si.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SaleItem>()
+                .HasOne(si => si.Sale)
+                .WithMany(s => s.SaleItems)
+                .HasForeignKey(si => si.SaleId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.AdditionalImages)

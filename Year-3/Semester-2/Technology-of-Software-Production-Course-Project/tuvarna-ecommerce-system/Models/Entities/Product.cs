@@ -37,5 +37,7 @@ namespace tuvarna_ecommerce_system.Models.Entities
         public ICollection<ProductImage> AdditionalImages { get; set; } = new List<ProductImage>();
 
         public ICollection<ProductInventory> Inventories { get; set; } = new List<ProductInventory>();
+
+        public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
     }
 }

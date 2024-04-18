@@ -13,5 +13,6 @@
         public CategoryReadDTO? Category { get; set; }
         public List<TagReadDTO> Tags { get; set; } = new List<TagReadDTO>();
         public List<ProductImageReadDTO> Images { get; set; } = new List<ProductImageReadDTO>();
+        public List<ProductInventoryReadDTO> Inventories { get; set; } = new List<ProductInventoryReadDTO>();
     }
 }

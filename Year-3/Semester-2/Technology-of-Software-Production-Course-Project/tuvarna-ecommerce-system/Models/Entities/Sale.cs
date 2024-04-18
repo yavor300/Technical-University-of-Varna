@@ -12,11 +12,11 @@ namespace tuvarna_ecommerce_system.Models.Entities
 
         public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
 
-        public int EmployeeId { get; set; }
-        [ForeignKey("EmployeeId")]
-        public Employee Employee { get; set; }
-        public int CustomerId { get; set; }
-        [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
+        //public int EmployeeId { get; set; }
+        //[ForeignKey("EmployeeId")]
+        //public Employee Employee { get; set; }
+        //public int CustomerId { get; set; }
+        //[ForeignKey("CustomerId")]
+        //public Customer Customer { get; set; }
     }
 }
