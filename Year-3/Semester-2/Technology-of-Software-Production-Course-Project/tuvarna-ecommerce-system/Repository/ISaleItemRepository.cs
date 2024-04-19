@@ -6,5 +6,9 @@ namespace tuvarna_ecommerce_system.Repository
     {
 
         Task<SaleItem> CreateAsync(SaleItem saleItem);
+
+        Task<SaleItem> AssociateWithSale(int SoldItemId, int SaleId);
+
+        //Task<SaleItem> GetByIdAsync(int id);
     }
 }

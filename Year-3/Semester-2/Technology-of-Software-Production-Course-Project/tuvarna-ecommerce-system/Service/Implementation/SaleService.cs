@@ -32,13 +32,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 var saleDto = new SaleReadDTO
                 {
                     Id = createdSale.Id,
-                    SaleDate = createdSale.SaleDate,
-                    SaleItems = createdSale.SaleItems.Select(si => new SaleItemReadDTO
-                    {
-                        Id = si.Id,
-                        ProductId = si.ProductId,
-                        QuantitySold = si.QuantitySold
-                    }).ToList()
+                    Date = createdSale.SaleDate
                 };
 
                 return saleDto;

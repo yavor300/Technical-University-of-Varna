@@ -5,9 +5,9 @@
 
         public int Id { get; set; }
 
-        public DateTime SaleDate { get; set; }
+        public DateTime Date { get; set; }
 
-        public List<SaleItemReadDTO> SaleItems { get; set; } = new List<SaleItemReadDTO>();
+        public List<SaleItemReadDTO> Items { get; set; } = new List<SaleItemReadDTO>();
 
     }
 }

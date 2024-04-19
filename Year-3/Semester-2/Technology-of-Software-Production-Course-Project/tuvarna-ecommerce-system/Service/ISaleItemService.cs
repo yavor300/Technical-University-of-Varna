@@ -5,6 +5,8 @@ namespace tuvarna_ecommerce_system.Service
     public interface ISaleItemService
     {
 
-        Task<SaleItemReadDTO> CreateAsync(SaleItemCreateDTO dto);
+        Task<List<SaleItemReadDTO>> CreateAsync(List<SaleItemCreateDTO> dtos, int SaleId);
+
+        Task<SaleItemReadDTO> AssociateWithSale(int SoldItemId, int SaleId);
     }
 }

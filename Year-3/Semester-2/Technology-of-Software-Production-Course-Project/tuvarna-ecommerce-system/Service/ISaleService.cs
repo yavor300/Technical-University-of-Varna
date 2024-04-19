@@ -6,5 +6,6 @@ namespace tuvarna_ecommerce_system.Service
     {
 
         Task<SaleReadDTO> CreateAsync(DateTime dateTime);
+
     }
 }
