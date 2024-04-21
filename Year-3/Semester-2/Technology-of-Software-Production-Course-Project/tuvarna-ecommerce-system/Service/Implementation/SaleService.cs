@@ -17,22 +17,42 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             _logger = logger;
         }
 
-        public async Task<SaleReadDTO> CreateAsync(DateTime dateTime)
+        public async Task<SaleReadDTO> CreateAsync(SaleCreateDTO dto)
         {
+
             try
             {
-
-                var sale = new Sale
+                var toCreate = new Sale
                 {
-                    SaleDate = dateTime
+                    SaleDate = dto.Date ?? DateTime.Now,
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName,
+                    CompanyName = dto.CompanyName,
+                    Country = dto.Country,
+                    StreetAddress = dto.StreetAddress,
+                    Town = dto.Town,
+                    State = dto.State,
+                    ZipCode = dto.ZipCode,
+                    Email = dto.Email,
+                    PhoneNumber = dto.PhoneNumber,
+                    OrderNotes = dto.OrderNotes,
                 };
-
-                var createdSale = await _repository.CreateAsync(sale);
-
+                var createdSale = await _repository.CreateAsync(toCreate);
                 var saleDto = new SaleReadDTO
                 {
                     Id = createdSale.Id,
-                    Date = createdSale.SaleDate
+                    Date = createdSale.SaleDate,
+                    FirstName = createdSale.FirstName,
+                    LastName = createdSale.LastName,
+                    CompanyName = createdSale.CompanyName,
+                    Country = createdSale.Country,
+                    StreetAddress = createdSale.StreetAddress,
+                    Town = createdSale.Town,
+                    State = createdSale.State,
+                    ZipCode = createdSale.ZipCode,
+                    Email = createdSale.Email,
+                    PhoneNumber = createdSale.PhoneNumber,
+                    OrderNotes = createdSale.OrderNotes,
                 };
 
                 return saleDto;

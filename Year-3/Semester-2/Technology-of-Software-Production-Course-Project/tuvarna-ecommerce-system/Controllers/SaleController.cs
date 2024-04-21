@@ -32,18 +32,9 @@ namespace tuvarna_ecommerce_system.Controllers
 
             try
             {
-                var createdSale = await _saleService.CreateAsync(dto.Date ?? DateTime.Now);
+                var createdSale = await _saleService.CreateAsync(dto);
                 List<SaleItemReadDTO> saleItems = await _saleItemService.CreateAsync(dto.Items, createdSale.Id);
-
-                
-
-                //foreach (var item in saleItems)
-                //{
-                //    await _saleItemService.AssociateWithSale(item.Id, createdSale.Id);
-                //}
-
                 createdSale.Items = saleItems;
-
                 return Ok(createdSale);
             }
             catch (InternalServerErrorException ex)

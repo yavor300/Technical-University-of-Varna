@@ -5,7 +5,7 @@ namespace tuvarna_ecommerce_system.Service
     public interface ISaleService
     {
 
-        Task<SaleReadDTO> CreateAsync(DateTime dateTime);
+        Task<SaleReadDTO> CreateAsync(SaleCreateDTO dto);
 
     }
 }

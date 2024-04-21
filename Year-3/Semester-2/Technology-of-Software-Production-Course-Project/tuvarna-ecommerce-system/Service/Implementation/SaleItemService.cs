@@ -78,9 +78,6 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                             quantityToDeduct -= deduct;
                             decimal pricePerUnit = inventory.DiscountPrice ?? inventory.Price;
                             totalPrice += deduct * pricePerUnit;
-
-                            // Update inventory
-                            // _context.Update(inventory);
                         }
 
                         var saleItem = new SaleItem
@@ -90,12 +87,15 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                             SaleId = SaleId
                         };
 
+                        decimal productPrice = totalPrice / dto.QuantitySold;
+                        productPrice = Math.Round(productPrice, 2);
                         var createdSaleItem = await _repository.CreateAsync(saleItem);
                         saleItemsRead.Add(new SaleItemReadDTO
                         {
                             Id = createdSaleItem.Id,
                             ProductId = createdSaleItem.ProductId,
                             QuantitySold = createdSaleItem.QuantitySold,
+                            ProductPrice = productPrice,
                             TotalPrice = totalPrice
                         });
                     }
