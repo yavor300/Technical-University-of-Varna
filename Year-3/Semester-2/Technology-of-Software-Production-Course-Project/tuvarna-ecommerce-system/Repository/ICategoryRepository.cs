@@ -6,7 +6,7 @@ namespace tuvarna_ecommerce_system.Data.Repositories
     {
         Task<Category> CreateAsync(Category category);
 
-        Task<Category> PatchAsync(int id, string? name, string? description);
+        Task<Category> PatchAsync(int id, string? name, string? description, string? imageUrl);
 
         Task<Category> GetByIdAsync(int id);
 
