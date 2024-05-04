@@ -40,7 +40,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
         }
 
 
-        public async Task<Category> PatchAsync(int id, string? name, string? description)
+        public async Task<Category> PatchAsync(int id, string? name, string? description, string? imageUrl)
         {
 
             var category = await _context.Categories.FindAsync(id);
@@ -69,7 +69,12 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             {
                 category.Description = description;
             }
- 
+
+            if (!string.IsNullOrEmpty(imageUrl))
+            {
+                category.ImageUrl = imageUrl;
+            }
+
             await _context.SaveChangesAsync();
             return category;
         }
@@ -104,7 +109,10 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
         public async Task<List<Category>> GetAllAsync()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories
+                .Include(c => c.Products)
+                    .ThenInclude(p => p.Inventories)
+                .ToListAsync();
         }
 
         public async Task<Category> Delete(int id)
