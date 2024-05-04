@@ -22,6 +22,8 @@ namespace tuvarna_ecommerce_system.Models.DTOs
         public string? CategoryName { get; set; }
         public List<TagCreateDTO>? Tags { get; set; }
 
+        public List<ProductImageCreateDTO>? Images { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
