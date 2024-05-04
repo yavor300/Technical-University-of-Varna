@@ -14,5 +14,7 @@
         public List<TagReadDTO> Tags { get; set; } = new List<TagReadDTO>();
         public List<ProductImageReadDTO> Images { get; set; } = new List<ProductImageReadDTO>();
         public List<ProductInventoryReadDTO> Inventories { get; set; } = new List<ProductInventoryReadDTO>();
+
+        public List<SaleItemReadDTO> Sales { get; set; } = new List<SaleItemReadDTO>();
     }
 }
