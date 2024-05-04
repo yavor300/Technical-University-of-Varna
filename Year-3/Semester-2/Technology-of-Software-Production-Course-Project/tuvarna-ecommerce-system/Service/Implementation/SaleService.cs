@@ -1,6 +1,7 @@
 ﻿using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Models.Entities;
+using tuvarna_ecommerce_system.Models.Entities.Enums;
 using tuvarna_ecommerce_system.Repository;
 
 namespace tuvarna_ecommerce_system.Service.Implementation
@@ -22,6 +23,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
             try
             {
+                var paymentType = Enum.Parse<PaymentTypeEnum>(dto.PaymentType, true);
+                var shippingType = Enum.Parse<ShippingTypeEnum>(dto.ShippingType, true);
                 var toCreate = new Sale
                 {
                     SaleDate = dto.Date ?? DateTime.Now,
@@ -35,6 +38,9 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ZipCode = dto.ZipCode,
                     Email = dto.Email,
                     PhoneNumber = dto.PhoneNumber,
+                    DiscountPercentage = dto.DiscountPercentage,
+                    PaymentType = paymentType,
+                    ShippingType = shippingType,
                     OrderNotes = dto.OrderNotes,
                 };
                 var createdSale = await _repository.CreateAsync(toCreate);
@@ -52,10 +58,18 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ZipCode = createdSale.ZipCode,
                     Email = createdSale.Email,
                     PhoneNumber = createdSale.PhoneNumber,
+                    DiscountPercentage = createdSale.DiscountPercentage,
+                    PaymentType = createdSale.PaymentType.ToString(),
+                    ShippingType = createdSale.ShippingType.ToString(),
                     OrderNotes = createdSale.OrderNotes,
                 };
 
                 return saleDto;
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
             }
             catch (Exception ex)
             {
