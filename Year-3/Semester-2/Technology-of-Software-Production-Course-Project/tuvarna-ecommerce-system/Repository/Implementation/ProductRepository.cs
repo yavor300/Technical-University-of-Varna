@@ -71,6 +71,20 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
                 }
             }
 
+            if (updatedProduct.AdditionalImages != null && updatedProduct.AdditionalImages.Count > 0)
+            {
+                existingProduct.AdditionalImages.Clear();
+                foreach (var image in updatedProduct.AdditionalImages)
+                {
+                    var existingImage = await _context.ProductImages.FindAsync(image.Id);
+                    if (existingImage != null)
+                    {
+                        _context.ProductImages.Attach(existingImage);
+                        existingProduct.AdditionalImages.Add(existingImage);
+                    }
+                }
+            }
+
             await _context.SaveChangesAsync();
 
             return existingProduct;
@@ -84,6 +98,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
                 .Include(p => p.Category)
                 .Include(p => p.Tags)
                 .Include(p => p.AdditionalImages)
+                .Include(p => p.Inventories)
                 .ToListAsync();
         }
 
@@ -99,6 +114,17 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             } while (_context.Products.Any(p => p.Sku == sku));
 
             return sku;
+        }
+
+        public async Task<List<Product>> GetAll()
+        {
+            return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Tags)
+                .Include(p => p.AdditionalImages)
+                .Include(p => p.Inventories)
+                .Include(p => p.SaleItems)
+                .ToListAsync();
         }
     }
 }
