@@ -2,7 +2,6 @@
 using tuvarna_ecommerce_system.Exceptions;
 using tuvarna_ecommerce_system.Models.DTOs;
 using tuvarna_ecommerce_system.Service;
-using tuvarna_ecommerce_system.Service.Implementation;
 
 namespace tuvarna_ecommerce_system.Controllers
 {
@@ -13,6 +12,7 @@ namespace tuvarna_ecommerce_system.Controllers
     {
 
         private readonly IProductService _service;
+
 
         public ProductController(IProductService service)
         {
@@ -115,6 +115,20 @@ namespace tuvarna_ecommerce_system.Controllers
             try
             {
                 var response = await _service.GetByCategoryName(dto.CategoryName);
+                return Ok(response);
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ProductReadAllDTO>> GetAll()
+        {
+            try
+            {
+                var response = await _service.GetAll();
                 return Ok(response);
             }
             catch (InternalServerErrorException ex)
