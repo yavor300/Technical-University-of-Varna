@@ -12,17 +12,19 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
         private readonly IProductRepository _repository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductImageRepository _productImageRepository;
         private readonly ITagRepository _tagRepository;
         private readonly IProductImageService _productImageService;
         private readonly ILogger<ProductService> _logger;
 
-        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, ITagRepository tagRepository, ILogger<ProductService> logger, IProductImageService productImageService)
+        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, ITagRepository tagRepository, ILogger<ProductService> logger, IProductImageService productImageService, IProductImageRepository productImageRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _logger = logger;
             _productImageService = productImageService;
+            this._productImageRepository = productImageRepository;
         }
 
         public async Task<ProductReadDTO> AddAsync(ProductCreateDTO dto)
@@ -107,6 +109,63 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             }
         }
 
+        public async Task<ProductReadAllDTO> GetAll()
+        {
+            try
+            {
+                var products = await _repository.GetAll();
+                var productDtos = products.Select(p => new ProductReadDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Sku = p.Sku,
+                    Description = p.Description,
+                    ShortDescription = p.ShortDescription,
+                    ImageUrl = p.ImageUrl,
+                    ProductType = p.ProductType.ToString(),
+                    Category = p.Category != null ? new CategoryReadDTO
+                    {
+                        Id = p.Category.Id,
+                        Name = p.Category.Name,
+                        Description = p.Category.Description,
+                        ImageUrl = p.Category.ImageUrl
+                    } : null,
+                    Tags = p.Tags.Select(t => new TagReadDTO
+                    {
+                        Id = t.Id,
+                        Name = t.Name
+                    }).ToList(),
+                    Images = p.AdditionalImages.Select(i => new ProductImageReadDTO
+                    {
+                        Id = i.Id,
+                        ImageUrl = i.ImageUrl
+                    }).ToList(),
+                    Inventories = p.Inventories.Select(i => new ProductInventoryReadDTO
+                    {
+                        Id = i.Id,
+                        Price = i.Price,
+                        DiscountPrice = i.DiscountPrice,
+                        StockQuantity = i.StockQuantity,
+                        ImportDate = i.ImportDate,
+                        ProductId = i.ProductId
+                    }).ToList(),
+                    Sales = p.SaleItems.Select(s => new SaleItemReadDTO
+                    {
+                        Id = s.Id,
+                        QuantitySold = s.QuantitySold
+
+                    }).ToList()
+                }).ToList();
+
+                return new ProductReadAllDTO { Products = productDtos };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
         public async Task<ProductReadAllDTO> GetByCategoryName(string name)
         {
             try
@@ -137,6 +196,15 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     {
                         Id = i.Id,
                         ImageUrl = i.ImageUrl
+                    }).ToList(),
+                    Inventories = p.Inventories.Select(i => new ProductInventoryReadDTO
+                    {
+                        Id = i.Id,
+                        Price = i.Price,
+                        DiscountPrice = i.DiscountPrice,
+                        StockQuantity = i.StockQuantity,
+                        ImportDate = i.ImportDate,
+                        ProductId = i.ProductId
                     }).ToList()
                 }).ToList();
 
@@ -241,7 +309,19 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     }
                     updatedProduct.Tags = tags;
                 }
-                
+
+                var images = new List<ProductImage>();
+                if (updated.Images != null)
+                {
+                    foreach (var imageDto in updated.Images)
+                    {
+                        var image = await _productImageRepository
+                            .CreateAsync(new ProductImage { ImageUrl = imageDto.ImageUrl, ProductId = updated.Id });
+                        images.Add(image);
+                    }
+                    updatedProduct.AdditionalImages = images;
+                }
+
                 var patched = await _repository.PatchAsync(updatedProduct);
 
                 var response = new ProductReadDTO
@@ -260,6 +340,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         Description = patched.Category.Description,
                         ImageUrl = patched.Category.ImageUrl
                     } : null,
+                    Images = patched.AdditionalImages.Select(i => new ProductImageReadDTO { Id = i.Id, ImageUrl = i.ImageUrl }).ToList(),
                     Tags = patched.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
                 };
 
