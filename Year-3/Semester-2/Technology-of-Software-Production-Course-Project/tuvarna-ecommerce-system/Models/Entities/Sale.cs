@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using tuvarna_ecommerce_system.Models.Entities.Base;
+using tuvarna_ecommerce_system.Models.Entities.Enums;
 
 namespace tuvarna_ecommerce_system.Models.Entities
 {
@@ -49,6 +50,16 @@ namespace tuvarna_ecommerce_system.Models.Entities
 
         [StringLength(500)]
         public string? OrderNotes { get; set; }
+
+        [Range(0, 100, ErrorMessage = "Discount must be between 0% and 100%.")]
+
+        public int? DiscountPercentage { get; set; }
+
+        [Required]
+        public PaymentTypeEnum PaymentType { get; set; }
+
+        [Required]
+        public ShippingTypeEnum ShippingType { get; set; }
 
         public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
 
