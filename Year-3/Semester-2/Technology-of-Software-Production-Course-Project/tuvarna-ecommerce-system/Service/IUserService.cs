@@ -6,5 +6,7 @@ namespace tuvarna_ecommerce_system.Service
     {
 
         Task<UserReadDTO> CreateAsync(UserCreateDTO userCreateDTO);
+
+        Task<UserReadDTO> FindByEmailAndPassword(UserLoginDTO userLoginDTO);
     }
 }

@@ -8,6 +8,9 @@ namespace tuvarna_ecommerce_system.Repository
         Task<User> CreateAsync(User user);
 
         Task<User> FindByEmail(String email);
+
+        Task<User> FindByUsernameAsync(String username);
+
     }
 }
 

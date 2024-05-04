@@ -12,9 +12,9 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
-        private readonly ILogger<ProductService> _logger;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher, ILogger<ProductService> logger)
+        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
@@ -25,6 +25,18 @@ namespace tuvarna_ecommerce_system.Service.Implementation
         {
             try
             {
+                var existingUserByEmail = await _userRepository.FindByEmail(userCreateDTO.Email);
+                if (existingUserByEmail != null)
+                {
+                    throw new ArgumentException("A user with the same email already exists.");
+                }
+
+                var existingUserByUsername = await _userRepository.FindByUsernameAsync(userCreateDTO.Username);
+                if (existingUserByUsername != null)
+                {
+                    throw new ArgumentException("A user with the same username already exists.");
+                }
+
                 User newUser;
                 switch (Enum.Parse<RoleEnum>(userCreateDTO.Role, true))
                 {
@@ -64,6 +76,42 @@ namespace tuvarna_ecommerce_system.Service.Implementation
             {
                 _logger.LogError(ex, "An unexpected error occurred.");
                 throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
+
+        public async Task<UserReadDTO> FindByEmailAndPassword(UserLoginDTO userLoginDTO)
+        {
+
+            try
+            {
+                var user = await _userRepository.FindByEmail(userLoginDTO.Email);
+
+                if (user == null)
+                {
+                    _logger.LogInformation($"Authentication failed for user: {userLoginDTO.Email}. User not found.");
+                    return null;
+                }
+
+                var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password, userLoginDTO.Password);
+
+                if (verificationResult == PasswordVerificationResult.Failed)
+                {
+                    _logger.LogInformation($"Authentication failed for user: {userLoginDTO.Email}. Incorrect password.");
+                    return null;
+                }
+
+                return new UserReadDTO
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    Role = user.Role.ToString()
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to authenticate user.");
+                throw new InternalServerErrorException("An error occurred while authenticating the user.", ex);
             }
         }
     }
