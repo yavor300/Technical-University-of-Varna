@@ -58,7 +58,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
         {
             try
             {
-                var updatedCategory = await _categoryRepository.PatchAsync(categoryDto.Id, categoryDto.Name, categoryDto.Description);
+                var updatedCategory = await _categoryRepository.PatchAsync(
+                    categoryDto.Id, categoryDto.Name, categoryDto.Description, categoryDto.ImageUrl);
 
                 return new CategoryReadDTO
                 {
@@ -149,7 +150,20 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     Id = category.Id,
                     Name = category.Name,
                     Description = category.Description,
-                    ImageUrl = category.ImageUrl
+                    ImageUrl = category.ImageUrl,
+                    Products = category.Products.Select(product => new ProductReadDTO
+                    {
+                        Id = product.Id,
+                        Inventories = product.Inventories.Select(i => new ProductInventoryReadDTO
+                        {
+                            Id = i.Id,
+                            Price = i.Price,
+                            DiscountPrice = i.DiscountPrice,
+                            StockQuantity = i.StockQuantity,
+                            ImportDate = i.ImportDate,
+                            ProductId = i.ProductId
+                        }).ToList()
+                    }).ToList(),
                 }).ToList();
 
                 var result = new CategoryReadAllDTO
