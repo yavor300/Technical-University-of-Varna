@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using tuvarna_ecommerce_system.Middleware;
 using tuvarna_ecommerce_system.Repository;
+using Microsoft.AspNetCore.Identity;
+using tuvarna_ecommerce_system.Models.Entities;
+using tuvarna_ecommerce_system.Models.DTOs;
+using tuvarna_ecommerce_system.Models.Entities.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +37,9 @@ builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<IProductInventoryService, ProductInventoryService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<ISaleItemService, SaleItemService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -74,6 +81,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
+await InitializeAdminUser(app.Services);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -88,3 +97,32 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static async Task InitializeAdminUser(IServiceProvider serviceProvider)
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+        var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+        try
+        {
+            if (await userRepository.FindByEmail("admin@tek.bg") == null)
+            {
+                var adminCreateDto = new UserCreateDTO
+                {
+                    Username = "admin",
+                    Email = "admin@tek.bg",
+                    Password = "admin",
+                    Role = RoleEnum.ADMIN.ToString()
+                };
+
+                await userService.CreateAsync(adminCreateDto);
+                Console.WriteLine($"Created administrator.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to create administrator: {ex.Message}");
+        }
+    }
+}

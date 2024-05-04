@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tuvarna_ecommerce_system.Data;
 
@@ -11,9 +12,11 @@ using tuvarna_ecommerce_system.Data;
 namespace tuvarna_ecommerce_system.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240504084808_UsersTphApproach")]
+    partial class UsersTphApproach
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,6 +346,11 @@ namespace tuvarna_ecommerce_system.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -352,7 +360,7 @@ namespace tuvarna_ecommerce_system.Migrations
 
                     b.ToTable("Users", (string)null);
 
-                    b.HasDiscriminator<int>("Role");
+                    b.HasDiscriminator<string>("UserType").HasValue("User");
 
                     b.UseTphMappingStrategy();
                 });
@@ -361,21 +369,21 @@ namespace tuvarna_ecommerce_system.Migrations
                 {
                     b.HasBaseType("tuvarna_ecommerce_system.Models.Entities.User");
 
-                    b.HasDiscriminator().HasValue(2);
+                    b.HasDiscriminator().HasValue("Administrator");
                 });
 
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Customer", b =>
                 {
                     b.HasBaseType("tuvarna_ecommerce_system.Models.Entities.User");
 
-                    b.HasDiscriminator().HasValue(0);
+                    b.HasDiscriminator().HasValue("Customer");
                 });
 
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Employee", b =>
                 {
                     b.HasBaseType("tuvarna_ecommerce_system.Models.Entities.User");
 
-                    b.HasDiscriminator().HasValue(1);
+                    b.HasDiscriminator().HasValue("Employee");
                 });
 
             modelBuilder.Entity("ProductTag", b =>

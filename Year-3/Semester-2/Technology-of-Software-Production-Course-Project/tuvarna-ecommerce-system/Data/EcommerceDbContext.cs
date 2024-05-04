@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using tuvarna_ecommerce_system.Models.Entities;
+using tuvarna_ecommerce_system.Models.Entities.Enums;
 
 namespace tuvarna_ecommerce_system.Data
 {
@@ -16,6 +17,7 @@ namespace tuvarna_ecommerce_system.Data
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleItem> SaleItems { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -69,9 +71,12 @@ namespace tuvarna_ecommerce_system.Data
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId);
 
-            modelBuilder.Entity<Administrator>().ToTable("Administrators");
-            modelBuilder.Entity<Employee>().ToTable("Employees");
-            modelBuilder.Entity<Customer>().ToTable("Customers");
+            modelBuilder.Entity<User>()
+             .ToTable("Users")
+             .HasDiscriminator<RoleEnum>("Role")
+             .HasValue<Administrator>(RoleEnum.ADMIN)
+             .HasValue<Employee>(RoleEnum.EMPLOYEE)
+             .HasValue<Customer>(RoleEnum.CUSTOMER);
 
             modelBuilder.Entity<Tag>().HasQueryFilter(t => !t.IsDeleted);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);

@@ -1,6 +1,6 @@
 ﻿namespace tuvarna_ecommerce_system.Models.Entities.Enums
 {
-    public enum ROLES
+    public enum RoleEnum
     {
         CUSTOMER,
         EMPLOYEE,
