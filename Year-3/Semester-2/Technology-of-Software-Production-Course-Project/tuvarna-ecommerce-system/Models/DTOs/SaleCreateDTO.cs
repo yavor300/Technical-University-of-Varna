@@ -50,6 +50,15 @@ namespace tuvarna_ecommerce_system.Models.DTOs
         [StringLength(500, ErrorMessage = "Order notes must not exceed 500 characters.")]
         public string? OrderNotes { get; set; }
 
+        [Range(0, 100, ErrorMessage = "Discount must be between 0% and 100%.")]
+        public int? DiscountPercentage { get; set; }
+
+        [Required(ErrorMessage = "Payment type is required.")]
+        public string PaymentType { get; set; }
+
+        [Required(ErrorMessage = "Shipping type is required.")]
+        public string ShippingType { get; set; }
+
         public List<SaleItemCreateDTO> Items { get; set; } = new List<SaleItemCreateDTO>();
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
