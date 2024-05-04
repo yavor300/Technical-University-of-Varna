@@ -15,6 +15,9 @@
         public string ZipCode { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public int? DiscountPercentage { get; set; } = 0;
+        public string PaymentType { get; set; }
+        public string ShippingType { get; set; }
         public string? OrderNotes { get; set; }
         public List<SaleItemReadDTO> Items { get; set; } = new List<SaleItemReadDTO>();
 
