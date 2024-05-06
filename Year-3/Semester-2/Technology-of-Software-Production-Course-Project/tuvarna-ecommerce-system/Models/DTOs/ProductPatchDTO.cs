@@ -20,6 +20,7 @@ namespace tuvarna_ecommerce_system.Models.DTOs
 
         public string? ProductType { get; set; }
         public string? CategoryName { get; set; }
+        public Boolean? isFeatured { get; set; }
         public List<TagCreateDTO>? Tags { get; set; }
 
         public List<ProductImageCreateDTO>? Images { get; set; }

@@ -70,5 +70,27 @@ namespace tuvarna_ecommerce_system.Controllers
             }
         }
 
+        [HttpGet("customer/{username}")]
+        public async Task<ActionResult<CustomerReadDTO>> GetByUsername([FromRoute] string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username is required.");
+            }
+
+            try
+            {
+                var customerDto = await _userService.FindCustomerByUsername(username);
+                return Ok(customerDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

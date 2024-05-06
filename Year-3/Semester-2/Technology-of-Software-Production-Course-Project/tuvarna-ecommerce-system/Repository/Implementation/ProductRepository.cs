@@ -56,6 +56,7 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             existingProduct.ImageUrl = updatedProduct.ImageUrl;
             existingProduct.ProductType = updatedProduct.ProductType;
             existingProduct.CategoryId = updatedProduct.CategoryId;
+            existingProduct.IsFeatured = updatedProduct.IsFeatured;
 
             if (updatedProduct.Tags != null && updatedProduct.Tags.Count > 0)
             {

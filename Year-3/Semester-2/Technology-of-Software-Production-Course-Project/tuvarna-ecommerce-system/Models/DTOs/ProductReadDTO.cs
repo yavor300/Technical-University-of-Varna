@@ -11,6 +11,7 @@
         public string ImageUrl { get; set; }
         public string ProductType { get; set; }
         public CategoryReadDTO? Category { get; set; }
+        public bool IsFeatured { get; set; }
         public List<TagReadDTO> Tags { get; set; } = new List<TagReadDTO>();
         public List<ProductImageReadDTO> Images { get; set; } = new List<ProductImageReadDTO>();
         public List<ProductInventoryReadDTO> Inventories { get; set; } = new List<ProductInventoryReadDTO>();

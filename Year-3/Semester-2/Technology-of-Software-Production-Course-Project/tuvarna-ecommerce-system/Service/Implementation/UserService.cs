@@ -114,5 +114,64 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                 throw new InternalServerErrorException("An error occurred while authenticating the user.", ex);
             }
         }
+
+        public async Task<CustomerReadDTO> FindCustomerByUsername(string username)
+        {
+            try
+            {
+                var customer = await _userRepository.FindCustomerByUsername(username);
+                if (customer == null)
+                {
+                    throw new ArgumentException($"No customer found with username: {username}");
+                }
+
+                var customerDto = new CustomerReadDTO
+                {
+                    Id = customer.Id,
+                    Username = customer.Username,
+                    Email = customer.Email,
+                    Role = customer.Role.ToString(),
+                    Sales = customer.Sales.Select(s => new SaleReadDTO
+                    {
+                        Id = s.Id,
+                        Date = s.SaleDate,
+                        FirstName = s.FirstName,
+                        LastName = s.LastName,
+                        CompanyName = s.CompanyName,
+                        Country = s.Country,
+                        StreetAddress = s.StreetAddress,
+                        Town = s.Town,
+                        State = s.State,
+                        ZipCode = s.ZipCode,
+                        Email = s.Email,
+                        PhoneNumber = s.PhoneNumber,
+                        DiscountPercentage = s.DiscountPercentage,
+                        PaymentType = s.PaymentType.ToString(),
+                        ShippingType = s.ShippingType.ToString(),
+                        OrderNotes = s.OrderNotes,
+                        Items = s.SaleItems.Select(si => new SaleItemReadDTO
+                        {
+                            Id = si.Id,
+                            QuantitySold = si.QuantitySold,
+                            ProductName = si.Product?.Name,
+                            ProductPrice = si.Product?.Inventories.FirstOrDefault()?.Price,
+                            TotalPrice = si.QuantitySold * (si.Product?.Inventories.FirstOrDefault()?.Price ?? 0)
+                        }).ToList()
+                    }).ToList()
+                };
+
+                return customerDto;
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving customer by username.");
+                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.", ex);
+            }
+        }
     }
 }

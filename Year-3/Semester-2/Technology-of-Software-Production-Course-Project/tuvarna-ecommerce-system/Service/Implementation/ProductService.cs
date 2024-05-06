@@ -86,6 +86,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         Description = category.Description,
                         ImageUrl = category.ImageUrl
                     },
+                    IsFeatured = createdProduct.IsFeatured,
                     Tags = createdProduct.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList(),
                     Images = createdProduct.AdditionalImages.Select(i => new ProductImageReadDTO { Id = i.Id, ImageUrl = i.ImageUrl }).ToList()
                 };
@@ -154,7 +155,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         Id = s.Id,
                         QuantitySold = s.QuantitySold
 
-                    }).ToList()
+                    }).ToList(),
+                    IsFeatured = p.IsFeatured,
                 }).ToList();
 
                 return new ProductReadAllDTO { Products = productDtos };
@@ -205,7 +207,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         StockQuantity = i.StockQuantity,
                         ImportDate = i.ImportDate,
                         ProductId = i.ProductId
-                    }).ToList()
+                    }).ToList(),
+                    IsFeatured = p.IsFeatured,
                 }).ToList();
 
                 return new ProductReadAllDTO { Products = productDtos };
@@ -263,6 +266,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         ImportDate = i.ImportDate,
                         ProductId = i.ProductId
                     }).ToList(),
+                    IsFeatured = product.IsFeatured,
                 };
             }
             catch (EntityNotFoundException ex)
@@ -298,6 +302,7 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     ImageUrl = updated.ImageUrl != null ? updated.ImageUrl : productToPatch.ImageUrl,
                     ProductType = updated.ProductType != null ? Enum.Parse<ProductTypeEnum>(updated.ProductType, true) : productToPatch.ProductType,
                     CategoryId = newCategory != null ? newCategory.Id : productToPatch.CategoryId,
+                    IsFeatured = updated.isFeatured != null ? updated.isFeatured.Value : productToPatch.IsFeatured,
                 };
 
                 var tags = new List<Tag>();
@@ -341,7 +346,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                         ImageUrl = patched.Category.ImageUrl
                     } : null,
                     Images = patched.AdditionalImages.Select(i => new ProductImageReadDTO { Id = i.Id, ImageUrl = i.ImageUrl }).ToList(),
-                    Tags = patched.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList()
+                    Tags = patched.Tags.Select(t => new TagReadDTO { Id = t.Id, Name = t.Name }).ToList(),
+                    IsFeatured = patched.IsFeatured
                 };
 
                 return response;

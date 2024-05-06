@@ -13,6 +13,8 @@ namespace tuvarna_ecommerce_system.Repository
 
         Task<User> GetRandomEmployeeAsync();
 
+        Task<Customer> FindCustomerByUsername(String username);
+
     }
 }
 

@@ -43,5 +43,17 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
 
             return randomEmployee;
         }
+
+        public async Task<Customer> FindCustomerByUsername(string username)
+        {
+            return await _context.Users
+                .OfType<Customer>()
+                .Include(c => c.Sales)
+                .ThenInclude(s => s.SaleItems)
+                .ThenInclude(si => si.Product)
+                .ThenInclude(p => p.Inventories)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Username == username);
+        }
     }
 }

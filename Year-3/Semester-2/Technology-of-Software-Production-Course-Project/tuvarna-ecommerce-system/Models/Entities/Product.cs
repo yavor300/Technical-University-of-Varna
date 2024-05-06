@@ -34,6 +34,8 @@ namespace tuvarna_ecommerce_system.Models.Entities
 
         public ICollection<Tag> Tags { get; set; } = [];
 
+        public bool IsFeatured { get; set; } = false;
+
         public ICollection<ProductImage> AdditionalImages { get; set; } = new List<ProductImage>();
 
         public ICollection<ProductInventory> Inventories { get; set; } = new List<ProductInventory>();
