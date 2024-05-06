@@ -6,6 +6,7 @@ namespace tuvarna_ecommerce_system.Models.Entities
 {
     public abstract class User : BaseEntity
     {
+
         [Required]
         [StringLength(50)]
         public string Username { get; set; }

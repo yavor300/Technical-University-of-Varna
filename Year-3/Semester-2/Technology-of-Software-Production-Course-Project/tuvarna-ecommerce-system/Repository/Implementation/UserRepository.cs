@@ -33,5 +33,15 @@ namespace tuvarna_ecommerce_system.Repository.Implementation
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == username);
         }
+
+        public async Task<User> GetRandomEmployeeAsync()
+        {
+            var randomEmployee = await _context.Users
+                .OfType<Employee>()
+                .OrderBy(r => Guid.NewGuid())
+                .FirstOrDefaultAsync();
+
+            return randomEmployee;
+        }
     }
 }

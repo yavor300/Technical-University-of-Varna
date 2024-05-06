@@ -72,11 +72,29 @@ namespace tuvarna_ecommerce_system.Data
                 .HasForeignKey(i => i.ProductId);
 
             modelBuilder.Entity<User>()
-             .ToTable("Users")
-             .HasDiscriminator<RoleEnum>("Role")
-             .HasValue<Administrator>(RoleEnum.ADMIN)
-             .HasValue<Employee>(RoleEnum.EMPLOYEE)
-             .HasValue<Customer>(RoleEnum.CUSTOMER);
+                .ToTable("Users")
+                .HasDiscriminator<RoleEnum>("Role")
+                .HasValue<Administrator>(RoleEnum.ADMIN)
+                .HasValue<Employee>(RoleEnum.EMPLOYEE)
+                .HasValue<Customer>(RoleEnum.CUSTOMER);
+
+            modelBuilder.Entity<Customer>()
+                .HasMany(c => c.Sales)
+                .WithOne(s => s.Customer)
+                .HasForeignKey(s => s.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Sale>()
+    .HasOne(s => s.Customer)
+    .WithMany(c => c.Sales)
+    .HasForeignKey(s => s.CustomerId)
+    .OnDelete(DeleteBehavior.Restrict); // or Use DeleteBehavior.Restrict for no action
+
+            modelBuilder.Entity<Sale>()
+    .HasOne(s => s.Employee)
+    .WithMany(c => c.Sales)
+    .HasForeignKey(s => s.EmployeeId)
+    .OnDelete(DeleteBehavior.Restrict); // or Use DeleteBehavior.Restrict for no action
 
             modelBuilder.Entity<Tag>().HasQueryFilter(t => !t.IsDeleted);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);

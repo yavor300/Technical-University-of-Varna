@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using tuvarna_ecommerce_system.Models.Entities.Base;
 using tuvarna_ecommerce_system.Models.Entities.Enums;
 
@@ -63,11 +64,10 @@ namespace tuvarna_ecommerce_system.Models.Entities
 
         public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
 
-        //public int EmployeeId { get; set; }
-        //[ForeignKey("EmployeeId")]
-        //public Employee Employee { get; set; }
-        //public int CustomerId { get; set; }
-        //[ForeignKey("CustomerId")]
-        //public Customer Customer { get; set; }
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+        public int CustomerId { get; set; }
+
+        public virtual Customer Customer { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using tuvarna_ecommerce_system.Data;
 namespace tuvarna_ecommerce_system.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    [Migration("20240504085804_UsersEnumDiscriminator")]
-    partial class UsersEnumDiscriminator
+    [Migration("20240505214556_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,7 +196,7 @@ namespace tuvarna_ecommerce_system.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DiscountPercentage")
@@ -207,7 +207,7 @@ namespace tuvarna_ecommerce_system.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -429,13 +429,21 @@ namespace tuvarna_ecommerce_system.Migrations
 
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.Sale", b =>
                 {
-                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Customer", null)
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Customer", "Customer")
                         .WithMany("Sales")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Employee", null)
+                    b.HasOne("tuvarna_ecommerce_system.Models.Entities.Employee", "Employee")
                         .WithMany("Sales")
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("tuvarna_ecommerce_system.Models.Entities.SaleItem", b =>

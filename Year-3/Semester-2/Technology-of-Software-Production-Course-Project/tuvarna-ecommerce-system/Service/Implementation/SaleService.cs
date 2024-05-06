@@ -11,11 +11,13 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
         private readonly ISaleRepository _repository;
         private readonly ILogger<TagService> _logger;
+        private readonly IUserRepository _userRepository;
 
-        public SaleService(ISaleRepository repository, ILogger<TagService> logger)
+        public SaleService(ISaleRepository repository, ILogger<TagService> logger, IUserRepository userRepository)
         {
             _repository = repository;
             _logger = logger;
+            _userRepository = userRepository;
         }
 
         public async Task<SaleReadDTO> CreateAsync(SaleCreateDTO dto)
@@ -23,6 +25,23 @@ namespace tuvarna_ecommerce_system.Service.Implementation
 
             try
             {
+                var user = await _userRepository.FindByEmail(dto.CustomerEmail);
+                if (user == null)
+                {
+                    throw new ArgumentException($"Customer with email {dto.CustomerEmail} not found.");
+                }
+
+                if (!(user is Customer customer))
+                {
+                    throw new ArgumentException("The user is not a customer.");
+                }
+
+                var employee = await _userRepository.GetRandomEmployeeAsync();
+                if (employee == null)
+                {
+                    throw new ArgumentException($"Could not assign employee to the sale.");
+                }
+
                 var paymentType = Enum.Parse<PaymentTypeEnum>(dto.PaymentType, true);
                 var shippingType = Enum.Parse<ShippingTypeEnum>(dto.ShippingType, true);
                 var toCreate = new Sale
@@ -42,6 +61,8 @@ namespace tuvarna_ecommerce_system.Service.Implementation
                     PaymentType = paymentType,
                     ShippingType = shippingType,
                     OrderNotes = dto.OrderNotes,
+                    CustomerId = user.Id,
+                    EmployeeId = employee.Id
                 };
                 var createdSale = await _repository.CreateAsync(toCreate);
                 var saleDto = new SaleReadDTO

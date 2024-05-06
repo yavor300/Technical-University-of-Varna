@@ -59,6 +59,10 @@ namespace tuvarna_ecommerce_system.Models.DTOs
         [Required(ErrorMessage = "Shipping type is required.")]
         public string ShippingType { get; set; }
 
+        [Required(ErrorMessage = "CustomerEmail is required.")]
+
+        public string CustomerEmail { get; set; }
+
         public List<SaleItemCreateDTO> Items { get; set; } = new List<SaleItemCreateDTO>();
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
