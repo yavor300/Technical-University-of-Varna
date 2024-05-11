@@ -1,0 +1,712 @@
+{
+	"info": {
+		"_postman_id": "2fd50724-a495-42a0-b9c4-c873c18b8393",
+		"name": "tuvarna-ecommerce-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "15180253"
+	},
+	"item": [
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "AddCategoryWithNameDescriptionAndImageUrl",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Кухненски електроуреди\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/categories/add"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryById_ShouldReturn_200_OK",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories/get/id/1"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCategory",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories/delete/12"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryById_ShouldReturn_400_WhenIdIsWhitespace",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories/get/id/ "
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryById_ShouldReturn_400_WhenIdIsNotPositiveNumber",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories/get/id/0"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryByName_ShouldReturn_200_OK",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories/get/name/phones"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryByName_ShouldReturn_400_WhenNameIsEmpty",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories/get/name/   "
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCategories_ShouldReturn_200_OK",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCategories_ShouldReturn_200_OK Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "EditCategoryNameAndDescription",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Id\": 12,\r\n  \"Name\": \"Слушалки\",\r\n  \"Description\": \"Наслади се на звука.\",\r\n  \"ImageUrl\": \"https://s3.eu-west-1.amazonaws.com/dev.tuvarna-ecommerce-management.s3/headphones.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/categories/edit"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tag",
+			"item": [
+				{
+					"name": "AddTagWithName",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"smarttv\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/add"
+					},
+					"response": []
+				},
+				{
+					"name": "EditTagName",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"name\": \"ios\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "EditTagName_WithInvalidID_ShouldReturn_404",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": -1,\r\n  \"name\": \"ios\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "EditTagName_WithMIssingID_ShouldReturn_400",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"missingID\": -1,\r\n  \"name\": \"ios\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "EditTagName_WithMIssingName_ShouldReturn_400",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"namee\": \"ios\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "EditTagName_WithMIssingName_ShouldReturn_400_WithValidationErrorForName",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"name\": \"sldkfsldfl;sflskfl;ksdf;lksdl;fksl;dkf;lskf;lskdf;lskf;lskf;lsdkfsfdlksdlfk;sfl;\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "AddTagWithoutName",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/tags/add"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllTags",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/tags"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTag",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/tags/delete/test"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "AddProduct",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Часовник Apple Watch Ultra 2\",\r\n  \"Description\": \"Кафе машина.\",\r\n  \"ShortDescription\": \"Кафе машина.\",\r\n  \"ImageUrl\": \"https://cdncloudcart.com/402/products/images/146577/smart-casovnik-apple-watch-ultra-2-cell-49mm-orangebieg-loop-ml-mrf23--1-92--64--apple-s9-sip-64-bit-dual-core-650339745ef00.webp?1694710132\",\r\n  \"ProductType\": \"Physical\",\r\n  \"CategoryName\": \"смарт часовници\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/products/add"
+					},
+					"response": []
+				},
+				{
+					"name": "AddProduct_With_Images",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Ultra HD 4K TV\",\r\n  \"Description\": \"Experience stunning 4K picture quality with vibrant colors and clear, sharp details. Enjoy a smart TV experience with easy access to all your favorite streaming services.\",\r\n  \"ShortDescription\": \"4K Ultra HD Smart TV with HDR.\",\r\n  \"ImageUrl\": \"https://examplestore.com/images/products/uhd4ktv.jpg\",\r\n  \"ProductType\": \"Physical\",\r\n  \"CategoryName\": \"Electronics\",\r\n  \"Tags\": [\r\n    {\r\n      \"Name\": \"TV\"\r\n    },\r\n    {\r\n      \"Name\": \"4k\"\r\n    },\r\n    {\r\n      \"Name\": \"SmartTV\"\r\n    }\r\n  ],\r\n  \"Images\": [\r\n    {\r\n        \"ImageUrl\": \"./image.png\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/products/add"
+					},
+					"response": []
+				},
+				{
+					"name": "AddProduct_Without_Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Ultra HD 4K TV\",\r\n  \"Description\": \"Experience stunning 4K picture quality with vibrant colors and clear, sharp details. Enjoy a smart TV experience with easy access to all your favorite streaming services.\",\r\n  \"ShortDescription\": \"4K Ultra HD Smart TV with HDR.\",\r\n  \"ImageUrl\": \"https://examplestore.com/images/products/uhd4ktv.jpg\",\r\n  \"ProductType\": \"Physical\",\r\n  \"Tags\": [\r\n    {\r\n      \"Name\": \"TV\"\r\n    },\r\n    {\r\n      \"Name\": \"4k\"\r\n    },\r\n    {\r\n      \"Name\": \"SmartTV\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/products/add"
+					},
+					"response": []
+				},
+				{
+					"name": "PatchProduct",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Id\": 17,\r\n  \"Name\": \"Ultra HD 4K TV2\",\r\n  \"Description\": \"Experience stunning 4K picture quality with vibrant colors and clear, sharp details. Enjoy a smart TV experience with easy access to all your favorite streaming services.\",\r\n  \"ShortDescription\": \"4K Ultra HD Smart TV with HDR.\",\r\n  \"ImageUrl\": \"https://examplestore.com/images/products/uhd4ktv.jpg\",\r\n  \"ProductType\": \"Physical\",\r\n  \"CategoryName\": \"Electronics\",\r\n  \"Tags\": [\r\n    {\r\n      \"Name\": \"TV\"\r\n    },\r\n    {\r\n      \"Name\": \"4k\"\r\n    },\r\n    {\r\n      \"Name\": \"SmartTV\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/products/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "PatchProduct Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Id\": 16,\r\n  \"categoryName\": \"мобилни устройства\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/products/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "PatchProduct Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Id\": 17,\r\n  \"isFeatured\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/products/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/products/17"
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductByCategoryName",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/products/category/electronics"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuZXd1c2VyIiwiZW1haWwiOiJuZXd1c2VyQGV4YW1wbGUuY29tIiwianRpIjoiYmQyNzc1OTgtMWMyNy00NDkyLTlmMDctNzM5ZjcwNTI4YmNmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ1VTVE9NRVIiLCJleHAiOjE3MTUwMDUxNzgsImlzcyI6Imh0dHA6Ly90dXZhcm5hLWVjb21tZXJjZS1zeXN0ZW0uY29tIiwiYXVkIjoiaHR0cDovL3R1dmFybmEtZWNvbW1lcmNlLXN5c3RlbS5jb20ifQ.nXyA7FkOS8cQyXXwVkc1mkJOLP1MpqoHXUzf9NWbdAU"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5141/api/v1/products"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "AddInventory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Price\": 100.00,\r\n    \"DiscountPrice\": 80.00,\r\n    \"StockQuantity\": 50,\r\n    \"ImportDate\": \"2024-04-10T14:30:00Z\",\r\n    \"ProductId\": 17\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/inventory"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sale",
+			"item": [
+				{
+					"name": "AddSale",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Date\": \"2024-04-13T12:00:00Z\",\r\n  \"FirstName\": \"John\",\r\n  \"LastName\": \"Doe\",\r\n  \"CompanyName\": \"Example Corp\",\r\n  \"Country\": \"USA\",\r\n  \"StreetAddress\": \"1234 Market St\",\r\n  \"Town\": \"San Francisco\",\r\n  \"State\": \"CA\",\r\n  \"ZipCode\": \"94103\",\r\n  \"Email\": \"john.doe@example.com\",\r\n  \"CustomerEmail\": \"newuser@example.com\",\r\n  \"PhoneNumber\": \"+359878891501\",\r\n  \"OrderNotes\": \"Please deliver between 10 AM and 12 PM\",\r\n  \"PaymentType\": \"CASH_ON_DELIVERY\",\r\n  \"ShippingType\": \"FREE_OFFICE\",\r\n  \"Items\": [\r\n    {\r\n      \"QuantitySold\": 7,\r\n      \"ProductId\": 23\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/sales"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Username\": \"employee\",\r\n    \"Email\": \"employee@example.com\",\r\n    \"Password\": \"strongpassword123\",\r\n    \"Role\": \"EMPLOYEE\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/users/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"newuser@example.com\",\r\n    \"Password\": \"strongpassword123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"admin@tek.bg\",\r\n    \"Password\": \"admin\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5141/api/v1/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCustomerByUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5141/api/v1/users/customer/newuser"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
