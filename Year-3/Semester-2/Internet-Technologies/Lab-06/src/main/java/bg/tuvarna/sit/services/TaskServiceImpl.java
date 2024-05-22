@@ -4,11 +4,11 @@ import bg.tuvarna.sit.dto.TaskCreateDto;
 import bg.tuvarna.sit.dto.TaskDto;
 import bg.tuvarna.sit.entities.Task;
 import bg.tuvarna.sit.repositories.TaskRepository;
+import jakarta.persistence.EntityNotFoundException;
+import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -25,24 +25,20 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public TaskDto create(TaskCreateDto dto) {
 
-    modelMapper.typeMap(Task.class, TaskDto.class)
-            .addMappings(mapper -> {
-              mapper.map(Task::getId, TaskDto::setNumber);
-            });
-
     Task task = modelMapper.map(dto, Task.class);
     task = repository.save(task);
+
     return modelMapper.map(task, TaskDto.class);
   }
 
   @Override
   public TaskDto getByNumber(Long number) {
 
-    Task byId = repository.findById(number).get();
-    modelMapper.typeMap(Task.class, TaskDto.class)
-            .addMappings(mapper -> {
-              mapper.map(Task::getId, TaskDto::setNumber);
-            });
-    return modelMapper.map(byId, TaskDto.class);
+    Optional<Task> taskOptional = repository.findById(number);
+    if (taskOptional.isEmpty()) {
+      throw new EntityNotFoundException("Task not found with ID: " + number);
+    }
+
+    return modelMapper.map(taskOptional.get(), TaskDto.class);
   }
 }

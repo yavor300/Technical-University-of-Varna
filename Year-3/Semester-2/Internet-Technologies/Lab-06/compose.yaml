@@ -1,3 +1,4 @@
+version: "3"
 services:
   db:
     image: postgres:latest
@@ -16,7 +17,9 @@ services:
       - CMD-SHELL
       - pg_isready -U yavor -d tasks-manager
   app:
-    image: tuvarnasit-tasks-manager:1.0.0
+    image: tuvarna-tasks-manager-api:1.0.0
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tasks-manager
     platform: linux/x86_64
     build:
       context: .
@@ -27,5 +30,4 @@ services:
       db:
         condition: service_healthy
     container_name: 21621577.app
-version: "3"
 

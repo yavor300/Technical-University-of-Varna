@@ -3,12 +3,12 @@ package bg.tuvarna.sit.services;
 import bg.tuvarna.sit.dto.UserCreateDto;
 import bg.tuvarna.sit.dto.UserLoginDto;
 import bg.tuvarna.sit.dto.UserReadDto;
-import bg.tuvarna.sit.entities.Role;
-import bg.tuvarna.sit.entities.RoleType;
 import bg.tuvarna.sit.entities.User;
 import bg.tuvarna.sit.repositories.UserRepository;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
+import static bg.tuvarna.sit.utils.MapperConverterUtil.roleTypesToRoles;
+import static bg.tuvarna.sit.utils.MapperConverterUtil.rolesToRoleTypes;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,14 +16,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -44,42 +39,14 @@ public class UserService {
 
   public UserReadDto signup(UserCreateDto dto) {
 
-//    modelMapper.typeMap(UserCreateDto.class, User.class)
-//            .addMappings(mapper -> {
-//              mapper.map(r -> r.getRoles().stream()
-//                      .map(t -> {
-//                        Role role = new Role();
-//                        role.setRole(t);
-//                        return role;
-//                      }).collect(Collectors.toSet()),
-//                      User::setRoles);
-//            });
-
-    Converter<Set<RoleType>, Set<Role>> converter = new AbstractConverter<Set<RoleType>, Set<Role>>() {
-      @Override
-      protected Set<Role> convert(Set<RoleType> roleTypes) {
-        return roleTypes.stream().map(
-                type -> {
-                  Role role = new Role();
-                  role.setId(type.getValue());
-                  role.setRole(type);
-                  return role;
-                }
-        ).collect(Collectors.toSet());
-      }
-    };
-
-    modelMapper.typeMap(UserCreateDto.class, User.class)
-            .addMappings(mapper -> mapper.using(converter)
-                    .map(UserCreateDto::getRoles, User::setRoles));
-
     User user = modelMapper.map(dto, User.class);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user = userRepository.save(user);
+
     return modelMapper.map(user, UserReadDto.class);
   }
 
-  public UserReadDto login(UserLoginDto loginDto) {
+  public UserReadDto login(HttpServletRequest req, UserLoginDto loginDto) {
 
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
@@ -89,10 +56,10 @@ public class UserService {
     SecurityContext sc = SecurityContextHolder.getContext();
     sc.setAuthentication(authentication);
 
-    UserReadDto userReadDto = new UserReadDto();
-    userReadDto.setUsername(authentication.getName());
-    return userReadDto;
+    HttpSession session = req.getSession(true);
+    session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
+
+    User user = userRepository.findByUsername(authentication.getName()).get();
+    return modelMapper.map(user, UserReadDto.class);
   }
-
-
 }

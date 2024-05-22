@@ -1,14 +1,19 @@
 package bg.tuvarna.sit.dto;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
 public class ErrorDto {
 
   private LocalDateTime time;
-  private String message;
+
+  private List<String> errors;
+
+  public void addError(String error) {
+    errors.add(error);
+  }
 }
