@@ -1,0 +1,7 @@
+./gradlew clean build
+docker images -a
+docker build -t <image_name:tag> .
+docker exec -it 21621577.db psql -U yavor -d tasks-manager
+\dt
+\d users
+.\startup.ps1 -imageName "tuvarnasit-tasks-manager" -tag "1.0.0"

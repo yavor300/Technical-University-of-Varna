@@ -1,0 +1,32 @@
+package bg.tuvarna.sit.entities;
+
+import bg.tuvarna.sit.dto.ReportDto;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "tasks")
+public class Task {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(name = "summary", length = 150, nullable = false)
+  private String summary;
+
+  @Column(name = "description", nullable = false)
+  private String description;
+
+  @Column(name = "deadline", length = 50, nullable = false)
+  private LocalDateTime deadline;
+
+  @OneToMany(mappedBy = "task")
+  private Set<Report> reports;
+}
