@@ -5,6 +5,7 @@ fun main(args: Array<String>) {
   val randomDay = randomDay()
   swim(randomDay)
   println(fishFood(randomDay))
+  println(shouldChangeWater(randomDay))
 }
 
 fun randomDay(): String {
@@ -25,5 +26,15 @@ fun fishFood (day : String) : String {
     "Friday" -> "mosquitoes"
     "Sunday" -> "plankton"
     else -> "nothing"
+  }
+}
+
+fun shouldChangeWater (day: String, temperature: Int = 22, dirty: Int = 20): Boolean {
+  // When without parameter
+  return when {
+    temperature > 30 -> true
+    dirty > 30 -> true
+    day == "Sunday" ->  true
+    else -> false
   }
 }
