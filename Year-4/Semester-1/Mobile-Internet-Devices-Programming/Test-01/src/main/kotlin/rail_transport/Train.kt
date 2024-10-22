@@ -5,17 +5,11 @@ import kotlin.math.abs
 
 class Train(private val locomotive: Locomotive, private val wagons: HashSet<Wagon>) : Expense {
 
-  private var startStation: Station? = null
-    get() = field
-    set(value) {
-      field = value
-    }
+  var startStation: Station? = null
+    private set
 
-  private var endStation: Station? = null
-    get() = field
-    set(value) {
-      field = value
-    }
+  var endStation: Station? = null
+    private set
 
   fun setStations(from: Station, to: Station) {
     startStation = from
