@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <fstream>
 
 using namespace std;
 
@@ -118,10 +119,31 @@ void DataFile() {
     printf("Finish\n");
 }
 
+bool ReadInputFromFile(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cout << "Error: Could not open the file " << filename << endl;
+        return false;
+    }
+
+    // Read file content into the 'input' string
+    string line;
+    input.clear();
+    while (getline(file, line)) {
+        input += line;
+    }
+
+    file.close();
+    return true;
+}
+
 // Main function demonstrating parsing
 int main() {
-    // Example input with multiple records
-    input = "1234;631;\"Hello\".5678;\"course1\".\"end\".";
+    // Read the input from a file
+    string filename = "input.txt"; // Change this to the path of your input file
+    if (!ReadInputFromFile(filename)) {
+        return 1; // Exit if file reading fails
+    }
 
     // Start parsing by getting the first symbol
     GetNextSymbol();
@@ -129,7 +151,8 @@ int main() {
     // Begin parsing according to the DataFile rule
     DataFile();
 
-		getchar();
+    getchar();
 
     return 0; // Program will now exit immediately after parsing
 }
+
