@@ -1,158 +1,164 @@
 #include <iostream>
+
 #include <string>
+
 #include <cctype>
+
 #include <fstream>
 
 using namespace std;
 
 enum TSymbolType {
-    intconst,
-    text,
-    semicolon,
-    period,
-    quotas,
-    othersy
+  intconst,
+  text,
+  semicolon,
+  period,
+  quotas,
+  othersy
 };
 
 TSymbolType Symbol; // Global symbol tracker
-string Spelling;    // Holds the current string token
-int Constant;       // Holds the current integer token
-string input;       // Input text to parse
+string Spelling; // Holds the current string token
+int Constant; // Holds the current integer token
+string input; // Input text to parse
 size_t currentCharIndex = 0; // Tracks the position in the input
 
 // Function to get the next character from the input
 char GetNextChar() {
-    if (currentCharIndex < input.size()) {
-        return input[currentCharIndex++];
-    }
-    return '\0'; // End of input
+  if (currentCharIndex < input.size()) {
+    return input[currentCharIndex++];
+  }
+  return '\0';
 }
 
 // Function to skip any non-valid characters and get the next valid symbol
 void GetNextSymbol() {
-    Spelling.clear();
-    Constant = 0;
-    char Char = GetNextChar();
+  Spelling.clear();
+  Constant = 0;
+  char Char = GetNextChar();
 
-    // Skip whitespace and invalid characters
-    while (Char == ' ' || Char < 32 || Char > 126) {
-        Char = GetNextChar();
-    }
+  while (Char == ' ' || Char < 32 || Char > 126) {
+    Char = GetNextChar();
+  }
 
-    if (isalpha(Char)) {  // Identifier (text)
-        while (isalpha(Char) || isdigit(Char)) {
-            Spelling += toupper(Char);
-            Char = GetNextChar();
-        }
-        currentCharIndex--; // Step back one character for the next read
-        Symbol = text;
-        cout << "Parsed string: " << Spelling << endl;
-    } else if (isdigit(Char)) {  // Integer constant
-        while (isdigit(Char)) {
-            Constant = Constant * 10 + (Char - '0');
-            Char = GetNextChar();
-        }
-        currentCharIndex--; // Step back one character for the next read
-        Symbol = intconst;
-        cout << "Parsed integer constant: " << Constant << endl;
-    } else {  // One-character symbols
-        switch (Char) {
-            case '.': Symbol = period; cout << "Parsed period\n"; break;
-            case ';': Symbol = semicolon; cout << "Parsed semicolon\n"; break;
-            case '"': Symbol = quotas; cout << "Parsed quotas\n"; break;
-            default:
-                Symbol = othersy;
-                cout << "Error: unexpected symbol '" << Char << "' (ASCII code: " << int(Char) << ")" << endl;
-                break;
-        }
+  if (isalpha(Char)) {
+    while (isalpha(Char) || isdigit(Char)) {
+      Spelling += toupper(Char);
+      Char = GetNextChar();
     }
+    currentCharIndex--;
+    Symbol = text;
+    cout << "Parsed string: " << Spelling << endl;
+  } else if (isdigit(Char)) {
+    while (isdigit(Char)) {
+      Constant = Constant * 10 + (Char - '0');
+      Char = GetNextChar();
+    }
+    currentCharIndex--;
+    Symbol = intconst;
+    cout << "Parsed integer constant: " << Constant << endl;
+  } else {
+    switch (Char) {
+    case '.':
+      Symbol = period;
+      cout << "Parsed period\n";
+      break;
+    case ';':
+      Symbol = semicolon;
+      cout << "Parsed semicolon\n";
+      break;
+    case '"':
+      Symbol = quotas;
+      cout << "Parsed quotas\n";
+      break;
+    default:
+      Symbol = othersy;
+      cout << "Error: unexpected symbol '" << Char << "' (ASCII code: " << int(Char) << ")" << endl;
+      break;
+    }
+  }
 }
 
 // Field function: Handle an integer, a quoted string, or special characters
 void Field() {
-    if (Symbol == intconst) {
-        GetNextSymbol(); // Move to the next symbol after integer constant
-    } else if (Symbol == text) {
-        GetNextSymbol(); // Move after parsed text
-    } else if (Symbol == quotas) {
-        GetNextSymbol();    // Skip opening quote
-        if (Symbol == text) {   // Expect text inside the quotes
-            GetNextSymbol();    // Move to next symbol after parsed text
-        }
-        if (Symbol == quotas) {  // Skip closing quote
-            GetNextSymbol();
-        } else {
-            cout << "Error: expected closing quotes.\n";
-        }
-    } else {
-        cout << "Error: field expects intconst, string, or quotes." << endl;
+  if (Symbol == intconst) {
+    GetNextSymbol();
+  } else if (Symbol == text) {
+    GetNextSymbol();
+  } else if (Symbol == quotas) {
+    GetNextSymbol();
+    if (Symbol == text) {
+      GetNextSymbol();
     }
+    if (Symbol == quotas) {
+      GetNextSymbol();
+    } else {
+      cout << "Error: expected closing quotes.\n";
+    }
+  } else {
+    cout << "Error: field expects intconst, string, or quotes." << endl;
+  }
 }
 
 // Record function: Handle a sequence of fields, ending with a period
 void Record() {
+  Field();
+  while (Symbol == semicolon) {
+    GetNextSymbol();
     Field();
-    while (Symbol == semicolon) {
-        GetNextSymbol();
-        Field();
+  }
+
+  if (Symbol == period) {
+    if (currentCharIndex < input.size()) {
+      GetNextSymbol();
     }
-    // Expect the record to end with a period
-    if (Symbol == period) {
-        // Do not call GetNextSymbol() after the last period
-        if (currentCharIndex < input.size()) {
-            GetNextSymbol();  // Move after the period only if more input exists
-        }
-    } else {
-        cout << "Error: expected period at the end of the record.\n";
-    }
+  } else {
+    cout << "Error: expected period at the end of the record.\n";
+  }
 }
 
 // DataFile function: Handle the entire data file structure
 void DataFile() {
-    while (currentCharIndex < input.size()) {
-        Record();
-        // Break the loop if no more characters are available after the period
-        if (currentCharIndex >= input.size()) {
-            break;  // End parsing when we reach the end of input
-        }
+  while (currentCharIndex < input.size()) {
+    Record();
+
+    if (currentCharIndex >= input.size()) {
+      break;
     }
-    printf("Finish\n");
+  }
+  printf("Finish\n");
 }
 
-bool ReadInputFromFile(const string& filename) {
-    ifstream file(filename);
-    if (!file.is_open()) {
-        cout << "Error: Could not open the file " << filename << endl;
-        return false;
-    }
+bool ReadInputFromFile(const string & filename) {
+  ifstream file(filename);
+  if (!file.is_open()) {
+    cout << "Error: Could not open the file " << filename << endl;
+    return false;
+  }
 
-    // Read file content into the 'input' string
-    string line;
-    input.clear();
-    while (getline(file, line)) {
-        input += line;
-    }
+  string line;
+  input.clear();
+  while (getline(file, line)) {
+    input += line;
+  }
 
-    file.close();
-    return true;
+  file.close();
+  return true;
 }
 
 // Main function demonstrating parsing
-int main() {
-    // Read the input from a file
-    string filename = "input.txt"; // Change this to the path of your input file
-    if (!ReadInputFromFile(filename)) {
-        return 1; // Exit if file reading fails
-    }
+int __main() {
 
-    // Start parsing by getting the first symbol
-    GetNextSymbol();
+  string filename = "input.txt";
+  if (!ReadInputFromFile(filename)) {
+    return 1;
+  }
 
-    // Begin parsing according to the DataFile rule
-    DataFile();
+  GetNextSymbol();
 
-    getchar();
+  DataFile();
 
-    return 0; // Program will now exit immediately after parsing
+  getchar();
+
+  return 0;
 }
-
