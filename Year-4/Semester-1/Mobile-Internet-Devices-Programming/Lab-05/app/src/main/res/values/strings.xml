@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lab-05</string>
+    <string name="message">Happy Birthday Android</string>
+    <string name="from">From Alex</string>
+</resources>
