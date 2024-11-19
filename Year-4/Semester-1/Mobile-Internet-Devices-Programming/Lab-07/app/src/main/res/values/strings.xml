@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lab-07</string>
+    <string name="title_activity_insert">InsertActivity</string>
+    <string name="title_activity_display">DisplayActivity</string>
+    <string name="enter">Enter name</string>
+    <string name="email">Enter email</string>
+    <string name="phone">Enter phone</string>
+    <string name="next">Next</string>
+    <string name="errorMessage">Validation error</string>
+</resources>
