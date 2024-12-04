@@ -149,7 +149,7 @@ bool ReadInputFromFile(const string & filename) {
   return true;
 }
 
-int main() {
+int _main() {
 
   string filename = "url_input.txt";
   if (!ReadInputFromFile(filename)) {
