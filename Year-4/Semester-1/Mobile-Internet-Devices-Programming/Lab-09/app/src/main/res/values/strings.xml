@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Lab-09</string>
+    <string name="place1">Place 1</string>
+    <string name="place2">Place 2</string>
+    <string name="place3">Place 3</string>
+    <string name="place4">Place 4</string>
+    <string name="place5">Place 5</string>
+    <string name="place6">Place 6</string>
+    <string name="place7">Place 7</string>
+    <string name="place8">Place 8</string>
+    <string name="place9">Place 9</string>
+    <string name="place10">Place 10</string>
+</resources>
