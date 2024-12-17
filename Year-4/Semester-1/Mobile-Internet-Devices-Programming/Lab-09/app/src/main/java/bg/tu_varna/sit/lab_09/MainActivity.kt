@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -92,6 +93,18 @@ fun PlaceList(places: List<Place>, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun PlaceListRow(places: List<Place>, modifier: Modifier = Modifier) {
+  LazyRow(modifier = modifier) {
+    items(places) { place ->
+      PlaceCard(
+        place = place,
+        modifier = Modifier.padding(8.dp)
+      )
+    }
+  }
+}
+
+@Composable
 fun PlaceCard(place: Place, modifier: Modifier = Modifier) {
   Card(modifier = modifier) {
     Column(modifier = modifier) {
@@ -118,7 +131,7 @@ fun PlaceCardPreview() {
   Lab09Theme {
     // PlaceCard(Place(R.string.place1, R.drawable.image1))
     // PlaceList(Datasource().loadPlace(), Modifier)
-    // PlaceVerticalGrid(Datasource().loadPlace(), Modifier)
-    PlaceHorizontalGrid(Datasource().loadPlace(), Modifier)
+     PlaceVerticalGrid(Datasource().loadPlace(), Modifier)
+    // PlaceHorizontalGrid(Datasource().loadPlace(), Modifier)
   }
 }
