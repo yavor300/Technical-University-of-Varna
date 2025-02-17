@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,4 +38,12 @@ public class Report {
   @ManyToOne
   @JoinColumn(name = "task_id", nullable = false)
   private Task task;
+
+  @ManyToMany
+  @JoinTable(
+          name = "reports_tags",
+          joinColumns = @JoinColumn(name = "report_id", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
+  )
+  private Set<Tag> tags = new HashSet<>();
 }

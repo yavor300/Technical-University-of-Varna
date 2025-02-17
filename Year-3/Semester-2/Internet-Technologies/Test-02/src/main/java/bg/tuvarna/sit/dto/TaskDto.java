@@ -1,6 +1,5 @@
 package bg.tuvarna.sit.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,5 +16,5 @@ public class TaskDto extends TaskCreateDto {
   private String summary;
   private String description;
   private LocalDateTime deadline;
-  private Set<ReportDto> reports;
+  private Set<ReportReadDto> reports;
 }

@@ -1,18 +1,33 @@
-version: '3'
 services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: yavor
+      POSTGRES_DB: tasks-manager
+      POSTGRES_PASSWORD: it*
+    ports:
+      - 5432:5432
+    container_name: 21621577.db
+    healthcheck:
+      retries: 5
+      interval: 10s
+      timeout: 5s
+      test:
+        - CMD-SHELL
+        - pg_isready -U yavor -d tasks-manager
   app:
-    container_name: 21621577.app
+    image: tuvarna:1.0.0
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tasks-manager
     platform: linux/x86_64
     build:
       context: .
       dockerfile: Dockerfile
-  db:
-    container_name: 21621577.db
-    image: postgres:latest
     ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: yavor
-      POSTGRES_PASSWORD: it*
-      POSTGRES_DB: tasks-manager
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    container_name: 21621577.app
+version: "3"
 

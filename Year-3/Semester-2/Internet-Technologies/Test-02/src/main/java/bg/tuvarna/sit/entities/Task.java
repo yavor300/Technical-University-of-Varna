@@ -1,11 +1,11 @@
 package bg.tuvarna.sit.entities;
 
-import bg.tuvarna.sit.dto.ReportDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -28,5 +28,5 @@ public class Task {
   private LocalDateTime deadline;
 
   @OneToMany(mappedBy = "task")
-  private Set<Report> reports;
+  private Set<Report> reports = new HashSet<>();
 }
