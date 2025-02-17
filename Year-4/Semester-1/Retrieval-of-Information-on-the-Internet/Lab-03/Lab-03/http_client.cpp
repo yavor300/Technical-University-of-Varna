@@ -34,6 +34,12 @@ void fetch_html(const std::string& server, const std::string& path = "/") {
         return;
     }
 
+    // Extract and print IP address
+    struct sockaddr_in* addr = (struct sockaddr_in*)result->ai_addr;
+    char ip_str[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &(addr->sin_addr), ip_str, INET_ADDRSTRLEN);
+    std::cout << "Resolved IP Address: " << ip_str << std::endl;
+
     // Create a socket
     ConnectSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     if (ConnectSocket == INVALID_SOCKET) {
@@ -111,12 +117,25 @@ void fetch_html(const std::string& server, const std::string& path = "/") {
 }
 
 void parse_server_and_path(const std::string& input, std::string& server, std::string& path) {
-    size_t pos = input.find('/');
+    std::string url = input;
+
+    // Remove "http://" or "https://"
+    const std::string http_prefix = "http://";
+    const std::string https_prefix = "https://";
+
+    if (url.rfind(http_prefix, 0) == 0) {
+        url = url.substr(http_prefix.length());
+    } else if (url.rfind(https_prefix, 0) == 0) {
+        url = url.substr(https_prefix.length());
+    }
+
+    // Extract server and path
+    size_t pos = url.find('/');
     if (pos != std::string::npos) {
-        server = input.substr(0, pos);
-        path = input.substr(pos);
+        server = url.substr(0, pos);
+        path = url.substr(pos);
     } else {
-        server = input;
+        server = url;
         path = "/";
     }
 }
@@ -126,7 +145,7 @@ int main() {
     std::string server;
     std::string path;
 
-    std::cout << "Enter server and path (e.g., crawlertest.cs.tu-varna.bg/TestIIR.html): ";
+    std::cout << "Enter server and path (e.g., http://crawlertest.cs.tu-varna.bg/TestIIR.html): ";
     std::getline(std::cin, input);
 
     // Parse the server and path from the input
