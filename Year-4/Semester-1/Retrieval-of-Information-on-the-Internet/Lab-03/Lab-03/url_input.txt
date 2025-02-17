@@ -1,1 +1,1 @@
-http://example.com:8080/path/to/resource
+http://crawlertest.cs.tuvarna.bg/TestIIR.html
