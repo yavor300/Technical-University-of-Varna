@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Формуляр за кандидатстване за студентски стаж</title>
+  </head>
+  <body>
+    <h1>Формуляр за кандидатстване за студентски стаж</h1>
+    <form action="submit.php" method="POST" enctype="multipart/form-data">
+      <label for="first-name">Име:</label>
+      <input type="text" id="first-name" name="first-name" required>
+      <br>
+      <label for="last-name">Фамилия:</label>
+      <input type="text" id="last-name" name="last-name" required>
+      <br>
+      <label for="course">Курс:</label>
+      <input type="number" id="course" name="course" min="1" max="4" required>
+      <br>
+      <label for="specialty">Специалност:</label>
+      <select id="specialty" name="specialty" required>
+        <option value="web-design">Уеб дизайн</option>
+        <option value="software-development">Софтуерно инженерство</option>
+        <option value="networking">Мрежово инженерство</option>
+      </select>
+      <br>
+      <label for="operator-type">Вид оператор:</label>
+      <select id="operator-type" name="operator-type" required>
+        <option value="intern">Стажант</option>
+        <option value="volunteer">Доброволец</option>
+        <option value="contractor">Контрактор</option>
+      </select>
+      <br>
+      <label for="comments">Коментари:</label>
+      <textarea id="comments" name="comments"></textarea>
+      <br>
+      <label for="file-upload">Качване на файл:</label>
+      <input type="file" id="file-upload" name="file-upload" accept=".jpg,.png,.txt" required>
+      <br>
+      <input type="submit" value="Изпращане на кандидатурата">
+    </form>
+  </body>
+</html>
