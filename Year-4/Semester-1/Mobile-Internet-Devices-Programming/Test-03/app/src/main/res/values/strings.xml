@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">test03</string>
+    <string name="greeting">Добро утро!</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="errorLoading">Появи се проблем</string>
+    <string name="law">Law</string>
+    <string name="film">Film</string>
+    <string name="tech">Tech</string>
+    <string name="crafts">Crafts</string>
+    <string name="design">Design</string>
+    <string name="architecture">Architecture</string>
+    <string name="automotive">Automative</string>
+    <string name="biology">Biology</string>
+    <string name="business">Business</string>
+    <string name="culinary">Culinary</string>
+    <string name="engineering">Engineering</string>
+    <string name="drawing">Drawing</string>
+    <string name="ecology">Ecology</string>
+    <string name="physics">Physics</string>
+    <string name="fashion">Fashion</string>
+</resources>
