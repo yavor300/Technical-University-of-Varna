@@ -1,0 +1,41 @@
+program {
+main() -> void {
+
+    int[] arr = int[10];
+    arr[0] = 1;
+    arr[1] = 2;
+    arr[2] = 3;
+    arr[3] = 4;
+    arr[4] = 5;
+    arr[5] = 6;
+    arr[6] = 7;
+    arr[7] = 8;
+    arr[8] = 9;
+    arr[9] = 10;
+
+     int va = 0;
+     boolean swapped = true;
+
+       while (swapped) {
+         swapped=false;
+         va = 0;
+       while (va < 9)
+       {
+               if (i[va] > i[va+1]) {
+
+                   int swap = i[va];
+                   i[va] = i[va+1];
+                   i[va+1] = swap;
+                   swapped=true;
+               }
+           va = va + 1;
+       }
+    }
+
+    while (i <= 9) {
+        print(arr[i]);
+        print(" ");
+        i = i + 1;
+    }
+  }
+}

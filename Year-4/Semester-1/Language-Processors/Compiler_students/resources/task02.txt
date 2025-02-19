@@ -1,0 +1,23 @@
+program {
+
+  factorial(int n) -> int {
+    if (n < 0) {
+      int negative = -1;
+      return negative;
+    }
+    if (n == 0) {
+     return 1;
+    }
+    else {
+     return (n * @factorial(n-1));
+    }
+  }
+
+  main() -> void {
+
+      int value = -1;
+      read(value);
+      int fact = @factorial(value);
+      print("fact = ", fact);
+    }
+}

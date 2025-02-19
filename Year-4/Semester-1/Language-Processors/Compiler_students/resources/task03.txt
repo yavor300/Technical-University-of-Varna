@@ -1,0 +1,20 @@
+program {
+
+  factorial(int n) -> int {
+    int fact = 1;
+    int i = 1;
+    while (i <= n) {
+        fact = fact * i;
+        i = i + 1;
+    }
+    return fact;
+  }
+
+  main() -> void {
+
+      int value = -1;
+      read(value);
+      int fact = @factorial(value);
+      print("fact = ", fact);
+    }
+}
