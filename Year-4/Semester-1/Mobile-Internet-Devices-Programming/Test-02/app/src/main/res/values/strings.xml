@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">pmiu-exam-2</string>
+    <string name="title_activity_second">SecondActivity</string>
+    <string name="title_activity_profile_details">ProfileDetailsActivity</string>
+    <string name="errorMesage">Невалидно подадени данни</string>
+    <string name="mainScreenButtonText">Начало</string>
+    <string name="showButton">Покажи</string>
+    <string name="greeting">Добро утро</string>
+    <string name="formNameLabel">Как се казваш?</string>
+    <string name="formNamePlacehodler">Въведи името си:</string>
+    <string name="formEmailLabel">Какъв е твоя имейл?</string>
+    <string name="formEmailPlacehodler">Въведи имейла си:</string>
+    <string name="formPhoneLabel">Какъв е твоя телефон?</string>
+    <string name="formPhonePlacehodler">Въведи телефона си:</string>
+    <string name="formWebUrlLabel">Какъв е твоя уеб адрес?</string>
+    <string name="formWebUrlPlacehodler">Въведи своя уеб адрес:</string>
+    <string name="detailsText">Твоите данни са:</string>
+    <string name="name">Име:</string>
+    <string name="email">Телефом:</string>
+    <string name="phone">Имейл:</string>
+    <string name="webUrl">Уеб адрес:</string>
+</resources>
