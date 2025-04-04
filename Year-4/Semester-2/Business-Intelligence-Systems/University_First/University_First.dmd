@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="University_First" id="63846C6D-28EA-C1BD-3DBA-A374BA3B9B35" version="3.5">
-<createdBy>Yavor</createdBy>
-<createdTime>2025-03-27 10:11:33 UTC</createdTime>
-<ownerDesignName>University_First</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>63846C6D-28EA-C1BD-3DBA-A374BA3B9B35</designId>
-</OSDM_Design>

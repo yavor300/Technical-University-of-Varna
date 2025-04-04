@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<Dimension class="oracle.dbtools.crest.model.design.multidimensional.Dimension" name="Dim_PublicationType" directorySegmentName="seg_0" id="B1853C74-155D-D209-1C89-24B9533AF745">
-<createdBy>Yavor</createdBy>
-<createdTime>2025-03-28 12:55:08 UTC</createdTime>
-<generatorID>B8655117-69DF-187E-0FA8-968342A2323F</generatorID>
-<ownerDesignName>University_First</ownerDesignName>
-<nameInOracleAW>DIM_PUBLICATIONTYPE</nameInOracleAW>
-</Dimension>

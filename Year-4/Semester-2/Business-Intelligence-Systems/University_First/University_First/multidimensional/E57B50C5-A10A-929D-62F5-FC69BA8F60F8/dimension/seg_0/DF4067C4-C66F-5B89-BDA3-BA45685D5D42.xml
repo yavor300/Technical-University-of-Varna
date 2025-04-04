@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<Dimension class="oracle.dbtools.crest.model.design.multidimensional.Dimension" name="Dim_TeacherRank" directorySegmentName="seg_0" id="DF4067C4-C66F-5B89-BDA3-BA45685D5D42">
-<createdBy>Yavor</createdBy>
-<createdTime>2025-03-28 09:58:01 UTC</createdTime>
-<generatorID>EA54058D-1024-69F2-413C-EE73930F22AB</generatorID>
-<ownerDesignName>University_First</ownerDesignName>
-<nameInOracleAW>DIM_TEACHERRANK</nameInOracleAW>
-</Dimension>
