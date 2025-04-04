@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="Edition" directorySegmentName="seg_0" id="3CE69499-0024-7D49-EACA-A22A7849D2FF">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:55:08 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>EDITION</nameInOracleAW>
+<defaultHierarchy>true</defaultHierarchy>
+<linkToDimension>AC5A9A93-D6F2-A165-7F15-F868D15C12B0</linkToDimension>
+<usedLevels>
+<usedLevel>D30A7691-3C9E-6A88-F63C-03768D25FBAD</usedLevel>
+</usedLevels>
+</Hierarchy>

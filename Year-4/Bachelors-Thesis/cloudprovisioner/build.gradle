@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+}
+
+group = 'bg.tuvarna.sit'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation(platform('software.amazon.awssdk:bom:2.31.6'))
+    implementation('software.amazon.awssdk:s3')
+    implementation('com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.3')
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.3'
+    implementation 'org.apache.httpcomponents.client5:httpclient5-fluent:5.1.3'
+    implementation('org.slf4j:slf4j-api:2.0.17')
+    implementation('ch.qos.logback:logback-classic:1.5.18')
+    implementation('net.logstash.logback:logstash-logback-encoder:8.0')
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testCompileOnly 'org.projectlombok:lombok:1.18.36'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'bg.tuvarna.sit.Main'
+        )
+    }
+    // TODO Consider using the shadow gradleup plugin
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
+
+tasks.register('provisionerS3', JavaExec) {
+    group = 'cloud'
+    description = 'Provision S3 bucket from external YAML file'
+    mainClass.set('bg.tuvarna.sit.Main')
+    classpath = sourceSets.main.runtimeClasspath
+
+    def configFile = project.findProperty('configFile') ?: 'cloud/s3.yml'
+    args configFile
+}

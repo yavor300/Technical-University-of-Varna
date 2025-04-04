@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Dimension class="oracle.dbtools.crest.model.design.multidimensional.Dimension" name="Dim_Country" directorySegmentName="seg_0" id="FB190B01-C9FA-42CE-3438-CE5751EC998F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<generatorID>00717A33-7EF7-F21B-333C-3AC4A02816E5</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>DIM_COUNTRY</nameInOracleAW>
+</Dimension>

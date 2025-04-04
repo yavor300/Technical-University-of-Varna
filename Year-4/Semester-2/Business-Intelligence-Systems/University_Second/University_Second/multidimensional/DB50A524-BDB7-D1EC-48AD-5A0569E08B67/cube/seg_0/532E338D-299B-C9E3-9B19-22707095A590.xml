@@ -1,0 +1,181 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Cube class="oracle.dbtools.crest.model.design.multidimensional.Cube" name="Hall" directorySegmentName="seg_0" id="532E338D-299B-C9E3-9B19-22707095A590">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:40:27 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>HALL</nameInOracleAW>
+<compressedcomposites>false</compressedcomposites>
+<factEntity>D79FDE14-26D4-DC94-1634-9B27F6FC797E</factEntity>
+<partitioned>true</partitioned>
+<useGlobalComposites>false</useGlobalComposites>
+<virtual>true</virtual>
+<dimensions>
+<dimension>33C11128-4279-E172-630F-82142326F0AB</dimension>
+<dimension>7912DF87-24E0-85CD-B9CE-7D60C4F1076B</dimension>
+</dimensions>
+<measures itemClass="oracle.dbtools.crest.model.design.multidimensional.Measure">
+<measure name="id" id="6CC06BBB-92F4-CE37-4472-A36CEAD447FB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:40:27 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>ID</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>532E338D-299B-C9E3-9B19-22707095A590</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<measureFact>FF513222-CEEE-9A0E-7791-8DC2417D3189</measureFact>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="COUNT" id="1">
+<measureAlias>id</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="area" id="81715396-08F9-1E55-271B-C3BEF190E92E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:40:27 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>AREA</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>532E338D-299B-C9E3-9B19-22707095A590</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<measureFact>D5B993B5-D384-2A21-304D-09A799470FE7</measureFact>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>area</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="capacity" id="015821CE-13EB-18DB-88F4-7F613CA20015">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:40:27 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>CAPACITY</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>532E338D-299B-C9E3-9B19-22707095A590</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<measureFact>896B453D-7353-C6D5-A618-DB90F77A22ED</measureFact>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>capacity</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="pc count" id="0C09418F-8139-FD25-22C5-F00EBCA379B3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:40:27 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>PC_COUNT</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>532E338D-299B-C9E3-9B19-22707095A590</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<measureFact>6FB52F01-7DF0-62F7-6540-0762F5D0B5EF</measureFact>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>pc count</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="multimedia" id="BD694E06-0EA6-0208-0EB2-5747BC3857E0">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 13:02:38 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>MULTIMEDIA</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>532E338D-299B-C9E3-9B19-22707095A590</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>multimedia</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="nid" id="A0837C51-AE06-E215-2E1B-78A8B507A38A">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 13:03:42 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>NID</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>532E338D-299B-C9E3-9B19-22707095A590</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>Measure_7</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+</measures>
+<factContainers>
+<container>D79FDE14-26D4-DC94-1634-9B27F6FC797E</container>
+</factContainers>
+</Cube>

@@ -1,0 +1,63 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="Time" directorySegmentName="seg_0" id="70D9B24D-22EB-3C21-065B-41F6C1334B61">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:21:07 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="AttestationPeriod_id" id="1FCCA902-033E-FBDA-382F-1A967A276453">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:47 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="year" id="20C6A855-55D2-FEBF-A92E-072DF3FCE8BA">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:29 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="26BEFD3C-2B60-2D7E-479F-6002780795C4">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:23:46 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="AccreditationPeriod_id" id="26EC07EE-A8E8-FB91-F8B2-4D3BD1C15BDB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:58 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="month" id="6CD2BD17-D412-5B51-5178-5D3A20C7DE5F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:29 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="semester" id="6D1E283A-92EE-DD9B-04EA-790AC8CEB184">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:29 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Time_AttestationPeriod_FK" id="038AF864-A3D2-3941-F0FA-96C2A5FFC468">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:47 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Time_AccreditationPeriod_FK" id="E758A432-8E02-E321-4485-9967F584981E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:58 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Time_PK" id="A3BA7454-9A5F-40C9-D94D-610FA4EC3E18">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:23:46 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

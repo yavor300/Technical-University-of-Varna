@@ -1,0 +1,47 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B3E7BDD6-BF0F-9219-03D8-1EFD586359F5" name="PublicationType">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<ordsAlias>table_5</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="FBFE913B-5D74-A7B7-716D-B1F67671C303">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="name" id="5367DEC9-CD2C-C989-79E0-8AEF70FAA89F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5FF98FFC-B9E2-32D1-47CB-9FF148B83C6E" name="PublicationType_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FBFE913B-5D74-A7B7-716D-B1F67671C303"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

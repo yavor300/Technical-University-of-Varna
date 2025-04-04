@@ -1,0 +1,37 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Faculty" directorySegmentName="seg_0" id="39F05E29-84F1-F509-B46A-94A5105F46F3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<generatorID>AC1456B6-6C80-1E7D-1067-CED469580401</generatorID>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>FACULTY</nameInOracleAW>
+<levelEntity>1D79DCFE-88C7-8C77-CBBC-DA450ACBCD61</levelEntity>
+<oraDimension>Dim_Department</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>9E7D8C7C-31EE-9B4A-3F10-E113E05CA6BE</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="shortname" id="DF36E275-5FB2-2B37-DAF6-E5915F16BF00">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<attribute>A5609C41-0F60-5ECD-6CB5-AFBF609D0C41</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="name" id="AF229EBF-AF08-3877-A671-586173FD8392">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<attribute>290C06C0-0D17-7A49-9640-45DB0B96CFBD</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

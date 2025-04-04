@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DB8C501D-5D35-AFE1-6621-E8103128EF7B" name="AccreditationPeriod">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>9297A343-2F9B-47FF-B288-48C60512CB3D</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<typeID>2</typeID>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="65B5D15B-4809-3F5F-83C5-0506EB39F4A8">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>3EC650EF-A82C-91FB-B2DF-64E2EDE958F3</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="period name" id="B1AD9E4C-2AD0-4572-5DAC-FF562B682F41">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>7982691E-70FE-C323-201B-C5914E3AC74A</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="start date" id="34FD9367-8007-B329-9D1D-EA4D2A62CFCA">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>3BDD51E6-236D-E821-D00D-98A310EB0ACD</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="end date" id="CA87D7CF-E2D7-308B-666A-AD5893DF639E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>8F4C141E-0101-960F-3223-86A487D19AAA</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="BCDCB7B2-FE4A-9B91-D1F1-2376489D3E9D" name="AccreditationPeriod PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>537CFC89-1EA8-971C-EC20-4BE888526D6C</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>65B5D15B-4809-3F5F-83C5-0506EB39F4A8</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

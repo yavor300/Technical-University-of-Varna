@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Time_AccreditationPeriod_FK" directorySegmentName="seg_0" id="F5AC8937-5502-7973-FC85-E7CE308E1F61">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>068E8B8A-8DF4-8F8C-78A8-238402E93FD1</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<sourcePk>BCDCB7B2-FE4A-9B91-D1F1-2376489D3E9D</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>DB8C501D-5D35-AFE1-6621-E8103128EF7B</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>34B8B089-66FF-B169-239A-494D01C0841C</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

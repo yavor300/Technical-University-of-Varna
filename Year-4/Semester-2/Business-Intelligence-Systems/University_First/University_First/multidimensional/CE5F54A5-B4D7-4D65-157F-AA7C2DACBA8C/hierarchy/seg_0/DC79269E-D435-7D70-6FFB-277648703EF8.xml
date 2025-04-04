@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="County" directorySegmentName="seg_0" id="DC79269E-D435-7D70-6FFB-277648703EF8">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:55:08 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>COUNTY</nameInOracleAW>
+<defaultHierarchy>true</defaultHierarchy>
+<linkToDimension>86579267-DC13-67F8-8346-EB9F76F9D0D5</linkToDimension>
+<usedLevels>
+<usedLevel>A8E239CD-3497-EDB1-167C-91308B5D8A38</usedLevel>
+</usedLevels>
+</Hierarchy>

@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Departments_Building" directorySegmentName="seg_0" id="4D04EFCB-0435-B389-2C9A-A591D32AAD17">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<generatorID>DF3DD85D-A7BA-F571-9BD3-FC1058FC7AE9</generatorID>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>DEPARTMENTS_BUILDING</nameInOracleAW>
+<levelEntity>01076688-21CF-0957-2292-51507A5C8DB3</levelEntity>
+<oraDimension>Dim_Departmen_Building</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>891DA597-4D64-2521-59F4-41285A8C31E8</attribute>
+<attribute>64A7A9F3-1AB1-77CB-BD16-6066276290E2</attribute>
+</levelKey>
+</Level>

@@ -1,0 +1,84 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6F6D78EB-154C-D153-DA8C-D7D2E9D3FB57" name="Department">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<ordsAlias>table_3</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="12B1DDFE-7EB7-D77F-A345-81E438C1E450">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="short_name" id="C8363D4D-70B4-8A82-3459-000C374B2073">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="name" id="411EB32A-A077-1386-847B-A33C13307FBB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Faculty_id" id="974DA2AD-20EF-AB83-99B3-F584D75A9465">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="09D9A599-8073-0753-943E-5D6F6402E514" referredColumn="9762E4B3-02E3-B9C6-468D-7C7CA90569B0"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="644FA25A-4A49-3661-4679-21D60DF9A6FB" name="Department_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="12B1DDFE-7EB7-D77F-A345-81E438C1E450"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="EB2183F0-6F75-18B1-582D-8F4F74CC2D37" name="Department_Faculty_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="974DA2AD-20EF-AB83-99B3-F584D75A9465"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,96 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="59363ED2-9F52-8619-BDAF-256E9B684A9D" name="Department">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>8F14CABF-09EC-0DF8-C4C4-F82FF1EAAB99</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="22A99F47-7921-783F-7130-7974CCDC7DEB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>C1BD5BC3-BAEB-4E48-CD05-D35A8C94C88C</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="short name" id="2DF85965-674B-860E-65D2-EAA3EAC7CB11">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>DBE40461-6688-25AF-A839-92DAA4143E0F</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="C462513A-2C35-0A57-1124-998DEC8467E6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>63A83282-9372-1F5E-3B3A-E1E991827B50</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Faculty id" id="B9CF6E52-8FE5-FAFD-636E-A8C426AEB57C">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>863C9A5F-B592-B0D5-B2D9-DBCC985443C5</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<referedAttribute>098D095D-DF76-B0B8-4C70-31AF5AC063E8</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B2DBE202-0742-FF19-400E-836D500CEC4E" name="Department PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>052A0280-1381-6F77-D2D4-3EAD5D2485DA</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>22A99F47-7921-783F-7130-7974CCDC7DEB</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

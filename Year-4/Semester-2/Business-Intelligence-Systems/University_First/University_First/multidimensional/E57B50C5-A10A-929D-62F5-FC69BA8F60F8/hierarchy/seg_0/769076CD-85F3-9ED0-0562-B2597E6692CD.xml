@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="TeacherRank" directorySegmentName="seg_0" id="769076CD-85F3-9ED0-0562-B2597E6692CD">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>TEACHERRANK</nameInOracleAW>
+<defaultHierarchy>true</defaultHierarchy>
+<linkToDimension>413ECD96-211F-A785-A5B2-D0292366CB46</linkToDimension>
+<usedLevels>
+<usedLevel>D121C650-A000-2D51-4CB6-C800DB6602E1</usedLevel>
+<usedLevel>2441D68B-6910-94C3-214C-D7AEC273799E</usedLevel>
+</usedLevels>
+<usedRULinks>
+<usedLink>BD85708C-6DB8-06A2-8B14-A492B8EBC988</usedLink>
+</usedRULinks>
+</Hierarchy>

@@ -1,0 +1,187 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="79647CD2-D180-1694-871A-F82B8FE71852" name="Publication">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>F6CB8CFB-A7C0-C6FD-EEEB-8BEF7D6CB86B</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<typeID>1</typeID>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="CCE93AFD-4DCA-3C2A-6E66-F6DFD8D3C770">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>49BDEC5B-A835-D60D-37AD-C2889E7FC083</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="year" id="7992D697-4B75-3B53-E08F-2C1AAC90DEAF">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>1DF6E561-BEA2-7B1C-5948-3A5A50D5A930</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="contribution order" id="C188BE60-1145-6487-ED45-229F97290BB9">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>7C3F1BA8-5E55-023F-ECA4-59F2683CAE8E</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="quotes count" id="BBD7C3E7-4F10-D5C7-929E-19D26BBE4B87">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>D5BF7F85-DB8A-59C9-8AE7-A1F42BECEA14</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PublicationType id" id="F2F30DC1-C5EC-B0F6-2311-9BDE33282F46">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>91FF1FE0-13EE-AA64-AB9A-BF5BBAC35C66</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<referedAttribute>78935B44-B0E6-5C97-F391-519E564AFCEB</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Country id" id="0B37D016-83F6-5FC1-F80C-50815E02B5B6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>AF9D9E46-699C-66B4-1276-5D61B95F2494</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<referedAttribute>E53C3E08-B79F-A73B-366C-4F655DB8C166</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Publishing id" id="0F18B6A3-7BF7-950B-E1A0-953974302ECB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>BB447E5D-0235-27AA-914C-CDADE79AFDF1</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<referedAttribute>D0EC191D-B1C0-05C0-93EB-1B6726767482</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Teacher id" id="E2E67755-2145-1494-34BA-1568C3AD78D7">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>B045F578-0DD9-6C03-3291-9CEB3BD8C2F7</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<referedAttribute>19A8B4B5-C8F5-5F0B-2488-19EA3EAADEB8</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="additional edition" id="6A59DC1D-EF82-4B4B-27D5-52BF527C43F9">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>18945C79-8BEA-0119-182D-0DBAAD951211</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Edition id" id="037D8FD7-13AB-11C1-059F-56C0CAAC99E2">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>11F66BEA-44CB-4B40-5A90-CB80EE84C2CC</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<referedAttribute>5F81743E-949A-A3C9-BDF7-92A5FD35D59B</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Time id" id="2BE6FABA-453D-60F2-73ED-6695779DDFA2">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:26:16 UTC</createdTime>
+<generatorID>29187722-6663-D139-3992-D673D76BF18D</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<referedAttribute>0DAD5FF7-D19D-88B4-97C8-A2B1D9250694</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="73E1FB32-388A-6F97-B680-E6C17ADB23D4" name="Publication PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>254CC8AB-FA82-B125-E2DE-CF31260FEDE9</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>CCE93AFD-4DCA-3C2A-6E66-F6DFD8D3C770</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

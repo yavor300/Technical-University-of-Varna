@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Teacher_Department_FK" directorySegmentName="seg_0" id="A9F4E85F-877F-D502-D214-5B961BE77DF2">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>C965315C-DB65-4389-FAB7-F81055C20B5D</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<sourcePk>B2DBE202-0742-FF19-400E-836D500CEC4E</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>59363ED2-9F52-8619-BDAF-256E9B684A9D</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>3C42B308-E088-DE95-C6E0-46D950EAFAFA</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C5C12EA2-1C5A-CC35-FBF4-2D3575C938E1" name="Faculty">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<ordsAlias>table_2</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="92998F64-814E-9C01-64C4-CF121B8D1ADA">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="shortname" id="8B39E537-4C89-ACB5-2B2B-36A61BDA9DBF">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="name" id="6F36E009-2B19-52B3-B6D7-7323DFA72E87">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="BD3B1A21-0302-A5C9-7EE7-D33B9E9DB0D1" name="Faculty_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="92998F64-814E-9C01-64C4-CF121B8D1ADA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

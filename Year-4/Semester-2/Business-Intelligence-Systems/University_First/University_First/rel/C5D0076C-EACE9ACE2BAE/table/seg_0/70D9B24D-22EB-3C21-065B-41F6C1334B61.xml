@@ -1,0 +1,118 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="70D9B24D-22EB-3C21-065B-41F6C1334B61" name="Time">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:21:07 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<ordsAlias>table_13</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="26BEFD3C-2B60-2D7E-479F-6002780795C4">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:23:46 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="year" id="20C6A855-55D2-FEBF-A92E-072DF3FCE8BA">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:29 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="semester" id="6D1E283A-92EE-DD9B-04EA-790AC8CEB184">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:29 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="month" id="6CD2BD17-D412-5B51-5178-5D3A20C7DE5F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:29 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="AttestationPeriod_id" id="1FCCA902-033E-FBDA-382F-1A967A276453">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:47 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6A65138E-A350-6891-01FA-EDDF1CA8DF6E" referredColumn="ACC7F972-4ECF-4868-F61D-21E12306F93E"/>
+</associations>
+</Column>
+<Column name="AccreditationPeriod_id" id="26EC07EE-A8E8-FB91-F8B2-4D3BD1C15BDB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:58 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="068E8B8A-8DF4-8F8C-78A8-238402E93FD1" referredColumn="3EC650EF-A82C-91FB-B2DF-64E2EDE958F3"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="A3BA7454-9A5F-40C9-D94D-610FA4EC3E18" name="Time_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:23:46 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="26BEFD3C-2B60-2D7E-479F-6002780795C4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="038AF864-A3D2-3941-F0FA-96C2A5FFC468" name="Time_AttestationPeriod_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:47 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1FCCA902-033E-FBDA-382F-1A967A276453"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E758A432-8E02-E321-4485-9967F584981E" name="Time_AccreditationPeriod_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:24:58 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="26EC07EE-A8E8-FB91-F8B2-4D3BD1C15BDB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,32 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DimensionOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionOraclev10g" name="Dim_PublicationType" directorySegmentName="seg_0" id="B8655117-69DF-187E-0FA8-968342A2323F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:55:58 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<levels>
+<Level class="oracle.dbtools.crest.model.design.storage.oracle.v10g.LevelOraclev10g" name="PublicationType" id="3A31046A-1A3E-89DE-1F48-A47A78942A2A">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:56:04 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<columns>FBFE913B-5D74-A7B7-716D-B1F67671C303</columns>
+<levelTable>B3E7BDD6-BF0F-9219-03D8-1EFD586359F5</levelTable>
+</Level>
+</levels>
+<hierarchies>
+<Hierarchy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.HierarchyOraclev10g" name="PublicationType" id="C3A4E11D-DDDB-D8C0-57E8-463E188765C6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:56:21 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<levels>3A31046A-1A3E-89DE-1F48-A47A78942A2A</levels>
+</Hierarchy>
+</hierarchies>
+<attributes>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="319A0314-30CC-BE88-7341-3F1E460A607F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:56:04 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<columns>5367DEC9-CD2C-C989-79E0-8AEF70FAA89F</columns>
+<level>3A31046A-1A3E-89DE-1F48-A47A78942A2A</level>
+</Attribute>
+</attributes>
+</DimensionOraclev10g>

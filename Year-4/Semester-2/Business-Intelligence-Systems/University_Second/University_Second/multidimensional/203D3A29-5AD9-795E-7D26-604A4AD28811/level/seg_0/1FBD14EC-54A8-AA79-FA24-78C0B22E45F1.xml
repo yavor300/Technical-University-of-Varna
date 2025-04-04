@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Department" directorySegmentName="seg_0" id="1FBD14EC-54A8-AA79-FA24-78C0B22E45F1">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<generatorID>8940F0D0-2DE9-4906-3402-DEBD1E25BE27</generatorID>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>DEPARTMENT</nameInOracleAW>
+<levelEntity>1DD0BD79-7B07-F084-B710-70B1327DFE13</levelEntity>
+<oraDimension>Dim_Department</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>34F4FAB0-AB29-1025-10CA-EDA262C35CD1</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="short name" id="42A2777E-32FC-425C-B994-1BA2BFD529F5">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<attribute>DBF7D350-F444-7546-DDC3-60DAB7B85380</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="name" id="3F938BD1-D9C8-990E-482B-C7027795265B">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<attribute>B53F4D34-9F72-5A53-8827-DE407ABC71D0</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="Faculty id" id="0E7967FC-95E5-5786-F88D-7D344E857AFB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 12:46:21 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<attribute>A7527418-7D74-9E50-3631-AC96A1C65A8B</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

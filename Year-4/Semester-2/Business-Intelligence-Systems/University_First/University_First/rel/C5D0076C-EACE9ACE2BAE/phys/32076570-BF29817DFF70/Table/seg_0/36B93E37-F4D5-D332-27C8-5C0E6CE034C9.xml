@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="Department" directorySegmentName="seg_0" id="36B93E37-F4D5-D332-27C8-5C0E6CE034C9">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="short_name" id="1DF32740-DF7B-0985-52C9-65D0F8982361">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="33FC7D5B-6E00-4A19-15B7-30B990BC1F0F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="name" id="BE07A1AF-EF79-6824-7B75-65BEBA02DF0C">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="Faculty_id" id="C7CF84DC-F397-6EEE-35A8-954367C388A2">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Department_Faculty_FK" id="A5AD8985-3AEA-0DC4-4C3C-2E4DEE32F20E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Department_PK" id="C829CF3E-9BF9-4E68-04A0-B1D7FC8E3644">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:44:27 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

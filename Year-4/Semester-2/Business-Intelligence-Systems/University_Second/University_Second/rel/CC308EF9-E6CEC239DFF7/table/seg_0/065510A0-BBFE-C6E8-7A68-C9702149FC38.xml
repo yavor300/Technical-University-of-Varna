@@ -1,0 +1,49 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="065510A0-BBFE-C6E8-7A68-C9702149FC38" name="Building">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<ordsAlias>table_3</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="C8C745CF-DB78-9353-F755-7F3009306A60">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="name" id="6D60C64E-EA5C-AD1B-7A1D-434A543A332D">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5A339BA9-B62D-CB52-F617-32B40FEFD7F6" name="Building_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:50:58 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C8C745CF-DB78-9353-F755-7F3009306A60"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

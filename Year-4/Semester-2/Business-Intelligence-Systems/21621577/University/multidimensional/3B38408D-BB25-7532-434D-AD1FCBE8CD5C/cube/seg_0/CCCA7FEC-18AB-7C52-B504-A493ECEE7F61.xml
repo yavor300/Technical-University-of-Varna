@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Cube class="oracle.dbtools.crest.model.design.multidimensional.Cube" name="Publication_Cube" directorySegmentName="seg_0" id="CCCA7FEC-18AB-7C52-B504-A493ECEE7F61">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:05:06 UTC</createdTime>
+<ownerDesignName>University</ownerDesignName>
+<nameInOracleAW>PUBLICATION_CUBE</nameInOracleAW>
+<compressedcomposites>false</compressedcomposites>
+<partitioned>true</partitioned>
+<useGlobalComposites>false</useGlobalComposites>
+<virtual>true</virtual>
+<dimensions>
+<dimension>2F740776-436B-EA46-D50F-AF2615A7CB90</dimension>
+</dimensions>
+<measures itemClass="oracle.dbtools.crest.model.design.multidimensional.Measure">
+<measure name="quotes_count" id="76923104-AE57-7BA3-A632-4177F9BB874E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:06:02 UTC</createdTime>
+<ownerDesignName>University</ownerDesignName>
+<nameInOracleAW>QUOTES_COUNT</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>CCCA7FEC-18AB-7C52-B504-A493ECEE7F61</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+</measure>
+<measure name="contribution_order" id="DDAC2B58-3846-1C35-1EAF-AD1F8BBD5528">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:06:11 UTC</createdTime>
+<ownerDesignName>University</ownerDesignName>
+<nameInOracleAW>CONTRIBUTION_ORDER</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>CCCA7FEC-18AB-7C52-B504-A493ECEE7F61</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+</measure>
+</measures>
+</Cube>

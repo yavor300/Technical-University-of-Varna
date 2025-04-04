@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Publication_Edition_FK" directorySegmentName="seg_0" id="11F66BEA-44CB-4B40-5A90-CB80EE84C2CC">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>E4A0D043-38B9-F87B-14CD-10778AA20768</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<sourcePk>ACDBEC6B-13F7-E331-6685-BC3FCC431883</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>16C746D5-4CF6-A7D1-A382-41791DB48A42</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>79647CD2-D180-1694-871A-F82B8FE71852</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="Time_AccreditationPeriod" directorySegmentName="seg_0" id="3DDC87B0-AE91-F475-106C-90C8FCDA6155">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>TIME_ACCREDITATIONPERIOD</nameInOracleAW>
+<defaultHierarchy>false</defaultHierarchy>
+<linkToDimension>7DECDF6E-B39B-B2F2-64C8-9902C9FBA889</linkToDimension>
+<usedLevels>
+<usedLevel>BC1AEBBB-0A5C-DC9B-C587-DE7CF139FC9B</usedLevel>
+<usedLevel>849AE51C-0D37-5469-1125-990C26F21B83</usedLevel>
+</usedLevels>
+<usedRULinks>
+<usedLink>FBD3A3BB-F5EE-64D6-4744-6CDC905C1DE5</usedLink>
+</usedRULinks>
+</Hierarchy>

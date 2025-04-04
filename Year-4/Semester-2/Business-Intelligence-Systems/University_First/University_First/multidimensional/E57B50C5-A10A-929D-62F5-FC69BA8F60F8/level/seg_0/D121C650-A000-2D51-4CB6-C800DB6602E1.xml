@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Teacherv1" directorySegmentName="seg_0" id="D121C650-A000-2D51-4CB6-C800DB6602E1">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<generatorID>61236959-750D-FBFE-1FC5-4C875DF45AE4</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>TEACHERV1</nameInOracleAW>
+<levelEntity>1D8BFD75-5E42-7B36-54B6-789492B86E95</levelEntity>
+<oraDimension>Dim_TeacherRank</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>19A8B4B5-C8F5-5F0B-2488-19EA3EAADEB8</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="first name" id="3F358A61-FBDF-1EAA-28EF-71FC11C6542F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<attribute>21EFB2E2-CD50-3166-B1B3-4A016E6C4D4E</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="middle name" id="E2FE99D6-E158-4DC8-746D-7E16127C0EB2">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<attribute>521CFFD4-C3E7-C2F1-BB6A-7C1D8F9975B6</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="last name" id="6595FF9B-3850-99D8-B1CE-0EAD0D177B37">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<attribute>7A368C86-33DA-9A0D-6D40-1180B6BEF760</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

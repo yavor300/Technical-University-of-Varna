@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="Department" directorySegmentName="seg_0" id="C6B949C2-59EF-0C1B-F8E5-F73EB00B12DE">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 12:40:27 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<nameInOracleAW>DEPARTMENT</nameInOracleAW>
+<defaultHierarchy>true</defaultHierarchy>
+<linkToDimension>CE872B9A-5D5F-94DF-6520-23117F8F1E7D</linkToDimension>
+<usedLevels>
+<usedLevel>5ED4BEFB-1B0C-43DC-2B55-5EC677905BAF</usedLevel>
+<usedLevel>3AC525EA-D789-C756-CD29-250A35E90885</usedLevel>
+<usedLevel>C2EA7AEE-B7A3-8B40-54A1-D81B4F21313F</usedLevel>
+</usedLevels>
+<usedRULinks>
+<usedLink>886B5317-1A7D-5706-24EE-023B8B7EE79F</usedLink>
+<usedLink>11EDED47-3F89-2953-3564-6FB82137D941</usedLink>
+</usedRULinks>
+</Hierarchy>

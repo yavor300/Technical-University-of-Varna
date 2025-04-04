@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="3E4A6D41-161E-A33F-4B63-AEA715DB89C3" name="PublicationType">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>50AF13CA-7857-B68F-994C-C3798E007DD5</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="D1AFA53A-B349-31E3-DB89-FE4D114E98FF">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>7C96327C-68B8-932B-C884-F52D37B33A45</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="FF47501B-C76B-F7D2-1C54-1ADBAEE7DA95">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>47179797-132A-E503-B8AF-F1715F25C24C</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="51D6E6C4-D378-6B81-21A8-3C3F3B50266E" name="PublicationType PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 09:01:53 UTC</createdTime>
+<generatorID>A0FE3A14-2DA0-08B3-0B32-600EC3E9F590</generatorID>
+<ownerDesignName>University</ownerDesignName>
+<engineerTo>
+<item key="86880778-EA58-BBE9-DF31-E97B4C7AA9BD" value="true"/>
+<item key="441F6AC7-69A8-56ED-AC73-2DFBED28EEC0" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>D1AFA53A-B349-31E3-DB89-FE4D114E98FF</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

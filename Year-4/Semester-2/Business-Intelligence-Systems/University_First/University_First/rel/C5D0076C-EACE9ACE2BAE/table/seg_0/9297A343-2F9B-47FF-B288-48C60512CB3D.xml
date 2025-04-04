@@ -1,0 +1,70 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9297A343-2F9B-47FF-B288-48C60512CB3D" name="AccreditationPeriod">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:18:53 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<ordsAlias>table_10</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="3EC650EF-A82C-91FB-B2DF-64E2EDE958F3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:19:50 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="period_name" id="7982691E-70FE-C323-201B-C5914E3AC74A">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:18:53 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="start_date" id="3BDD51E6-236D-E821-D00D-98A310EB0ACD">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:18:53 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="end_date" id="8F4C141E-0101-960F-3223-86A487D19AAA">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:18:53 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="537CFC89-1EA8-971C-EC20-4BE888526D6C" name="AccreditationPeriod_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 23:18:53 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3EC650EF-A82C-91FB-B2DF-64E2EDE958F3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

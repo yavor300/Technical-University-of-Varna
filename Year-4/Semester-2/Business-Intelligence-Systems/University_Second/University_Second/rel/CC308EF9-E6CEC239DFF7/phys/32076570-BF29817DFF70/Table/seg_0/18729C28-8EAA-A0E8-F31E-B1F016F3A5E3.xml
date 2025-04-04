@@ -1,0 +1,36 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="Faculty" directorySegmentName="seg_0" id="18729C28-8EAA-A0E8-F31E-B1F016F3A5E3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 11:18:49 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="name" id="86FE02BF-C775-A7ED-2BA8-469C265E10FC">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 11:18:49 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="9762E4B3-02E3-B9C6-468D-7C7CA90569B0">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 11:18:49 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="shortname" id="EC6AFBF2-0548-F0C6-B9EF-A9D16FB63CC8">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 11:18:49 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Faculty_PK" id="9431E0BB-EF34-9194-E7F6-9035C86D566E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 11:18:49 UTC</createdTime>
+<ownerDesignName>University_Second</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

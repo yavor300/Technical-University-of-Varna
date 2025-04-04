@@ -1,0 +1,63 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="7524BF55-2186-02EA-9EA2-9917582FF847" name="PublicationType">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>B3E7BDD6-BF0F-9219-03D8-1EFD586359F5</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<typeID>2</typeID>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="78935B44-B0E6-5C97-F391-519E564AFCEB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>FBFE913B-5D74-A7B7-716D-B1F67671C303</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="D46AC9B9-8533-8E2D-D9C1-5230D06E6AEF">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>5367DEC9-CD2C-C989-79E0-8AEF70FAA89F</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="716FD474-6681-105F-C4CD-64EA5065F4A3" name="PublicationType PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:32:47 UTC</createdTime>
+<generatorID>5FF98FFC-B9E2-32D1-47CB-9FF148B83C6E</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<engineerTo>
+<item key="C5D0076C-FDE8-E9B4-84E3-EACE9ACE2BAE" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>78935B44-B0E6-5C97-F391-519E564AFCEB</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

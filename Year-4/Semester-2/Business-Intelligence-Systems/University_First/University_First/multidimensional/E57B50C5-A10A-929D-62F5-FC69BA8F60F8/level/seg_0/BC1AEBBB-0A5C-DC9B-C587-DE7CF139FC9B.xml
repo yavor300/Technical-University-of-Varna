@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Time" directorySegmentName="seg_0" id="BC1AEBBB-0A5C-DC9B-C587-DE7CF139FC9B">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<generatorID>B4CC33EE-0125-12FE-1321-3345237ADE1A</generatorID>
+<ownerDesignName>University_First</ownerDesignName>
+<nameInOracleAW>TIME</nameInOracleAW>
+<levelEntity>34B8B089-66FF-B169-239A-494D01C0841C</levelEntity>
+<oraDimension>Dim_Time</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>0DAD5FF7-D19D-88B4-97C8-A2B1D9250694</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="year" id="92CD4B0C-DF40-B248-315F-689DCE0EE7C7">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<attribute>FAB6C0EA-B433-15D4-DE0E-B65613A34A7F</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="semester" id="96A4F954-EA46-DDE2-FD66-EC1264CC2C6E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<attribute>251485B9-574E-2D54-BE66-B9200DA3A615</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="month" id="F278AE18-5E9E-FAC0-F365-4099B3C61218">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-28 09:58:01 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<attribute>63C5BA5E-7FF7-D1A8-6173-95E17A3239E7</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

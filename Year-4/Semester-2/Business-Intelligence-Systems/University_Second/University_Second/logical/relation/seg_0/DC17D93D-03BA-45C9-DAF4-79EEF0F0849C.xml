@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Hall_UseCase_FK" directorySegmentName="seg_0" id="DC17D93D-03BA-45C9-DAF4-79EEF0F0849C">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:54:44 UTC</createdTime>
+<generatorID>7173AE66-396D-82E1-7063-171BAC6C6310</generatorID>
+<ownerDesignName>University_Second</ownerDesignName>
+<engineerTo>
+<item key="CC308EF9-DEFC-E56F-29ED-E6CEC239DFF7" value="true"/>
+</engineerTo>
+<sourcePk>0E759E44-1125-0895-C69C-A351D480A7E0</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>8E9667C8-FDBF-3FE6-5785-855573AD0843</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>D79FDE14-26D4-DC94-1634-9B27F6FC797E</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

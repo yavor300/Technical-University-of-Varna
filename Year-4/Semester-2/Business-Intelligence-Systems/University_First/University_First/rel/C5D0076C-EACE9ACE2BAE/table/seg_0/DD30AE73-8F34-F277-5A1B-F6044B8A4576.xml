@@ -1,0 +1,117 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="DD30AE73-8F34-F277-5A1B-F6044B8A4576" name="Teacher">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<ordsAlias>table_4</ordsAlias>
+<typeID>2</typeID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="DEA824EF-7FEA-D47C-3CA4-D4E0A406DE7C">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="first_name" id="DB38CA28-61A9-1F0E-38AB-5D95056B95F6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="middle_name" id="497B1DD2-7DE3-8F5C-0A35-42AEE8018836">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="last_name" id="24D39AD9-B8D0-BC00-9F72-F5D7011F8075">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Department_id" id="E1977167-B283-AD3F-E4AD-BD45AC196F2D">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D5B7BDF7-3AE5-E07B-65D6-280384287FA5" referredColumn="33FC7D5B-6E00-4A19-15B7-30B990BC1F0F"/>
+</associations>
+</Column>
+<Column name="AcademicRank_id" id="FD1D6691-A0ED-E521-22A3-AD6B1D41E769">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 14:51:36 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1B9702D8-D34A-5F78-3977-88993F59121F" referredColumn="ADE0ECD0-BE25-1A7F-859A-5F10FFE5F527"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="351FF946-2E40-1A6F-9839-2585FDDEB7D5" name="Teacher_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:06 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DEA824EF-7FEA-D47C-3CA4-D4E0A406DE7C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9601E472-DF33-DE34-9F5D-3F8BB823269C" name="Teacher_Department_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 10:27:07 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E1977167-B283-AD3F-E4AD-BD45AC196F2D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FC6408C6-F937-210D-6844-470FB2CF98A5" name="Teacher_AcademicRank_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-03-27 14:51:36 UTC</createdTime>
+<ownerDesignName>University_First</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FD1D6691-A0ED-E521-22A3-AD6B1D41E769"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
