@@ -4,7 +4,7 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 
 import java.io.IOException;
 
-public interface AwsCredentialsProvider {
+public interface CloudCredentialsProvider {
 
   AwsBasicCredentials fetchAwsCredentials() throws IOException;
 }
