@@ -6,6 +6,7 @@ import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.provisioner.S3BucketProvisioner;
 import bg.tuvarna.sit.cloud.credentials.model.ErrorResponse;
+import bg.tuvarna.sit.cloud.credentials.provider.VaultClient;
 import bg.tuvarna.sit.cloud.credentials.provider.VaultCredentialsProvider;
 import bg.tuvarna.sit.cloud.enums.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class Main {
 
   private static final ObjectMapper YAML_MAPPER = new ObjectMapper(new YAMLFactory());
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   public static void main(String[] args) {
 
@@ -67,7 +69,7 @@ public class Main {
     }
 
     try {
-      String json = new ObjectMapper().writeValueAsString(cloudProvisioningResponse);
+      String json = MAPPER.writeValueAsString(cloudProvisioningResponse);
       log.info("Provisioning completed", StructuredArguments.keyValue("provisioning", json));
     } catch (JsonProcessingException e) {
       logError(ErrorCode.SERIALIZATION_ERROR, e);
@@ -83,7 +85,7 @@ public class Main {
   }
 
   private static AwsBasicCredentials authenticate(AuthenticationConfig config) {
-    VaultCredentialsProvider vaultCredentialsProvider = new VaultCredentialsProvider(config.getVault(), YAML_MAPPER);
+    VaultCredentialsProvider vaultCredentialsProvider = new VaultCredentialsProvider(new VaultClient(config.getVault(), MAPPER), MAPPER);
     try {
       return vaultCredentialsProvider.fetchAwsCredentials();
     } catch (IOException e) {
