@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.credentials.provider;
+package bg.tuvarna.sit.cloud.credentials.provider.vault;
 
 import bg.tuvarna.sit.cloud.core.config.AuthenticationConfig;
 import bg.tuvarna.sit.cloud.credentials.model.VaultResponse;

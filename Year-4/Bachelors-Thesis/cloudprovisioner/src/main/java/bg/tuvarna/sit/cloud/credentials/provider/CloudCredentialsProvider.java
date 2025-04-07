@@ -1,10 +1,10 @@
 package bg.tuvarna.sit.cloud.credentials.provider;
 
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import bg.tuvarna.sit.cloud.credentials.CloudCredentials;
 
 import java.io.IOException;
 
-public interface CloudCredentialsProvider {
+public interface CloudCredentialsProvider<T extends CloudCredentials> {
 
-  AwsBasicCredentials fetchAwsCredentials() throws IOException;
+  T fetchCredentials() throws IOException;
 }

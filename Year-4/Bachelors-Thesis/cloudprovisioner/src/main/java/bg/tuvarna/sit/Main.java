@@ -6,8 +6,8 @@ import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.provisioner.S3BucketProvisioner;
 import bg.tuvarna.sit.cloud.credentials.model.ErrorResponse;
-import bg.tuvarna.sit.cloud.credentials.provider.VaultClient;
-import bg.tuvarna.sit.cloud.credentials.provider.VaultCredentialsProvider;
+import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultClient;
+import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultAwsCredentialsProvider;
 import bg.tuvarna.sit.cloud.enums.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,9 +85,9 @@ public class Main {
   }
 
   private static AwsBasicCredentials authenticate(AuthenticationConfig config) {
-    VaultCredentialsProvider vaultCredentialsProvider = new VaultCredentialsProvider(new VaultClient(config.getVault(), MAPPER), MAPPER);
+    VaultAwsCredentialsProvider vaultAwsCredentialsProvider = new VaultAwsCredentialsProvider(new VaultClient(config.getVault(), MAPPER), MAPPER);
     try {
-      return vaultCredentialsProvider.fetchAwsCredentials();
+      return vaultAwsCredentialsProvider.fetchCredentials().toAwsBasicCredentials();
     } catch (IOException e) {
       logError(ErrorCode.VAULT_AUTH_ERROR, e);
       return null;

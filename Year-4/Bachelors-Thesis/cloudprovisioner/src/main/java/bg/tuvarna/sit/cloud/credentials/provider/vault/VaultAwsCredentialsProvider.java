@@ -1,27 +1,28 @@
-package bg.tuvarna.sit.cloud.credentials.provider;
+package bg.tuvarna.sit.cloud.credentials.provider.vault;
 
+import bg.tuvarna.sit.cloud.credentials.aws.AwsCredentials;
+import bg.tuvarna.sit.cloud.credentials.provider.CloudCredentialsProvider;
 import bg.tuvarna.sit.cloud.credentials.model.VaultAwsCredentialsData;
 import bg.tuvarna.sit.cloud.credentials.model.VaultResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.argument.StructuredArguments;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 
 import java.io.IOException;
 
 @Slf4j
-public class VaultCredentialsProvider implements CloudCredentialsProvider {
+public class VaultAwsCredentialsProvider implements CloudCredentialsProvider<AwsCredentials> {
 
   private final VaultClient vaultClient;
   private final ObjectMapper mapper;
 
-  public VaultCredentialsProvider(VaultClient vaultClient, ObjectMapper mapper) {
+  public VaultAwsCredentialsProvider(VaultClient vaultClient, ObjectMapper mapper) {
     this.vaultClient = vaultClient;
     this.mapper = mapper;
   }
 
   @Override
-  public AwsBasicCredentials fetchAwsCredentials() throws IOException {
+  public AwsCredentials fetchCredentials() throws IOException {
 
     VaultResponse vaultResponse = vaultClient.getVaultSecrets();
 
@@ -42,6 +43,6 @@ public class VaultCredentialsProvider implements CloudCredentialsProvider {
     }
 
     VaultAwsCredentialsData data = vaultResponse.getData().getData();
-    return AwsBasicCredentials.create(data.getAccessKeyId(), data.getSecretAccessKey());
+    return new AwsCredentials(data.getAccessKeyId(), data.getSecretAccessKey());
   }
 }
