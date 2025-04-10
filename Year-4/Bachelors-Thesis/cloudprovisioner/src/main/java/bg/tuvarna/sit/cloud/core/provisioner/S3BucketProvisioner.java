@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @Slf4j
 public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketConfig> {
@@ -41,11 +40,13 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
     String bucketName = config.getName();
     Region region = Region.of(config.getRegion());
 
+    long startTime = System.nanoTime();
     log.info("Starting provisioning of S3 bucket '{}'", bucketName);
 
     // TODO Think of a client hierarchy for different services
     try (S3Client s3Client = S3Client.builder()
         .credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
+        // TODO Extract to config
         .endpointOverride(URI.create("https://s3.localhost.localstack.cloud:4566"))
         .region(region)
         .forcePathStyle(true)
@@ -97,6 +98,10 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
       log.debug("Verifying bucket existence with HeadBucket request");
       s3Client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
       log.info("S3 bucket '{}' exists and is active", bucketName);
+
+      long endTime = System.nanoTime();
+      long durationMs = (endTime - startTime) / 1_000_000;
+      log.info("Provisioning completed for bucket '{}' in {} ms", bucketName, durationMs);
 
       String arn = String.format("arn:aws:s3:::%s", bucketName);
       return new CloudProvisioningResponse("S3", bucketName, arn);
