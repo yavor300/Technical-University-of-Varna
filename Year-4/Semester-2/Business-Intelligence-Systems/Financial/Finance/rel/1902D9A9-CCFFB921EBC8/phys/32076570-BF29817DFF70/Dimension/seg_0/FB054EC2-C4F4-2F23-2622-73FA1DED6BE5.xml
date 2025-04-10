@@ -1,0 +1,69 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DimensionOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionOraclev10g" name="Customer_Dim" directorySegmentName="seg_0" id="FB054EC2-C4F4-2F23-2622-73FA1DED6BE5">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:16:44 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<levels>
+<Level class="oracle.dbtools.crest.model.design.storage.oracle.v10g.LevelOraclev10g" name="Customer" id="5E80E749-BFDE-E0B2-353B-05CDD2449CC7">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:17:31 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>29AE2463-38F6-E265-AD38-282DC29E2913</columns>
+<levelTable>EFD75630-A132-8CEE-2BFF-36DB0CC2E115</levelTable>
+<newname>Customer</newname>
+</Level>
+<Level class="oracle.dbtools.crest.model.design.storage.oracle.v10g.LevelOraclev10g" name="Segment" id="E75BBD44-CEDB-2DFB-1CAF-B8C8CC7AA70E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:18:30 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>5A63B839-196D-F387-BB4F-3AB1A01515C7</columns>
+<levelTable>3D573DFB-9398-B449-F072-CF14D0F108E4</levelTable>
+<newname>Segment</newname>
+</Level>
+</levels>
+<hierarchies>
+<Hierarchy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.HierarchyOraclev10g" name="Customer_Segment" id="2EC7CE4F-9025-23FB-BAA2-05284D5E9447">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:18:48 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<levels>5E80E749-BFDE-E0B2-353B-05CDD2449CC7, E75BBD44-CEDB-2DFB-1CAF-B8C8CC7AA70E</levels>
+</Hierarchy>
+</hierarchies>
+<attributes>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="F996F41C-DF12-740C-0D86-5F2495586F75">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:17:31 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>EE738F26-EBBB-DE83-7979-5A778914333C,038D9C21-33F6-7B13-AF5A-4C9A062FF19F,82A4F1DB-1B47-55EE-C290-9D054578618E,307DA4CD-C47A-52BF-24D7-4E9B99F42396,D4DD6BEF-DF2D-8FAA-36E3-B8B03188F2C4</columns>
+<level>5E80E749-BFDE-E0B2-353B-05CDD2449CC7</level>
+</Attribute>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="2CB0A573-655F-4ECA-DC57-62318764D216">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:18:30 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>4B3751C4-6939-8816-50B5-E871C602C573</columns>
+<level>E75BBD44-CEDB-2DFB-1CAF-B8C8CC7AA70E</level>
+</Attribute>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="75C2B71F-D467-9CCA-9047-1284963D4117">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:29:44 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>44D6C81A-7666-CBC3-D397-96D15F55B50D</columns>
+<level>EF89FEF3-456D-BFCD-DE71-4EE662EF6250</level>
+</Attribute>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="CD012A9D-65B3-967B-A880-730B5771AA5F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:30:37 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>CEDF9B78-8692-FC33-EE7F-674F5CC49428</columns>
+<level>157C8684-4DBF-3F67-E9F3-FD28030950A4</level>
+</Attribute>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="B56E8C50-32E1-E51B-0BFD-D2909CA089CE">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:31:01 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>4C4A1860-E70C-161B-1DB5-A61609F4078F,85E1ADCD-D84C-A415-B4EA-0969F91291A8</columns>
+<level>77A0773E-2A91-1855-5B7C-E6F71EE267EC</level>
+</Attribute>
+</attributes>
+</DimensionOraclev10g>

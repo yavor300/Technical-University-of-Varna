@@ -1,0 +1,70 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0DB340A4-7617-E827-3E22-6543AF67CF71" name="City">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:39:54 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<ordsAlias>table_5</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="F924972B-5627-AEA7-15B4-CEEA9E5B8555">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:40:11 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="name" id="44D6C81A-7666-CBC3-D397-96D15F55B50D">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:42:29 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Region_id" id="A4D4A259-D4B2-8E32-5AA1-421018B49053">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:45:03 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="30C1239B-1E75-3366-A32F-85AAA6350FF3" referredColumn="C3BAC25D-AAB9-48EA-3A0B-151D7B383323"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F69CE644-CB0B-48BD-CA22-31C085CB46D6" name="City_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:40:11 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F924972B-5627-AEA7-15B4-CEEA9E5B8555"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C726F5BE-59D6-87C9-7DDC-9BF19B3A104D" name="City_Region_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:45:03 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A4D4A259-D4B2-8E32-5AA1-421018B49053"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

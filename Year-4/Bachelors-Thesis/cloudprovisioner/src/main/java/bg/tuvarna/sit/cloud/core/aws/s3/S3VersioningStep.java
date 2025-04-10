@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.s3.model.PutBucketVersioningRequest;
 import software.amazon.awssdk.services.s3.model.VersioningConfiguration;
 
 @Slf4j
-@ProvisionOrder(2)
+@ProvisionOrder(40)
 public class S3VersioningStep implements S3ProvisionStep {
 
   @Override

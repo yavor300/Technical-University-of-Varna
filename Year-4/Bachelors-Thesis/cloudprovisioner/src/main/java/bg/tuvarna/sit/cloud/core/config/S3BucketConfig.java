@@ -1,12 +1,12 @@
 package bg.tuvarna.sit.cloud.core.config;
 
-
+import bg.tuvarna.sit.cloud.core.aws.s3.AclType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
-// TODO Extend the class with more features from the S3
 @Setter
 @Getter
 public class S3BucketConfig {
@@ -17,9 +17,9 @@ public class S3BucketConfig {
   private Map<String, String> tags;
   private String versioning;
   private EncryptionConfig encryption;
-  private String acl;
+  private AclType acl;
   private String policy;
-
+  private AccessControlPolicy accessControlPolicy;
 
   @Getter
   @Setter
@@ -27,4 +27,35 @@ public class S3BucketConfig {
     private String type;
     private String kmsKeyId;
   }
+
+  @Getter
+  @Setter
+  public static class AccessControlPolicy {
+    private List<GrantConfig> grants;
+    private Owner owner;
+  }
+
+  @Getter
+  @Setter
+  public static class GrantConfig {
+    private Grantee grantee;
+    private String permission;
+  }
+
+  @Getter
+  @Setter
+  public static class Grantee {
+    private String type;
+    private String id;
+    private String uri;
+    private String emailAddress;
+  }
+
+  @Getter
+  @Setter
+  public static class Owner {
+    private String id;
+    private String displayName;
+  }
 }
+

@@ -1,0 +1,155 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9B23CF82-B88D-6D3A-296C-B4B8E7599A70" name="Transactions">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 08:56:42 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="B9D2E46C-9FD4-0A88-5D57-897DB55460E6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:01:26 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Amount" id="9F5554D5-707E-810D-4789-04BF252016E3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:02:54 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,7,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Fee" id="A0DDB54D-91A1-1601-0197-55AB86C89154">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:02:54 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,6,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Time_id" id="884FC20D-EB5F-5E1A-DBF9-FC16D2343E01">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:19:58 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0B60AAD2-B0F4-411B-CEA5-96B3264CAAFC" referredColumn="21BD323B-14B5-77D8-D279-938EF5BA8451"/>
+</associations>
+</Column>
+<Column name="Customer_id" id="573B4B91-C7D1-EF46-3A31-D644C5AB47B6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:32:20 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9BE4FBF7-C9EA-A45D-E2FC-1C7992BC24C5" referredColumn="29AE2463-38F6-E265-AD38-282DC29E2913"/>
+</associations>
+</Column>
+<Column name="Branch_id" id="E4B6E758-223E-FF1B-868F-40F10AB9EA4D">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:55:48 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C84B7765-9FDC-FF71-47F7-E88E7EED0E8C" referredColumn="6698416B-66EA-B068-A495-EE50A94EA164"/>
+</associations>
+</Column>
+<Column name="Account_id" id="FDAE4DB5-779E-B705-A748-4D1BC1FA0BC0">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:00:24 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C47D6880-6E8A-D2BC-F5C9-3B172586BA51" referredColumn="83B490ED-0BA9-4155-5615-541C7D4D6E24"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D4E06754-5113-E124-3F7D-D30AA4C028B1" name="Transactions_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:01:26 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B9D2E46C-9FD4-0A88-5D57-897DB55460E6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="57B8FAB7-76A4-DA99-9C34-72190F6350FC" name="Transactions_Time_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:19:58 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="884FC20D-EB5F-5E1A-DBF9-FC16D2343E01"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4707CD99-44E7-A3C5-44E3-4557642DCA80" name="Transactions_Customer_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:32:20 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="573B4B91-C7D1-EF46-3A31-D644C5AB47B6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E1004D77-D8CD-01DE-B97F-5DC1E7A7D2A3" name="Transactions_Branch_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:55:48 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E4B6E758-223E-FF1B-868F-40F10AB9EA4D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="35487C22-C2BC-2F7A-3A97-5CD6584A3C23" name="Transactions_Account_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:00:24 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FDAE4DB5-779E-B705-A748-4D1BC1FA0BC0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

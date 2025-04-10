@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="C84B7765-9FDC-FF71-47F7-E88E7EED0E8C" containerWithKeyObject="9B23CF82-B88D-6D3A-296C-B4B8E7599A70" localFKIndex="E1004D77-D8CD-01DE-B97F-5DC1E7A7D2A3" name="Transactions_Branch_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:55:48 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<referredTableLongName>Branch</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>33513F77-BEE8-7153-28B0-1F569C067537</referredTableID>
+<keyObject>5D8469A8-1424-C957-FD83-4D121795791E</keyObject>
+<referredKeyID>5D8469A8-1424-C957-FD83-4D121795791E</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

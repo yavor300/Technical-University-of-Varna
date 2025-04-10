@@ -1,18 +1,24 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.*;
+import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionOrder;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3AclStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3PolicyStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3TaggingStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3VersioningStep;
 import bg.tuvarna.sit.cloud.core.config.S3BucketConfig;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
+import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
 
 import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketConfig> {
@@ -42,64 +48,15 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
       CreateBucketRequest.Builder request = CreateBucketRequest.builder()
           .bucket(bucketName);
 
-      if (config.getAcl() != null && !config.getAcl().isBlank()) {
-        request.acl(BucketCannedACL.fromValue(config.getAcl()));
-        log.info("Setting ACL '{}' for bucket '{}'", config.getAcl(), bucketName);
-      }
-
       log.info("Sending request to create S3 bucket '{}'", bucketName);
       s3Client.createBucket(request.build());
-
-      if (config.getTags() != null && !config.getTags().isEmpty()) {
-        List<Tag> tagList = config.getTags().entrySet().stream()
-            .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
-            .collect(Collectors.toList());
-
-        s3Client.putBucketTagging(PutBucketTaggingRequest.builder()
-            .bucket(bucketName)
-            .tagging(Tagging.builder().tagSet(tagList).build())
-            .build());
-        log.info("Applied tags to bucket '{}': {}", bucketName, config.getTags());
-      }
-
-      if ("enabled".equalsIgnoreCase(config.getVersioning())) {
-        s3Client.putBucketVersioning(PutBucketVersioningRequest.builder()
-            .bucket(bucketName)
-            .versioningConfiguration(VersioningConfiguration.builder()
-                .status(BucketVersioningStatus.ENABLED)
-                .build())
-            .build());
-        log.info("Enabled versioning for bucket '{}'", bucketName);
-      }
-
-      if (config.getEncryption() != null && "SSE-S3".equalsIgnoreCase(config.getEncryption().getType())) {
-        s3Client.putBucketEncryption(PutBucketEncryptionRequest.builder()
-            .bucket(bucketName)
-            .serverSideEncryptionConfiguration(ServerSideEncryptionConfiguration.builder()
-                .rules(ServerSideEncryptionRule.builder()
-                    .applyServerSideEncryptionByDefault(
-                        ServerSideEncryptionByDefault.builder()
-                            .sseAlgorithm(ServerSideEncryption.AES256)
-                            .build())
-                    .build())
-                .build())
-            .build());
-        log.info("Enabled SSE-S3 encryption for bucket '{}'", bucketName);
-      }
-
-      if (config.getPolicy() != null && !config.getPolicy().isBlank()) {
-        s3Client.putBucketPolicy(PutBucketPolicyRequest.builder()
-            .bucket(bucketName)
-            .policy(config.getPolicy())
-            .build());
-        log.info("Applied policy to bucket '{}'", bucketName);
-      }
 
       List<S3ProvisionStep> steps = List.of(
           new S3PolicyStep(),
           new S3VersioningStep(),
           new S3TaggingStep(),
-          new S3EncryptionStep()
+          new S3EncryptionStep(),
+          new S3AclStep()
       );
 
       steps.stream()

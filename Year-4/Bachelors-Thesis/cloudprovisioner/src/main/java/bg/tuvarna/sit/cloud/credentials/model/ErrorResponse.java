@@ -3,7 +3,9 @@ package bg.tuvarna.sit.cloud.credentials.model;
 import bg.tuvarna.sit.cloud.enums.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 
+@Getter
 public class ErrorResponse {
 
   private final String code;
@@ -16,7 +18,7 @@ public class ErrorResponse {
 
   public String toJson() {
     try {
-      return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+      return new ObjectMapper().writeValueAsString(this);
     } catch (JsonProcessingException e) {
       return "{\"code\":\"UNKNOWN\", \"message\":\"Failed to serialize error response\"}";
     }

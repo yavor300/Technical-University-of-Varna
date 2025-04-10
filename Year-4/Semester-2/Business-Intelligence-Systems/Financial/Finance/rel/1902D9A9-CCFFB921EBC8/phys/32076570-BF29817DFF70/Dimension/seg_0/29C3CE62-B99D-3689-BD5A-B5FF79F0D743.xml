@@ -1,0 +1,32 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DimensionOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionOraclev10g" name="Time_Dim" directorySegmentName="seg_0" id="29C3CE62-B99D-3689-BD5A-B5FF79F0D743">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:32:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<levels>
+<Level class="oracle.dbtools.crest.model.design.storage.oracle.v10g.LevelOraclev10g" name="Time" id="B205C403-C27F-3C34-F013-5EC95C3400E8">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:32:19 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>21BD323B-14B5-77D8-D279-938EF5BA8451</columns>
+<levelTable>9EAF6EEC-9A60-ECA4-F763-0AB0331465D0</levelTable>
+</Level>
+</levels>
+<hierarchies>
+<Hierarchy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.HierarchyOraclev10g" name="Time" id="BE416CEB-2BEC-6F4F-2579-C807D6456B09">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:32:47 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<levels>B205C403-C27F-3C34-F013-5EC95C3400E8</levels>
+</Hierarchy>
+</hierarchies>
+<attributes>
+<Attribute class="oracle.dbtools.crest.model.design.storage.oracle.v10g.DimensionAttributeOraclev10g" id="6A967D9B-00AB-F40D-D69C-BD65C8AFFC16">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:32:19 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<columns>A1560129-2CB9-2941-283C-1D80B0847170,B16D8817-DE15-7461-4506-F789779684A2,C6996077-C2C6-BB60-3B3C-079585D533F3,FE585FE1-5495-8770-D46A-B10E6FC88923</columns>
+<level>B205C403-C27F-3C34-F013-5EC95C3400E8</level>
+</Attribute>
+</attributes>
+</DimensionOraclev10g>

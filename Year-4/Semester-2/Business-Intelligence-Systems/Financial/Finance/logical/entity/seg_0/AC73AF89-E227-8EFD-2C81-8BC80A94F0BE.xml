@@ -1,0 +1,78 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="AC73AF89-E227-8EFD-2C81-8BC80A94F0BE" name="Branch">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>33513F77-BEE8-7153-28B0-1F569C067537</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<typeID>2</typeID>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="3BBF4E7F-6EA9-0239-0766-1B90D77CE240">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>6698416B-66EA-B068-A495-EE50A94EA164</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="31DFA397-9C0E-0D1C-6F5F-653BE20888AF">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>A9BD449C-2E4D-BA9B-5578-AEEA8A674239</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="City id" id="25464190-0D79-9832-7FB1-9F0B8F155D92">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>6E9D08EA-B7BC-3257-A387-7CD3C84A98BF</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<referedAttribute>27812475-12BB-6C6C-B721-8F5729D30772</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="7D17F3FC-BD94-3FD6-E353-9B57ABD4CBC9" name="Branch PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>5D8469A8-1424-C957-FD83-4D121795791E</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>3BBF4E7F-6EA9-0239-0766-1B90D77CE240</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,138 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EFD75630-A132-8CEE-2BFF-36DB0CC2E115" name="Customer">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:27:36 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<ordsAlias>table_3</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="29AE2463-38F6-E265-AD38-282DC29E2913">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:27:54 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="first_name" id="EE738F26-EBBB-DE83-7979-5A778914333C">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:29:42 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="last_name" id="038D9C21-33F6-7B13-AF5A-4C9A062FF19F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:31:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="street_address" id="82A4F1DB-1B47-55EE-C290-9D054578618E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:31:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="phone_number" id="307DA4CD-C47A-52BF-24D7-4E9B99F42396">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:31:39 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="D4DD6BEF-DF2D-8FAA-36E3-B8B03188F2C4">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:32:02 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="City_id" id="9B832352-C88D-FC35-39DA-E122C90BC083">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:45:12 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="36B3A22A-312B-1AC6-42D0-1F93E6CBFBA4" referredColumn="F924972B-5627-AEA7-15B4-CEEA9E5B8555"/>
+</associations>
+</Column>
+<Column name="Segment_id" id="BB2A45A7-25BF-41DF-D262-8130FB177CBD">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:52:05 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EE25DAAB-01E9-829A-E5C0-B2E615AEDDAA" referredColumn="5A63B839-196D-F387-BB4F-3AB1A01515C7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C45998D0-06C9-355F-3AD3-363BD50CE67C" name="Customer_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:27:54 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="29AE2463-38F6-E265-AD38-282DC29E2913"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4CE513DE-D398-D4A5-D11C-A0760EF39EEF" name="Customer_City_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:45:12 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9B832352-C88D-FC35-39DA-E122C90BC083"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A923596E-603F-A0B7-17BB-47848837B9DC" name="Customer_Segment_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:52:05 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BB2A45A7-25BF-41DF-D262-8130FB177CBD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

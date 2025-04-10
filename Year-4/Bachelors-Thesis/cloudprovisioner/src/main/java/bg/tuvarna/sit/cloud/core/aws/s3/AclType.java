@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import software.amazon.awssdk.services.s3.model.BucketCannedACL;
 
@@ -25,7 +26,8 @@ public enum AclType {
     return BucketCannedACL.fromValue(value);
   }
 
-  public static AclType fromString(String value) {
+  @JsonCreator
+  public static AclType fromValue(String value) {
     for (AclType acl : values()) {
       if (acl.getValue().equalsIgnoreCase(value)) {
         return acl;

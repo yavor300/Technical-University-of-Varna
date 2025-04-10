@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9EAF6EEC-9A60-ECA4-F763-0AB0331465D0" name="Time">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:16:53 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<ordsAlias>table_2</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="21BD323B-14B5-77D8-D279-938EF5BA8451">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:18:31 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="day" id="A1560129-2CB9-2941-283C-1D80B0847170">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:18:18 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="month" id="B16D8817-DE15-7461-4506-F789779684A2">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:18:53 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="year" id="C6996077-C2C6-BB60-3B3C-079585D533F3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:19:05 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Quarter" id="FE585FE1-5495-8770-D46A-B10E6FC88923">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:19:18 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>2</dataTypeSize>
+<ownDataTypeParameters>2,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2DA43593-ED3B-AFBB-71D2-BE8856810E9B" name="Time_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:18:31 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="21BD323B-14B5-77D8-D279-938EF5BA8451"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

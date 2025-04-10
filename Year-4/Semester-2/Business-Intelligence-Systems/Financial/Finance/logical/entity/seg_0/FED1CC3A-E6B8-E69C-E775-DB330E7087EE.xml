@@ -1,0 +1,135 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FED1CC3A-E6B8-E69C-E775-DB330E7087EE" name="Transactions">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>9B23CF82-B88D-6D3A-296C-B4B8E7599A70</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<typeID>1</typeID>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="3D3B5DB4-BF04-A68B-08A5-4AE66FE65F0F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>B9D2E46C-9FD4-0A88-5D57-897DB55460E6</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Amount" id="63858395-D4F6-F4CF-A5DA-E4593EB782BA">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>9F5554D5-707E-810D-4789-04BF252016E3</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,7,2</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Fee" id="A311448D-8E5F-4BEC-10BA-41FEF62C1456">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>A0DDB54D-91A1-1601-0197-55AB86C89154</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,6,2</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Time id" id="0BBB7B36-5163-9471-D9D1-8D02B77EB3B6">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>9C892607-AC3D-F725-07DC-0AD4D011F388</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<referedAttribute>EC6FB043-EE94-21AD-3397-E6609846DE52</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Customer id" id="C8EE0930-F6E4-3D99-D109-F577042BB6B9">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>3F9D03C1-0E54-4314-FFF3-D0CD582189E0</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<referedAttribute>19D3C815-54EC-66F8-5F0C-7BAF1E492EB9</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Branch id" id="1191BFFD-21E2-880A-E49D-A4DC09AD59B7">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>CD541C39-B4C2-5462-637E-8D43A16B4B14</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<referedAttribute>3BBF4E7F-6EA9-0239-0766-1B90D77CE240</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Account id" id="4DCB4DB9-529A-83D9-FBF7-A79232770654">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>526ECAD1-D150-512B-A18D-8C0B37699780</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<referedAttribute>894E3DD7-74DD-F743-4F17-20EF1C4703CF</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="62FEF054-6FF2-A9AE-506F-C2BB3F7BAB1D" name="Transactions PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>D4E06754-5113-E124-3F7D-D30AA4C028B1</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>3D3B5DB4-BF04-A68B-08A5-4AE66FE65F0F</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

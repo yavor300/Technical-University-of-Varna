@@ -1,0 +1,36 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="Country" directorySegmentName="seg_0" id="2AEEDD4D-9F0C-0657-644B-93CE457ADA71">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:16:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="id" id="15750F88-6511-BB32-A7A3-D2AF2CAD0D8E">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:16:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="name" id="4C4A1860-E70C-161B-1DB5-A61609F4078F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:16:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="code" id="85E1ADCD-D84C-A415-B4EA-0969F91291A8">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:16:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Country_PK" id="20D034CE-6B2A-A4AF-8784-992981457A5F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:16:17 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<MultidimensionalDesign class="oracle.dbtools.crest.model.design.multidimensional.MultidimensionalDesign" name="Multidimensional_1" id="6DE113F8-5E76-27C3-ED7A-E4D0A0DDE654" mainViewID="D4383517-A735-C5D2-EA47-85E63A60AA25" boundModel="D9289272-31ED-A600-0309-423A7E454FD0">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:40:05 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</MultidimensionalDesign>

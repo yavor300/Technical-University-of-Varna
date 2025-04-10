@@ -1,0 +1,37 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Country" directorySegmentName="seg_0" id="9DF8BBCC-7AE7-4B26-D8FF-11D921DB0845">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:40:14 UTC</createdTime>
+<generatorID>6E1A5DA8-0DC6-8C56-62AF-E9E3EA25FC60</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>COUNTRY</nameInOracleAW>
+<levelEntity>A2755249-C348-0C31-70A8-8C1136B63F8B</levelEntity>
+<oraDimension>Branch_Dim</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>295A188C-12A8-63C9-AF2A-3C4AF268DFE5</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="name" id="4B8A973F-23F0-01F7-C90A-89F10366B971">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:40:14 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>36B27537-DED3-0182-7BBA-B06FCE8006F5</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="code" id="C4929670-9F5A-4553-8F2F-ECA6161AD84F">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:40:14 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>CCE7755A-3B43-0143-EBD4-13A894AAF979</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

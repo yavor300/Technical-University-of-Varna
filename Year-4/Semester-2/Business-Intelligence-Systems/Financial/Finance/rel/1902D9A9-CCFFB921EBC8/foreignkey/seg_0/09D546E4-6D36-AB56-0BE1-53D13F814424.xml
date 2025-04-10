@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="09D546E4-6D36-AB56-0BE1-53D13F814424" containerWithKeyObject="D7A7EA02-6F61-42AD-62F2-0A8D6800EF99" localFKIndex="B506A94B-7C98-DF5A-ACCF-58A063B6AF8B" name="Region_Country_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 09:44:43 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<referredTableLongName>Country</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>2AEEDD4D-9F0C-0657-644B-93CE457ADA71</referredTableID>
+<keyObject>20D034CE-6B2A-A4AF-8784-992981457A5F</keyObject>
+<referredKeyID>20D034CE-6B2A-A4AF-8784-992981457A5F</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

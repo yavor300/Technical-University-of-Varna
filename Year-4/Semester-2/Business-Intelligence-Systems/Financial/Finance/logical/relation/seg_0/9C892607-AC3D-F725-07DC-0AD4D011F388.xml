@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Transactions_Time_FK" directorySegmentName="seg_0" id="9C892607-AC3D-F725-07DC-0AD4D011F388">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>0B60AAD2-B0F4-411B-CEA5-96B3264CAAFC</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<sourcePk>A485A450-1FCF-61BB-E18B-31F840F127D1</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>01D98D6B-9FFB-C499-53D9-8062C414AA4A</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>FED1CC3A-E6B8-E69C-E775-DB330E7087EE</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
