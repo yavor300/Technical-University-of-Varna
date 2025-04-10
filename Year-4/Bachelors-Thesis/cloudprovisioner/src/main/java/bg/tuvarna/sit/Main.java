@@ -1,10 +1,17 @@
 package bg.tuvarna.sit;
 
+import bg.tuvarna.sit.cloud.core.aws.s3.S3AclStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3PolicyStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisioningContext;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3StepExecutor;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3TaggingStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3VersioningStep;
 import bg.tuvarna.sit.cloud.core.config.AuthenticationConfig;
-import bg.tuvarna.sit.cloud.core.config.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
-import bg.tuvarna.sit.cloud.core.provisioner.S3BucketProvisioner;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketProvisioner;
 import bg.tuvarna.sit.cloud.credentials.model.ErrorResponse;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultClient;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultAwsCredentialsProvider;
@@ -15,9 +22,12 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.argument.StructuredArguments;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.regions.Region;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.util.List;
 
 @Slf4j
 public class Main {
@@ -96,7 +106,10 @@ public class Main {
 
   private static CloudProvisioningResponse provisionS3(S3BucketConfig config, AwsBasicCredentials awsBasicCredentials) {
 
-    CloudResourceProvisioner<S3BucketConfig> provisioner = new S3BucketProvisioner(awsBasicCredentials);
+    CloudResourceProvisioner<S3BucketConfig> provisioner =
+        new S3BucketProvisioner(new S3ProvisioningContext(awsBasicCredentials, URI.create("https://s3.localhost.localstack.cloud:4566"),
+            Region.of(config.getRegion())), new S3StepExecutor(List.of(new S3PolicyStep(), new S3VersioningStep(),
+            new S3TaggingStep(), new S3EncryptionStep(), new S3AclStep())));
     try {
       CloudProvisioningResponse provisioned = provisioner.provision(config);
       log.info("S3 provisioning completed successfully");

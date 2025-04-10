@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
-import bg.tuvarna.sit.cloud.core.config.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.BucketVersioningStatus;

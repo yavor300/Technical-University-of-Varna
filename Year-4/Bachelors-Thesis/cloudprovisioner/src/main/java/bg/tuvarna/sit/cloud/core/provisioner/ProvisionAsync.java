@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.core.aws.s3;
+package bg.tuvarna.sit.cloud.core.provisioner;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ProvisionOrder {
-    int value();
+public @interface ProvisionAsync {
 }
