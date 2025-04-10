@@ -1,6 +1,5 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import lombok.extern.slf4j.Slf4j;

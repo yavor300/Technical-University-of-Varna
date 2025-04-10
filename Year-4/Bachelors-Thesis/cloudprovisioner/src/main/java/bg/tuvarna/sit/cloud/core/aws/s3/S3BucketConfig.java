@@ -1,6 +1,5 @@
-package bg.tuvarna.sit.cloud.core.aws.s3.config;
+package bg.tuvarna.sit.cloud.core.aws.s3;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.AclType;
 import lombok.Getter;
 import lombok.Setter;
 

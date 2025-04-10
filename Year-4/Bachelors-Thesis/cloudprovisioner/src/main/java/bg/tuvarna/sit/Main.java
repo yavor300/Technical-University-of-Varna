@@ -8,7 +8,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3StepExecutor;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3TaggingStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3VersioningStep;
 import bg.tuvarna.sit.cloud.core.config.AuthenticationConfig;
-import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketProvisioner;
