@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@ProvisionOrder(30)
+@ProvisionAsync
 public class S3TaggingStep implements S3ProvisionStep {
 
   @Override

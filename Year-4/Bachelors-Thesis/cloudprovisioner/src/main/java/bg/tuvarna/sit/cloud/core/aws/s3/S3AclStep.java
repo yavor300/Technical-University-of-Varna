@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.s3.model.Type;
 
 import java.util.List;
 
-@ProvisionOrder(10)
+@ProvisionAsync
 @Slf4j
 public class S3AclStep implements S3ProvisionStep {
 

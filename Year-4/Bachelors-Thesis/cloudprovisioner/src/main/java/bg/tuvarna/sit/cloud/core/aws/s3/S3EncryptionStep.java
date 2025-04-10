@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.model.ServerSideEncryptionRule;
 import java.util.Locale;
 
 @Slf4j
-@ProvisionOrder(50)
+@ProvisionAsync
 public class S3EncryptionStep implements S3ProvisionStep {
 
   @Override

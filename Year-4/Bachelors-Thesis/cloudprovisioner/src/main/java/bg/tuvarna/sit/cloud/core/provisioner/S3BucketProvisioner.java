@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3AclStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
@@ -17,8 +18,13 @@ import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Slf4j
 public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketConfig> {
@@ -59,9 +65,34 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
           new S3AclStep()
       );
 
-      steps.stream()
+      List<S3ProvisionStep> asyncSteps = new ArrayList<>();
+      List<S3ProvisionStep> syncSteps = new ArrayList<>();
+
+      for (S3ProvisionStep step : steps) {
+        if (step.getClass().isAnnotationPresent(ProvisionAsync.class)) {
+          asyncSteps.add(step);
+        } else {
+          syncSteps.add(step);
+        }
+      }
+
+      syncSteps.stream()
           .sorted(Comparator.comparingInt(s -> s.getClass().getAnnotation(ProvisionOrder.class).value()))
           .forEach(step -> step.apply(s3Client, config));
+
+      List<Callable<Void>> tasks = asyncSteps.stream()
+          .map(step -> (Callable<Void>) () -> {
+            step.apply(s3Client, config);
+            return null;
+          })
+          .toList();
+
+      try (ExecutorService executor = Executors.newFixedThreadPool(4)) {
+        executor.invokeAll(tasks);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        log.error("Interrupted while provisioning S3 bucket '{}'", bucketName, e);
+      }
 
       log.debug("Verifying bucket existence with HeadBucket request");
       s3Client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());

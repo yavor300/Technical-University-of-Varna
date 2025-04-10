@@ -6,7 +6,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutBucketPolicyRequest;
 
 @Slf4j
-@ProvisionOrder(20)
+@ProvisionAsync
 public class S3PolicyStep implements S3ProvisionStep {
 
   @Override
