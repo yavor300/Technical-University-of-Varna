@@ -7,11 +7,11 @@ public class CloudProvisioningResponse {
 
   private final String resourceType;
   private final String resourceName;
-  private final String arn;
+  private final String resourceId;
 
-  public CloudProvisioningResponse(String resourceType, String resourceName, String arn) {
+  public CloudProvisioningResponse(String resourceType, String resourceName, String resourceId) {
     this.resourceType = resourceType;
     this.resourceName = resourceName;
-    this.arn = arn;
+    this.resourceId = resourceId;
   }
 }
