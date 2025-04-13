@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<Dimension class="oracle.dbtools.crest.model.design.multidimensional.Dimension" name="Card" directorySegmentName="seg_0" id="BE5FDC1E-5673-BB76-04AF-CEC2B13CE927">
-<createdBy>Yavor</createdBy>
-<createdTime>2025-04-11 12:24:08 UTC</createdTime>
-<generatorID>1BE47A6B-D93C-A463-8AEC-688267EE0DF4</generatorID>
-<ownerDesignName>Finance</ownerDesignName>
-<nameInOracleAW>CARD</nameInOracleAW>
-</Dimension>
