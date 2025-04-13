@@ -1,6 +1,7 @@
 package bg.tuvarna.sit;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.S3AclStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketCreateStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3PolicyStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisioningContext;
@@ -108,7 +109,7 @@ public class Main {
 
     CloudResourceProvisioner<S3BucketConfig> provisioner =
         new S3BucketProvisioner(new S3ProvisioningContext(awsBasicCredentials, URI.create("https://s3.localhost.localstack.cloud:4566"),
-            Region.of(config.getRegion())), new S3StepExecutor(List.of(new S3PolicyStep(), new S3VersioningStep(),
+            Region.of(config.getRegion())), new S3StepExecutor(List.of(new S3BucketCreateStep(), new S3PolicyStep(), new S3VersioningStep(),
             new S3TaggingStep(), new S3EncryptionStep(), new S3AclStep())));
     try {
       CloudProvisioningResponse provisioned = provisioner.provision(config);

@@ -20,9 +20,7 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
   public CloudProvisioningResponse provision(S3BucketConfig config) throws InterruptedException {
 
     long startTime = System.nanoTime();
-
     String bucketName = config.getName();
-    log.info("Starting provisioning of S3 bucket '{}'", bucketName);
 
     try (S3Client s3Client = S3Client.builder()
         .credentialsProvider(StaticCredentialsProvider.create(context.getCredentials()))
@@ -31,12 +29,9 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
         .forcePathStyle(true)
         .build()) {
 
-      log.info("Sending request to create S3 bucket '{}'", bucketName);
-      s3Client.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
-
       stepExecutor.execute(s3Client, config);
 
-      log.debug("Verifying bucket existence with HeadBucket request");
+      log.info("Verifying bucket existence with HeadBucket request");
       s3Client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
       log.info("S3 bucket '{}' exists and is active", bucketName);
 
