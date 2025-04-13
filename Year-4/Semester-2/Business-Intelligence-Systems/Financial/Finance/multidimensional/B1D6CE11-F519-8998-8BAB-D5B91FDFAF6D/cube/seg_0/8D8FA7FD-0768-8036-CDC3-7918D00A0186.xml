@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Cube class="oracle.dbtools.crest.model.design.multidimensional.Cube" name="Transactions" directorySegmentName="seg_0" id="8D8FA7FD-0768-8036-CDC3-7918D00A0186">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>TRANSACTIONS</nameInOracleAW>
+<compressedcomposites>false</compressedcomposites>
+<factEntity>FED1CC3A-E6B8-E69C-E775-DB330E7087EE</factEntity>
+<partitioned>true</partitioned>
+<useGlobalComposites>false</useGlobalComposites>
+<virtual>true</virtual>
+<dimensions>
+<dimension>D6C8CE7F-6344-01DA-FE35-E7420B47543C</dimension>
+<dimension>BE5FDC1E-5673-BB76-04AF-CEC2B13CE927</dimension>
+<dimension>0D8215A5-D009-ABA3-F779-37B10637C2D8</dimension>
+</dimensions>
+<measures itemClass="oracle.dbtools.crest.model.design.multidimensional.Measure">
+<measure name="Amount" id="406AAE83-CA95-3FE2-F467-9EB293C437BB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>AMOUNT</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>8D8FA7FD-0768-8036-CDC3-7918D00A0186</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<measureFact>63858395-D4F6-F4CF-A5DA-E4593EB782BA</measureFact>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>Amount</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="Fee" id="D6874D64-DD2D-D90D-F046-E1F2DFF9CE7A">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>FEE</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>1</aggregationFunctionID>
+<cube>8D8FA7FD-0768-8036-CDC3-7918D00A0186</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<measureFact>A311448D-8E5F-4BEC-10BA-41FEF62C1456</measureFact>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="SUM" id="1">
+<measureAlias>Fee</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+<measure name="Transaction_id" id="643DA614-B43B-1B0A-3DDE-29112C61746B">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:30:51 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>TRANSACTION_ID</nameInOracleAW>
+<actasFactDimension>false</actasFactDimension>
+<additivity>Fully-Additive</additivity>
+<aggregationFunctionID>3</aggregationFunctionID>
+<cube>8D8FA7FD-0768-8036-CDC3-7918D00A0186</cube>
+<isformula>false</isformula>
+<iscustomFormula>false</iscustomFormula>
+<olAPoffset>0</olAPoffset>
+<olAPoperator>Lag</olAPoperator>
+<olAPPeriodToDateoperation>AVERAGE</olAPPeriodToDateoperation>
+<olAPStart>0</olAPStart>
+<olAPStep>1</olAPStep>
+<olAPStop>1</olAPStop>
+<oracleAWFormulaType>NO</oracleAWFormulaType>
+<rankDirectionCode>HL</rankDirectionCode>
+<rankDirectionName>Highest To Lowest</rankDirectionName>
+<aggregationFunctions>
+<function class="oracle.dbtools.crest.model.design.multidimensional.Measure$AggregateFunction" name="COUNT" id="3">
+<measureAlias>Transaction_Id</measureAlias>
+</function>
+</aggregationFunctions>
+</measure>
+</measures>
+<factContainers>
+<container>FED1CC3A-E6B8-E69C-E775-DB330E7087EE</container>
+</factContainers>
+</Cube>

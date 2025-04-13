@@ -1,0 +1,91 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B6167895-15FF-658E-28BC-F55776759342" name="Card">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 11:58:54 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<ordsAlias>table_11</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="69578039-F5BE-94A2-4CF2-3C0D0E3DD72D">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 11:59:09 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="card_number" id="B25D9D95-513C-083F-45D0-FF37845C31F4">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 11:59:30 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Account_id" id="8B5ED012-971C-0824-9147-89B670F40FC3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 11:59:46 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="633493AC-5AB3-CA33-043A-7AD63C97950E" referredColumn="A11A6AEC-731E-60CE-2CA4-E028FD64D839"/>
+</associations>
+</Column>
+<Column name="valid_due" id="B7F93C01-3413-8D5E-CC72-E560591C3837">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:10:15 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="digit_code" id="E41D801B-6E2C-AC87-9959-5E0B3BE4A394">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:10:38 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>3,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C6707662-A9DD-63AD-56EE-897A15DF0FB0" name="Card_PK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 11:59:09 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="69578039-F5BE-94A2-4CF2-3C0D0E3DD72D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BC974917-6827-9EE5-0262-6A4F5719A6CF" name="Card_Account_FK">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 11:59:46 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8B5ED012-971C-0824-9147-89B670F40FC3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

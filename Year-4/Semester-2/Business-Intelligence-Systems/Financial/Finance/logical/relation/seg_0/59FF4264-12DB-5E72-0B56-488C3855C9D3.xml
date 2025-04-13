@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="City_Region_FK" directorySegmentName="seg_0" id="59FF4264-12DB-5E72-0B56-488C3855C9D3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>30C1239B-1E75-3366-A32F-85AAA6350FF3</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<sourcePk>AC8168F1-7263-0CAD-E68C-A62FE6D1BCBD</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>AF8CB3E6-7FFB-D97A-9D3F-5190460DD2F8</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>B6FCC548-6C53-F308-408A-CC2FCD9CAD6F</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Card_Account_FK" directorySegmentName="seg_0" id="2F623A4D-6EC2-07A7-EF55-8B3C2FBD8696">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:23:51 UTC</createdTime>
+<generatorID>633493AC-5AB3-CA33-043A-7AD63C97950E</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<sourcePk>828DD51B-A842-3194-79A8-441E6A2848F2</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>34AE000A-972E-1ED6-6C48-F655B426C2C2</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>533EDEF4-5BBA-6992-35FA-985AA0CB870E</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

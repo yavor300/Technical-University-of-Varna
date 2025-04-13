@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Region_Country_FK" directorySegmentName="seg_0" id="7DC6575B-63CB-9EED-75F5-116D2D98B14B">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-10 10:33:48 UTC</createdTime>
+<generatorID>09D546E4-6D36-AB56-0BE1-53D13F814424</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<engineerTo>
+<item key="1902D9A9-501A-D2C9-7D75-CCFFB921EBC8" value="true"/>
+</engineerTo>
+<sourcePk>4BF52388-4086-314D-7355-6B99DA19D6F2</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>A2755249-C348-0C31-70A8-8C1136B63F8B</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>AF8CB3E6-7FFB-D97A-9D3F-5190460DD2F8</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

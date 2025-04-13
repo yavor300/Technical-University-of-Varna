@@ -1,8 +1,7 @@
 package bg.tuvarna.sit.cloud.credentials.provider.vault;
 
-import bg.tuvarna.sit.cloud.core.config.AuthenticationConfig;
+import bg.tuvarna.sit.cloud.config.AuthenticationConfig;
 import bg.tuvarna.sit.cloud.credentials.model.VaultResponse;
-import bg.tuvarna.sit.cloud.exception.VaultAuthenticationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.config.RequestConfig;

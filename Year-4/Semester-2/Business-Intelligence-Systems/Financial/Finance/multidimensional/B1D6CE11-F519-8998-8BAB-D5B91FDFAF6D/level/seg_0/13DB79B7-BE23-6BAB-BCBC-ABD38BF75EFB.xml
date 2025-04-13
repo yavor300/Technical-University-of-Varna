@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Card" directorySegmentName="seg_0" id="13DB79B7-BE23-6BAB-BCBC-ABD38BF75EFB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<generatorID>C79A85EC-ECAD-6737-5608-ABD89E1DBAEA</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>CARD</nameInOracleAW>
+<levelEntity>533EDEF4-5BBA-6992-35FA-985AA0CB870E</levelEntity>
+<oraDimension>Card</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>6C803E35-E192-FC4B-849E-5519E45115D0</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="card number" id="95406899-E3F4-65A9-712A-C61BD55ECD47">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>11F41845-F1D3-107D-E313-6538DA8DD7DD</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="valid due" id="54BB9869-0A26-8854-C22A-2E16849B5B71">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>463FC42E-0871-7776-EA35-0E8C1D3B7621</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="digit code" id="CE4CAECF-A1A1-C940-BEBB-8B9C259BDDC3">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>CCED64D7-E36E-B046-9897-F2A1B574D437</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

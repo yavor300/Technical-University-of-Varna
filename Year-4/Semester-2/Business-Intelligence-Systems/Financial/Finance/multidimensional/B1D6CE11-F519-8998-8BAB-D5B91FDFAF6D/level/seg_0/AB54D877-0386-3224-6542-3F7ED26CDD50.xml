@@ -1,0 +1,55 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Level class="oracle.dbtools.crest.model.design.multidimensional.Level" name="Time" directorySegmentName="seg_0" id="AB54D877-0386-3224-6542-3F7ED26CDD50">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<generatorID>B205C403-C27F-3C34-F013-5EC95C3400E8</generatorID>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>TIME</nameInOracleAW>
+<levelEntity>01D98D6B-9FFB-C499-53D9-8062C414AA4A</levelEntity>
+<oraDimension>Time_Dim</oraDimension>
+<rootIdentification>ParentIsBlankSelfOrMissing</rootIdentification>
+<valueBasedHierarchy>false</valueBasedHierarchy>
+<oraAWAttributes class="oracle.dbtools.crest.model.design.multidimensional.Level$OraAWAttributes">
+</oraAWAttributes>
+<levelKey>
+<attribute>EC6FB043-EE94-21AD-3397-E6609846DE52</attribute>
+</levelKey>
+<descriptiveAttributes>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="day" id="722F2759-3582-E920-33BC-9D871FB40A1B">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>1D07E8B7-6028-C9DD-6C86-06C0310414AA</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="month" id="9AC2017C-CAB9-E674-667C-91096D9B4D49">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>400595B3-A966-F5B9-565E-EFC826CD0562</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="year" id="62659FA1-CD4C-782E-2E00-6B7A2A896F9B">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>80EF1942-96C5-9C2C-4960-393FD89D6954</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+<descrAttribute class="oracle.dbtools.crest.model.design.multidimensional.SlowChangingAttribute" name="Quarter" id="79FAF051-54D6-9281-54F0-6CE1F0AEC2AB">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<attribute>7CC2FA3E-FFFE-455D-9468-F09B82691DC3</attribute>
+<classification>USER</classification>
+<indexed>false</indexed>
+<type>NONE</type>
+</descrAttribute>
+</descriptiveAttributes>
+</Level>

@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="Branch_City_Region_Country" directorySegmentName="seg_0" id="1F445E63-FE96-AB1C-E142-B49CB5AA8C46">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>BRANCH_CITY_REGION_COUNTRY</nameInOracleAW>
+<defaultHierarchy>true</defaultHierarchy>
+<linkToDimension>42DD4674-6314-646B-BDDB-1E0F95B6CB9D</linkToDimension>
+<usedLevels>
+<usedLevel>97548C93-86F5-180D-7010-143FC39D72A3</usedLevel>
+<usedLevel>2C50EA89-8075-746E-8777-68AA6EF6B449</usedLevel>
+<usedLevel>1C5855FE-3F80-53A5-5D2F-C076D4B6FFF7</usedLevel>
+<usedLevel>C2A314B4-A43B-BDA6-57DF-4AD8A9210B9B</usedLevel>
+</usedLevels>
+<usedRULinks>
+<usedLink>50696961-EDE2-7349-D24F-1A0A078A5A2F</usedLink>
+<usedLink>E535A62C-4BF7-A528-B916-168047737C53</usedLink>
+<usedLink>3D56E006-313F-35AE-1602-02A21DD04186</usedLink>
+</usedRULinks>
+</Hierarchy>

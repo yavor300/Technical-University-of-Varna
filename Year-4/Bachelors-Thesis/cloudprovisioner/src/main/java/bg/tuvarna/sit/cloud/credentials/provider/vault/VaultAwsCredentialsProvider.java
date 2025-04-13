@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.credentials.provider.vault;
 
-import bg.tuvarna.sit.cloud.credentials.aws.AwsCredentials;
+import bg.tuvarna.sit.cloud.core.aws.iam.AwsCredentials;
 import bg.tuvarna.sit.cloud.credentials.provider.CloudCredentialsProvider;
 import bg.tuvarna.sit.cloud.credentials.model.VaultAwsCredentialsData;
 import bg.tuvarna.sit.cloud.credentials.model.VaultResponse;

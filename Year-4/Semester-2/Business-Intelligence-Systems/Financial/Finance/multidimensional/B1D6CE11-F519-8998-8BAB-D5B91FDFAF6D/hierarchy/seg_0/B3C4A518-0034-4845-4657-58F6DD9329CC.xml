@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Hierarchy class="oracle.dbtools.crest.model.design.multidimensional.Hierarchy" name="Card_Account_Customer_Segment" directorySegmentName="seg_0" id="B3C4A518-0034-4845-4657-58F6DD9329CC">
+<createdBy>Yavor</createdBy>
+<createdTime>2025-04-11 12:24:08 UTC</createdTime>
+<ownerDesignName>Finance</ownerDesignName>
+<nameInOracleAW>CARD_ACCOUNT_CUSTOMER_SEGMENT</nameInOracleAW>
+<defaultHierarchy>false</defaultHierarchy>
+<linkToDimension>6B392E17-D3F9-ADC9-08A2-F6C7DD9F6B77</linkToDimension>
+<usedLevels>
+<usedLevel>13DB79B7-BE23-6BAB-BCBC-ABD38BF75EFB</usedLevel>
+<usedLevel>FC3C55CA-7124-F522-C143-D850921AE22C</usedLevel>
+<usedLevel>84BB964F-7CEC-CB49-8F2A-8680B7AAEE2E</usedLevel>
+<usedLevel>70D3DB9B-43FC-85B0-3BF5-151863541EFF</usedLevel>
+</usedLevels>
+<usedRULinks>
+<usedLink>91C0F8C7-1BB2-938E-EF53-42616B2FDB0F</usedLink>
+<usedLink>99012A73-A6AB-C286-94E7-81B4747261F7</usedLink>
+<usedLink>8984B899-E046-5097-F3CE-A719E5EA4321</usedLink>
+</usedRULinks>
+</Hierarchy>
