@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
+import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutBucketPolicyRequest;
@@ -10,7 +11,7 @@ import software.amazon.awssdk.services.s3.model.PutBucketPolicyRequest;
 public class S3PolicyStep implements S3ProvisionStep {
 
   @Override
-  public void apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
 
     if (config.getPolicy() != null && !config.getPolicy().isBlank()) {
       s3Client.putBucketPolicy(PutBucketPolicyRequest.builder()
@@ -19,5 +20,11 @@ public class S3PolicyStep implements S3ProvisionStep {
           .build());
       log.info("Applied policy to bucket '{}'", config.getName());
     }
+
+    StepResult result = new StepResult();
+    result.setStepName(this.getClass().getName());
+    result.getOutputs().put("policy", config.getPolicy());
+
+    return result;
   }
 }

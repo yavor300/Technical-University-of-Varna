@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
+import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutBucketEncryptionRequest;
@@ -9,19 +10,22 @@ import software.amazon.awssdk.services.s3.model.ServerSideEncryptionByDefault;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionConfiguration;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionRule;
 
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @ProvisionAsync
 public class S3EncryptionStep implements S3ProvisionStep {
 
   @Override
-  public void apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
 
     S3BucketConfig.EncryptionConfig encryption = config.getEncryption();
 
     if (encryption == null || encryption.getType() == null) {
-      return;
+      return null;
     }
 
     String algorithm = encryption.getType().toUpperCase(Locale.ROOT);
@@ -32,7 +36,7 @@ public class S3EncryptionStep implements S3ProvisionStep {
       case "AWS:KMS", "AWS:KMS:DSSE" -> sseAlgorithm = ServerSideEncryption.AWS_KMS;
       default -> {
         log.warn("Unsupported SSE algorithm '{}'. Skipping encryption config for bucket '{}'", algorithm, config.getName());
-        return;
+        return null;
       }
     }
 
@@ -57,5 +61,12 @@ public class S3EncryptionStep implements S3ProvisionStep {
 
     s3Client.putBucketEncryption(encryptionRequest);
     log.info("Applied server-side encryption '{}' to bucket '{}'", sseAlgorithm, config.getName());
+
+    StepResult result = new StepResult();
+    result.setStepName(this.getClass().getName());
+    result.getOutputs().put("type", config.getEncryption().getType());
+    result.getOutputs().put("kmsKeyId", config.getEncryption().getKmsKeyId());
+
+    return result;
   }
 }

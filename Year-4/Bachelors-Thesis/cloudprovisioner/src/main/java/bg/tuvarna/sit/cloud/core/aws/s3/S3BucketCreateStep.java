@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
+import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
@@ -10,7 +11,8 @@ import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 public class S3BucketCreateStep implements S3ProvisionStep {
 
   @Override
-  public void apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+
     String bucketName = config.getName();
     log.info("Creating S3 bucket '{}'", bucketName);
 
@@ -19,5 +21,11 @@ public class S3BucketCreateStep implements S3ProvisionStep {
         .build());
 
     log.info("S3 bucket '{}' created successfully", bucketName);
+
+    StepResult stepResult = new StepResult();
+    stepResult.setStepName(this.getClass().getName());
+    stepResult.getOutputs().put("name", bucketName);
+
+    return stepResult;
   }
 }

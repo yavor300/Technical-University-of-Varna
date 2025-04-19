@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
+import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
@@ -11,20 +12,22 @@ import software.amazon.awssdk.services.s3.model.Permission;
 import software.amazon.awssdk.services.s3.model.PutBucketAclRequest;
 import software.amazon.awssdk.services.s3.model.Type;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @ProvisionAsync
 @Slf4j
 public class S3AclStep implements S3ProvisionStep {
 
   @Override
-  public void apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
 
     String bucketName = config.getName();
 
     if (config.getAccessControlPolicy() != null) {
-      applyAccessControlPolicy(s3Client, bucketName, config);
-      return;
+      return applyAccessControlPolicy(s3Client, bucketName, config);
     }
 
     if (config.getAcl() != null) {
@@ -34,11 +37,21 @@ public class S3AclStep implements S3ProvisionStep {
           .build();
 
       s3Client.putBucketAcl(request);
+
       log.info("Set canned ACL '{}' for bucket '{}'", config.getAcl().getValue(), bucketName);
+
+      StepResult result = new StepResult();
+      result.setStepName(this.getClass().getName());
+      result.getOutputs().put("acl", config.getAcl().getValue());
+
+      return result;
     }
+
+    return null;
   }
 
-  private void applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
+  private StepResult applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
+
     var policyConfig = config.getAccessControlPolicy();
 
     List<Grant> grants = policyConfig.getGrants().stream()
@@ -63,7 +76,30 @@ public class S3AclStep implements S3ProvisionStep {
         .accessControlPolicy(policy)
         .build());
 
+    S3ProvisionedAclOwner ownerDto = new S3ProvisionedAclOwner(owner.id(), owner.displayName());
+    List<S3ProvisionedAclGrant> grantDtos = policyConfig.getGrants().stream()
+        .map(g -> {
+          String identifier = Optional.ofNullable(g.getGrantee().getId())
+              .orElse(Optional.ofNullable(g.getGrantee().getUri())
+                  .orElse(g.getGrantee().getEmailAddress()));
+
+          S3ProvisionedAclGrantee grantee = new S3ProvisionedAclGrantee(
+              g.getGrantee().getType(),
+              identifier
+          );
+
+          return new S3ProvisionedAclGrant(grantee, g.getPermission());
+        })
+        .toList();
+
     log.info("Applied detailed access control policy to bucket '{}'", bucketName);
+
+    StepResult result = new StepResult();
+    result.setStepName(this.getClass().getName());
+    result.getOutputs().put("owner", ownerDto);
+    result.getOutputs().put("grants", grantDtos);
+
+    return result;
   }
 
   private Grantee buildSdkGrantee(S3BucketConfig.Grantee g) {

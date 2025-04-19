@@ -16,7 +16,7 @@ public class S3BucketConfig {
   private Map<String, String> tags;
   private String versioning;
   private EncryptionConfig encryption;
-  private AclType acl;
+  private S3AclType acl;
   private String policy;
   private AccessControlPolicy accessControlPolicy;
 
@@ -57,4 +57,3 @@ public class S3BucketConfig {
     private String displayName;
   }
 }
-

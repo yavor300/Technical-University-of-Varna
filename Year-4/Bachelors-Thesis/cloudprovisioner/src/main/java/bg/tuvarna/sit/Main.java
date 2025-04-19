@@ -5,7 +5,6 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketCreateStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3PolicyStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisioningContext;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3StepExecutor;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3TaggingStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3VersioningStep;
 import bg.tuvarna.sit.cloud.config.AuthenticationConfig;
@@ -14,6 +13,7 @@ import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketProvisioner;
 import bg.tuvarna.sit.cloud.common.ErrorResponse;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultClient;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultAwsCredentialsProvider;
 import bg.tuvarna.sit.cloud.common.ErrorCode;
@@ -109,7 +109,7 @@ public class Main {
 
     CloudResourceProvisioner<S3BucketConfig> provisioner =
         new S3BucketProvisioner(new S3ProvisioningContext(awsBasicCredentials, URI.create("https://s3.localhost.localstack.cloud:4566"),
-            Region.of(config.getRegion())), new S3StepExecutor(List.of(new S3BucketCreateStep(), new S3PolicyStep(), new S3VersioningStep(),
+            Region.of(config.getRegion())), new CloudStepExecutor<>(List.of(new S3BucketCreateStep(), new S3PolicyStep(), new S3VersioningStep(),
             new S3TaggingStep(), new S3EncryptionStep(), new S3AclStep())));
     try {
       CloudProvisioningResponse provisioned = provisioner.provision(config);

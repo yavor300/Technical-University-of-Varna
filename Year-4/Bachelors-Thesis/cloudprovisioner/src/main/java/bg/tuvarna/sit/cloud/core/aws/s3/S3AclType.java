@@ -5,7 +5,7 @@ import lombok.Getter;
 import software.amazon.awssdk.services.s3.model.BucketCannedACL;
 
 @Getter
-public enum AclType {
+public enum S3AclType {
 
   PRIVATE("private"),
   PUBLIC_READ("public-read"),
@@ -18,7 +18,7 @@ public enum AclType {
 
   private final String value;
 
-  AclType(String value) {
+  S3AclType(String value) {
     this.value = value;
   }
 
@@ -27,8 +27,8 @@ public enum AclType {
   }
 
   @JsonCreator
-  public static AclType fromValue(String value) {
-    for (AclType acl : values()) {
+  public static S3AclType fromValue(String value) {
+    for (S3AclType acl : values()) {
       if (acl.getValue().equalsIgnoreCase(value)) {
         return acl;
       }
