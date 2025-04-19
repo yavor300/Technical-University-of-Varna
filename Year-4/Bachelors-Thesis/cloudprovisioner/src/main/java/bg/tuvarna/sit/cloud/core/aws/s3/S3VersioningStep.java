@@ -18,21 +18,26 @@ public class S3VersioningStep implements S3ProvisionStep {
   @Override
   public StepResult apply(S3Client s3Client, S3BucketConfig config) {
 
-    boolean isEnabled = "enabled".equalsIgnoreCase(config.getVersioning());
-    if (isEnabled) {
-      s3Client.putBucketVersioning(PutBucketVersioningRequest.builder()
-          .bucket(config.getName())
-          .versioningConfiguration(VersioningConfiguration.builder()
-              .status(BucketVersioningStatus.ENABLED)
-              .build())
-          .build());
-      log.info("Enabled versioning for bucket '{}'", config.getName());
+    StepResult.Builder result = StepResult.builder()
+        .stepName(this.getClass().getName());
+
+    if (config.getVersioning().isEmpty()) {
+      return result.build();
     }
 
-    StepResult result = new StepResult();
-    result.setStepName(this.getClass().getName());
-    result.getOutputs().put("enabled", isEnabled);
+    boolean isEnabled = "enabled".equalsIgnoreCase(config.getVersioning());
+    BucketVersioningStatus status = isEnabled ? BucketVersioningStatus.ENABLED : BucketVersioningStatus.SUSPENDED;
 
-    return result;
+    s3Client.putBucketVersioning(PutBucketVersioningRequest.builder()
+        .bucket(config.getName())
+        .versioningConfiguration(VersioningConfiguration.builder()
+            .status(status)
+            .build())
+        .build());
+    log.info("Set versioning for bucket '{}'", config.getName());
+
+    result.put("status", status.toString());
+
+    return result.build();
   }
 }

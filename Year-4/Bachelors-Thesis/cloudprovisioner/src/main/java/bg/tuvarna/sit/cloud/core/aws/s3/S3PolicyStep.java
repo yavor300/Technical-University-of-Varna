@@ -13,18 +13,19 @@ public class S3PolicyStep implements S3ProvisionStep {
   @Override
   public StepResult apply(S3Client s3Client, S3BucketConfig config) {
 
+    StepResult.Builder result = StepResult.builder()
+        .stepName(this.getClass().getName());
+
     if (config.getPolicy() != null && !config.getPolicy().isBlank()) {
       s3Client.putBucketPolicy(PutBucketPolicyRequest.builder()
           .bucket(config.getName())
           .policy(config.getPolicy())
           .build());
       log.info("Applied policy to bucket '{}'", config.getName());
+
+      result.put("policy", config.getPolicy());
     }
 
-    StepResult result = new StepResult();
-    result.setStepName(this.getClass().getName());
-    result.getOutputs().put("policy", config.getPolicy());
-
-    return result;
+    return result.build();
   }
 }

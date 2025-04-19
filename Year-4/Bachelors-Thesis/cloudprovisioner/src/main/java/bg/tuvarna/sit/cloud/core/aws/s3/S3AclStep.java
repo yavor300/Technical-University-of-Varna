@@ -12,9 +12,7 @@ import software.amazon.awssdk.services.s3.model.Permission;
 import software.amazon.awssdk.services.s3.model.PutBucketAclRequest;
 import software.amazon.awssdk.services.s3.model.Type;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @ProvisionAsync
@@ -30,6 +28,9 @@ public class S3AclStep implements S3ProvisionStep {
       return applyAccessControlPolicy(s3Client, bucketName, config);
     }
 
+    StepResult.Builder result = StepResult.builder()
+        .stepName(this.getClass().getName());
+
     if (config.getAcl() != null) {
       PutBucketAclRequest request = PutBucketAclRequest.builder()
           .bucket(bucketName)
@@ -40,14 +41,10 @@ public class S3AclStep implements S3ProvisionStep {
 
       log.info("Set canned ACL '{}' for bucket '{}'", config.getAcl().getValue(), bucketName);
 
-      StepResult result = new StepResult();
-      result.setStepName(this.getClass().getName());
-      result.getOutputs().put("acl", config.getAcl().getValue());
-
-      return result;
+      return result.put("acl", config.getAcl().getValue()).build();
     }
 
-    return null;
+    return result.build();
   }
 
   private StepResult applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
@@ -94,12 +91,11 @@ public class S3AclStep implements S3ProvisionStep {
 
     log.info("Applied detailed access control policy to bucket '{}'", bucketName);
 
-    StepResult result = new StepResult();
-    result.setStepName(this.getClass().getName());
-    result.getOutputs().put("owner", ownerDto);
-    result.getOutputs().put("grants", grantDtos);
-
-    return result;
+    return StepResult.builder()
+        .stepName(this.getClass().getName())
+        .put("owner", ownerDto)
+        .put("grants", grantDtos)
+        .build();
   }
 
   private Grantee buildSdkGrantee(S3BucketConfig.Grantee g) {

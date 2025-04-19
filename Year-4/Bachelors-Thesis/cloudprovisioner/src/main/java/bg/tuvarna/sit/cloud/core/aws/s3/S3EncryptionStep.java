@@ -10,10 +10,7 @@ import software.amazon.awssdk.services.s3.model.ServerSideEncryptionByDefault;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionConfiguration;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionRule;
 
-import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @ProvisionAsync
@@ -24,8 +21,11 @@ public class S3EncryptionStep implements S3ProvisionStep {
 
     S3BucketConfig.EncryptionConfig encryption = config.getEncryption();
 
+    StepResult.Builder result = StepResult.builder()
+        .stepName(this.getClass().getName());
+
     if (encryption == null || encryption.getType() == null) {
-      return null;
+      return result.build();
     }
 
     String algorithm = encryption.getType().toUpperCase(Locale.ROOT);
@@ -40,11 +40,14 @@ public class S3EncryptionStep implements S3ProvisionStep {
       }
     }
 
+    result.put("type", encryption.getType());
+
     ServerSideEncryptionByDefault.Builder defaultEncryption = ServerSideEncryptionByDefault.builder()
         .sseAlgorithm(sseAlgorithm);
 
     if (sseAlgorithm == ServerSideEncryption.AWS_KMS && encryption.getKmsKeyId() != null) {
       defaultEncryption.kmsMasterKeyID(encryption.getKmsKeyId());
+      result.put("kmsKeyId", encryption.getKmsKeyId());
     }
 
     ServerSideEncryptionRule rule = ServerSideEncryptionRule.builder()
@@ -62,11 +65,6 @@ public class S3EncryptionStep implements S3ProvisionStep {
     s3Client.putBucketEncryption(encryptionRequest);
     log.info("Applied server-side encryption '{}' to bucket '{}'", sseAlgorithm, config.getName());
 
-    StepResult result = new StepResult();
-    result.setStepName(this.getClass().getName());
-    result.getOutputs().put("type", config.getEncryption().getType());
-    result.getOutputs().put("kmsKeyId", config.getEncryption().getKmsKeyId());
-
-    return result;
+    return result.build();
   }
 }

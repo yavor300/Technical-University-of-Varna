@@ -18,6 +18,10 @@ public class S3TaggingStep implements S3ProvisionStep {
 
   @Override
   public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+
+    StepResult.Builder result = StepResult.builder()
+        .stepName(this.getClass().getName());
+
     if (config.getTags() != null && !config.getTags().isEmpty()) {
       List<Tag> tagList = config.getTags().entrySet().stream()
           .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
@@ -25,15 +29,14 @@ public class S3TaggingStep implements S3ProvisionStep {
 
       s3Client.putBucketTagging(PutBucketTaggingRequest.builder().bucket(config.getName())
           .tagging(Tagging.builder().tagSet(tagList).build()).build());
+
       log.info("Applied tags to bucket '{}'", config.getName());
+
+      for (Map.Entry<String, String> entry : config.getTags().entrySet()) {
+        result.put(entry.getKey(), entry.getValue());
+      }
     }
 
-    StepResult result = new StepResult();
-    result.setStepName(this.getClass().getName());
-    for (Map.Entry<String, String> entry : config.getTags().entrySet()) {
-      result.getOutputs().put(entry.getKey(), entry.getValue());
-    }
-
-    return result;
+    return result.build();
   }
 }

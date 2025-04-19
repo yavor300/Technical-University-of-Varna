@@ -22,10 +22,9 @@ public class S3BucketCreateStep implements S3ProvisionStep {
 
     log.info("S3 bucket '{}' created successfully", bucketName);
 
-    StepResult stepResult = new StepResult();
-    stepResult.setStepName(this.getClass().getName());
-    stepResult.getOutputs().put("name", bucketName);
-
-    return stepResult;
+    return StepResult.builder()
+        .stepName(this.getClass().getName())
+        .put("name", bucketName)
+        .build();
   }
 }
