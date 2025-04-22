@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Slf4j
-public class StepResultStateWriter {
+public class StepResultStateWriter<K extends Enum<K>> {
 
   private final File output;
 
@@ -17,7 +17,7 @@ public class StepResultStateWriter {
     this.output = new File(path);
   }
 
-  public void write(List<StepResult> results) {
+  public void write(List<StepResult<K>> results) {
     ObjectWriter mapper = new ObjectMapper().writerWithDefaultPrettyPrinter();
     try {
       mapper.writeValue(output, results);

@@ -11,7 +11,7 @@ import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 public class S3BucketCreateStep implements S3ProvisionStep {
 
   @Override
-  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
 
     String bucketName = config.getName();
     log.info("Creating S3 bucket '{}'", bucketName);
@@ -22,9 +22,9 @@ public class S3BucketCreateStep implements S3ProvisionStep {
 
     log.info("S3 bucket '{}' created successfully", bucketName);
 
-    return StepResult.builder()
+    return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
-        .put("name", bucketName)
+        .put(S3Output.NAME, bucketName)
         .build();
   }
 }

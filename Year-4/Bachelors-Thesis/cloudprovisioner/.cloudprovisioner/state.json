@@ -14,7 +14,7 @@
   {
     "stepName": "bg.tuvarna.sit.cloud.core.aws.s3.S3VersioningStep",
     "outputs": {
-      "enabled": true
+      "status": "Enabled"
     }
   },
   {

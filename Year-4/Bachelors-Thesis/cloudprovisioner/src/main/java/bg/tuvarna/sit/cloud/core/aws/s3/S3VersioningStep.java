@@ -8,17 +8,14 @@ import software.amazon.awssdk.services.s3.model.BucketVersioningStatus;
 import software.amazon.awssdk.services.s3.model.PutBucketVersioningRequest;
 import software.amazon.awssdk.services.s3.model.VersioningConfiguration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @ProvisionAsync
 public class S3VersioningStep implements S3ProvisionStep {
 
   @Override
-  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
 
-    StepResult.Builder result = StepResult.builder()
+    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
     if (config.getVersioning().isEmpty()) {
@@ -36,7 +33,7 @@ public class S3VersioningStep implements S3ProvisionStep {
         .build());
     log.info("Set versioning for bucket '{}'", config.getName());
 
-    result.put("status", status.toString());
+    result.put(S3Output.VALUE_NODE, status.toString());
 
     return result.build();
   }

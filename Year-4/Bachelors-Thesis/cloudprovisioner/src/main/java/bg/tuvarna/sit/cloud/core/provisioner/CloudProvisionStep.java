@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
-public interface CloudProvisionStep<T, C> {
+public interface CloudProvisionStep<TClient, TConfig, K extends Enum<K>> {
 
-    StepResult apply(T client, C config);
+    StepResult<K> apply(TClient client, TConfig config);
 }

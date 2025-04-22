@@ -17,11 +17,11 @@ import java.util.Locale;
 public class S3EncryptionStep implements S3ProvisionStep {
 
   @Override
-  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
 
     S3BucketConfig.EncryptionConfig encryption = config.getEncryption();
 
-    StepResult.Builder result = StepResult.builder()
+    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
     if (encryption == null || encryption.getType() == null) {
@@ -40,14 +40,14 @@ public class S3EncryptionStep implements S3ProvisionStep {
       }
     }
 
-    result.put("type", encryption.getType());
+    result.put(S3Output.TYPE, encryption.getType());
 
     ServerSideEncryptionByDefault.Builder defaultEncryption = ServerSideEncryptionByDefault.builder()
         .sseAlgorithm(sseAlgorithm);
 
     if (sseAlgorithm == ServerSideEncryption.AWS_KMS && encryption.getKmsKeyId() != null) {
       defaultEncryption.kmsMasterKeyID(encryption.getKmsKeyId());
-      result.put("kmsKeyId", encryption.getKmsKeyId());
+      result.put(S3Output.KMS_KEY_ID, encryption.getKmsKeyId());
     }
 
     ServerSideEncryptionRule rule = ServerSideEncryptionRule.builder()

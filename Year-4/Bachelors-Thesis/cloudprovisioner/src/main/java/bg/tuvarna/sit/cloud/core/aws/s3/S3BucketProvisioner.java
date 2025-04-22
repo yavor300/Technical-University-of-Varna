@@ -18,7 +18,7 @@ import java.util.List;
 public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketConfig> {
 
   private final S3ProvisioningContext context;
-  private final CloudStepExecutor<S3Client, S3BucketConfig> stepExecutor;
+  private final CloudStepExecutor<S3Client, S3BucketConfig, S3Output> stepExecutor;
 
   @Override
   public CloudProvisioningResponse provision(S3BucketConfig config) throws InterruptedException {
@@ -33,7 +33,7 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
         .forcePathStyle(true)
         .build()) {
 
-      List<StepResult> results = stepExecutor.execute(s3Client, config);
+      List<StepResult<S3Output>> results = stepExecutor.execute(s3Client, config);
 
       log.info("Verifying bucket existence with HeadBucket request");
       s3Client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
@@ -43,7 +43,7 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketCon
       long durationMs = (endTime - startTime) / 1_000_000;
       log.info("Provisioning completed for bucket '{}' in {} ms", bucketName, durationMs);
 
-      StepResultStateWriter writer = new StepResultStateWriter(".cloudprovisioner/state.json");
+      StepResultStateWriter<S3Output> writer = new StepResultStateWriter<>(".cloudprovisioner/state.json");
       writer.write(results);
 
       String arn = String.format("arn:aws:s3:::%s", bucketName);

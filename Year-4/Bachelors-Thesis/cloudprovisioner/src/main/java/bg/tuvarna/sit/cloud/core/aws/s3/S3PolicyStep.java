@@ -11,9 +11,9 @@ import software.amazon.awssdk.services.s3.model.PutBucketPolicyRequest;
 public class S3PolicyStep implements S3ProvisionStep {
 
   @Override
-  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
 
-    StepResult.Builder result = StepResult.builder()
+    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
     if (config.getPolicy() != null && !config.getPolicy().isBlank()) {
@@ -23,7 +23,7 @@ public class S3PolicyStep implements S3ProvisionStep {
           .build());
       log.info("Applied policy to bucket '{}'", config.getName());
 
-      result.put("policy", config.getPolicy());
+      result.put(S3Output.VALUE_NODE, config.getPolicy());
     }
 
     return result.build();

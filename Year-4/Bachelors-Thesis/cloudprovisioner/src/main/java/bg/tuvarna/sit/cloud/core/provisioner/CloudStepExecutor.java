@@ -12,22 +12,22 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Slf4j
-public class CloudStepExecutor<TClient, TConfig> {
+public class CloudStepExecutor<TClient, TConfig, K extends Enum<K>> {
 
-  private final List<CloudProvisionStep<TClient, TConfig>> steps;
+  private final List<CloudProvisionStep<TClient, TConfig, K>> steps;
 
-  public CloudStepExecutor(List<CloudProvisionStep<TClient, TConfig>> steps) {
+  public CloudStepExecutor(List<CloudProvisionStep<TClient, TConfig, K>> steps) {
     this.steps = steps;
   }
 
-  public List<StepResult> execute(TClient client, TConfig config) throws InterruptedException {
+  public List<StepResult<K>> execute(TClient client, TConfig config) throws InterruptedException {
 
-    List<StepResult> results = new ArrayList<>();
+    List<StepResult<K>> results = new ArrayList<>();
 
-    List<CloudProvisionStep<TClient, TConfig>> async = new ArrayList<>();
-    List<CloudProvisionStep<TClient, TConfig>> sync = new ArrayList<>();
+    List<CloudProvisionStep<TClient, TConfig, K>> async = new ArrayList<>();
+    List<CloudProvisionStep<TClient, TConfig, K>> sync = new ArrayList<>();
 
-    for (CloudProvisionStep<TClient, TConfig> step : steps) {
+    for (CloudProvisionStep<TClient, TConfig, K> step : steps) {
       if (step.getClass().isAnnotationPresent(ProvisionAsync.class)) {
         async.add(step);
       } else {
@@ -39,13 +39,13 @@ public class CloudStepExecutor<TClient, TConfig> {
         .sorted(Comparator.comparingInt(s -> s.getClass().getAnnotation(ProvisionOrder.class).value()))
         .forEach(step -> results.add(step.apply(client, config)));
 
-    List<Callable<StepResult>> tasks = async.stream()
-        .map(step -> (Callable<StepResult>) () -> step.apply(client, config))
+    List<Callable<StepResult<K>>> tasks = async.stream()
+        .map(step -> (Callable<StepResult<K>>) () -> step.apply(client, config))
         .toList();
 
     try (ExecutorService executor = Executors.newFixedThreadPool(4)) {
-      List<Future<StepResult>> futures = executor.invokeAll(tasks);
-      for (Future<StepResult> future : futures) {
+      List<Future<StepResult<K>>> futures = executor.invokeAll(tasks);
+      for (Future<StepResult<K>> future : futures) {
         results.add(future.get());
       }
     } catch (ExecutionException e) {

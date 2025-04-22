@@ -20,7 +20,7 @@ import java.util.Optional;
 public class S3AclStep implements S3ProvisionStep {
 
   @Override
-  public StepResult apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
 
     String bucketName = config.getName();
 
@@ -28,7 +28,7 @@ public class S3AclStep implements S3ProvisionStep {
       return applyAccessControlPolicy(s3Client, bucketName, config);
     }
 
-    StepResult.Builder result = StepResult.builder()
+    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
     if (config.getAcl() != null) {
@@ -41,13 +41,13 @@ public class S3AclStep implements S3ProvisionStep {
 
       log.info("Set canned ACL '{}' for bucket '{}'", config.getAcl().getValue(), bucketName);
 
-      return result.put("acl", config.getAcl().getValue()).build();
+      return result.put(S3Output.VALUE_NODE, config.getAcl().getValue()).build();
     }
 
     return result.build();
   }
 
-  private StepResult applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
+  private StepResult<S3Output> applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
 
     var policyConfig = config.getAccessControlPolicy();
 
@@ -91,10 +91,10 @@ public class S3AclStep implements S3ProvisionStep {
 
     log.info("Applied detailed access control policy to bucket '{}'", bucketName);
 
-    return StepResult.builder()
+    return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
-        .put("owner", ownerDto)
-        .put("grants", grantDtos)
+        .put(S3Output.OWNER, ownerDto)
+        .put(S3Output.GRANTS, grantDtos)
         .build();
   }
 
