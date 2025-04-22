@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.common;
+package bg.tuvarna.sit.cloud.config;
 
 public class ConfigurationLoadException extends RuntimeException {
 

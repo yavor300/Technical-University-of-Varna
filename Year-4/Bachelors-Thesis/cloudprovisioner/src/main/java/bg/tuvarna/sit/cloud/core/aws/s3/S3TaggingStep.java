@@ -30,7 +30,7 @@ public class S3TaggingStep implements S3ProvisionStep {
           .tagging(Tagging.builder().tagSet(tagList).build()).build());
 
       log.info("Applied tags to bucket '{}'", config.getName());
-      result.put(S3Output.VALUE_NODE, config.getTags());
+      result.put(S3Output.VALUE_NODE, new ProvisionedTags(config.getTags()));
     }
 
     return result.build();
