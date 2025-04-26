@@ -1,7 +1,7 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.utils.EnumToStringKeySerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ public class StepResult<K extends Enum<K>> {
 
   private String stepName;
 
-  @JsonSerialize(keyUsing = ToStringSerializer.class)
+  @JsonSerialize(keyUsing = EnumToStringKeySerializer.class)
   private Map<K, Object> outputs = new LinkedHashMap<>();
 
   public static <K extends Enum<K>> Builder<K> builder() {

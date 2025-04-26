@@ -8,6 +8,9 @@ import software.amazon.awssdk.services.s3.model.BucketVersioningStatus;
 import software.amazon.awssdk.services.s3.model.PutBucketVersioningRequest;
 import software.amazon.awssdk.services.s3.model.VersioningConfiguration;
 
+import static software.amazon.awssdk.services.s3.model.BucketVersioningStatus.ENABLED;
+import static software.amazon.awssdk.services.s3.model.BucketVersioningStatus.SUSPENDED;
+
 @Slf4j
 @ProvisionAsync
 public class S3VersioningStep implements S3ProvisionStep {
@@ -15,26 +18,49 @@ public class S3VersioningStep implements S3ProvisionStep {
   @Override
   public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
 
-    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
-        .stepName(this.getClass().getName());
+    String versioning = config.getVersioning();
 
-    if (config.getVersioning().isEmpty()) {
-      return result.build();
+    StepResult<S3Output> result = buildVersioningStepResult(versioning);
+
+    if (versioning == null || versioning.isEmpty()) {
+      return result;
     }
 
-    boolean isEnabled = "enabled".equalsIgnoreCase(config.getVersioning());
-    BucketVersioningStatus status = isEnabled ? BucketVersioningStatus.ENABLED : BucketVersioningStatus.SUSPENDED;
+    BucketVersioningStatus status = ENABLED.toString().equalsIgnoreCase(versioning) ? ENABLED : SUSPENDED;
 
+    // TODO Surround with try-catch and terminate the process if not provisioned correctly
+    String bucketName = config.getName();
     s3Client.putBucketVersioning(PutBucketVersioningRequest.builder()
-        .bucket(config.getName())
+        .bucket(bucketName)
         .versioningConfiguration(VersioningConfiguration.builder()
             .status(status)
             .build())
         .build());
-    log.info("Set versioning for bucket '{}'", config.getName());
+    log.info("Set versioning for bucket '{}'", bucketName);
 
-    result.put(S3Output.VALUE_NODE, status.toString());
+    return result;
+  }
+
+  @Override
+  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+
+    return buildVersioningStepResult(config.getVersioning());
+  }
+
+  private StepResult<S3Output> buildVersioningStepResult(String versioning) {
+
+    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName());
+
+    if (versioning == null || versioning.isEmpty()) {
+      return result.build();
+    }
+
+    BucketVersioningStatus status = ENABLED.toString().equalsIgnoreCase(versioning) ? ENABLED : SUSPENDED;
+
+    result.put(S3Output.VERSIONING_STATUS, status.toString());
 
     return result.build();
   }
+
 }

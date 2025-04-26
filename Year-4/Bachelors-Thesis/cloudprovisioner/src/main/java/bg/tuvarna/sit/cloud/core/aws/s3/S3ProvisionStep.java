@@ -8,4 +8,7 @@ public interface S3ProvisionStep extends CloudProvisionStep<S3Client, S3BucketCo
 
   @Override
   StepResult<S3Output> apply(S3Client client, S3BucketConfig config);
+
+  @Override
+  StepResult<S3Output> generateDesiredState(S3BucketConfig config);
 }

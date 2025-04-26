@@ -27,4 +27,13 @@ public class S3BucketCreateStep implements S3ProvisionStep {
         .put(S3Output.NAME, bucketName)
         .build();
   }
+
+  @Override
+  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+
+    return StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .put(S3Output.NAME, config.getName())
+        .build();
+  }
 }
