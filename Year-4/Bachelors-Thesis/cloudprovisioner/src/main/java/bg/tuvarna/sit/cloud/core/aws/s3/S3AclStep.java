@@ -31,17 +31,19 @@ public class S3AclStep implements S3ProvisionStep {
     StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
-    if (config.getAcl() != null) {
+    S3AclType acl = config.getAcl();
+    if (acl != null) {
       PutBucketAclRequest request = PutBucketAclRequest.builder()
           .bucket(bucketName)
-          .acl(config.getAcl().toSdkAcl())
+          .acl(acl.toSdkAcl())
           .build();
 
       s3Client.putBucketAcl(request);
 
-      log.info("Set canned ACL '{}' for bucket '{}'", config.getAcl().getValue(), bucketName);
+      String aclValue = acl.getValue();
+      log.info("Set canned ACL '{}' for bucket '{}'", aclValue, bucketName);
 
-      return result.put(S3Output.VALUE_NODE, config.getAcl().getValue()).build();
+      return result.put(S3Output.VALUE_NODE, aclValue).build();
     }
 
     return result.build();
@@ -50,20 +52,24 @@ public class S3AclStep implements S3ProvisionStep {
   @Override
   public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
 
-    if (config.getAccessControlPolicy() != null) {
-      return buildStepResultFromPolicy(config.getAccessControlPolicy());
+    S3BucketConfig.AccessControlPolicy policy = config.getAccessControlPolicy();
+    if (policy != null) {
+      return buildStepResultFromPolicy(policy);
     }
 
-    if (config.getAcl() != null) {
-      return StepResult.<S3Output>builder()
-          .stepName(this.getClass().getName())
-          .put(S3Output.VALUE_NODE, config.getAcl().getValue())
+    S3AclType acl = config.getAcl();
+    String stepName = this.getClass().getName();
+
+    StepResult.Builder<S3Output> resultBuilder = StepResult.<S3Output>builder()
+        .stepName(stepName);
+
+    if (acl != null) {
+      return resultBuilder
+          .put(S3Output.VALUE_NODE, acl.getValue())
           .build();
     }
 
-    return StepResult.<S3Output>builder()
-        .stepName(this.getClass().getName())
-        .build();
+    return resultBuilder.build();
   }
 
   private StepResult<S3Output> applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
@@ -77,9 +83,10 @@ public class S3AclStep implements S3ProvisionStep {
             .build())
         .toList();
 
+    S3BucketConfig.Owner configOwner = policyConfig.getOwner();
     Owner owner = Owner.builder()
-        .id(policyConfig.getOwner().getId())
-        .displayName(policyConfig.getOwner().getDisplayName())
+        .id(configOwner.getId())
+        .displayName(configOwner.getDisplayName())
         .build();
 
     AccessControlPolicy policy = AccessControlPolicy.builder()
@@ -101,28 +108,41 @@ public class S3AclStep implements S3ProvisionStep {
     Grantee.Builder builder = Grantee.builder()
         .type(Type.fromValue(g.getType()));
 
-    if (g.getId() != null) builder.id(g.getId());
-    if (g.getUri() != null) builder.uri(g.getUri());
-    if (g.getEmailAddress() != null) builder.emailAddress(g.getEmailAddress());
+    String id = g.getId();
+    if (id != null) {
+      builder.id(id);
+    }
+
+    String uri = g.getUri();
+    if (uri != null) {
+      builder.uri(uri);
+    }
+
+    String email = g.getEmailAddress();
+    if (email != null) {
+      builder.emailAddress(email);
+    }
 
     return builder.build();
   }
 
   private StepResult<S3Output> buildStepResultFromPolicy(S3BucketConfig.AccessControlPolicy policyConfig) {
 
+    S3BucketConfig.Owner configOwner = policyConfig.getOwner();
     S3ProvisionedAclOwner ownerDto = new S3ProvisionedAclOwner(
-        policyConfig.getOwner().getId(),
-        policyConfig.getOwner().getDisplayName()
+        configOwner.getId(),
+        configOwner.getDisplayName()
     );
 
     List<S3ProvisionedAclGrant> grantDtos = policyConfig.getGrants().stream()
         .map(g -> {
-          String identifier = Optional.ofNullable(g.getGrantee().getId())
-              .orElse(Optional.ofNullable(g.getGrantee().getUri())
-                  .orElse(g.getGrantee().getEmailAddress()));
+          S3BucketConfig.Grantee configGrantee = g.getGrantee();
+          String identifier = Optional.ofNullable(configGrantee.getId())
+              .orElse(Optional.ofNullable(configGrantee.getUri())
+                  .orElse(configGrantee.getEmailAddress()));
 
           S3ProvisionedAclGrantee grantee = new S3ProvisionedAclGrantee(
-              g.getGrantee().getType(),
+              configGrantee.getType(),
               identifier
           );
 

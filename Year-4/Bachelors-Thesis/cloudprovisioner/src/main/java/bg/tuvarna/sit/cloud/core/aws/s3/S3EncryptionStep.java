@@ -28,19 +28,25 @@ public class S3EncryptionStep implements S3ProvisionStep {
 
     StepResult<S3Output> result = buildEncryptionStepResult(encryption);
 
-    if (encryption == null || encryption.getType() == null) {
+    if (encryption == null) {
       return result;
     }
 
-    String algorithm = encryption.getType().toUpperCase(Locale.ROOT);
+    String type = encryption.getType();
+    if (type == null) {
+      return result;
+    }
+
+    String algorithm = type.toUpperCase(Locale.ROOT);
     ServerSideEncryption sseAlgorithm;
 
+    String bucketName = config.getName();
     switch (algorithm) {
       case SSE_S3_ALGORITHM, AES_256_ALGORITHM -> sseAlgorithm = ServerSideEncryption.AES256;
       case AWS_KMS_ALGORITHM, AWS_KMS_DSSE_ALGORITHM -> sseAlgorithm = ServerSideEncryption.AWS_KMS;
       default -> {
         log.warn("Unsupported SSE algorithm '{}'. Skipping encryption config for bucket '{}'", algorithm,
-            config.getName());
+            bucketName);
         // TODO Should throw exception and do not continue the flow with false config
         return null;
       }
@@ -49,19 +55,20 @@ public class S3EncryptionStep implements S3ProvisionStep {
     ServerSideEncryptionByDefault.Builder defaultEncryption =
         ServerSideEncryptionByDefault.builder().sseAlgorithm(sseAlgorithm);
 
-    if (sseAlgorithm == ServerSideEncryption.AWS_KMS && encryption.getKmsKeyId() != null) {
-      defaultEncryption.kmsMasterKeyID(encryption.getKmsKeyId());
+    String kmsKeyId = encryption.getKmsKeyId();
+    if (sseAlgorithm == ServerSideEncryption.AWS_KMS && kmsKeyId != null) {
+      defaultEncryption.kmsMasterKeyID(kmsKeyId);
     }
 
     ServerSideEncryptionRule rule =
         ServerSideEncryptionRule.builder().applyServerSideEncryptionByDefault(defaultEncryption.build()).build();
 
     PutBucketEncryptionRequest encryptionRequest =
-        PutBucketEncryptionRequest.builder().bucket(config.getName())
+        PutBucketEncryptionRequest.builder().bucket(bucketName)
             .serverSideEncryptionConfiguration(ServerSideEncryptionConfiguration.builder().rules(rule).build()).build();
 
     s3Client.putBucketEncryption(encryptionRequest);
-    log.info("Applied server-side encryption '{}' to bucket '{}'", sseAlgorithm, config.getName());
+    log.info("Applied server-side encryption '{}' to bucket '{}'", sseAlgorithm, bucketName);
 
     return result;
   }
@@ -76,15 +83,21 @@ public class S3EncryptionStep implements S3ProvisionStep {
 
     StepResult.Builder<S3Output> result = StepResult.<S3Output>builder().stepName(this.getClass().getName());
 
-    if (encryption == null || encryption.getType() == null) {
+    if (encryption == null) {
       return result.build();
     }
 
-    result.put(S3Output.TYPE, encryption.getType());
+    String type = encryption.getType();
+    if (type == null) {
+      return result.build();
+    }
 
-    if ((AWS_KMS_ALGORITHM.equalsIgnoreCase(encryption.getType()) || AWS_KMS_DSSE_ALGORITHM.equalsIgnoreCase(
-        encryption.getType())) && encryption.getKmsKeyId() != null) {
-      result.put(S3Output.KMS_KEY_ID, encryption.getKmsKeyId());
+    result.put(S3Output.TYPE, type);
+
+    String kmsKeyId = encryption.getKmsKeyId();
+    if ((AWS_KMS_ALGORITHM.equalsIgnoreCase(type) || AWS_KMS_DSSE_ALGORITHM.equalsIgnoreCase(type))
+        && kmsKeyId != null) {
+      result.put(S3Output.KMS_KEY_ID, kmsKeyId);
     }
 
     return result.build();
