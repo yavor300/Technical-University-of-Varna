@@ -57,12 +57,10 @@ public class S3AclStep implements S3ProvisionStep {
       return buildStepResultFromPolicy(policy);
     }
 
-    S3AclType acl = config.getAcl();
-    String stepName = this.getClass().getName();
-
     StepResult.Builder<S3Output> resultBuilder = StepResult.<S3Output>builder()
-        .stepName(stepName);
+        .stepName(this.getClass().getName());
 
+    S3AclType acl = config.getAcl();
     if (acl != null) {
       return resultBuilder
           .put(S3Output.VALUE_NODE, acl.getValue())

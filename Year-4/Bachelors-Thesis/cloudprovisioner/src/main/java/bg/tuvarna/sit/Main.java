@@ -2,7 +2,9 @@ package bg.tuvarna.sit;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.S3AclStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketCreateStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3DesiredStateGenerator;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3PolicyStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisioningContext;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3TaggingStep;
@@ -14,6 +16,8 @@ import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketProvisioner;
 import bg.tuvarna.sit.cloud.common.ErrorResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.StepResultStateWriter;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultClient;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultAwsCredentialsProvider;
 import bg.tuvarna.sit.cloud.common.ErrorCode;
@@ -73,6 +77,11 @@ public class Main {
       System.exit(1);
     }
 
+    List<StepResult<S3Output>> stepResults = generateDesiredState(s3Config);
+    StepResultStateWriter<S3Output> writer = new StepResultStateWriter<>(".cloudprovisioner/desired.json");
+    writer.write(stepResults);
+
+
     log.info("Starting provisioning process...");
     CloudProvisioningResponse cloudProvisioningResponse = provisionS3(s3Config, credentials);
     if (cloudProvisioningResponse == null) {
@@ -103,6 +112,19 @@ public class Main {
       logError(ErrorCode.VAULT_AUTH_ERROR, e);
       return null;
     }
+  }
+
+  private static List<StepResult<S3Output>> generateDesiredState(S3BucketConfig config) {
+    S3DesiredStateGenerator generator = new S3DesiredStateGenerator(List.of(
+        new S3BucketCreateStep(),
+        new S3PolicyStep(),
+        new S3VersioningStep(),
+        new S3TaggingStep(),
+        new S3EncryptionStep(),
+        new S3AclStep()
+    ));
+
+    return generator.generate(null, config);
   }
 
   private static CloudProvisioningResponse provisionS3(S3BucketConfig config, AwsBasicCredentials awsBasicCredentials) {
