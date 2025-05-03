@@ -5,6 +5,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketCreateStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3DesiredStateGenerator;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3EncryptionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3OwnershipControlsStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3PolicyStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisioningContext;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3TaggingStep;
@@ -132,7 +133,7 @@ public class Main {
     CloudResourceProvisioner<S3BucketConfig> provisioner =
         new S3BucketProvisioner(new S3ProvisioningContext(awsBasicCredentials, URI.create("https://s3.localhost.localstack.cloud:4566"),
             Region.of(config.getRegion())), new CloudStepExecutor<>(List.of(new S3BucketCreateStep(), new S3PolicyStep(), new S3VersioningStep(),
-            new S3TaggingStep(), new S3EncryptionStep(), new S3AclStep())));
+            new S3TaggingStep(), new S3EncryptionStep(), new S3AclStep(),  new S3OwnershipControlsStep())));
     try {
       CloudProvisioningResponse provisioned = provisioner.provision(config);
       log.info("S3 provisioning completed successfully");

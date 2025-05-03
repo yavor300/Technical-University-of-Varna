@@ -16,6 +16,7 @@ public class S3BucketConfig {
   private Map<String, String> tags;
   private String versioning;
   private EncryptionConfig encryption;
+  private S3OwnershipType ownershipControls;
   private S3AclType acl;
   private String policy;
   private AccessControlPolicy accessControlPolicy;
