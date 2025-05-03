@@ -3,11 +3,16 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetBucketTaggingRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketTaggingResponse;
 import software.amazon.awssdk.services.s3.model.PutBucketTaggingRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.Tag;
 import software.amazon.awssdk.services.s3.model.Tagging;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,19 +26,34 @@ public class S3TaggingStep implements S3ProvisionStep {
 
     Map<String, String> tags = config.getTags();
 
-    if (tags != null && !tags.isEmpty()) {
-      List<Tag> tagList = tags.entrySet().stream()
-          .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
-          .collect(Collectors.toList());
-
-      String bucketName = config.getName();
-      s3Client.putBucketTagging(PutBucketTaggingRequest.builder().bucket(bucketName)
-          .tagging(Tagging.builder().tagSet(tagList).build()).build());
-
-      log.info("Applied tags to bucket '{}'", bucketName);
+    if (tags == null || tags.isEmpty()) {
+      return buildTaggingStepResult(null);
     }
 
-    return buildTaggingStepResult(tags);
+    List<Tag> tagList = tags.entrySet().stream()
+        .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
+        .collect(Collectors.toList());
+
+    String bucketName = config.getName();
+    s3Client.putBucketTagging(PutBucketTaggingRequest.builder().bucket(bucketName)
+        .tagging(Tagging.builder().tagSet(tagList).build()).build());
+
+    log.info("Applied tags to bucket '{}'", bucketName);
+
+    try {
+      GetBucketTaggingResponse response = s3Client.getBucketTagging(
+          GetBucketTaggingRequest.builder().bucket(bucketName).build());
+
+      Map<String, String> actualTags = response.tagSet().stream()
+          .collect(Collectors.toMap(Tag::key, Tag::value));
+
+      return buildTaggingStepResult(actualTags);
+
+    } catch (S3Exception | SdkClientException e) {
+      log.warn("Failed to fetch tags for bucket '{}'", bucketName, e);
+    }
+
+    return buildTaggingStepResult(Collections.emptyMap());
   }
 
   @Override

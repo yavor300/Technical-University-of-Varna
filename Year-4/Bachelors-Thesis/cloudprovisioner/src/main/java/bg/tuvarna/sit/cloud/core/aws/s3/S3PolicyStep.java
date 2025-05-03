@@ -3,8 +3,12 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetBucketPolicyRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketPolicyResponse;
 import software.amazon.awssdk.services.s3.model.PutBucketPolicyRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Slf4j
 @ProvisionAsync
@@ -15,17 +19,30 @@ public class S3PolicyStep implements S3ProvisionStep {
 
     String policy = config.getPolicy();
 
-    if (policy != null && !policy.isBlank()) {
-
-      String bucketName = config.getName();
-      s3Client.putBucketPolicy(PutBucketPolicyRequest.builder()
-          .bucket(bucketName)
-          .policy(policy)
-          .build());
-      log.info("Applied policy to bucket '{}'", bucketName);
+    if (policy == null || policy.isBlank()) {
+      return buildPolicyStepResult(policy);
     }
 
-    return buildPolicyStepResult(policy);
+    String bucketName = config.getName();
+    s3Client.putBucketPolicy(PutBucketPolicyRequest.builder()
+        .bucket(bucketName)
+        .policy(policy)
+        .build());
+    log.info("Applied policy to bucket '{}'", bucketName);
+
+    try {
+      GetBucketPolicyResponse response = s3Client.getBucketPolicy(GetBucketPolicyRequest.builder()
+          .bucket(bucketName)
+          .build());
+
+      String actualPolicy = response.policy();
+      return buildPolicyStepResult(actualPolicy);
+
+    } catch (S3Exception | SdkClientException e) {
+      log.warn("Failed to retrieve bucket policy for '{}'", bucketName, e);
+    }
+
+    return buildPolicyStepResult(null);
   }
 
   @Override

@@ -5,6 +5,8 @@ import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
+import software.amazon.awssdk.services.s3.model.GetBucketAclRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketAclResponse;
 import software.amazon.awssdk.services.s3.model.Grant;
 import software.amazon.awssdk.services.s3.model.Grantee;
 import software.amazon.awssdk.services.s3.model.Owner;
@@ -25,14 +27,16 @@ public class S3AclStep implements S3ProvisionStep {
     String bucketName = config.getName();
 
     if (config.getAccessControlPolicy() != null) {
-      return applyAccessControlPolicy(s3Client, bucketName, config);
-    }
 
-    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
-        .stepName(this.getClass().getName());
+      applyAccessControlPolicy(s3Client, bucketName, config);
+      GetBucketAclResponse aclResponse = fetchAcl(s3Client, bucketName);
+
+      return buildStepResultFromResponse(aclResponse);
+    }
 
     S3AclType acl = config.getAcl();
     if (acl != null) {
+
       PutBucketAclRequest request = PutBucketAclRequest.builder()
           .bucket(bucketName)
           .acl(acl.toSdkAcl())
@@ -43,10 +47,14 @@ public class S3AclStep implements S3ProvisionStep {
       String aclValue = acl.getValue();
       log.info("Set canned ACL '{}' for bucket '{}'", aclValue, bucketName);
 
-      return result.put(S3Output.VALUE_NODE, aclValue).build();
+      GetBucketAclResponse aclResponse = fetchAcl(s3Client, bucketName);
+
+      return buildStepResultFromResponse(aclResponse);
     }
 
-    return result.build();
+    return StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .build();
   }
 
   @Override
@@ -70,7 +78,30 @@ public class S3AclStep implements S3ProvisionStep {
     return resultBuilder.build();
   }
 
-  private StepResult<S3Output> applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
+  private Grantee buildSdkGrantee(S3BucketConfig.Grantee g) {
+
+    Grantee.Builder builder = Grantee.builder()
+        .type(Type.fromValue(g.getType()));
+
+    String id = g.getId();
+    if (id != null) {
+      builder.id(id);
+    }
+
+    String uri = g.getUri();
+    if (uri != null) {
+      builder.uri(uri);
+    }
+
+    String email = g.getEmailAddress();
+    if (email != null) {
+      builder.emailAddress(email);
+    }
+
+    return builder.build();
+  }
+
+  private void applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
 
     S3BucketConfig.AccessControlPolicy policyConfig = config.getAccessControlPolicy();
 
@@ -98,30 +129,39 @@ public class S3AclStep implements S3ProvisionStep {
         .build());
 
     log.info("Applied detailed access control policy to bucket '{}'", bucketName);
-    return buildStepResultFromPolicy(policyConfig);
   }
 
-  private Grantee buildSdkGrantee(S3BucketConfig.Grantee g) {
+  private GetBucketAclResponse fetchAcl(S3Client s3Client, String bucketName) {
 
-    Grantee.Builder builder = Grantee.builder()
-        .type(Type.fromValue(g.getType()));
+    return s3Client.getBucketAcl(GetBucketAclRequest.builder()
+        .bucket(bucketName)
+        .build());
+  }
 
-    String id = g.getId();
-    if (id != null) {
-      builder.id(id);
-    }
+  private StepResult<S3Output> buildStepResultFromResponse(GetBucketAclResponse aclResponse) {
 
-    String uri = g.getUri();
-    if (uri != null) {
-      builder.uri(uri);
-    }
+    Owner owner = aclResponse.owner();
+    S3ProvisionedAclOwner ownerDto = new S3ProvisionedAclOwner(owner.id(), owner.displayName());
 
-    String email = g.getEmailAddress();
-    if (email != null) {
-      builder.emailAddress(email);
-    }
+    List<S3ProvisionedAclGrant> grantDtos = aclResponse.grants().stream()
+        .map(grant -> {
+          Grantee grantee = grant.grantee();
+          String identifier = Optional.ofNullable(grantee.id())
+              .orElse(Optional.ofNullable(grantee.uri())
+                  .orElse(grantee.emailAddress()));
 
-    return builder.build();
+          return new S3ProvisionedAclGrant(
+              new S3ProvisionedAclGrantee(grantee.typeAsString(), identifier),
+              grant.permissionAsString()
+          );
+        })
+        .toList();
+
+    return StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .put(S3Output.OWNER, ownerDto)
+        .put(S3Output.GRANTS, grantDtos)
+        .build();
   }
 
   private StepResult<S3Output> buildStepResultFromPolicy(S3BucketConfig.AccessControlPolicy policyConfig) {

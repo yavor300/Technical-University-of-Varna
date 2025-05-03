@@ -4,7 +4,10 @@ import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetBucketEncryptionRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketEncryptionResponse;
 import software.amazon.awssdk.services.s3.model.PutBucketEncryptionRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionByDefault;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionConfiguration;
@@ -70,7 +73,29 @@ public class S3EncryptionStep implements S3ProvisionStep {
     s3Client.putBucketEncryption(encryptionRequest);
     log.info("Applied server-side encryption '{}' to bucket '{}'", sseAlgorithm, bucketName);
 
-    return result;
+    try {
+      GetBucketEncryptionResponse response = s3Client.getBucketEncryption(
+          GetBucketEncryptionRequest.builder().bucket(bucketName).build());
+
+      ServerSideEncryptionRule ruleResponse = response.serverSideEncryptionConfiguration().rules().getFirst();
+      ServerSideEncryptionByDefault sseDefault = ruleResponse.applyServerSideEncryptionByDefault();
+
+      StepResult.Builder<S3Output> resultBuilder = StepResult.<S3Output>builder()
+          .stepName(this.getClass().getName())
+          .put(S3Output.TYPE, sseDefault.sseAlgorithmAsString());
+
+      if (sseDefault.kmsMasterKeyID() != null) {
+        resultBuilder.put(S3Output.KMS_KEY_ID, sseDefault.kmsMasterKeyID());
+      }
+
+      return resultBuilder.build();
+
+    } catch (S3Exception e) {
+      log.warn("Unable to verify encryption settings after provisioning for bucket '{}'", bucketName, e);
+      return StepResult.<S3Output>builder()
+          .stepName(this.getClass().getName())
+          .build();
+    }
   }
 
   @Override

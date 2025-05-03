@@ -5,6 +5,8 @@ import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
+import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Slf4j
 @ProvisionOrder(0)
@@ -20,7 +22,15 @@ public class S3BucketCreateStep implements S3ProvisionStep {
         .bucket(bucketName)
         .build());
 
-    log.info("S3 bucket '{}' created successfully", bucketName);
+    try {
+      s3Client.headBucket(HeadBucketRequest.builder()
+          .bucket(bucketName)
+          .build());
+      log.info("Verified that bucket '{}' exists", bucketName);
+    } catch (S3Exception e) {
+      log.error("Failed to verify the existence of bucket '{}'", bucketName, e);
+      throw new RuntimeException("Bucket creation failed verification", e);
+    }
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
