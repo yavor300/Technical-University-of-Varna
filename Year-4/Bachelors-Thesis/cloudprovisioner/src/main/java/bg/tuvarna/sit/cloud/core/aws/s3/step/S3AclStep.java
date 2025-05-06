@@ -1,17 +1,23 @@
-package bg.tuvarna.sit.cloud.core.aws.s3;
+package bg.tuvarna.sit.cloud.core.aws.s3.step;
 
+import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
+import bg.tuvarna.sit.cloud.exception.BucketAclProvisioningException;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3AclType;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclGrant;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclGrantee;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclOwner;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
-import software.amazon.awssdk.services.s3.model.GetBucketAclRequest;
 import software.amazon.awssdk.services.s3.model.GetBucketAclResponse;
 import software.amazon.awssdk.services.s3.model.Grant;
 import software.amazon.awssdk.services.s3.model.Grantee;
 import software.amazon.awssdk.services.s3.model.Owner;
 import software.amazon.awssdk.services.s3.model.Permission;
-import software.amazon.awssdk.services.s3.model.PutBucketAclRequest;
 import software.amazon.awssdk.services.s3.model.Type;
 
 import java.util.List;
@@ -22,39 +28,31 @@ import java.util.Optional;
 public class S3AclStep implements S3ProvisionStep {
 
   @Override
-  public StepResult<S3Output> apply(S3Client s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config)
+      throws BucketAclProvisioningException {
+
+    S3BucketConfig.AccessControlPolicy configAccessControlPolicy = config.getAccessControlPolicy();
+
+    if (configAccessControlPolicy == null && config.getAcl() == null) {
+      return StepResult.<S3Output>builder()
+          .stepName(this.getClass().getName())
+          .build();
+    }
 
     String bucketName = config.getName();
-
-    if (config.getAccessControlPolicy() != null) {
-
-      applyAccessControlPolicy(s3Client, bucketName, config);
-      GetBucketAclResponse aclResponse = fetchAcl(s3Client, bucketName);
-
-      return buildStepResultFromResponse(aclResponse);
+    if (configAccessControlPolicy != null) {
+      AccessControlPolicy policy = buildAccessControlPolicy(configAccessControlPolicy);
+      s3Client.putAcl(bucketName, policy, null);
     }
 
     S3AclType acl = config.getAcl();
     if (acl != null) {
-
-      PutBucketAclRequest request = PutBucketAclRequest.builder()
-          .bucket(bucketName)
-          .acl(acl.toSdkAcl())
-          .build();
-
-      s3Client.putBucketAcl(request);
-
-      String aclValue = acl.getValue();
-      log.info("Set canned ACL '{}' for bucket '{}'", aclValue, bucketName);
-
-      GetBucketAclResponse aclResponse = fetchAcl(s3Client, bucketName);
-
-      return buildStepResultFromResponse(aclResponse);
+      s3Client.putAcl(bucketName, null, acl.toSdkAcl());
     }
 
-    return StepResult.<S3Output>builder()
-        .stepName(this.getClass().getName())
-        .build();
+    GetBucketAclResponse aclResponse = s3Client.getAcl(bucketName);
+
+    return buildStepResultFromResponse(aclResponse);
   }
 
   @Override
@@ -101,9 +99,7 @@ public class S3AclStep implements S3ProvisionStep {
     return builder.build();
   }
 
-  private void applyAccessControlPolicy(S3Client s3Client, String bucketName, S3BucketConfig config) {
-
-    S3BucketConfig.AccessControlPolicy policyConfig = config.getAccessControlPolicy();
+  private AccessControlPolicy buildAccessControlPolicy(S3BucketConfig.AccessControlPolicy policyConfig) {
 
     List<Grant> grants = policyConfig.getGrants().stream()
         .map(g -> Grant.builder()
@@ -118,24 +114,10 @@ public class S3AclStep implements S3ProvisionStep {
         .displayName(configOwner.getDisplayName())
         .build();
 
-    AccessControlPolicy policy = AccessControlPolicy.builder()
+    return AccessControlPolicy.builder()
         .grants(grants)
         .owner(owner)
         .build();
-
-    s3Client.putBucketAcl(PutBucketAclRequest.builder()
-        .bucket(bucketName)
-        .accessControlPolicy(policy)
-        .build());
-
-    log.info("Applied detailed access control policy to bucket '{}'", bucketName);
-  }
-
-  private GetBucketAclResponse fetchAcl(S3Client s3Client, String bucketName) {
-
-    return s3Client.getBucketAcl(GetBucketAclRequest.builder()
-        .bucket(bucketName)
-        .build());
   }
 
   private StepResult<S3Output> buildStepResultFromResponse(GetBucketAclResponse aclResponse) {
