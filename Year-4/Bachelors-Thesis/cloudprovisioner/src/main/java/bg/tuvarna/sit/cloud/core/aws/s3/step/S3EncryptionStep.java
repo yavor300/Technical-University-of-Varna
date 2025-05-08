@@ -4,14 +4,13 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
+import bg.tuvarna.sit.cloud.core.aws.s3.util.S3EncryptionResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.BucketEncryptionProvisioningException;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketEncryptionResponse;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
-import software.amazon.awssdk.services.s3.model.ServerSideEncryptionByDefault;
-import software.amazon.awssdk.services.s3.model.ServerSideEncryptionRule;
 
 import java.util.Locale;
 
@@ -35,12 +34,7 @@ public class S3EncryptionStep implements S3ProvisionStep {
       return result;
     }
 
-    String type = encryption.getType();
-    if (type == null) {
-      return result;
-    }
-
-    String algorithm = type.toUpperCase(Locale.ROOT);
+    String algorithm = encryption.getType().toUpperCase(Locale.ROOT);
     ServerSideEncryption sseAlgorithm;
 
     String bucketName = config.getName();
@@ -54,18 +48,7 @@ public class S3EncryptionStep implements S3ProvisionStep {
 
     GetBucketEncryptionResponse response = s3Client.getEncryption(bucketName);
 
-    ServerSideEncryptionRule ruleResponse = response.serverSideEncryptionConfiguration().rules().getFirst();
-    ServerSideEncryptionByDefault sseDefault = ruleResponse.applyServerSideEncryptionByDefault();
-
-    StepResult.Builder<S3Output> resultBuilder = StepResult.<S3Output>builder()
-        .stepName(this.getClass().getName())
-        .put(S3Output.TYPE, sseDefault.sseAlgorithmAsString());
-
-    if (sseDefault.kmsMasterKeyID() != null) {
-      resultBuilder.put(S3Output.KMS_KEY_ID, sseDefault.kmsMasterKeyID());
-    }
-
-    return resultBuilder.build();
+    return S3EncryptionResultBuilder.fromResponse(response);
   }
 
   @Override
@@ -74,27 +57,35 @@ public class S3EncryptionStep implements S3ProvisionStep {
     return buildEncryptionStepResult(config.getEncryption());
   }
 
+  @Override
+  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+
+    GetBucketEncryptionResponse response = client.getEncryption(config.getName());
+
+    return S3EncryptionResultBuilder.fromResponse(response);
+  }
+
   private StepResult<S3Output> buildEncryptionStepResult(S3BucketConfig.EncryptionConfig encryption) {
 
-    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder().stepName(this.getClass().getName());
+    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .put(S3Output.TYPE, AES_256_ALGORITHM);
 
     if (encryption == null) {
       return result.build();
     }
 
-    String type = encryption.getType();
-    if (type == null) {
-      return result.build();
-    }
-
+    String type = encryption.getType().toUpperCase(Locale.ROOT);
     result.put(S3Output.TYPE, type);
 
     String kmsKeyId = encryption.getKmsKeyId();
-    if ((AWS_KMS_ALGORITHM.equalsIgnoreCase(type) || AWS_KMS_DSSE_ALGORITHM.equalsIgnoreCase(type))
+    if ((AWS_KMS_ALGORITHM.equals(type) || AWS_KMS_DSSE_ALGORITHM.equals(type))
         && kmsKeyId != null) {
       result.put(S3Output.KMS_KEY_ID, kmsKeyId);
     }
 
     return result.build();
   }
+
+
 }

@@ -4,9 +4,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
+import bg.tuvarna.sit.cloud.core.aws.s3.util.S3PolicyResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.services.s3.model.GetBucketPolicyResponse;
 
 @Slf4j
 @ProvisionAsync
@@ -24,9 +26,8 @@ public class S3PolicyStep implements S3ProvisionStep {
     String bucketName = config.getName();
     s3Client.putPolicy(bucketName, policy);
 
-    String actualPolicy = s3Client.getPolicy(bucketName).policy();
-
-    return buildPolicyStepResult(actualPolicy);
+    GetBucketPolicyResponse response = s3Client.getPolicy(bucketName);
+    return S3PolicyResultBuilder.fromResponse(response);
   }
 
   @Override
@@ -45,5 +46,13 @@ public class S3PolicyStep implements S3ProvisionStep {
     }
 
     return result.build();
+  }
+
+  @Override
+  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+
+    GetBucketPolicyResponse response = client.getPolicy(config.getName());
+
+    return S3PolicyResultBuilder.fromResponse(response);
   }
 }

@@ -5,9 +5,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
+import bg.tuvarna.sit.cloud.core.aws.s3.util.S3TaggingResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.services.s3.model.GetBucketTaggingResponse;
 import software.amazon.awssdk.services.s3.model.Tag;
 
 import java.util.List;
@@ -32,12 +34,11 @@ public class S3TaggingStep implements S3ProvisionStep {
         .collect(Collectors.toList());
 
     String bucketName = config.getName();
-    s3Client.putBucketTagging(bucketName, tagList);
+    s3Client.putTags(bucketName, tagList);
 
-    Map<String, String> actualTags = s3Client.getBucketTagging(bucketName).tagSet().stream()
-        .collect(Collectors.toMap(Tag::key, Tag::value));
+    GetBucketTaggingResponse response = s3Client.getTags(bucketName);
 
-    return buildTaggingStepResult(actualTags);
+    return S3TaggingResultBuilder.fromResponse(response);
   }
 
   @Override
@@ -56,5 +57,13 @@ public class S3TaggingStep implements S3ProvisionStep {
     }
 
     return result.build();
+  }
+
+  @Override
+  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+
+    GetBucketTaggingResponse response = client.getTags(config.getName());
+
+    return S3TaggingResultBuilder.fromResponse(response);
   }
 }

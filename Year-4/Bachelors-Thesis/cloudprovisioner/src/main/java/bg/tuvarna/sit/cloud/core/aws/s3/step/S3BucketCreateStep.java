@@ -24,6 +24,7 @@ public class S3BucketCreateStep implements S3ProvisionStep {
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
         .put(S3Output.NAME, bucketName)
+        .put(S3Output.REGION, config.getRegion())
         .build();
   }
 
@@ -33,6 +34,17 @@ public class S3BucketCreateStep implements S3ProvisionStep {
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
         .put(S3Output.NAME, config.getName())
+        .put(S3Output.REGION, config.getRegion())
+        .build();
+  }
+
+  @Override
+  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+
+    return StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .put(S3Output.NAME, config.getName())
+        .put(S3Output.REGION, config.getRegion())
         .build();
   }
 }
