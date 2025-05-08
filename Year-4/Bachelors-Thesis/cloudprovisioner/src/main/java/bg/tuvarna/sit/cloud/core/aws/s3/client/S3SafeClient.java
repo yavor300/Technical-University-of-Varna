@@ -227,7 +227,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public PutBucketOwnershipControlsResponse putBucketOwnershipControls(String name, ObjectOwnership ownership) {
+  public PutBucketOwnershipControlsResponse putOwnershipControls(String name, ObjectOwnership ownership) {
 
     PutBucketOwnershipControlsRequest request = PutBucketOwnershipControlsRequest.builder().bucket(name)
         .ownershipControls(software.amazon.awssdk.services.s3.model.OwnershipControls.builder()
@@ -253,7 +253,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketOwnershipControlsResponse getBucketOwnershipControls(String bucketName) {
+  public GetBucketOwnershipControlsResponse getOwnershipControls(String bucketName) {
 
     try {
       GetBucketOwnershipControlsResponse response = client.getBucketOwnershipControls(
@@ -276,7 +276,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public PutBucketTaggingResponse putBucketTagging(String bucketName, List<Tag> tags) {
+  public PutBucketTaggingResponse putTags(String bucketName, List<Tag> tags) {
 
     try {
       PutBucketTaggingResponse response = client.putBucketTagging(
@@ -298,7 +298,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketTaggingResponse getBucketTagging(String bucketName) {
+  public GetBucketTaggingResponse getTags(String bucketName) {
 
     try {
       GetBucketTaggingResponse response = client.getBucketTagging(
@@ -320,7 +320,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public PutBucketVersioningResponse putBucketVersioning(String bucketName, BucketVersioningStatus status) {
+  public PutBucketVersioningResponse putVersioning(String bucketName, BucketVersioningStatus status) {
 
     try {
       PutBucketVersioningResponse response = client.putBucketVersioning(
@@ -348,7 +348,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketVersioningResponse getBucketVersioning(String bucketName) {
+  public GetBucketVersioningResponse getVersioning(String bucketName) {
 
     try {
       GetBucketVersioningResponse response = client.getBucketVersioning(
