@@ -8,7 +8,8 @@ public enum S3Output {
   VALUE_NODE("value"),
   OWNER("owner"),
   GRANTS("grants"),
-  NAME("name");
+  NAME("name"),
+  REGION("region");
 
   private final String key;
 
