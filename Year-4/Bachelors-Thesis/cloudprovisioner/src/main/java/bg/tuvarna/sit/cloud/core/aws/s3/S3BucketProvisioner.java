@@ -1,39 +1,40 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResultStateWriter;
-import lombok.AllArgsConstructor;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.List;
 
 @Slf4j
-@AllArgsConstructor
-public class S3BucketProvisioner implements CloudResourceProvisioner<S3BucketConfig> {
+public class S3BucketProvisioner implements CloudResourceProvisioner {
 
-  private final S3ProvisioningContext context;
-  private final CloudStepExecutor<S3SafeClient, S3BucketConfig, S3Output> stepExecutor;
+  private final S3BucketConfig config;
+  private final S3SafeClient s3;
+  private final CloudStepExecutor<S3Output> stepExecutor;
+
+  @Inject
+  public S3BucketProvisioner(S3BucketConfig config, S3SafeClient s3, CloudStepExecutor<S3Output> stepExecutor) {
+    this.config = config;
+    this.s3 = s3;
+    this.stepExecutor = stepExecutor;
+  }
 
   @Override
-  public CloudProvisioningResponse provision(S3BucketConfig config) throws Exception {
+  public CloudProvisioningResponse provision() throws Exception {
 
     long startTime = System.nanoTime();
     String bucketName = config.getName();
 
-    try (S3SafeClient s3Client = new S3SafeClient(S3Client.builder()
-        .credentialsProvider(StaticCredentialsProvider.create(context.getCredentials()))
-        .endpointOverride(context.getEndpoint())
-        .region(context.getRegion())
-        .forcePathStyle(true)
-        .build())) {
+    try (s3) {
 
-      List<StepResult<S3Output>> results = stepExecutor.execute(s3Client, config);
+      List<StepResult<S3Output>> results = stepExecutor.execute(CloudProvisionStep::apply);
 
       long endTime = System.nanoTime();
       long durationMs = (endTime - startTime) / 1_000_000;
