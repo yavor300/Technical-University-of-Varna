@@ -1,5 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum S3Output {
 
   TYPE("type"),
@@ -20,5 +22,15 @@ public enum S3Output {
   @Override
   public String toString() {
     return key;
+  }
+
+  @JsonCreator
+  public static S3Output fromValue(String value) {
+    for (S3Output output : values()) {
+      if (output.key.equalsIgnoreCase(value)) {
+        return output;
+      }
+    }
+    throw new IllegalArgumentException("Unknown S3Output key: " + value);
   }
 }
