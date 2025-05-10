@@ -7,15 +7,21 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3PolicyResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketPolicyResponse;
 
 @Slf4j
 @ProvisionAsync
-public class S3PolicyStep implements S3ProvisionStep {
+public class S3PolicyStep extends S3ProvisionStep {
+
+  @Inject
+  public S3PolicyStep(S3SafeClient s3, S3BucketConfig config) {
+    super(s3, config);
+  }
 
   @Override
-  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply() {
 
     String policy = config.getPolicy();
 
@@ -24,16 +30,24 @@ public class S3PolicyStep implements S3ProvisionStep {
     }
 
     String bucketName = config.getName();
-    s3Client.putPolicy(bucketName, policy);
+    s3.putPolicy(bucketName, policy);
 
-    GetBucketPolicyResponse response = s3Client.getPolicy(bucketName);
+    GetBucketPolicyResponse response = s3.getPolicy(bucketName);
     return S3PolicyResultBuilder.fromResponse(response);
   }
 
   @Override
-  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+  public StepResult<S3Output> generateDesiredState() {
 
     return buildPolicyStepResult(config.getPolicy());
+  }
+
+  @Override
+  public StepResult<S3Output> getCurrentState() {
+
+    GetBucketPolicyResponse response = s3.getPolicy(config.getName());
+
+    return S3PolicyResultBuilder.fromResponse(response);
   }
 
   private StepResult<S3Output> buildPolicyStepResult(String policy) {
@@ -46,13 +60,5 @@ public class S3PolicyStep implements S3ProvisionStep {
     }
 
     return result.build();
-  }
-
-  @Override
-  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
-
-    GetBucketPolicyResponse response = client.getPolicy(config.getName());
-
-    return S3PolicyResultBuilder.fromResponse(response);
   }
 }

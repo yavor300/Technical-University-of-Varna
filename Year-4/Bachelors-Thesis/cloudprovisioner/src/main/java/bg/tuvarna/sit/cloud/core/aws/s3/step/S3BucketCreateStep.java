@@ -7,19 +7,25 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.BucketCreationException;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ProvisionOrder(0)
-public class S3BucketCreateStep implements S3ProvisionStep {
+public class S3BucketCreateStep extends S3ProvisionStep {
+  
+  @Inject
+  public S3BucketCreateStep(S3SafeClient s3, S3BucketConfig config) {
+    super(s3, config);
+  }
 
   @Override
-  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config) throws BucketCreationException {
+  public StepResult<S3Output> apply() throws BucketCreationException {
 
     String bucketName = config.getName();
 
-    s3Client.create(bucketName);
-    s3Client.head(bucketName);
+    s3.create(bucketName);
+    s3.head(bucketName);
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
@@ -29,7 +35,7 @@ public class S3BucketCreateStep implements S3ProvisionStep {
   }
 
   @Override
-  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+  public StepResult<S3Output> generateDesiredState() {
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
@@ -39,7 +45,7 @@ public class S3BucketCreateStep implements S3ProvisionStep {
   }
 
   @Override
-  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+  public StepResult<S3Output> getCurrentState() {
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())

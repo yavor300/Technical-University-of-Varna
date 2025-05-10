@@ -8,6 +8,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.util.S3EncryptionResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.BucketEncryptionProvisioningException;
+import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketEncryptionResponse;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
@@ -16,15 +17,20 @@ import java.util.Locale;
 
 @Slf4j
 @ProvisionAsync
-public class S3EncryptionStep implements S3ProvisionStep {
+public class S3EncryptionStep extends S3ProvisionStep {
 
   private static final String SSE_S3_ALGORITHM = "SSE-S3";
   private static final String AES_256_ALGORITHM = "AES256";
   private static final String AWS_KMS_ALGORITHM = "AWS:KMS";
   private static final String AWS_KMS_DSSE_ALGORITHM = AWS_KMS_ALGORITHM + ":DSSE";
 
+  @Inject
+  public S3EncryptionStep(S3SafeClient s3, S3BucketConfig config) {
+    super(s3, config);
+  }
+
   @Override
-  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply() {
 
     S3BucketConfig.EncryptionConfig encryption = config.getEncryption();
 
@@ -44,23 +50,23 @@ public class S3EncryptionStep implements S3ProvisionStep {
       default -> throw new BucketEncryptionProvisioningException(bucketName, "Unsupported SSE algorithm", null);
     }
 
-    s3Client.putEncryption(bucketName, sseAlgorithm, encryption.getKmsKeyId());
+    s3.putEncryption(bucketName, sseAlgorithm, encryption.getKmsKeyId());
 
-    GetBucketEncryptionResponse response = s3Client.getEncryption(bucketName);
+    GetBucketEncryptionResponse response = s3.getEncryption(bucketName);
 
     return S3EncryptionResultBuilder.fromResponse(response);
   }
 
   @Override
-  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+  public StepResult<S3Output> generateDesiredState() {
 
     return buildEncryptionStepResult(config.getEncryption());
   }
 
   @Override
-  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+  public StepResult<S3Output> getCurrentState() {
 
-    GetBucketEncryptionResponse response = client.getEncryption(config.getName());
+    GetBucketEncryptionResponse response = s3.getEncryption(config.getName());
 
     return S3EncryptionResultBuilder.fromResponse(response);
   }
@@ -86,6 +92,5 @@ public class S3EncryptionStep implements S3ProvisionStep {
 
     return result.build();
   }
-
 
 }

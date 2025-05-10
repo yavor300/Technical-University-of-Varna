@@ -7,6 +7,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3VersioningResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.BucketVersioningStatus;
 import software.amazon.awssdk.services.s3.model.GetBucketVersioningResponse;
@@ -16,10 +17,15 @@ import static software.amazon.awssdk.services.s3.model.BucketVersioningStatus.SU
 
 @Slf4j
 @ProvisionAsync
-public class S3VersioningStep implements S3ProvisionStep {
+public class S3VersioningStep extends S3ProvisionStep {
+
+  @Inject
+  public S3VersioningStep(S3SafeClient s3, S3BucketConfig config) {
+    super(s3, config);
+  }
 
   @Override
-  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply() {
 
     String versioning = config.getVersioning();
 
@@ -30,13 +36,13 @@ public class S3VersioningStep implements S3ProvisionStep {
     BucketVersioningStatus status = ENABLED.toString().equalsIgnoreCase(versioning) ? ENABLED : SUSPENDED;
     String bucketName = config.getName();
 
-    s3Client.putVersioning(bucketName, status);
+    s3.putVersioning(bucketName, status);
 
-    return S3VersioningResultBuilder.fromResponse(s3Client.getVersioning(bucketName));
+    return S3VersioningResultBuilder.fromResponse(s3.getVersioning(bucketName));
   }
 
   @Override
-  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+  public StepResult<S3Output> generateDesiredState() {
 
     return buildVersioningStepResult(config.getVersioning());
   }
@@ -59,9 +65,9 @@ public class S3VersioningStep implements S3ProvisionStep {
   }
 
   @Override
-  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+  public StepResult<S3Output> getCurrentState() {
 
-    GetBucketVersioningResponse response = client.getVersioning(config.getName());
+    GetBucketVersioningResponse response = s3.getVersioning(config.getName());
 
     return S3VersioningResultBuilder.fromResponse(response);
   }

@@ -8,6 +8,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3TaggingResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketTaggingResponse;
 import software.amazon.awssdk.services.s3.model.Tag;
@@ -18,10 +19,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @ProvisionAsync
-public class S3TaggingStep implements S3ProvisionStep {
+public class S3TaggingStep extends S3ProvisionStep {
+
+  @Inject
+  public S3TaggingStep(S3SafeClient s3, S3BucketConfig config) {
+    super(s3, config);
+  }
 
   @Override
-  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config) {
+  public StepResult<S3Output> apply() {
 
     Map<String, String> tags = config.getTags();
 
@@ -34,15 +40,15 @@ public class S3TaggingStep implements S3ProvisionStep {
         .collect(Collectors.toList());
 
     String bucketName = config.getName();
-    s3Client.putTags(bucketName, tagList);
+    s3.putTags(bucketName, tagList);
 
-    GetBucketTaggingResponse response = s3Client.getTags(bucketName);
+    GetBucketTaggingResponse response = s3.getTags(bucketName);
 
     return S3TaggingResultBuilder.fromResponse(response);
   }
 
   @Override
-  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+  public StepResult<S3Output> generateDesiredState() {
 
     return buildTaggingStepResult(config.getTags());
   }
@@ -60,9 +66,9 @@ public class S3TaggingStep implements S3ProvisionStep {
   }
 
   @Override
-  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+  public StepResult<S3Output> getCurrentState() {
 
-    GetBucketTaggingResponse response = client.getTags(config.getName());
+    GetBucketTaggingResponse response = s3.getTags(config.getName());
 
     return S3TaggingResultBuilder.fromResponse(response);
   }

@@ -27,23 +27,19 @@ import java.util.Optional;
 
 @ProvisionAsync
 @Slf4j
-public class S3AclStep implements S3ProvisionStep {
-
-  private final S3SafeClient s3;
-  private final S3BucketConfig s3BucketConfig;
+public class S3AclStep extends S3ProvisionStep {
 
   @Inject
-  public S3AclStep(S3SafeClient s3, S3BucketConfig s3BucketConfig) {
-    this.s3 = s3;
-    this.s3BucketConfig = s3BucketConfig;
+  public S3AclStep(S3SafeClient s3, S3BucketConfig config) {
+    super(s3, config);
   }
 
   @Override
-  public StepResult<S3Output> apply(S3SafeClient s3Client, S3BucketConfig config)
+  public StepResult<S3Output> apply()
       throws BucketAclProvisioningException {
 
     String bucketName = config.getName();
-    S3BucketConfig.AccessControlPolicy configAccessControlPolicy = s3BucketConfig.getAccessControlPolicy();
+    S3BucketConfig.AccessControlPolicy configAccessControlPolicy = config.getAccessControlPolicy();
 
     if (configAccessControlPolicy == null && config.getAcl() == null) {
       config.setAcl(S3AclType.PRIVATE);
@@ -56,16 +52,16 @@ public class S3AclStep implements S3ProvisionStep {
 
     S3AclType acl = config.getAcl();
     if (acl != null) {
-      s3Client.putAcl(bucketName, null, acl.toSdkAcl());
+      s3.putAcl(bucketName, null, acl.toSdkAcl());
     }
 
-    GetBucketAclResponse aclResponse = s3Client.getAcl(bucketName);
+    GetBucketAclResponse aclResponse = s3.getAcl(bucketName);
 
     return S3AclResultBuilder.fromResponse(aclResponse);
   }
 
   @Override
-  public StepResult<S3Output> generateDesiredState(S3BucketConfig config) {
+  public StepResult<S3Output> generateDesiredState() {
 
     S3BucketConfig.AccessControlPolicy policy = config.getAccessControlPolicy();
     if (policy != null) {
@@ -87,9 +83,9 @@ public class S3AclStep implements S3ProvisionStep {
   }
 
   @Override
-  public StepResult<S3Output> getCurrentState(S3SafeClient client, S3BucketConfig config) {
+  public StepResult<S3Output> getCurrentState() {
 
-    GetBucketAclResponse response = client.getAcl(config.getName());
+    GetBucketAclResponse response = s3.getAcl(config.getName());
 
     return S3AclResultBuilder.fromResponse(response);
   }
