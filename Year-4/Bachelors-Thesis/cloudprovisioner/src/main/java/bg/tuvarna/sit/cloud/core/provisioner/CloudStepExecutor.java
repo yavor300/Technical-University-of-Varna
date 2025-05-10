@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -12,22 +13,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Slf4j
-public class CloudStepExecutor<TClient, TConfig, K extends Enum<K>> {
+@AllArgsConstructor
+public class CloudStepExecutor<K extends Enum<K>> {
 
-  private final List<CloudProvisionStep<TClient, TConfig, K>> steps;
+  private final List<CloudProvisionStep<K>> steps;
 
-  public CloudStepExecutor(List<CloudProvisionStep<TClient, TConfig, K>> steps) {
-    this.steps = steps;
-  }
-
-  public List<StepResult<K>> execute(TClient client, TConfig config) throws InterruptedException {
+  public List<StepResult<K>> execute(StepExecutionStrategy<K> strategy) throws InterruptedException {
 
     List<StepResult<K>> results = new ArrayList<>();
 
-    List<CloudProvisionStep<TClient, TConfig, K>> async = new ArrayList<>();
-    List<CloudProvisionStep<TClient, TConfig, K>> sync = new ArrayList<>();
+    List<CloudProvisionStep<K>> async = new ArrayList<>();
+    List<CloudProvisionStep<K>> sync = new ArrayList<>();
 
-    for (CloudProvisionStep<TClient, TConfig, K> step : steps) {
+    for (CloudProvisionStep<K> step : steps) {
       if (step.getClass().isAnnotationPresent(ProvisionAsync.class)) {
         async.add(step);
       } else {
@@ -37,10 +35,10 @@ public class CloudStepExecutor<TClient, TConfig, K extends Enum<K>> {
 
     sync.stream()
         .sorted(Comparator.comparingInt(s -> s.getClass().getAnnotation(ProvisionOrder.class).value()))
-        .forEach(step -> results.add(step.apply(client, config)));
+        .forEach(step -> results.add(strategy.execute(step)));
 
     List<Callable<StepResult<K>>> tasks = async.stream()
-        .map(step -> (Callable<StepResult<K>>) () -> step.apply(client, config))
+        .map(step -> (Callable<StepResult<K>>) () -> strategy.execute(step))
         .toList();
 
     try (ExecutorService executor = Executors.newFixedThreadPool(4)) {
