@@ -8,9 +8,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3OwnershipControlsResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.exception.BucketOwnershipVerificationException;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketOwnershipControlsResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 
 @ProvisionAsync
 @Slf4j
@@ -37,7 +39,7 @@ public class S3OwnershipControlsStep extends S3ProvisionStep {
     String bucketName = config.getName();
     s3.putOwnershipControls(bucketName, ownershipType.toSdkType());
 
-    GetBucketOwnershipControlsResponse response = s3.getOwnershipControls(bucketName);
+    GetBucketOwnershipControlsResponse response = s3.getOwnershipControls(bucketName, false);
 
     return S3OwnershipControlsResultBuilder.fromResponse(response);
   }
@@ -60,9 +62,18 @@ public class S3OwnershipControlsStep extends S3ProvisionStep {
   @Override
   public StepResult<S3Output> getCurrentState() {
 
-    GetBucketOwnershipControlsResponse response = s3.getOwnershipControls(config.getName());
+    try {
+      GetBucketOwnershipControlsResponse response = s3.getOwnershipControls(config.getName(), true);
+      return S3OwnershipControlsResultBuilder.fromResponse(response);
 
-    return S3OwnershipControlsResultBuilder.fromResponse(response);
+    } catch (BucketOwnershipVerificationException e) {
+      if (e.getCause() instanceof NoSuchBucketException) {
+        return StepResult.<S3Output>builder()
+            .stepName(S3OwnershipControlsStep.class.getName())
+            .build();
+      }
+      return null;
+    }
   }
 
 }

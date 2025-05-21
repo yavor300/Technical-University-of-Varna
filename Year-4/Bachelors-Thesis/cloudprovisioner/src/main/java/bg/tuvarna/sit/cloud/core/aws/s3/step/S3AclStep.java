@@ -18,6 +18,7 @@ import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
 import software.amazon.awssdk.services.s3.model.GetBucketAclResponse;
 import software.amazon.awssdk.services.s3.model.Grant;
 import software.amazon.awssdk.services.s3.model.Grantee;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 import software.amazon.awssdk.services.s3.model.Owner;
 import software.amazon.awssdk.services.s3.model.Permission;
 import software.amazon.awssdk.services.s3.model.Type;
@@ -55,7 +56,7 @@ public class S3AclStep extends S3ProvisionStep {
       s3.putAcl(bucketName, null, acl.toSdkAcl());
     }
 
-    GetBucketAclResponse aclResponse = s3.getAcl(bucketName);
+    GetBucketAclResponse aclResponse = s3.getAcl(bucketName, false);
 
     return S3AclResultBuilder.fromResponse(aclResponse);
   }
@@ -85,9 +86,19 @@ public class S3AclStep extends S3ProvisionStep {
   @Override
   public StepResult<S3Output> getCurrentState() {
 
-    GetBucketAclResponse response = s3.getAcl(config.getName());
+    try {
+      GetBucketAclResponse response = s3.getAcl(config.getName(), true);
+      return S3AclResultBuilder.fromResponse(response);
 
-    return S3AclResultBuilder.fromResponse(response);
+    } catch (BucketAclProvisioningException e) {
+      if (e.getCause() instanceof NoSuchBucketException) {
+        return StepResult.<S3Output>builder()
+            .stepName(S3AclStep.class.getName())
+            .build();
+      }
+      // TODO Think what to return in case of different exception is thrown
+      return null;
+    }
   }
 
   private Grantee buildSdkGrantee(S3BucketConfig.Grantee g) {

@@ -7,9 +7,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3PolicyResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.exception.BucketPolicyProvisioningException;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketPolicyResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 
 @Slf4j
 @ProvisionAsync
@@ -32,7 +34,7 @@ public class S3PolicyStep extends S3ProvisionStep {
     String bucketName = config.getName();
     s3.putPolicy(bucketName, policy);
 
-    GetBucketPolicyResponse response = s3.getPolicy(bucketName);
+    GetBucketPolicyResponse response = s3.getPolicy(bucketName, false);
     return S3PolicyResultBuilder.fromResponse(response);
   }
 
@@ -45,9 +47,18 @@ public class S3PolicyStep extends S3ProvisionStep {
   @Override
   public StepResult<S3Output> getCurrentState() {
 
-    GetBucketPolicyResponse response = s3.getPolicy(config.getName());
+    try {
+      GetBucketPolicyResponse response = s3.getPolicy(config.getName(), true);
+      return S3PolicyResultBuilder.fromResponse(response);
 
-    return S3PolicyResultBuilder.fromResponse(response);
+    } catch (BucketPolicyProvisioningException e) {
+      if (e.getCause() instanceof NoSuchBucketException) {
+        return StepResult.<S3Output>builder()
+            .stepName(S3PolicyStep.class.getName())
+            .build();
+      }
+      return null;
+    }
   }
 
   private StepResult<S3Output> buildPolicyStepResult(String policy) {

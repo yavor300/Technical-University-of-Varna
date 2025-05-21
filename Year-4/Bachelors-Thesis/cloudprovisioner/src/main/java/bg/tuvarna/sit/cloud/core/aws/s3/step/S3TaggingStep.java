@@ -8,9 +8,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3TaggingResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.exception.BucketTaggingProvisioningException;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketTaggingResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 import software.amazon.awssdk.services.s3.model.Tag;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class S3TaggingStep extends S3ProvisionStep {
     String bucketName = config.getName();
     s3.putTags(bucketName, tagList);
 
-    GetBucketTaggingResponse response = s3.getTags(bucketName);
+    GetBucketTaggingResponse response = s3.getTags(bucketName, false);
 
     return S3TaggingResultBuilder.fromResponse(response);
   }
@@ -51,6 +53,23 @@ public class S3TaggingStep extends S3ProvisionStep {
   public StepResult<S3Output> generateDesiredState() {
 
     return buildTaggingStepResult(config.getTags());
+  }
+
+  @Override
+  public StepResult<S3Output> getCurrentState() {
+
+    try {
+      GetBucketTaggingResponse response = s3.getTags(config.getName(), true);
+      return S3TaggingResultBuilder.fromResponse(response);
+
+    } catch (BucketTaggingProvisioningException e) {
+      if (e.getCause() instanceof NoSuchBucketException) {
+        return StepResult.<S3Output>builder()
+            .stepName(S3TaggingStep.class.getName())
+            .build();
+      }
+      return null;
+    }
   }
 
   private StepResult<S3Output> buildTaggingStepResult(Map<String, String> tags) {
@@ -65,11 +84,4 @@ public class S3TaggingStep extends S3ProvisionStep {
     return result.build();
   }
 
-  @Override
-  public StepResult<S3Output> getCurrentState() {
-
-    GetBucketTaggingResponse response = s3.getTags(config.getName());
-
-    return S3TaggingResultBuilder.fromResponse(response);
-  }
 }

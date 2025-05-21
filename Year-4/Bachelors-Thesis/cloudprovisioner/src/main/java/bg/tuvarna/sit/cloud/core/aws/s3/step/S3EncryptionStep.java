@@ -11,6 +11,7 @@ import bg.tuvarna.sit.cloud.exception.BucketEncryptionProvisioningException;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetBucketEncryptionResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
 
 import java.util.Locale;
@@ -52,7 +53,8 @@ public class S3EncryptionStep extends S3ProvisionStep {
 
     s3.putEncryption(bucketName, sseAlgorithm, encryption.getKmsKeyId());
 
-    GetBucketEncryptionResponse response = s3.getEncryption(bucketName);
+    // TODO Check if we can use the response status code from the above putEncryption call
+    GetBucketEncryptionResponse response = s3.getEncryption(bucketName, false);
 
     return S3EncryptionResultBuilder.fromResponse(response);
   }
@@ -66,9 +68,18 @@ public class S3EncryptionStep extends S3ProvisionStep {
   @Override
   public StepResult<S3Output> getCurrentState() {
 
-    GetBucketEncryptionResponse response = s3.getEncryption(config.getName());
+    try {
+      GetBucketEncryptionResponse response = s3.getEncryption(config.getName(), true);
+      return S3EncryptionResultBuilder.fromResponse(response);
 
-    return S3EncryptionResultBuilder.fromResponse(response);
+    } catch (BucketEncryptionProvisioningException e) {
+      if (e.getCause() instanceof NoSuchBucketException) {
+        return StepResult.<S3Output>builder()
+            .stepName(S3EncryptionStep.class.getName())
+            .build();
+      }
+      return null;
+    }
   }
 
   private StepResult<S3Output> buildEncryptionStepResult(S3BucketConfig.EncryptionConfig encryption) {
