@@ -103,7 +103,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public HeadBucketResponse head(String bucketName) {
+  public HeadBucketResponse head(String bucketName, boolean silent) throws BucketVerificationException {
 
     try {
       HeadBucketResponse response = client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
@@ -111,19 +111,26 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (NoSuchBucketException e) {
-      log.error("Bucket '{}' does not exist. This may indicate it was deleted or never created.", bucketName, e);
+      if (!silent) {
+        log.error("Bucket '{}' does not exist. This may indicate it was deleted or never created.", bucketName, e);
+      }
       throw new BucketVerificationException(bucketName, e);
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while verifying bucket '{}'. " + "Possible causes: network issues, invalid credentials, " +
-              "or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error while verifying bucket '{}'. " + "Possible causes: network issues, invalid " +
+                "credentials, " +
+                "or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketVerificationException(bucketName, e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while verifying bucket '{}'. AWS error code: '{}', message: '{}'. ", bucketName,
-          e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error("S3 service error while verifying bucket '{}'. AWS error code: '{}', message: '{}'. ", bucketName,
+            e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketVerificationException(bucketName, e);
     }
   }
@@ -151,7 +158,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketAclResponse getAcl(String bucketName) {
+  public GetBucketAclResponse getAcl(String bucketName, boolean silent) throws BucketAclProvisioningException {
 
     try {
       GetBucketAclResponse response = client.getBucketAcl(GetBucketAclRequest.builder().bucket(bucketName).build());
@@ -159,14 +166,19 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (S3Exception e) {
-      log.error("S3 service error fetching ACL for bucket '{}'. AWS error code: '{}', message: '{}'.", bucketName,
-          e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error("S3 service error fetching ACL for bucket '{}'. AWS error code: '{}', message: '{}'.", bucketName,
+            e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketAclProvisioningException(bucketName, e);
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error fetching ACL for bucket '{}'. " + "Possible causes: network issues, invalid credentials," +
-              " or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error fetching ACL for bucket '{}'. " + "Possible causes: network issues, invalid " +
+                "credentials," +
+                " or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketAclProvisioningException(bucketName, e);
     }
   }
@@ -206,7 +218,8 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketEncryptionResponse getEncryption(String bucketName) {
+  public GetBucketEncryptionResponse getEncryption(String bucketName, boolean silent)
+      throws BucketEncryptionProvisioningException {
 
     try {
       GetBucketEncryptionResponse response = client.getBucketEncryption(
@@ -215,14 +228,18 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while verifying encryption for bucket {}. Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error while verifying encryption for bucket {}. Possible causes: network issues, invalid " +
+                "credentials, or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketEncryptionProvisioningException(bucketName, e);
     } catch (S3Exception e) {
-      log.error("S3 service error while verifying encryption to bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error("S3 service error while verifying encryption to bucket '{}'. AWS error code: '{}', message: '{}'. ",
+            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketEncryptionProvisioningException(bucketName, e);
     }
   }
@@ -253,7 +270,8 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketOwnershipControlsResponse getOwnershipControls(String bucketName) {
+  public GetBucketOwnershipControlsResponse getOwnershipControls(String bucketName, boolean silent)
+      throws BucketOwnershipProvisioningException {
 
     try {
       GetBucketOwnershipControlsResponse response = client.getBucketOwnershipControls(
@@ -262,16 +280,21 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while verifying ownership controls for bucket {}. Possible causes: network issues, " +
-              "invalid credentials, or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error while verifying ownership controls for bucket {}. Possible causes: network issues, " +
+                "invalid credentials, or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketOwnershipVerificationException(bucketName, "Client-side error during verification", e);
 
     } catch (S3Exception e) {
-      log.error(
-          "S3 service error while verifying ownership controls for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error(
+            "S3 service error while verifying ownership controls for bucket '{}'. AWS error code: '{}', message: '{}'" +
+                ". ",
+            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketOwnershipVerificationException(bucketName, "Service-side error during verification", e);
     }
   }
@@ -298,7 +321,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketTaggingResponse getTags(String bucketName) {
+  public GetBucketTaggingResponse getTags(String bucketName, boolean silent) throws BucketTaggingProvisioningException {
 
     try {
       GetBucketTaggingResponse response = client.getBucketTagging(
@@ -307,15 +330,20 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while fetching tags for bucket {}. Possible causes: network issues, invalid credentials," +
-              " or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error while fetching tags for bucket {}. Possible causes: network issues, invalid " +
+                "credentials," +
+                " or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketTaggingProvisioningException(bucketName, e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while fetching tags for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error("S3 service error while fetching tags for bucket '{}'. AWS error code: '{}', message: '{}'. ",
+            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketTaggingProvisioningException(bucketName, e);
     }
   }
@@ -348,7 +376,8 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketVersioningResponse getVersioning(String bucketName) {
+  public GetBucketVersioningResponse getVersioning(String bucketName, boolean silent)
+      throws BucketVersioningProvisioningException {
 
     try {
       GetBucketVersioningResponse response = client.getBucketVersioning(
@@ -357,15 +386,19 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while retrieving versioning for bucket {}. Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error while retrieving versioning for bucket {}. Possible causes: network issues, invalid " +
+                "credentials, or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketVersioningProvisioningException(bucketName, e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while retrieving versioning for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error("S3 service error while retrieving versioning for bucket '{}'. AWS error code: '{}', message: '{}'. ",
+            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketVersioningProvisioningException(bucketName, e);
     }
   }
@@ -394,7 +427,7 @@ public class S3SafeClient implements AutoCloseable {
     }
   }
 
-  public GetBucketPolicyResponse getPolicy(String bucketName) {
+  public GetBucketPolicyResponse getPolicy(String bucketName, boolean silent) {
 
     try {
       GetBucketPolicyResponse response = client.getBucketPolicy(GetBucketPolicyRequest.builder()
@@ -404,15 +437,19 @@ public class S3SafeClient implements AutoCloseable {
       return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while fetching policy for bucket {}. Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
+      if (!silent) {
+        log.error(
+            "Client-side error while fetching policy for bucket {}. Possible causes: network issues, invalid " +
+                "credentials, or local misconfiguration.",
+            bucketName, e);
+      }
       throw new BucketPolicyProvisioningException(bucketName, e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while fetching policy for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      if (!silent) {
+        log.error("S3 service error while fetching policy for bucket '{}'. AWS error code: '{}', message: '{}'. ",
+            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+      }
       throw new BucketPolicyProvisioningException(bucketName, e);
     }
   }
