@@ -6,26 +6,36 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3TaggingResultBuilder;
-import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
+import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
-import bg.tuvarna.sit.cloud.exception.BucketTaggingProvisioningException;
+import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
+
 import jakarta.inject.Inject;
+
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.hc.core5.http.HttpStatus;
+
 import software.amazon.awssdk.services.s3.model.GetBucketTaggingResponse;
-import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.model.Tag;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// TODO [Implementation] Validate if Provision annotation is present. Maybe common validator module ?
 @Slf4j
-@ProvisionAsync
+@ProvisionOrder(4)
 public class S3TaggingStep extends S3ProvisionStep {
 
+  private final StepResult<S3Output> metadata;
+
   @Inject
-  public S3TaggingStep(S3SafeClient s3, S3BucketConfig config) {
+  public S3TaggingStep(S3SafeClient s3, S3BucketConfig config, StepResult<S3Output> metadata) {
     super(s3, config);
+    this.metadata = metadata;
   }
 
   @Override
@@ -33,18 +43,20 @@ public class S3TaggingStep extends S3ProvisionStep {
 
     Map<String, String> tags = config.getTags();
 
-    if (tags == null || tags.isEmpty()) {
-      return buildTaggingStepResult(null);
+    if (tags.isEmpty()) {
+      return buildTaggingStepResult(Collections.emptyMap());
     }
 
     List<Tag> tagList = tags.entrySet().stream()
         .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
         .collect(Collectors.toList());
 
-    String bucketName = config.getName();
-    s3.putTags(bucketName, tagList);
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+    s3.putTags(bucket, tagList);
+    log.info("Successfully applied tags '{}' to bucket '{}'", tagList, bucket);
 
-    GetBucketTaggingResponse response = s3.getTags(bucketName, false);
+    GetBucketTaggingResponse response = s3.getTags(bucket);
+    log.info("Successfully verified tags '{}' for bucket '{}'", tagList, bucket);
 
     return S3TaggingResultBuilder.fromResponse(response);
   }
@@ -58,18 +70,60 @@ public class S3TaggingStep extends S3ProvisionStep {
   @Override
   public StepResult<S3Output> getCurrentState() {
 
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+
     try {
-      GetBucketTaggingResponse response = s3.getTags(config.getName(), true);
+      GetBucketTaggingResponse response = s3.getTags(bucket);
+      log.info("Fetched tags for bucket '{}'", bucket);
       return S3TaggingResultBuilder.fromResponse(response);
 
-    } catch (BucketTaggingProvisioningException e) {
-      if (e.getCause() instanceof NoSuchBucketException) {
-        return StepResult.<S3Output>builder()
-            .stepName(S3TaggingStep.class.getName())
-            .build();
+    } catch (CloudResourceStepException e) {
+      if (e.getCause() instanceof S3Exception s3Exception) {
+        if (s3Exception.statusCode() == HttpStatus.SC_NOT_FOUND) {
+          return StepResult.<S3Output>builder()
+              .stepName(this.getClass().getName())
+              .build();
+        }
       }
-      return null;
+      throw e;
     }
+  }
+
+  @Override
+  public StepResult<S3Output> destroy(boolean enforcePreventDestroy) {
+
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+    s3.deleteTags(bucket);
+    log.info("Deleted all tags from bucket '{}'", bucket);
+
+    return StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .build();
+  }
+
+  @Override
+  public StepResult<S3Output> revert(StepResult<S3Output> step) throws CloudResourceStepException {
+
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+    ProvisionedTags revert = (ProvisionedTags) step.getOutputs().get(S3Output.VALUE_NODE);
+
+    if (revert == null || revert.getTags().isEmpty()) {
+      s3.deleteTags(bucket);
+      log.info("Reverted all newly created tags for bucket '{}'", bucket);
+
+      return StepResult.<S3Output>builder()
+          .stepName(this.getClass().getName())
+          .build();
+    }
+
+    List<Tag> tagList = revert.getTags().entrySet().stream()
+        .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
+        .collect(Collectors.toList());
+
+    s3.putTags(bucket, tagList);
+
+    GetBucketTaggingResponse response = s3.getTags(bucket);
+    return S3TaggingResultBuilder.fromResponse(response);
   }
 
   private StepResult<S3Output> buildTaggingStepResult(Map<String, String> tags) {
@@ -77,11 +131,11 @@ public class S3TaggingStep extends S3ProvisionStep {
     StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
-    if (tags != null && !tags.isEmpty()) {
-      result.put(S3Output.VALUE_NODE, new ProvisionedTags(tags));
+    if (tags.isEmpty()) {
+      return result.build();
     }
 
-    return result.build();
+    return result.put(S3Output.VALUE_NODE, new ProvisionedTags(tags)).build();
   }
 
 }

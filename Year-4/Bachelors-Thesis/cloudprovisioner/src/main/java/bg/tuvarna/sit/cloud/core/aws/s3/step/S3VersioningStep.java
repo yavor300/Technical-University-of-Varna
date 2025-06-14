@@ -5,25 +5,33 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3VersioningResultBuilder;
-import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
+import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
-import bg.tuvarna.sit.cloud.exception.BucketVersioningProvisioningException;
+import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
+
 import jakarta.inject.Inject;
+
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.hc.core5.http.HttpStatus;
+
 import software.amazon.awssdk.services.s3.model.BucketVersioningStatus;
 import software.amazon.awssdk.services.s3.model.GetBucketVersioningResponse;
-import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import static software.amazon.awssdk.services.s3.model.BucketVersioningStatus.ENABLED;
 import static software.amazon.awssdk.services.s3.model.BucketVersioningStatus.SUSPENDED;
 
 @Slf4j
-@ProvisionAsync
+@ProvisionOrder(2)
 public class S3VersioningStep extends S3ProvisionStep {
 
+  private final StepResult<S3Output> metadata;
+
   @Inject
-  public S3VersioningStep(S3SafeClient s3, S3BucketConfig config) {
+  public S3VersioningStep(S3SafeClient s3, S3BucketConfig config, StepResult<S3Output> metadata) {
     super(s3, config);
+    this.metadata = metadata;
   }
 
   @Override
@@ -31,16 +39,16 @@ public class S3VersioningStep extends S3ProvisionStep {
 
     String versioning = config.getVersioning();
 
-    if (versioning == null || versioning.isEmpty()) {
-      return buildVersioningStepResult(null);
-    }
-
     BucketVersioningStatus status = ENABLED.toString().equalsIgnoreCase(versioning) ? ENABLED : SUSPENDED;
-    String bucketName = config.getName();
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
 
-    s3.putVersioning(bucketName, status);
+    s3.putVersioning(bucket, status);
+    log.info("Successfully applied versioning status '{}' to bucket '{}'", status, bucket);
 
-    return S3VersioningResultBuilder.fromResponse(s3.getVersioning(bucketName, false));
+    GetBucketVersioningResponse response = s3.getVersioning(bucket);
+    log.info("Successfully verified versioning status '{}' for bucket '{}'", response.status().toString(), bucket);
+
+    return S3VersioningResultBuilder.fromResponse(response);
   }
 
   @Override
@@ -51,36 +59,60 @@ public class S3VersioningStep extends S3ProvisionStep {
 
   private StepResult<S3Output> buildVersioningStepResult(String versioning) {
 
-    StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
-        .put(S3Output.VERSIONING_STATUS, SUSPENDED.toString())
-        .stepName(this.getClass().getName());
-
-    if (versioning == null || versioning.isEmpty()) {
-      return result.build();
-    }
-
     BucketVersioningStatus status = ENABLED.toString().equalsIgnoreCase(versioning) ? ENABLED : SUSPENDED;
 
-    result.put(S3Output.VERSIONING_STATUS, status.toString());
-
-    return result.build();
+    return StepResult.<S3Output>builder()
+        .put(S3Output.VERSIONING_STATUS, status.toString())
+        .stepName(this.getClass().getName())
+        .build();
   }
 
   @Override
   public StepResult<S3Output> getCurrentState() {
 
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+
     try {
-      GetBucketVersioningResponse response = s3.getVersioning(config.getName(), true);
+      GetBucketVersioningResponse response = s3.getVersioning(bucket);
+      log.info("Retrieved versioning status for bucket '{}'", bucket);
       return S3VersioningResultBuilder.fromResponse(response);
 
-    } catch (BucketVersioningProvisioningException e) {
-      if (e.getCause() instanceof NoSuchBucketException) {
-        return StepResult.<S3Output>builder()
-            .stepName(S3VersioningStep.class.getName())
-            .build();
+    } catch (CloudResourceStepException e) {
+      if (e.getCause() instanceof S3Exception s3Exception) {
+        if (s3Exception.statusCode() == HttpStatus.SC_NOT_FOUND) {
+          return StepResult.<S3Output>builder()
+              .stepName(this.getClass().getName())
+              .build();
+        }
       }
-      return null;
+      throw e;
     }
+  }
+
+  @Override
+  public StepResult<S3Output> destroy(boolean enforcePreventDestroy) {
+
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+
+    s3.putVersioning(bucket, SUSPENDED);
+    log.info("Set versioning for bucket '{}' to default value SUSPENDED", bucket);
+
+    GetBucketVersioningResponse response = s3.getVersioning(bucket);
+    return S3VersioningResultBuilder.fromResponse(response);
+  }
+
+  @Override
+  public StepResult<S3Output> revert(StepResult<S3Output> previous) throws CloudResourceStepException {
+
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+
+    String previousStatus = (String) previous.getOutputs().get(S3Output.VERSIONING_STATUS);
+
+    BucketVersioningStatus status = ENABLED.toString().equalsIgnoreCase(previousStatus) ? ENABLED : SUSPENDED;
+    s3.putVersioning(bucket, status);
+
+    GetBucketVersioningResponse response = s3.getVersioning(bucket);
+    return S3VersioningResultBuilder.fromResponse(response);
   }
 
 }

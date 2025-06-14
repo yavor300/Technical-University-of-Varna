@@ -6,20 +6,29 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3PolicyResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
+import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
-import bg.tuvarna.sit.cloud.exception.BucketPolicyProvisioningException;
+import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
+
 import jakarta.inject.Inject;
+
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.hc.core5.http.HttpStatus;
+
 import software.amazon.awssdk.services.s3.model.GetBucketPolicyResponse;
-import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Slf4j
-@ProvisionAsync
+@ProvisionOrder(5)
 public class S3PolicyStep extends S3ProvisionStep {
 
+  private final StepResult<S3Output> metadata;
+
   @Inject
-  public S3PolicyStep(S3SafeClient s3, S3BucketConfig config) {
+  public S3PolicyStep(S3SafeClient s3, S3BucketConfig config, StepResult<S3Output> metadata) {
     super(s3, config);
+    this.metadata = metadata;
   }
 
   @Override
@@ -31,10 +40,13 @@ public class S3PolicyStep extends S3ProvisionStep {
       return buildPolicyStepResult(policy);
     }
 
-    String bucketName = config.getName();
-    s3.putPolicy(bucketName, policy);
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+    s3.putPolicy(bucket, policy);
+    log.info("Successfully applied policy '{}' to bucket '{}'", policy, bucket);
 
-    GetBucketPolicyResponse response = s3.getPolicy(bucketName, false);
+    GetBucketPolicyResponse response = s3.getPolicy(bucket);
+    log.info("Successfully verified policy '{}' for bucket '{}'", response.policy(), bucket);
+
     return S3PolicyResultBuilder.fromResponse(response);
   }
 
@@ -47,18 +59,59 @@ public class S3PolicyStep extends S3ProvisionStep {
   @Override
   public StepResult<S3Output> getCurrentState() {
 
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+
     try {
-      GetBucketPolicyResponse response = s3.getPolicy(config.getName(), true);
+      GetBucketPolicyResponse response = s3.getPolicy(bucket);
+      log.info("Retrieved policy for bucket '{}'", bucket);
       return S3PolicyResultBuilder.fromResponse(response);
 
-    } catch (BucketPolicyProvisioningException e) {
-      if (e.getCause() instanceof NoSuchBucketException) {
-        return StepResult.<S3Output>builder()
-            .stepName(S3PolicyStep.class.getName())
-            .build();
+    } catch (CloudResourceStepException e) {
+      if (e.getCause() instanceof S3Exception s3Exception) {
+        if (s3Exception.statusCode() == HttpStatus.SC_NOT_FOUND) {
+          return StepResult.<S3Output>builder()
+              .stepName(this.getClass().getName())
+              .build();
+        }
       }
-      return null;
+      throw e;
     }
+  }
+
+  @Override
+  public StepResult<S3Output> destroy(boolean enforcePreventDestroy) {
+
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+
+    s3.deletePolicy(bucket);
+    log.info("Deleted policy from bucket '{}'", bucket);
+
+    return StepResult.<S3Output>builder()
+        .stepName(this.getClass().getName())
+        .build();
+  }
+
+  @Override
+  public StepResult<S3Output> revert(StepResult<S3Output> previous) throws CloudResourceStepException {
+
+    String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+    String revert = (String) previous.getOutputs().get(S3Output.VALUE_NODE);
+
+    if (revert == null || revert.isEmpty()) {
+
+      s3.deletePolicy(bucket);
+      log.debug("Reverted the created policy for bucket '{}'", bucket);
+
+      return StepResult.<S3Output>builder()
+          .stepName(this.getClass().getName())
+          .build();
+    }
+
+    s3.putPolicy(bucket, revert);
+    log.info("Reverted policy for bucket '{}'", bucket);
+
+    GetBucketPolicyResponse response = s3.getPolicy(bucket);
+    return S3PolicyResultBuilder.fromResponse(response);
   }
 
   private StepResult<S3Output> buildPolicyStepResult(String policy) {
@@ -67,7 +120,8 @@ public class S3PolicyStep extends S3ProvisionStep {
         .stepName(this.getClass().getName());
 
     if (policy != null && !policy.isBlank()) {
-      result.put(S3Output.VALUE_NODE, policy);
+      String cleaned = policy.replaceAll("\\s+", "");
+      result.put(S3Output.VALUE_NODE, cleaned);
     }
 
     return result.build();

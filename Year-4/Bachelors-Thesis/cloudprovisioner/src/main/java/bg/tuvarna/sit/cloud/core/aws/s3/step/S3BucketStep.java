@@ -17,15 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 
 @Slf4j
-@ProvisionOrder(0)
-@PreventModification
 @MainResource
-public class S3BucketCreateStep extends S3ProvisionStep {
+@ProvisionOrder(1)
+@PreventModification
+public class S3BucketStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;
   
   @Inject
-  public S3BucketCreateStep(S3SafeClient s3, S3BucketConfig config, StepResult<S3Output> metadata) {
+  public S3BucketStep(S3SafeClient s3, S3BucketConfig config, StepResult<S3Output> metadata) {
     super(s3, config);
     this.metadata = metadata;
   }
@@ -78,7 +78,8 @@ public class S3BucketCreateStep extends S3ProvisionStep {
   public StepResult<S3Output> getCurrentState() {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
-    StepResult.Builder<S3Output> builder = StepResult.<S3Output>builder().stepName(S3BucketCreateStep.class.getName());
+    String region = (String) metadata.getOutputs().get(S3Output.REGION);
+    StepResult.Builder<S3Output> builder = StepResult.<S3Output>builder().stepName(S3BucketStep.class.getName());
 
     try {
       s3.head(bucket);
@@ -90,16 +91,16 @@ public class S3BucketCreateStep extends S3ProvisionStep {
       throw e;
     }
 
-    return builder.put(S3Output.NAME, bucket).put(S3Output.REGION, config.getRegion()).build();
+    return builder.put(S3Output.NAME, bucket).put(S3Output.REGION, region).build();
   }
 
   @Override
-  public StepResult<S3Output> destroy() {
+  public StepResult<S3Output> destroy(boolean enforcePreventDestroy) {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
     Boolean preventDestroy = (Boolean) metadata.getOutputs().get(S3Output.PREVENT_DESTROY);
 
-    if (preventDestroy) {
+    if (enforcePreventDestroy && preventDestroy) {
       String msg = "Destruction of bucket '%s' is prevented by configuration.".formatted(bucket);
       log.warn(msg);
       throw new CloudResourceStepException(msg);
@@ -115,13 +116,6 @@ public class S3BucketCreateStep extends S3ProvisionStep {
 
   @Override
   public StepResult<S3Output> revert(StepResult<S3Output> previous) throws CloudResourceStepException {
-
-    // TODO [Implementation] Think for a revert when PreventModification
-    if (this.getClass().isAnnotationPresent(PreventModification.class)) {
-      String stepName = this.getClass().getSimpleName();
-      String message = "Revert operation is not supported for step '%s' due to @PreventModification".formatted(stepName);
-      throw new CloudResourceStepException(message);
-    }
 
     return null;
   }
