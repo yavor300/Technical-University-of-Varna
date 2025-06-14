@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.util;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionedTags;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedTags;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3TaggingStep;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
@@ -20,7 +20,7 @@ public class S3TaggingResultBuilder {
 
     return StepResult.<S3Output>builder()
         .stepName(S3TaggingStep.class.getName())
-        .put(S3Output.VALUE_NODE, new ProvisionedTags(tags))
+        .put(S3Output.VALUE_NODE, new S3ProvisionedTags(tags))
         .build();
   }
 }

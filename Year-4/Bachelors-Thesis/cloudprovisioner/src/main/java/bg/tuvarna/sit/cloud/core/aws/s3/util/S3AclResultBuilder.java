@@ -1,11 +1,11 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.util;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionedAcl;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3AclType;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAcl;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3AclType;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclGrant;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclGrantee;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclOwner;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrant;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrantee;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclOwner;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3AclStep;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 
@@ -37,7 +37,7 @@ public class S3AclResultBuilder {
 
     return StepResult.<S3Output>builder()
         .stepName(S3AclStep.class.getName())
-        .put(S3Output.VALUE_NODE, new ProvisionedAcl(ownerDto, grantDtos, cannedAcl))
+        .put(S3Output.VALUE_NODE, new S3ProvisionedAcl(ownerDto, grantDtos, cannedAcl))
         .build();
   }
 }
