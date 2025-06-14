@@ -1,16 +1,16 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.step;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionedAcl;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3OwnershipType;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAcl;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3OwnershipType;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3AclResultBuilder;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3AclType;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3AclType;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclGrant;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclGrantee;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionedAclOwner;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrant;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrantee;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclOwner;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3OwnershipControlsResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
@@ -93,7 +93,7 @@ public class S3AclStep extends S3ProvisionStep {
     if (acl != null) {
       return StepResult.<S3Output>builder()
           .stepName(this.getClass().getName())
-          .put(S3Output.VALUE_NODE, new ProvisionedAcl(null, null, acl))
+          .put(S3Output.VALUE_NODE, new S3ProvisionedAcl(null, null, acl))
           .build();
     }
 
@@ -128,7 +128,7 @@ public class S3AclStep extends S3ProvisionStep {
   public StepResult<S3Output> revert(StepResult<S3Output> previous) throws CloudResourceStepException {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
-    ProvisionedAcl revert = (ProvisionedAcl) previous.getOutputs().get(S3Output.VALUE_NODE);
+    S3ProvisionedAcl revert = (S3ProvisionedAcl) previous.getOutputs().get(S3Output.VALUE_NODE);
 
     S3AclType cannedAcl = revert.getCannedAcl();
     if (cannedAcl != null) {
@@ -177,7 +177,7 @@ public class S3AclStep extends S3ProvisionStep {
             .stepName(this.getClass().getName());
 
         if (fallback != null) {
-          builder.put(S3Output.VALUE_NODE, new ProvisionedAcl(null, null, fallback));
+          builder.put(S3Output.VALUE_NODE, new S3ProvisionedAcl(null, null, fallback));
         }
 
         return builder.build();
@@ -280,7 +280,7 @@ public class S3AclStep extends S3ProvisionStep {
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
-        .put(S3Output.VALUE_NODE, new ProvisionedAcl(ownerDto, grantDtos, null))
+        .put(S3Output.VALUE_NODE, new S3ProvisionedAcl(ownerDto, grantDtos, null))
         .build();
   }
 }

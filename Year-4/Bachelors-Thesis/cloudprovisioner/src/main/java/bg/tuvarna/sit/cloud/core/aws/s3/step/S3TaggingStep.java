@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.step;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.ProvisionedTags;
+import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedTags;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
@@ -105,7 +105,7 @@ public class S3TaggingStep extends S3ProvisionStep {
   public StepResult<S3Output> revert(StepResult<S3Output> step) throws CloudResourceStepException {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
-    ProvisionedTags revert = (ProvisionedTags) step.getOutputs().get(S3Output.VALUE_NODE);
+    S3ProvisionedTags revert = (S3ProvisionedTags) step.getOutputs().get(S3Output.VALUE_NODE);
 
     if (revert == null || revert.getTags().isEmpty()) {
       s3.deleteTags(bucket);
@@ -135,7 +135,7 @@ public class S3TaggingStep extends S3ProvisionStep {
       return result.build();
     }
 
-    return result.put(S3Output.VALUE_NODE, new ProvisionedTags(tags)).build();
+    return result.put(S3Output.VALUE_NODE, new S3ProvisionedTags(tags)).build();
   }
 
 }
