@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.core.aws.s3;
+package bg.tuvarna.sit.cloud.core.aws.s3.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
