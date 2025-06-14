@@ -1,15 +1,10 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.client;
 
-import bg.tuvarna.sit.cloud.exception.BucketAclProvisioningException;
-import bg.tuvarna.sit.cloud.exception.BucketCreationException;
-import bg.tuvarna.sit.cloud.exception.BucketEncryptionProvisioningException;
-import bg.tuvarna.sit.cloud.exception.BucketOwnershipProvisioningException;
-import bg.tuvarna.sit.cloud.exception.BucketOwnershipVerificationException;
-import bg.tuvarna.sit.cloud.exception.BucketPolicyProvisioningException;
-import bg.tuvarna.sit.cloud.exception.BucketTaggingProvisioningException;
-import bg.tuvarna.sit.cloud.exception.BucketVerificationException;
-import bg.tuvarna.sit.cloud.exception.BucketVersioningProvisioningException;
+import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
+import bg.tuvarna.sit.cloud.exception.RetryableCloudResourceStepException;
+
 import lombok.extern.slf4j.Slf4j;
+
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.AccessControlPolicy;
@@ -19,6 +14,12 @@ import software.amazon.awssdk.services.s3.model.BucketCannedACL;
 import software.amazon.awssdk.services.s3.model.BucketVersioningStatus;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.CreateBucketResponse;
+import software.amazon.awssdk.services.s3.model.DeleteBucketPolicyRequest;
+import software.amazon.awssdk.services.s3.model.DeleteBucketPolicyResponse;
+import software.amazon.awssdk.services.s3.model.DeleteBucketRequest;
+import software.amazon.awssdk.services.s3.model.DeleteBucketResponse;
+import software.amazon.awssdk.services.s3.model.DeleteBucketTaggingRequest;
+import software.amazon.awssdk.services.s3.model.DeleteBucketTaggingResponse;
 import software.amazon.awssdk.services.s3.model.GetBucketAclRequest;
 import software.amazon.awssdk.services.s3.model.GetBucketAclResponse;
 import software.amazon.awssdk.services.s3.model.GetBucketEncryptionRequest;
@@ -68,123 +69,115 @@ public class S3SafeClient implements AutoCloseable {
     this.client = client;
   }
 
-  public CreateBucketResponse create(String bucketName) {
+  public CreateBucketResponse create(String bucketName) throws CloudResourceStepException {
 
     try {
-      CreateBucketResponse response = client.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
-      log.info("Successfully created bucket '{}'", bucketName);
-      return response;
+      return client.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
 
     } catch (BucketAlreadyExistsException e) {
-      log.error(
-          "Bucket name '{}' is not available. Bucket names must be globally unique. " + "Choose a different name and " +
-              "try again.",
-          bucketName, e);
-      throw new BucketCreationException(bucketName, e);
+
+      String message = ("Bucket name '%s' is not available. Bucket names must be globally unique. Choose a different " +
+          "name and try again.").formatted(bucketName);
+      log.debug(message, bucketName, e);
+
+      CloudResourceStepException exception = new CloudResourceStepException(
+          "S3 service error while creating bucket '%s'".formatted(bucketName), e);
+      exception.getMessageDetails().add(message);
+      throw exception;
 
     } catch (BucketAlreadyOwnedByYouException e) {
-      log.warn(
-          "Bucket '{}' already exists and is owned by you. " + "In all regions except us-east-1, this is an error. In" +
-              " us-east-1, it resets ACLs.",
-          bucketName, e);
-      throw new BucketCreationException(bucketName, e);
+
+      String message = ("Bucket '%s' already exists and is owned by you. In all regions except us-east-1, this is an " +
+          "error. In us-east-1, it resets ACLs.").formatted(bucketName);
+      log.debug(message, bucketName, e);
+
+      CloudResourceStepException exception = new CloudResourceStepException(
+          "S3 service error while creating bucket '%s'".formatted(bucketName), e);
+      exception.getMessageDetails().add(message);
+      throw exception;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while creating bucket '{}'. " + "Possible causes: network issues, invalid credentials, " +
-              "or local misconfiguration.",
-          bucketName, e);
-      throw new BucketCreationException(bucketName, e);
+      throw handleSdkClientException(bucketName, "S3 service error while creating bucket '%s'".formatted(bucketName),
+          e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while creating bucket '{}'. AWS error code: '{}', message: '{}'. ", bucketName,
-          e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketCreationException(bucketName, e);
+      throw handleS3Exception(bucketName, "S3 service error while creating bucket '%s'".formatted(bucketName), e);
     }
   }
 
-  public HeadBucketResponse head(String bucketName, boolean silent) throws BucketVerificationException {
+  public HeadBucketResponse head(String bucketName) throws CloudResourceStepException {
 
     try {
-      HeadBucketResponse response = client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
-      log.info("Successfully verified existence of bucket '{}'", bucketName);
-      return response;
+      return client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
 
     } catch (NoSuchBucketException e) {
-      if (!silent) {
-        log.error("Bucket '{}' does not exist. This may indicate it was deleted or never created.", bucketName, e);
-      }
-      throw new BucketVerificationException(bucketName, e);
+
+      String message = "Bucket '%s' does not exist. This may indicate it was deleted or never created."
+          .formatted(bucketName);
+
+      log.debug(message, bucketName, e);
+
+      CloudResourceStepException exception = new CloudResourceStepException(
+          "S3 service error while verifying existence of bucket '%s'".formatted(bucketName), e);
+      exception.getMessageDetails().add(message);
+
+      throw exception;
 
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error while verifying bucket '{}'. " + "Possible causes: network issues, invalid " +
-                "credentials, " +
-                "or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketVerificationException(bucketName, e);
+
+      throw handleSdkClientException(bucketName,
+          "S3 service error while verifying existence of bucket '%s'".formatted(bucketName), e);
+    } catch (S3Exception e) {
+
+      throw handleS3Exception(bucketName,
+          "S3 service error while verifying existence of bucket '%s'".formatted(bucketName), e);
+    }
+  }
+
+  public DeleteBucketResponse delete(String bucketName) throws CloudResourceStepException {
+
+    try {
+      return client.deleteBucket(DeleteBucketRequest.builder().bucket(bucketName).build());
+
+    } catch (SdkClientException e) {
+      throw handleSdkClientException(bucketName,
+          "S3 service error while deleting bucket '%s'".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error("S3 service error while verifying bucket '{}'. AWS error code: '{}', message: '{}'. ", bucketName,
-            e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketVerificationException(bucketName, e);
+      throw handleS3Exception(bucketName, "S3 service error while deleting bucket '%s'".formatted(bucketName), e);
     }
   }
 
   public PutBucketAclResponse putAcl(String bucketName, AccessControlPolicy policy, BucketCannedACL acl)
-      throws BucketAclProvisioningException {
+      throws CloudResourceStepException {
 
     try {
-      PutBucketAclResponse response = client.putBucketAcl(
+      return client.putBucketAcl(
           PutBucketAclRequest.builder().bucket(bucketName).accessControlPolicy(policy).acl(acl).build());
-      log.info("Successfully applied acl configuration for bucket '{}'", bucketName);
-      return response;
 
     } catch (S3Exception e) {
-      log.error("S3 service error while applying ACL to bucket '{}'. AWS error code: '{}', message: '{}'. ", bucketName,
-          e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketAclProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to apply ACL to bucket '%s'.".formatted(bucketName), e);
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while applying ACL to bucket '{}'. " + "Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
-      throw new BucketAclProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to apply ACL to bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public GetBucketAclResponse getAcl(String bucketName, boolean silent) throws BucketAclProvisioningException {
+  public GetBucketAclResponse getAcl(String bucketName) throws CloudResourceStepException {
 
     try {
-      GetBucketAclResponse response = client.getBucketAcl(GetBucketAclRequest.builder().bucket(bucketName).build());
-      log.info("Successfully fetched acl configuration for bucket '{}'", bucketName);
-      return response;
+      return client.getBucketAcl(GetBucketAclRequest.builder().bucket(bucketName).build());
 
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error("S3 service error fetching ACL for bucket '{}'. AWS error code: '{}', message: '{}'.", bucketName,
-            e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketAclProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to fetch acl for bucket '%s'.".formatted(bucketName), e);
+
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error fetching ACL for bucket '{}'. " + "Possible causes: network issues, invalid " +
-                "credentials," +
-                " or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketAclProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to fetch acl for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
   public PutBucketEncryptionResponse putEncryption(String bucketName, ServerSideEncryption sseAlgorithm,
-                                                   String kmsKeyId) {
+                                                   String kmsKeyId, boolean bucketKeyEnabled) throws CloudResourceStepException {
 
     ServerSideEncryptionByDefault.Builder defaultEncryption = ServerSideEncryptionByDefault.builder()
         .sseAlgorithm(sseAlgorithm);
@@ -194,263 +187,190 @@ public class S3SafeClient implements AutoCloseable {
     }
 
     ServerSideEncryptionRule rule = ServerSideEncryptionRule.builder()
-        .applyServerSideEncryptionByDefault(defaultEncryption.build()).build();
+        .applyServerSideEncryptionByDefault(defaultEncryption.build())
+        .bucketKeyEnabled(bucketKeyEnabled)
+        .build();
 
     PutBucketEncryptionRequest request = PutBucketEncryptionRequest.builder().bucket(bucketName)
         .serverSideEncryptionConfiguration(ServerSideEncryptionConfiguration.builder().rules(rule).build()).build();
 
     try {
-      PutBucketEncryptionResponse resposne = client.putBucketEncryption(request);
-      log.info("Successfully applied server-side encryption '{}' to bucket '{}'", sseAlgorithm.toString(), bucketName);
-      return resposne;
+      return client.putBucketEncryption(request);
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while applying encryption to bucket '{}'. Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
-      throw new BucketEncryptionProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to add encryption to bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while applying encryption to bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketEncryptionProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to add encryption to bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public GetBucketEncryptionResponse getEncryption(String bucketName, boolean silent)
-      throws BucketEncryptionProvisioningException {
+  public GetBucketEncryptionResponse getEncryption(String bucketName) throws CloudResourceStepException {
 
     try {
-      GetBucketEncryptionResponse response = client.getBucketEncryption(
+      return client.getBucketEncryption(
           GetBucketEncryptionRequest.builder().bucket(bucketName).build());
-      log.info("Successfully verified server-side encryption for bucket '{}'", bucketName);
-      return response;
 
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error while verifying encryption for bucket {}. Possible causes: network issues, invalid " +
-                "credentials, or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketEncryptionProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to fetch encryption for bucket '%s'.".formatted(bucketName), e);
+
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error("S3 service error while verifying encryption to bucket '{}'. AWS error code: '{}', message: '{}'. ",
-            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketEncryptionProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to fetch encryption for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public PutBucketOwnershipControlsResponse putOwnershipControls(String name, ObjectOwnership ownership) {
+  public PutBucketOwnershipControlsResponse putOwnershipControls(String name, ObjectOwnership ownership)
+      throws CloudResourceStepException {
 
     PutBucketOwnershipControlsRequest request = PutBucketOwnershipControlsRequest.builder().bucket(name)
         .ownershipControls(software.amazon.awssdk.services.s3.model.OwnershipControls.builder()
             .rules(OwnershipControlsRule.builder().objectOwnership(ownership).build()).build()).build();
 
     try {
-      PutBucketOwnershipControlsResponse response = client.putBucketOwnershipControls(request);
-      log.info("Set ownership controls '{}' for bucket '{}'", ownership.toString(), name);
-      return response;
+      return client.putBucketOwnershipControls(request);
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while setting ownership controls for bucket {}. Possible causes: network issues, " +
-              "invalid credentials, or local misconfiguration.",
-          name, e);
-      throw new BucketOwnershipProvisioningException(name, e);
+      throw handleSdkClientException(name, "Failed to set ownership controls for bucket '%s'.".formatted(name), e);
 
     } catch (S3Exception e) {
-      log.error(
-          "S3 service error while setting ownership controls for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          name, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketOwnershipProvisioningException(name, e);
+      throw handleS3Exception(name, "Failed to set ownership controls for bucket '%s'.".formatted(name), e);
     }
   }
 
-  public GetBucketOwnershipControlsResponse getOwnershipControls(String bucketName, boolean silent)
-      throws BucketOwnershipProvisioningException {
+  public GetBucketOwnershipControlsResponse getOwnershipControls(String bucketName) throws CloudResourceStepException {
 
     try {
-      GetBucketOwnershipControlsResponse response = client.getBucketOwnershipControls(
+      return client.getBucketOwnershipControls(
           GetBucketOwnershipControlsRequest.builder().bucket(bucketName).build());
-      log.info("Fetched ownership controls for bucket '{}'", bucketName);
-      return response;
 
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error while verifying ownership controls for bucket {}. Possible causes: network issues, " +
-                "invalid credentials, or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketOwnershipVerificationException(bucketName, "Client-side error during verification", e);
+      throw handleSdkClientException(bucketName, "Failed to fetch ownership controls for bucket '%s'."
+          .formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error(
-            "S3 service error while verifying ownership controls for bucket '{}'. AWS error code: '{}', message: '{}'" +
-                ". ",
-            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketOwnershipVerificationException(bucketName, "Service-side error during verification", e);
+      throw handleS3Exception(bucketName, "Failed to fetch ownership controls for bucket '%s'."
+          .formatted(bucketName), e);
     }
   }
 
-  public PutBucketTaggingResponse putTags(String bucketName, List<Tag> tags) {
+  public PutBucketTaggingResponse putTags(String bucketName, List<Tag> tags) throws CloudResourceStepException {
 
     try {
-      PutBucketTaggingResponse response = client.putBucketTagging(
+      return client.putBucketTagging(
           PutBucketTaggingRequest.builder().bucket(bucketName).tagging(Tagging.builder().tagSet(tags).build()).build());
-      log.info("Applied tags to bucket '{}'", bucketName);
-      return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while setting tags for bucket {}. Possible causes: network issues, invalid credentials, " +
-              "or local misconfiguration.",
-          bucketName, e);
-      throw new BucketTaggingProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to set tags for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while applying tags to bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketTaggingProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to set tags for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public GetBucketTaggingResponse getTags(String bucketName, boolean silent) throws BucketTaggingProvisioningException {
+  public DeleteBucketTaggingResponse deleteTags(String bucketName) throws CloudResourceStepException {
 
     try {
-      GetBucketTaggingResponse response = client.getBucketTagging(
-          GetBucketTaggingRequest.builder().bucket(bucketName).build());
-      log.info("Fetched tags for bucket '{}'", bucketName);
-      return response;
+      return client.deleteBucketTagging(DeleteBucketTaggingRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error while fetching tags for bucket {}. Possible causes: network issues, invalid " +
-                "credentials," +
-                " or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketTaggingProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to delete tags for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error("S3 service error while fetching tags for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketTaggingProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to delete tags for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public PutBucketVersioningResponse putVersioning(String bucketName, BucketVersioningStatus status) {
+
+  public GetBucketTaggingResponse getTags(String bucketName) throws CloudResourceStepException {
 
     try {
-      PutBucketVersioningResponse response = client.putBucketVersioning(
-          PutBucketVersioningRequest.builder()
+      return client.getBucketTagging(GetBucketTaggingRequest.builder()
+          .bucket(bucketName).build());
+
+    } catch (SdkClientException e) {
+      throw handleSdkClientException(bucketName, "Failed to get tags for bucket '%s'.".formatted(bucketName), e);
+
+    } catch (S3Exception e) {
+      throw handleS3Exception(bucketName, "Failed to get tags for bucket '%s'.".formatted(bucketName), e);
+    }
+  }
+
+  public PutBucketVersioningResponse putVersioning(String bucketName, BucketVersioningStatus status)
+      throws CloudResourceStepException {
+
+    try {
+      return client.putBucketVersioning(PutBucketVersioningRequest.builder()
               .bucket(bucketName)
               .versioningConfiguration(VersioningConfiguration.builder()
                   .status(status)
                   .build())
               .build());
-      log.info("Set versioning '{}' for bucket '{}'", status, bucketName);
-      return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while setting versioning for bucket {}. Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
-      throw new BucketVersioningProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to set versioning on bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-
-      log.error("S3 service error while fetching tags for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketVersioningProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to set versioning on bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public GetBucketVersioningResponse getVersioning(String bucketName, boolean silent)
-      throws BucketVersioningProvisioningException {
+  public GetBucketVersioningResponse getVersioning(String bucketName)
+      throws CloudResourceStepException {
 
     try {
-      GetBucketVersioningResponse response = client.getBucketVersioning(
-          GetBucketVersioningRequest.builder().bucket(bucketName).build());
-      log.info("Retrieved versioning status for bucket '{}'", bucketName);
-      return response;
+      return client.getBucketVersioning(GetBucketVersioningRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error while retrieving versioning for bucket {}. Possible causes: network issues, invalid " +
-                "credentials, or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketVersioningProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to get versioning for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error("S3 service error while retrieving versioning for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketVersioningProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to get versioning for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public PutBucketPolicyResponse putPolicy(String bucketName, String policy) {
+  public PutBucketPolicyResponse putPolicy(String bucketName, String policy) throws CloudResourceStepException {
 
     try {
-      PutBucketPolicyResponse response = client.putBucketPolicy(PutBucketPolicyRequest.builder()
+      return client.putBucketPolicy(PutBucketPolicyRequest.builder()
           .bucket(bucketName)
           .policy(policy)
           .build());
-      log.info("Applied policy to bucket '{}'", bucketName);
-      return response;
 
     } catch (SdkClientException e) {
-      log.error(
-          "Client-side error while attaching policy to bucket {}. Possible causes: network issues, invalid " +
-              "credentials, or local misconfiguration.",
-          bucketName, e);
-      throw new BucketPolicyProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to attach policy to bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      log.error("S3 service error while attaching policy to bucket '{}'. AWS error code: '{}', message: '{}'. ",
-          bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      throw new BucketPolicyProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to attach policy to bucket '%s'.".formatted(bucketName), e);
     }
   }
 
-  public GetBucketPolicyResponse getPolicy(String bucketName, boolean silent) {
+  public GetBucketPolicyResponse getPolicy(String bucketName) {
 
     try {
-      GetBucketPolicyResponse response = client.getBucketPolicy(GetBucketPolicyRequest.builder()
+      return client.getBucketPolicy(GetBucketPolicyRequest.builder()
           .bucket(bucketName)
           .build());
-      log.info("Retrieved policy for bucket '{}'", bucketName);
-      return response;
 
     } catch (SdkClientException e) {
-      if (!silent) {
-        log.error(
-            "Client-side error while fetching policy for bucket {}. Possible causes: network issues, invalid " +
-                "credentials, or local misconfiguration.",
-            bucketName, e);
-      }
-      throw new BucketPolicyProvisioningException(bucketName, e);
+      throw handleSdkClientException(bucketName, "Failed to get policy for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      if (!silent) {
-        log.error("S3 service error while fetching policy for bucket '{}'. AWS error code: '{}', message: '{}'. ",
-            bucketName, e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
-      }
-      throw new BucketPolicyProvisioningException(bucketName, e);
+      throw handleS3Exception(bucketName, "Failed to get policy for bucket '%s'.".formatted(bucketName), e);
+    }
+  }
+
+  public DeleteBucketPolicyResponse deletePolicy(String bucketName) throws CloudResourceStepException {
+
+    try {
+      return client.deleteBucketPolicy(DeleteBucketPolicyRequest.builder()
+              .bucket(bucketName)
+              .build());
+
+    } catch (SdkClientException e) {
+      throw handleSdkClientException(bucketName, "Failed to delete policy for bucket '%s'.".formatted(bucketName), e);
+
+    } catch (S3Exception e) {
+      throw handleS3Exception(bucketName, "Failed to delete policy for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
@@ -458,4 +378,33 @@ public class S3SafeClient implements AutoCloseable {
   public void close() {
     client.close();
   }
+
+  private CloudResourceStepException handleS3Exception(String bucket, String message, S3Exception e) {
+
+    log.debug("S3 service error for bucket '{}'. AWS error code: '{}', message: '{}'.", bucket,
+        e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
+
+    CloudResourceStepException exception = new CloudResourceStepException(message, e);
+    exception.getMessageDetails().add("Reason: " + e.getMessage());
+
+    return exception;
+  }
+
+  private RetryableCloudResourceStepException handleSdkClientException(String bucket, String message,
+                                                                       SdkClientException e)
+      throws RetryableCloudResourceStepException {
+    log.debug(
+        "Client-side error for bucket '{}'. Possible causes: network issues, invalid credentials, or local " +
+            "misconfiguration.", bucket, e);
+
+    RetryableCloudResourceStepException exception = new RetryableCloudResourceStepException(message, e);
+    exception.getMessageDetails().add("Reason: " + e.getMessage());
+    Throwable cause = e.getCause();
+    if (cause != null) {
+      exception.getMessageDetails().add(cause.getMessage());
+    }
+
+    return exception;
+  }
+
 }
