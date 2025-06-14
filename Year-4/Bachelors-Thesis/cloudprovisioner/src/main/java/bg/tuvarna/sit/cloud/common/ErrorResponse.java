@@ -1,25 +1,18 @@
 package bg.tuvarna.sit.cloud.common;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class ErrorResponse {
 
   private final String code;
-  private final String message;
+  private final List<String> details;
 
   public ErrorResponse(ErrorCode errorCode) {
     this.code = errorCode.getCode();
-    this.message = errorCode.getMessage();
-  }
-
-  public String toJson() {
-    try {
-      return new ObjectMapper().writeValueAsString(this);
-    } catch (JsonProcessingException e) {
-      return "{\"code\":\"UNKNOWN\", \"message\":\"Failed to serialize error response\"}";
-    }
+    this.details = new ArrayList<>();
   }
 }
