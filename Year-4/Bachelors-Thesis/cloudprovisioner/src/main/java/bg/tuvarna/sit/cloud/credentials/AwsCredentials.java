@@ -1,9 +1,6 @@
-package bg.tuvarna.sit.cloud.core.aws.iam;
+package bg.tuvarna.sit.cloud.credentials;
 
-import bg.tuvarna.sit.cloud.credentials.CloudCredentials;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-
-import java.util.Map;
 
 public class AwsCredentials implements CloudCredentials {
 
@@ -13,14 +10,6 @@ public class AwsCredentials implements CloudCredentials {
   public AwsCredentials(String accessKeyId, String secretAccessKey) {
     this.accessKeyId = accessKeyId;
     this.secretAccessKey = secretAccessKey;
-  }
-
-  @Override
-  public Map<String, String> asMap() {
-    return Map.of(
-        "AWS_ACCESS_KEY_ID", accessKeyId,
-        "AWS_SECRET_ACCESS_KEY", secretAccessKey
-    );
   }
 
   public AwsBasicCredentials toAwsBasicCredentials() {
