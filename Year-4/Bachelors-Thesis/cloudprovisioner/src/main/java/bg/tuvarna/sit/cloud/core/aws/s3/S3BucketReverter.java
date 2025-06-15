@@ -2,7 +2,7 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningSuccessfulResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceReverter;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudStepRevertExecutor;
@@ -34,17 +34,18 @@ public class S3BucketReverter implements CloudResourceReverter<S3Output> {
   }
 
   @Override
-  public CloudProvisioningResponse<S3Output> revert(List<CloudProvisionStep<S3Output>> resources, List<StepResult<S3Output>> previous)
+  public CloudProvisioningSuccessfulResponse<S3Output> revert(List<CloudProvisionStep<S3Output>> resources,
+                                                              List<StepResult<S3Output>> previous)
       throws CloudProvisioningTerminationException {
 
     long startTime = System.nanoTime();
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
+    String arn = (String) metadata.getOutputs().get(S3Output.ARN);
 
     try (s3) {
 
       if (resources.isEmpty()) {
-        return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, "arn:aws:s3:::" + bucket,
-            Collections.emptyList());
+        return new CloudProvisioningSuccessfulResponse<>(CloudResourceType.S3, bucket, arn, Collections.emptyList());
       }
 
       List<StepResult<S3Output>> results = stepExecutor.execute(resources, previous);
@@ -53,7 +54,7 @@ public class S3BucketReverter implements CloudResourceReverter<S3Output> {
       long durationMs = (endTime - startTime) / 1_000_000;
       log.info("S3 bucket reverter for '{}' finished in {} ms", bucket, durationMs);
 
-      return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, "arn:aws:s3:::" + bucket, results);
+      return new CloudProvisioningSuccessfulResponse<>(CloudResourceType.S3, bucket, arn, results);
 
     } catch (CloudResourceStepException e) {
 

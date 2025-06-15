@@ -14,7 +14,8 @@ public enum S3Output {
   PREVENT_DESTROY("preventDestroy"),
   REGION("region"),
   CANNED_ACL("cannedAcl"),
-  BUCKET_KEY_ENABLED("bucketKeyEnabled");
+  BUCKET_KEY_ENABLED("bucketKeyEnabled"),
+  ARN("arn");
 
   private final String key;
 
