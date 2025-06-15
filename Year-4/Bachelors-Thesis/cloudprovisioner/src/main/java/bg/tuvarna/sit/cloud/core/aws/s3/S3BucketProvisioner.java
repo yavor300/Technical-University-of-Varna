@@ -5,7 +5,7 @@ import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionerSuccessfulResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
@@ -22,11 +22,11 @@ import java.util.concurrent.ExecutionException;
 public class S3BucketProvisioner implements CloudResourceProvisioner<S3Output> {
 
   private final S3SafeClient s3;
-  private final CloudStepExecutor<S3Output> stepExecutor;
+  private final CloudStepStrategyExecutor<S3Output> stepExecutor;
   private final StepResult<S3Output> metadata;
 
   @Inject
-  public S3BucketProvisioner(S3SafeClient s3, CloudStepExecutor<S3Output> stepExecutor,
+  public S3BucketProvisioner(S3SafeClient s3, CloudStepStrategyExecutor<S3Output> stepExecutor,
                              StepResult<S3Output> metadata) {
     this.s3 = s3;
     this.stepExecutor = stepExecutor;

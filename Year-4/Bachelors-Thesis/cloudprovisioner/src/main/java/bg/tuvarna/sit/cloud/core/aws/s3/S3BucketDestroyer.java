@@ -5,7 +5,7 @@ import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionerSuccessfulResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceDestroyer;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeletionExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeleteExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
@@ -22,11 +22,11 @@ import java.util.concurrent.ExecutionException;
 public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
 
   private final S3SafeClient s3;
-  private final CloudStepDeletionExecutor<S3Output> stepExecutor;
+  private final CloudStepDeleteExecutor<S3Output> stepExecutor;
   private final StepResult<S3Output> metadata;
 
   @Inject
-  public S3BucketDestroyer(S3SafeClient s3, CloudStepDeletionExecutor<S3Output> stepExecutor,
+  public S3BucketDestroyer(S3SafeClient s3, CloudStepDeleteExecutor<S3Output> stepExecutor,
                            StepResult<S3Output> metadata) {
     this.s3 = s3;
     this.stepExecutor = stepExecutor;
@@ -48,7 +48,7 @@ public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
 
     try (s3) {
 
-      List<StepResult<S3Output>> results = stepExecutor.delete(steps, step -> step.destroy(enforcePreventDestroy));
+      List<StepResult<S3Output>> results = stepExecutor.execute(steps, enforcePreventDestroy);
 
       long endTime = System.nanoTime();
       long durationMs = (endTime - startTime) / 1_000_000;
