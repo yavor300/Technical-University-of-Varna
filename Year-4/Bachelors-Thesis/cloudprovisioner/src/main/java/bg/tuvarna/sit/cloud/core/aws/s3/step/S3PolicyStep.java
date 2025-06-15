@@ -1,11 +1,10 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.step;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3PolicyResultBuilder;
-import bg.tuvarna.sit.cloud.core.provisioner.ProvisionAsync;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;

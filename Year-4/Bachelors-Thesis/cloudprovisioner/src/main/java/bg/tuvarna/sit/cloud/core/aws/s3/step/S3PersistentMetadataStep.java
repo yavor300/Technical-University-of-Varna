@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.step;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.S3BucketConfig;
+import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
