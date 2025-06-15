@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class CloudProvisioningSuccessfulResponse<K extends Enum<K>> {
+public class CloudProvisionerSuccessfulResponse<K extends Enum<K>> {
 
   private final CloudResourceType resourceType;
   private final String resourceName;

@@ -2,7 +2,7 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningSuccessfulResponse;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionerSuccessfulResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceDestroyer;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeletionExecutor;
@@ -34,8 +34,8 @@ public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
   }
 
   @Override
-  public CloudProvisioningSuccessfulResponse<S3Output> destroy(List<CloudProvisionStep<S3Output>> steps,
-                                                               boolean enforcePreventDestroy)
+  public CloudProvisionerSuccessfulResponse<S3Output> destroy(List<CloudProvisionStep<S3Output>> steps,
+                                                              boolean enforcePreventDestroy)
       throws CloudProvisioningTerminationException {
 
     long startTime = System.nanoTime();
@@ -43,7 +43,7 @@ public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
     String arn = (String) metadata.getOutputs().get(S3Output.ARN);
 
     if (steps.isEmpty()) {
-      return new CloudProvisioningSuccessfulResponse<>(CloudResourceType.S3, bucket, arn, Collections.emptyList());
+      return new CloudProvisionerSuccessfulResponse<>(CloudResourceType.S3, bucket, arn, Collections.emptyList());
     }
 
     try (s3) {
@@ -54,7 +54,7 @@ public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
       long durationMs = (endTime - startTime) / 1_000_000;
       log.info("S3 bucket destroyer for '{}' finished in {} ms", bucket, durationMs);
 
-      return new CloudProvisioningSuccessfulResponse<>(CloudResourceType.S3, bucket, arn, results);
+      return new CloudProvisionerSuccessfulResponse<>(CloudResourceType.S3, bucket, arn, results);
 
     } catch (CloudResourceStepException e) {
       throw new CloudProvisioningTerminationException(e.getMessage(), e);
