@@ -11,13 +11,12 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class CloudStepStrategyExecutor<K extends Enum<K>> {
+public class CloudStepRevertExecutor<K extends Enum<K>> {
 
-  // TODO [Implementation] Add as configuration
   private static final int MAX_RETRIES = 3;
   private static final long BACKOFF_MS = 1000;
 
-  public List<StepResult<K>> execute(List<CloudProvisionStep<K>> steps, StepExecutionStrategy<K> strategy)
+  public List<StepResult<K>> execute(List<CloudProvisionStep<K>> steps, List<StepResult<K>> previousResults)
       throws InterruptedException, ExecutionException {
 
     List<StepResult<K>> results = new ArrayList<>();
@@ -26,19 +25,24 @@ public class CloudStepStrategyExecutor<K extends Enum<K>> {
     List<CloudProvisionStep<K>> async = haveAsyncAnnotation.get(true);
     List<CloudProvisionStep<K>> sync = haveAsyncAnnotation.get(false);
 
-    // TODO [Documentation] Document usage of strategy pattern
-    results.addAll(StepExecutionUtils.executeSync(sync, step -> executeWithRetry(step, strategy)));
-    results.addAll(StepExecutionUtils.executeAsync(async, step -> () -> executeWithRetry(step, strategy)));
+    results.addAll(StepExecutionUtils.executeAsync(async, step -> () -> executeWithRetry(step, previousResults)));
+    results.addAll(StepExecutionUtils.executeSyncDescending(sync, step -> executeWithRetry(step, previousResults)));
 
     return results;
   }
 
-  private StepResult<K> executeWithRetry(CloudProvisionStep<K> step, StepExecutionStrategy<K> strategy) {
+  private StepResult<K> executeWithRetry(CloudProvisionStep<K> step, List<StepResult<K>> previousResults) {
+
+    // Find previous result for the step, if any
+    StepResult<K> previous = previousResults.stream()
+        .filter(r -> r.getStepName().equals(step.getClass().getName()))
+        .findFirst()
+        .orElse(null);
 
     int attempts = 0;
     while (true) {
       try {
-        return strategy.execute(step);
+        return step.revert(previous);
       } catch (RetryableCloudResourceStepException e) {
         attempts++;
         StepRetryHandler.handleRetryableException(e, step, attempts, MAX_RETRIES, BACKOFF_MS);

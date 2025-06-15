@@ -1,6 +1,12 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
-public interface CloudResourceProvisioner<T> {
+import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
+import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 
-  CloudProvisioningResponse provision(T config) throws Exception;
+import java.util.List;
+
+public interface CloudResourceProvisioner<K extends Enum<K>> {
+
+  CloudProvisionerSuccessfulResponse<K> provision(List<CloudProvisionStep<S3Output>> resources) throws
+      CloudProvisioningTerminationException;
 }

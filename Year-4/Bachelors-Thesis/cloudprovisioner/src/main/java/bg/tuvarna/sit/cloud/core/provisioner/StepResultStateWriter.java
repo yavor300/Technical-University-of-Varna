@@ -1,7 +1,11 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import bg.tuvarna.sit.cloud.exception.StepResultStateWriteException;
 import com.fasterxml.jackson.databind.ObjectWriter;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -11,20 +15,22 @@ import java.util.List;
 @Slf4j
 public class StepResultStateWriter<K extends Enum<K>> {
 
-  private final File output;
+  private final ObjectWriter objectWriter;
 
-  public StepResultStateWriter(String path) {
-    this.output = new File(path);
+  @Inject
+  public StepResultStateWriter(@Named("defaultPrettyPrinter") ObjectWriter objectWriter) {
+    this.objectWriter = objectWriter;
   }
 
-  public void write(List<StepResult<K>> results) {
-    ObjectWriter mapper = new ObjectMapper().writerWithDefaultPrettyPrinter();
+  public void write(File output, List<StepResult<K>> results) {
     try {
-      mapper.writeValue(output, results);
+      objectWriter.writeValue(output, results);
       log.info("State written to '{}'", output.getAbsolutePath());
     } catch (IOException e) {
-      log.error("Failed to write state to '{}'", output.getAbsolutePath(), e);
-      throw new RuntimeException("Failed to write step result state", e);
+      String message = "Failed to write state to '%s'".formatted(output.getAbsolutePath());
+      // TODO [Enhancement] Add prefix to the log for provisioning lib on debug
+      log.debug(message, output.getAbsolutePath(), e);
+      throw new StepResultStateWriteException(message, e);
     }
   }
 }

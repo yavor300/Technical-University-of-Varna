@@ -1,12 +1,14 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
-import bg.tuvarna.sit.cloud.exception.CloudProvisioningStepException;
+public interface CloudProvisionStep<K extends Enum<K>> {
 
-public interface CloudProvisionStep<TClient, TConfig, K extends Enum<K>> {
+    StepResult<K> apply();
 
-    StepResult<K> apply(TClient client, TConfig config) throws CloudProvisioningStepException;
+    StepResult<K> generateDesiredState();
 
-    StepResult<K> generateDesiredState(TConfig config);
+    StepResult<K> getCurrentState();
 
-    StepResult<K> getCurrentState(TClient client, TConfig config);
+    StepResult<K> destroy(boolean enforcePreventDestroy);
+
+    StepResult<K> revert(StepResult<K> previous);
 }

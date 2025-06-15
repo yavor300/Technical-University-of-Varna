@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.common;
+package bg.tuvarna.sit.cloud.core.provisioner;
 
 import lombok.Getter;
 
