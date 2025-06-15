@@ -3,12 +3,12 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceReverter;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepRevertExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
-import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
+import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import jakarta.inject.Inject;
 
@@ -19,44 +19,44 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class S3BucketProvisioner implements CloudResourceProvisioner<S3Output> {
+public class S3BucketReverter implements CloudResourceReverter<S3Output> {
 
   private final S3SafeClient s3;
-  private final CloudStepExecutor<S3Output> stepExecutor;
+  private final CloudStepRevertExecutor<S3Output> stepExecutor;
   private final StepResult<S3Output> metadata;
 
   @Inject
-  public S3BucketProvisioner(S3SafeClient s3, CloudStepExecutor<S3Output> stepExecutor,
-                             StepResult<S3Output> metadata) {
+  public S3BucketReverter(S3SafeClient s3, CloudStepRevertExecutor<S3Output> stepExecutor,
+                          StepResult<S3Output> metadata) {
     this.s3 = s3;
     this.stepExecutor = stepExecutor;
     this.metadata = metadata;
   }
 
   @Override
-  public CloudProvisioningResponse<S3Output> provision(List<CloudProvisionStep<S3Output>> resources)
+  public CloudProvisioningResponse<S3Output> revert(List<CloudProvisionStep<S3Output>> resources, List<StepResult<S3Output>> previous)
       throws CloudProvisioningTerminationException {
 
     long startTime = System.nanoTime();
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
-    String arn = "arn:aws:s3:::" + bucket;
-
-    if (resources.isEmpty()) {
-      return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, arn, Collections.emptyList());
-    }
 
     try (s3) {
 
-      List<StepResult<S3Output>> results = stepExecutor.execute(resources, CloudProvisionStep::apply);
+      if (resources.isEmpty()) {
+        return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, "arn:aws:s3:::" + bucket,
+            Collections.emptyList());
+      }
+
+      List<StepResult<S3Output>> results = stepExecutor.execute(resources, previous);
 
       long endTime = System.nanoTime();
       long durationMs = (endTime - startTime) / 1_000_000;
-      // TODO [Maybe] Create a configuration file for log messages
-      log.info("S3 provisioner for bucket '{}' finished in {} ms", bucket, durationMs);
+      log.info("S3 bucket reverter for '{}' finished in {} ms", bucket, durationMs);
 
-      return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, arn, results);
+      return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, "arn:aws:s3:::" + bucket, results);
 
     } catch (CloudResourceStepException e) {
+
       throw new CloudProvisioningTerminationException(e.getMessage(), e);
 
     } catch (InterruptedException | ExecutionException e) {
@@ -64,8 +64,9 @@ public class S3BucketProvisioner implements CloudResourceProvisioner<S3Output> {
       Throwable cause = e.getCause();
 
       if (!(cause instanceof CloudResourceStepException)) {
-        String msg = "Unexpected exception occurred during async execution: %s"
-            .formatted(cause != null ? cause.getClass().getSimpleName() + " - " + cause.getMessage() : e.getMessage());
+        String msg = "Unexpected exception occurred during async execution: %s".formatted(
+            cause != null ? cause.getClass().getSimpleName() + " - " + cause.getMessage() : e.getMessage()
+        );
         log.debug(msg, e);
         throw new CloudProvisioningTerminationException(msg, e);
       }

@@ -11,7 +11,10 @@ public enum S3Output {
   OWNER("owner"),
   GRANTS("grants"),
   NAME("name"),
-  REGION("region");
+  PREVENT_DESTROY("preventDestroy"),
+  REGION("region"),
+  CANNED_ACL("cannedAcl"),
+  BUCKET_KEY_ENABLED("bucketKeyEnabled");
 
   private final String key;
 

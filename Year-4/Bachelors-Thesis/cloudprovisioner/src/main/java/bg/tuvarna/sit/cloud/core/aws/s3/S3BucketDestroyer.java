@@ -3,14 +3,14 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisioningResponse;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceProvisioner;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceDestroyer;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeletionExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
-import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
+import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
-import jakarta.inject.Inject;
+import com.google.inject.Inject;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,41 +19,43 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class S3BucketProvisioner implements CloudResourceProvisioner<S3Output> {
+public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
 
   private final S3SafeClient s3;
-  private final CloudStepExecutor<S3Output> stepExecutor;
+  private final CloudStepDeletionExecutor<S3Output> stepExecutor;
   private final StepResult<S3Output> metadata;
 
   @Inject
-  public S3BucketProvisioner(S3SafeClient s3, CloudStepExecutor<S3Output> stepExecutor,
-                             StepResult<S3Output> metadata) {
+  public S3BucketDestroyer(S3SafeClient s3, CloudStepDeletionExecutor<S3Output> stepExecutor,
+                           StepResult<S3Output> metadata) {
     this.s3 = s3;
     this.stepExecutor = stepExecutor;
     this.metadata = metadata;
   }
 
   @Override
-  public CloudProvisioningResponse<S3Output> provision(List<CloudProvisionStep<S3Output>> resources)
+  public CloudProvisioningResponse<S3Output> destroy(List<CloudProvisionStep<S3Output>> steps,
+                                                     boolean enforcePreventDestroy)
       throws CloudProvisioningTerminationException {
 
     long startTime = System.nanoTime();
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
-    String arn = "arn:aws:s3:::" + bucket;
 
-    if (resources.isEmpty()) {
-      return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, arn, Collections.emptyList());
+    if (steps.isEmpty()) {
+      // TODO [Maybe] Store ARN in the metadata persistent step (search in other classes as well)
+      return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, "arn:aws:s3:::" + bucket,
+          Collections.emptyList());
     }
 
     try (s3) {
 
-      List<StepResult<S3Output>> results = stepExecutor.execute(resources, CloudProvisionStep::apply);
+      List<StepResult<S3Output>> results = stepExecutor.delete(steps, step -> step.destroy(enforcePreventDestroy));
 
       long endTime = System.nanoTime();
       long durationMs = (endTime - startTime) / 1_000_000;
-      // TODO [Maybe] Create a configuration file for log messages
-      log.info("S3 provisioner for bucket '{}' finished in {} ms", bucket, durationMs);
+      log.info("S3 bucket destroyer for '{}' finished in {} ms", bucket, durationMs);
 
+      String arn = String.format("arn:aws:s3:::%s", bucket);
       return new CloudProvisioningResponse<>(CloudResourceType.S3, bucket, arn, results);
 
     } catch (CloudResourceStepException e) {
