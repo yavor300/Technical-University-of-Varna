@@ -1,6 +1,7 @@
 <configuration>
 
     <property name="LOG_FORMAT" value="${LOG_FORMAT:-json}" />
+    <property name="LOG_LEVEL" value="${LOG_LEVEL:-INFO}" />
 
     <!-- JSON Encoder -->
     <appender name="JSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -30,7 +31,7 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
+    <root level="${LOG_LEVEL}">
         <appender-ref ref="${LOG_FORMAT:-json}_STDOUT" />
     </root>
 
