@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.core.aws.s3;
+package bg.tuvarna.sit.cloud.core.aws.s3.config;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3AclType;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3EncryptionType;

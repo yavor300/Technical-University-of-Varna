@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.core.aws.s3;
+package bg.tuvarna.sit.cloud.core.aws.s3.config;
 
 import lombok.Getter;
 import lombok.Setter;
