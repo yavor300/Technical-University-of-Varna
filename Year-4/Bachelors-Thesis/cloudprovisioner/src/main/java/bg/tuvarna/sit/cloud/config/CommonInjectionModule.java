@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.config;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.S3StateComparator;
+import bg.tuvarna.sit.cloud.core.aws.s3.state.S3StateComparator;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
