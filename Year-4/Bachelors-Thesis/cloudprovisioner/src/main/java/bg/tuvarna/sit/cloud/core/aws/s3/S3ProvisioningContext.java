@@ -6,8 +6,6 @@ import lombok.Getter;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.regions.Region;
 
-import java.net.URI;
-
 @AllArgsConstructor
 @Getter
 public class S3ProvisioningContext {
