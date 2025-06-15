@@ -1,6 +1,6 @@
 package bg.tuvarna.sit.cloud.config;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.StateComparator;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3StateComparator;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +50,7 @@ public class CommonInjectionModule extends AbstractModule {
   }
 
   @Provides
-  StateComparator provideStateComparator() {
-    return new StateComparator();
+  S3StateComparator provideStateComparator() {
+    return new S3StateComparator();
   }
 }
