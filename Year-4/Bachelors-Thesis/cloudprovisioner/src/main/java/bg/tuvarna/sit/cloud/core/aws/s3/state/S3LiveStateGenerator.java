@@ -3,7 +3,7 @@ package bg.tuvarna.sit.cloud.core.aws.s3.state;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.provisioner.ActualStateGenerator;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
@@ -19,11 +19,11 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class S3LiveStateGenerator implements ActualStateGenerator<S3Output> {
 
-  private final CloudStepExecutor<S3Output> stepExecutor;
+  private final CloudStepStrategyExecutor<S3Output> stepExecutor;
   private final List<CloudProvisionStep<S3Output>> provisionSteps;
 
   @Inject
-  public S3LiveStateGenerator(CloudStepExecutor<S3Output> stepExecutor,
+  public S3LiveStateGenerator(CloudStepStrategyExecutor<S3Output> stepExecutor,
                               @Named("s3Steps") List<CloudProvisionStep<S3Output>> provisionSteps) {
     this.stepExecutor = stepExecutor;
     this.provisionSteps = provisionSteps;
