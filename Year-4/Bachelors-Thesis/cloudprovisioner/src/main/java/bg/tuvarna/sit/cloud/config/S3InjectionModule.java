@@ -13,8 +13,8 @@ import bg.tuvarna.sit.cloud.core.aws.s3.step.S3PolicyStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3TaggingStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3VersioningStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeletionExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeleteExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudStepRevertExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
 
@@ -87,13 +87,13 @@ public class S3InjectionModule extends AbstractModule {
   }
 
   @Provides
-  CloudStepExecutor<S3Output> s3StepExecutor() {
-    return new CloudStepExecutor<>();
+  CloudStepStrategyExecutor<S3Output> s3StepExecutor() {
+    return new CloudStepStrategyExecutor<>();
   }
 
   @Provides
-  CloudStepDeletionExecutor<S3Output> s3DeleteStepExecutor() {
-    return new CloudStepDeletionExecutor<>();
+  CloudStepDeleteExecutor<S3Output> s3DeleteStepExecutor() {
+    return new CloudStepDeleteExecutor<>();
   }
 
   @Provides
