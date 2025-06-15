@@ -6,14 +6,14 @@ import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedTags;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3AclStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3TaggingStep;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
-import bg.tuvarna.sit.cloud.core.provisioner.StoredStateLoader;
+import bg.tuvarna.sit.cloud.core.provisioner.BaseStoredStateLoader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-public class S3StoredStateLoader extends StoredStateLoader<S3Output> {
+public class S3StoredStateLoader extends BaseStoredStateLoader<S3Output> {
 
   private final ObjectMapper jsonMapper;
 
@@ -38,7 +38,6 @@ public class S3StoredStateLoader extends StoredStateLoader<S3Output> {
     if (result.getStepName().equals(S3AclStep.class.getName())) {
       Object raw = result.getOutputs().get(S3Output.VALUE_NODE);
       S3ProvisionedAcl acl = jsonMapper.convertValue(raw, S3ProvisionedAcl.class);
-      //result.getOutputs().put(S3Output.VALUE_NODE, acl);
       if (acl != null) {
         result.getOutputs().put(S3Output.VALUE_NODE, acl);
       }
