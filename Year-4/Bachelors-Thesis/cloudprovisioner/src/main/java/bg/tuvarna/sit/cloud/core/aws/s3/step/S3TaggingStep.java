@@ -3,7 +3,7 @@ package bg.tuvarna.sit.cloud.core.aws.s3.step;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedTags;
 import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3TaggingResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;

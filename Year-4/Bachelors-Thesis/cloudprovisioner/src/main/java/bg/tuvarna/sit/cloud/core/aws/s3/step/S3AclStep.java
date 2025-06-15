@@ -7,7 +7,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.util.S3AclResultBuilder;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3AclType;
 import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
-import bg.tuvarna.sit.cloud.core.aws.s3.S3ProvisionStep;
+import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrant;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrantee;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclOwner;
