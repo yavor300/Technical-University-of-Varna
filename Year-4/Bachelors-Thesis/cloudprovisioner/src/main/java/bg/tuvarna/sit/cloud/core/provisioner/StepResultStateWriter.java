@@ -22,7 +22,7 @@ public class StepResultStateWriter<K extends Enum<K>> {
     this.objectWriter = objectWriter;
   }
 
-  public void write(File output, List<StepResult<K>> results) {
+  public void write(File output, List<StepResult<K>> results) throws StepResultStateWriteException {
     try {
       objectWriter.writeValue(output, results);
       log.info("State written to '{}'", output.getAbsolutePath());
