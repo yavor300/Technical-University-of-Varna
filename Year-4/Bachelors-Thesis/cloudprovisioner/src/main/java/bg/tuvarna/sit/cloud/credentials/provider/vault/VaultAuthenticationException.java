@@ -1,6 +1,8 @@
 package bg.tuvarna.sit.cloud.credentials.provider.vault;
 
-public class VaultAuthenticationException extends RuntimeException {
+import bg.tuvarna.sit.cloud.exception.AuthenticationException;
+
+public class VaultAuthenticationException extends AuthenticationException {
 
   public VaultAuthenticationException(String message) {
     super(message);
