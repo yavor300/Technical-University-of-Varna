@@ -72,7 +72,7 @@ public class S3PersistentMetadataStep extends S3ProvisionStep {
         .put(S3Output.NAME, bucket)
         .put(S3Output.REGION, region)
         .put(S3Output.ARN, arn)
-        .put(S3Output.PREVENT_DESTROY, config.isPreventDestroy())
+        .put(S3Output.PREVENT_DESTROY, config.preventDestroy())
         .build();
   }
 }
