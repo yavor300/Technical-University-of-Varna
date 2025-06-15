@@ -1,6 +1,6 @@
 package bg.tuvarna.sit;
 
-import bg.tuvarna.sit.cloud.config.S3InjectionModule;
+import bg.tuvarna.sit.cloud.core.aws.s3.S3InjectionModule;
 import bg.tuvarna.sit.cloud.exception.ConfigurationLoadException;
 import bg.tuvarna.sit.cloud.config.CommonInjectionModule;
 import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfigList;
