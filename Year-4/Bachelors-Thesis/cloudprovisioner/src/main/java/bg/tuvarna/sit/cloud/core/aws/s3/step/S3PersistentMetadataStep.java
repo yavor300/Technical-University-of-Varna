@@ -37,12 +37,14 @@ public class S3PersistentMetadataStep extends S3ProvisionStep {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
     String region = (String) metadata.getOutputs().get(S3Output.REGION);
+    String arn = (String) metadata.getOutputs().get(S3Output.ARN);
     Boolean preventDestroy = (Boolean) metadata.getOutputs().get(S3Output.PREVENT_DESTROY);
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
         .put(S3Output.NAME, bucket)
         .put(S3Output.REGION, region)
+        .put(S3Output.ARN, arn)
         .put(S3Output.PREVENT_DESTROY, preventDestroy)
         .build();
   }
@@ -63,11 +65,13 @@ public class S3PersistentMetadataStep extends S3ProvisionStep {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
     String region = (String) metadata.getOutputs().get(S3Output.REGION);
+    String arn = (String) metadata.getOutputs().get(S3Output.ARN);
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
         .put(S3Output.NAME, bucket)
         .put(S3Output.REGION, region)
+        .put(S3Output.ARN, arn)
         .put(S3Output.PREVENT_DESTROY, config.isPreventDestroy())
         .build();
   }
