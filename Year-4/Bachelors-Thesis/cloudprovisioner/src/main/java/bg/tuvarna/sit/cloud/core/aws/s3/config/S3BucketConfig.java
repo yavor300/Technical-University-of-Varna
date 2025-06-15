@@ -5,7 +5,7 @@ import bg.tuvarna.sit.cloud.core.aws.s3.model.S3EncryptionType;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3OwnershipType;
 import bg.tuvarna.sit.cloud.core.provisioner.ArnBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.DestroyProtection;
-import bg.tuvarna.sit.cloud.core.provisioner.SystemProperties;
+import bg.tuvarna.sit.cloud.core.provisioner.BaseCloudResourceConfiguration;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +19,7 @@ import java.util.Map;
 // TODO [Implementation] Validate configuration
 @Setter
 @Getter
-public class S3BucketConfig extends SystemProperties implements ArnBuilder, DestroyProtection {
+public class S3BucketConfig extends BaseCloudResourceConfiguration implements ArnBuilder, DestroyProtection {
 
   private String name;
   private String region;
