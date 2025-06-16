@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Slf4j
+@Singleton
 public class StepResultStateWriter<K extends Enum<K>> {
 
   private final ObjectWriter objectWriter;
