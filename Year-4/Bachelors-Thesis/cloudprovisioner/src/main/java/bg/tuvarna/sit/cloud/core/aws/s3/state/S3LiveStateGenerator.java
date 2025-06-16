@@ -1,7 +1,7 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.state;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
-import bg.tuvarna.sit.cloud.core.provisioner.ActualStateGenerator;
+import bg.tuvarna.sit.cloud.core.provisioner.LiveStateGenerator;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
 import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class S3LiveStateGenerator implements ActualStateGenerator<S3Output> {
+public class S3LiveStateGenerator implements LiveStateGenerator<S3Output> {
 
   private final CloudStepStrategyExecutor<S3Output> stepExecutor;
   private final List<CloudProvisionStep<S3Output>> provisionSteps;
