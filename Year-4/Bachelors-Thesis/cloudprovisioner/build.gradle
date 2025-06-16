@@ -1,9 +1,13 @@
 plugins {
     id 'java'
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'maven-publish'
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
 group = 'bg.tuvarna.sit'
-version = '1.0'
+version = findProperty('cloudProvisionerVersion')
 
 repositories {
     mavenCentral()
@@ -35,25 +39,54 @@ test {
     useJUnitPlatform()
 }
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'bg.tuvarna.sit.Main'
-        )
-    }
-    // TODO Consider using the shadow gradleup plugin
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+
+tasks.shadowJar {
+    archiveClassifier = ""
 }
 
-tasks.register('provisionerS3', JavaExec) {
-    group = 'cloud'
-    description = 'Provision S3 bucket from external YAML file'
-    mainClass.set('bg.tuvarna.sit.Main')
-    classpath = sourceSets.main.runtimeClasspath
+tasks.register("generatePluginVersion") {
 
-    def configFile = project.findProperty('configFile') ?: 'cloud/s3.yml'
-    args configFile
+    def outputFile = layout.buildDirectory.file("generated-resources/plugin-version.properties").get().asFile
+    inputs.property("cloudProvisionerVersion", version)
+    outputs.file(outputFile)
+
+    doLast {
+        outputFile.parentFile.mkdirs()
+        outputFile.text = "version=${project.findProperty("cloudProvisionerVersion")}\n"
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir "$buildDir/generated-resources"
+        }
+    }
+}
+
+processResources {
+    dependsOn tasks.named("generatePluginVersion")
+}
+
+afterEvaluate {
+    tasks.named("generateMetadataFileForShadowPublication") {
+        dependsOn tasks.named("jar")
+    }
+}
+
+gradlePlugin {
+    plugins {
+        cloudProvisioner {
+            id = 'bg.tuvarna.sit.cloudprovisioner'
+            implementationClass = 'bg.tuvarna.sit.cloud.gradle.CloudProvisionerPlugin'
+        }
+    }
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            from components.shadow
+        }
+    }
 }
