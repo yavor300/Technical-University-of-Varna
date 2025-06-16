@@ -2,7 +2,7 @@ package bg.tuvarna.sit.cloud.credentials;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 
-public class AwsCredentials implements CloudCredentials {
+public class AwsCredentials implements CloudCredentials<AwsBasicCredentials> {
 
   private final String accessKeyId;
   private final String secretAccessKey;
@@ -12,7 +12,9 @@ public class AwsCredentials implements CloudCredentials {
     this.secretAccessKey = secretAccessKey;
   }
 
-  public AwsBasicCredentials toAwsBasicCredentials() {
+  @Override
+  public AwsBasicCredentials credentials() {
+
     return AwsBasicCredentials.create(accessKeyId, secretAccessKey);
   }
 }
