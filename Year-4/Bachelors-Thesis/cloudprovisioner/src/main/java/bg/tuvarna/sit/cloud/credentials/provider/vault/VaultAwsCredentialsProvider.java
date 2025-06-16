@@ -5,12 +5,12 @@ import bg.tuvarna.sit.cloud.credentials.provider.CloudCredentialsProvider;
 import bg.tuvarna.sit.cloud.credentials.model.VaultAwsCredentialsData;
 import bg.tuvarna.sit.cloud.credentials.model.VaultResponse;
 
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static bg.tuvarna.sit.Main.isJsonLoggingEnabled;
 import static net.logstash.logback.argument.StructuredArguments.keyValue;
 
 @Slf4j
@@ -35,7 +35,7 @@ public class VaultAwsCredentialsProvider implements CloudCredentialsProvider<Aws
     credentials.setAccessKeyId("****");
     credentials.setSecretAccessKey("****");
 
-    if (isJsonLoggingEnabled()) {
+    if (Slf4jLoggingUtil.isJsonLoggingEnabled()) {
       log.info("AWS credentials successfully fetched from Vault", keyValue("response", response));
     } else {
       try {
