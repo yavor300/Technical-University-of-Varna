@@ -4,7 +4,7 @@ import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 
 import java.util.List;
 
-public interface ActualStateGenerator<K extends Enum<K>> {
+public interface LiveStateGenerator<K extends Enum<K>> {
 
     List<StepResult<K>> generate() throws CloudProvisioningTerminationException;
 }
