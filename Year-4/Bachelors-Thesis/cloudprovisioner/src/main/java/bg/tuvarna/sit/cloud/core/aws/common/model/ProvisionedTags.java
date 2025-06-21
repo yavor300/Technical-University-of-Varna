@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.core.aws.s3.model;
+package bg.tuvarna.sit.cloud.core.aws.common.model;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -13,11 +13,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+// TODO [Enhancement] Move to 'common' providers model
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class S3ProvisionedTags {
+public class ProvisionedTags {
 
   private Map<String, String> tags = new HashMap<>();
 
@@ -35,7 +36,7 @@ public class S3ProvisionedTags {
   public boolean equals(Object o) {
     if (this == o) return true;
 
-    if (o instanceof S3ProvisionedTags other) {
+    if (o instanceof ProvisionedTags other) {
       return Objects.equals(this.tags, other.tags);
     }
 
