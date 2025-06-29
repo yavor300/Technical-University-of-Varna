@@ -1,11 +1,11 @@
 package bg.tuvarna.sit.cloud.config;
 
+import bg.tuvarna.sit.cloud.core.aws.eks.EksClusterCloudBundleRunner;
+import bg.tuvarna.sit.cloud.core.aws.eks.state.EksClusterStateComparator;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3CloudBundleRunner;
 import bg.tuvarna.sit.cloud.core.aws.s3.state.S3StateComparator;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudBundleRunner;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeleteExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepRevertExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
+import bg.tuvarna.sit.cloud.utils.NamedInjections;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,16 +21,15 @@ import jakarta.inject.Singleton;
 
 import java.util.Set;
 
-@SuppressWarnings({"rawtypes", "unused"})
+@SuppressWarnings({"unused"})
 public class InitializerInjectionModule extends AbstractModule {
 
   @Override
   protected void configure() {}
 
   @Provides
-  @Named("yamlMapper")
+  @Named(NamedInjections.YAML_MAPPER)
   @Singleton
-  // TODO [Implementation] Add singleton to other classes well
   ObjectMapper provideYamlMapper() {
 
     YAMLFactory factory = new YAMLFactory();
@@ -42,21 +41,21 @@ public class InitializerInjectionModule extends AbstractModule {
   }
 
   @Provides
-  @Named("jsonMapper")
+  @Named(NamedInjections.JSON_MAPPER)
   @Singleton
   ObjectMapper provideJsonMapper() {
     return new ObjectMapper();
   }
 
   @Provides
-  @Named("defaultPrettyPrinter")
+  @Named(NamedInjections.DEFAULT_PRETTY_PRINTER)
   @Singleton
   ObjectWriter provideJsonMapperPrettyPrinter() {
     return new ObjectMapper().writerWithDefaultPrettyPrinter();
   }
 
   @Provides
-  @Named("jsonMapperAcceptSingleValueAsArray")
+  @Named(NamedInjections.JSON_MAPPER_SINGLE_VALUE_ARRAY)
   @Singleton
   ObjectMapper provideYamlMapperPrettyPrinter() {
     return new ObjectMapper()
@@ -67,29 +66,16 @@ public class InitializerInjectionModule extends AbstractModule {
   @Singleton
   S3StateComparator s3StateComparator() { return new S3StateComparator(); }
 
-  // TODO [Maybe] Might fail if more resource types are added
   @Provides
   @Singleton
-  CloudStepStrategyExecutor stepStrategyExecutor() {
-    return new CloudStepStrategyExecutor<>();
-  }
+  EksClusterStateComparator eksClusterStateComparator() { return new EksClusterStateComparator(); }
 
+  // TODO [Medium] Use Set in other places as well
   @Provides
+  @Named(NamedInjections.BUNDLES)
   @Singleton
-  CloudStepDeleteExecutor deleteStepExecutor() {
-    return new CloudStepDeleteExecutor<>();
+  Set<CloudBundleRunner<?>> provideBundles(S3CloudBundleRunner s3, EksClusterCloudBundleRunner eks) {
+    return Set.of(s3, eks);
   }
 
-  @Provides
-  @Singleton
-  CloudStepRevertExecutor stepRevertExecutor() {
-    return new CloudStepRevertExecutor<>();
-  }
-
-  // TODO [Implementation] Use Set in other places as well
-  @Provides
-  @Named("bundles")
-  Set<CloudBundleRunner> provideBundles(S3CloudBundleRunner s3) {
-    return Set.of(s3);
-  }
 }
