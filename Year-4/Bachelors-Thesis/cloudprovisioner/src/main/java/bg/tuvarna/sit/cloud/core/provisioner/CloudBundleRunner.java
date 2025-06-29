@@ -1,49 +1,245 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.utils.StepResultStateWriter;
+import bg.tuvarna.sit.cloud.core.provisioner.model.CloudProvisionerSuccessfulResponse;
+import bg.tuvarna.sit.cloud.core.provisioner.model.CloudResourceType;
+import bg.tuvarna.sit.cloud.core.provisioner.model.ErrorCode;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
+import bg.tuvarna.sit.cloud.exception.ConfigurationLoadException;
 import bg.tuvarna.sit.cloud.exception.StepResultStateWriteException;
-
 import bg.tuvarna.sit.cloud.utils.ConfigurationUtil;
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.extern.slf4j.Slf4j;
+import com.google.inject.Injector;
+
+import lombok.Builder;
+
+import org.slf4j.Logger;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static net.logstash.logback.argument.StructuredArguments.keyValue;
+
 // TODO [Maybe] Provider hierarchy e.g AWS/GCP
-@Slf4j
 public abstract class CloudBundleRunner<K extends Enum<K>> {
 
+  protected final Logger log;
   protected final ObjectMapper yaml;
   protected final BaseStoredStateLoader<K> storedState;
   protected final StateComparator<K> stateComparator;
-  protected final ConfigurationUtil config;
+  protected final ConfigurationUtil configUtil;
+  protected final Slf4jLoggingUtil loggingUtil;
+
   private final StepResultStateWriter<K> stateWriter;
 
-  protected CloudBundleRunner(ObjectMapper yaml, BaseStoredStateLoader<K> storedState,
-                              StateComparator<K> stateComparator, ConfigurationUtil config,
-                              StepResultStateWriter<K> stateWriter) {
+  protected CloudBundleRunner(org.slf4j.Logger log, ObjectMapper yaml, BaseStoredStateLoader<K> storedState,
+                              StateComparator<K> stateComparator, ConfigurationUtil configUtil,
+                              StepResultStateWriter<K> stateWriter, Slf4jLoggingUtil loggingUtil) {
+    this.log = log;
     this.yaml = yaml;
     this.storedState = storedState;
     this.stateComparator = stateComparator;
-    this.config = config;
+    this.configUtil = configUtil;
     this.stateWriter = stateWriter;
+    this.loggingUtil = loggingUtil;
   }
 
   protected abstract CloudResourceType getType();
 
   protected abstract String getServiceConfigurationPath();
 
+  // TODO [Enhancement] Do not depend on Aws(Specific)BasicCredentials
   protected abstract void run(AwsBasicCredentials credentials);
+
+  protected <C extends BaseCloudResourceConfiguration, L extends CloudResourceConfigList<C>> L loadConfig(String path,
+                                                                                                          Class<L> configClass) {
+    L configList = configUtil.load(path, configClass);
+    if (configList.getItems() == null) {
+      configList.setItems(new ArrayList<>());
+    }
+    return configList;
+  }
+
+  protected Set<String> findObsoleteStateFiles(File stateDir, Set<String> currentIds) {
+
+    File[] stateFiles = Optional.ofNullable(stateDir.listFiles((dir, name) ->
+        name.startsWith("state-") && name.endsWith(".json"))).orElse(new File[0]);
+
+    return Arrays.stream(stateFiles)
+        .map(File::getName)
+        .filter(name -> {
+          int hashIndex = name.indexOf('#');
+          int jsonIndex = name.lastIndexOf(".json");
+          if (hashIndex == -1 || jsonIndex == -1) return false;
+          String id = name.substring(hashIndex + 1, jsonIndex);
+          return !currentIds.contains(id);
+        })
+        .collect(Collectors.toSet());
+  }
+
+  protected <C extends BaseCloudResourceConfiguration, O extends Enum<O>> void executeProvisioningTasks(
+      List<C> configs,
+      int fixedThreadPoolMaxSize,
+      Function<C, Callable<CloudProvisionerSuccessfulResponse<O>>> taskMapper,
+      ErrorCode errorCode
+  ) {
+
+    try (ExecutorService executor = Executors.newFixedThreadPool(Math.min(configs.size(), fixedThreadPoolMaxSize))) {
+      List<Future<CloudProvisionerSuccessfulResponse<O>>> futures = executor.invokeAll(
+          configs.stream().map(taskMapper).toList());
+
+      for (Future<CloudProvisionerSuccessfulResponse<O>> future : futures) {
+        try {
+          CloudProvisionerSuccessfulResponse<O> response = future.get();
+          if (Slf4jLoggingUtil.isJsonLoggingEnabled()) {
+            log.info("Provisioning completed", keyValue("response", response));
+          } else {
+            log.info("Provisioning completed\n{}", yaml.writeValueAsString(response));
+          }
+        } catch (JsonProcessingException e) {
+          loggingUtil.logError(log, ErrorCode.SERIALIZATION_ERROR, e);
+        } catch (ExecutionException | InterruptedException e) {
+          loggingUtil.logError(log, errorCode, e.getCause());
+        }
+      }
+    } catch (InterruptedException e) {
+      loggingUtil.logError(log, ErrorCode.ASYNC_EXECUTION_ERROR, e.getCause());
+    }
+  }
+
+  protected <C extends BaseCloudResourceConfiguration> CloudProvisionerSuccessfulResponse<K> provisionGeneric(
+      ProvisionRequest<K, C> request
+  ) throws CloudProvisioningTerminationException {
+
+    log.info("Loading the last persisted infrastructure state from the local library...");
+
+    List<StepResult<K>> loadedState = new ArrayList<>();
+    try {
+      File[] matchingFiles = Optional.ofNullable(request.stateDir.listFiles((dir, name) ->
+          name.startsWith("state-") && name.endsWith("#" + request.config.getId() + ".json"))).orElse(new File[0]);
+
+      if (matchingFiles.length > 1) {
+        throw new ConfigurationLoadException("Found multiple state files for id: " + request.config.getId());
+      } else if (matchingFiles.length == 0) {
+        throw new FileNotFoundException("No state file found for id: " + request.config.getId());
+      }
+
+      File stateFile = matchingFiles[0];
+      loadedState = storedState.load(stateFile, request.outputClass);
+    } catch (FileNotFoundException e) {
+      log.info("{} '{}' is not yet provisioned. Will be created from scratch", request.resourceKey, request.config.getName());
+    } catch (IOException e) {
+      loggingUtil.logError(log, ErrorCode.S3_STORED_STATE_ERROR, e);
+      String message = "Failed to load persisted state for %s '%s'. File might be unreadable or corrupted."
+          .formatted(request.resourceKey.toLowerCase(), request.config.getName());
+      throw new CloudProvisioningTerminationException(message, e);
+    }
+
+    StepResult<K> metadata = loadedState.stream()
+        .filter(result -> result.getStepName().equals(request.metadataStepName))
+        .findFirst()
+        .orElseGet(() -> request.metadataSupplier.apply(request.config));
+
+    String name = request.nameExtractor.apply(metadata);
+    String region = request.regionExtractor.apply(metadata);
+
+    Injector injector = request.injectorFactory.apply(region, metadata);
+
+    List<CloudProvisionStep<K>> allSteps = request.stepProvider.apply(injector);
+    if (loadedState.isEmpty()) {
+      for (CloudProvisionStep<K> step : allSteps) {
+        loadedState.add(step.getCurrentState());
+      }
+    }
+
+    List<StepResult<K>> currentState = request.liveStateGenerator.apply(injector);
+    log.info("Comparing live state with the last persisted state to detect configuration drift...");
+    List<StepResult<K>> changed = stateComparator.diff(loadedState, currentState);
+    logProvisioningChanges(changed, currentState);
+
+    CloudResourceDestroyer<K> destroyer = request.destroyerProvider.apply(injector);
+    CloudResourceProvisioner<K> provisioner = request.provisionerProvider.apply(injector);
+    CloudProvisionerSuccessfulResponse<K> applied;
+
+    try {
+      if (!request.config.isEnableReconciliation()) {
+        log.info("Reconciliation is disabled for {} '{}'. Skipping provisioning changes", request.resourceKey.toLowerCase(), name);
+        changed = new ArrayList<>();
+      }
+
+      applied = applyChanges(request.profile, name, request.config.getId(), allSteps, destroyer, provisioner, changed, currentState, loadedState);
+    } catch (CloudProvisioningTerminationException e) {
+
+      handleRollback(injector, destroyer, request.reverterProvider, name, request.profile, request.resourceKey, request.config.getId(), allSteps, loadedState, request.liveStateGenerator);
+      throw e;
+    }
+
+    List<StepResult<K>> desiredState = request.desiredStateGenerator.apply(injector);
+    log.info("Comparing desired configuration with the current live state to identify necessary changes...");
+    changed = stateComparator.diff(desiredState, loadedState);
+    logProvisioningChanges(changed, currentState);
+
+    try {
+      applied = applyChanges(request.profile, name, request.config.getId(), allSteps, destroyer, provisioner, changed, applied.getResults(), loadedState);
+    } catch (CloudProvisioningTerminationException e) {
+      handleRollback(injector, destroyer, request.reverterProvider, name, request.profile, request.resourceKey, request.config.getId(), allSteps, loadedState, request.liveStateGenerator);
+      throw e;
+    }
+
+    return applied;
+  }
+
+  private void handleRollback(
+      Injector injector,
+      CloudResourceDestroyer<K> destroyer,
+      Function<Injector, CloudResourceReverter<K>> reverterProvider,
+      String resource,
+      String name,
+      String profile,
+      String id,
+      List<CloudProvisionStep<K>> allSteps,
+      List<StepResult<K>> loadedState,
+      Function<Injector, List<StepResult<K>>> liveStateGenerator
+  ) {
+
+    try {
+      log.info("Initiating rollback to the initial state to maintain transactional consistency...");
+      List<StepResult<K>> currentState = liveStateGenerator.apply(injector);
+      List<StepResult<K>> changed = stateComparator.diff(loadedState, currentState);
+      logProvisioningChanges(changed, currentState);
+
+      CloudResourceReverter<K> reverter = reverterProvider.apply(injector);
+      revertChanges(profile, name, id, allSteps, destroyer, reverter, changed, loadedState);
+    } catch (CloudProvisioningTerminationException rollbackError) {
+      loggingUtil.logError(log, ErrorCode.S3_PROVISION_ERROR, rollbackError);
+    }
+    log.warn("Provisioning failed for {} '{}', but all changes were rolled back to the previously "
+        + "persisted state. No partial modifications remain.", resource.toLowerCase(), name);
+  }
 
   protected List<StepResult<K>> generateLiveCloudState(LiveStateGenerator<K> liveState) throws CloudProvisioningTerminationException {
 
@@ -52,7 +248,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     return liveState.generate();
   }
 
-  protected void logProvisioningChanges(List<StepResult<K>> changed, List<StepResult<K>> currentState) {
+  private void logProvisioningChanges(List<StepResult<K>> changed, List<StepResult<K>> currentState) {
 
     if (changed == null || changed.isEmpty()) {
       log.info("No changes detected. Skipping provisioning");
@@ -62,7 +258,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     }
   }
 
-  protected CloudProvisionerSuccessfulResponse<K> applyChanges(
+  private CloudProvisionerSuccessfulResponse<K> applyChanges(
       String profile,
       String bucket,
       String id,
@@ -104,7 +300,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
   }
 
   @SuppressWarnings("UnusedReturnValue")
-  protected CloudProvisionerSuccessfulResponse<K> revertChanges(
+  private CloudProvisionerSuccessfulResponse<K> revertChanges(
       String profile,
       String bucket,
       String id,
@@ -269,7 +465,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
   }
 
   @SuppressWarnings("SameParameterValue")
-  private static void deleteFileIfExists(File file, String successful, String failed) {
+  private void deleteFileIfExists(File file, String successful, String failed) {
 
     if (file.exists()) {
       if (file.delete()) {
@@ -312,6 +508,11 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
     File targetFile = new File(".cloudprovisioner/" + profile + "/" + getType().toString().toLowerCase()
         + "/state-" + bucket + "#" + id + ".json");
+    File parentDir = targetFile.getParentFile();
+    if (!parentDir.exists() && !parentDir.mkdirs()) {
+      log.warn("Failed to create directories for persisting state: {}", parentDir.getAbsolutePath());
+    }
+
     try {
       stateWriter.write(targetFile, mergedList);
     } catch (StepResultStateWriteException e) {
@@ -331,5 +532,26 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     }
 
     return reverter.revert(resources, previous);
+  }
+
+  @Builder
+  public static class ProvisionRequest<K extends Enum<K>, C extends  BaseCloudResourceConfiguration> {
+
+    private final C config;
+    private final String profile;
+    private final File stateDir;
+    private final String resourceKey;
+    private final String metadataStepName;
+    private final Function<Injector, List<CloudProvisionStep<K>>> stepProvider;
+    private final Function<Injector, CloudResourceDestroyer<K>> destroyerProvider;
+    private final Function<Injector, CloudResourceProvisioner<K>> provisionerProvider;
+    private final Function<Injector, CloudResourceReverter<K>> reverterProvider;
+    private final Function<Injector, List<StepResult<K>>> liveStateGenerator;
+    private final Function<Injector, List<StepResult<K>>> desiredStateGenerator;
+    private final BiFunction<String, StepResult<K>, Injector> injectorFactory;
+    private final Function<C, StepResult<K>> metadataSupplier;
+    private final Function<StepResult<K>, String> nameExtractor;
+    private final Function<StepResult<K>, String> regionExtractor;
+    private final Class<K> outputClass;
   }
 }
