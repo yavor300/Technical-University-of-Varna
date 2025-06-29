@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.credentials.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,8 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VaultResponse implements Cloneable {
 
-  private VaultDataWrapper data;
+  @JsonValue
+  private VaultDataWrapper data = new VaultDataWrapper();
 
   @Override
   public Object clone() throws CloneNotSupportedException {

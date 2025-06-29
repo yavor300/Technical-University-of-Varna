@@ -1,8 +1,6 @@
 package bg.tuvarna.sit.cloud.credentials;
 
-import bg.tuvarna.sit.cloud.config.AuthenticationConfig;
-
-import bg.tuvarna.sit.cloud.core.provisioner.ErrorCode;
+import bg.tuvarna.sit.cloud.core.provisioner.model.ErrorCode;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultAwsCredentialsProvider;
 import bg.tuvarna.sit.cloud.exception.AuthenticationException;
 import bg.tuvarna.sit.cloud.exception.ConfigurationLoadException;
@@ -22,15 +20,15 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 
 @Slf4j
 @Singleton
-public class AwsBasicAuthenticationManager extends BaseAuthenticationManager<AwsBasicCredentials> {
+public class AwsBasicCredentialsAuthenticationManager extends BaseAuthenticationManager<AwsBasicCredentials> {
 
   private final VaultAwsCredentialsProvider vaultAwsCredentialsProvider;
   private final Slf4jLoggingUtil loggingUtil;
 
   @Inject
-  public AwsBasicAuthenticationManager(ConfigurationUtil config,
-                                       VaultAwsCredentialsProvider vaultAwsCredentialsProvider,
-                                       Slf4jLoggingUtil loggingUtil) {
+  public AwsBasicCredentialsAuthenticationManager(ConfigurationUtil config,
+                                                  VaultAwsCredentialsProvider vaultAwsCredentialsProvider,
+                                                  Slf4jLoggingUtil loggingUtil) {
     super(config);
     this.vaultAwsCredentialsProvider = vaultAwsCredentialsProvider;
     this.loggingUtil = loggingUtil;
@@ -96,14 +94,14 @@ public class AwsBasicAuthenticationManager extends BaseAuthenticationManager<Aws
           }
         }
 
-        //  
+        // Profile authentication
         if (provider.getProfileCredentials() != null) {
           AuthenticationConfig.ProfileConfig profileCfg = provider.getProfileCredentials();
           String profileName = resolveEnvPlaceholders(profileCfg.getProfileName());
           if (!profileName.isBlank()) {
-            try (ProfileCredentialsProvider profileCredsProvider = ProfileCredentialsProvider.create(profileName);) {
+            try (ProfileCredentialsProvider profileCredentials = ProfileCredentialsProvider.create(profileName)) {
               log.info("Authenticating using AWS profile '{}'", profileName);
-              AwsCredentials credentials = profileCredsProvider.resolveCredentials();
+              AwsCredentials credentials = profileCredentials.resolveCredentials();
               return AwsBasicCredentials.create(credentials.accessKeyId(), credentials.secretAccessKey());
             }
           }
@@ -116,4 +114,5 @@ public class AwsBasicAuthenticationManager extends BaseAuthenticationManager<Aws
 
     throw new AuthenticationException("No authentication method succeeded");
   }
+
 }

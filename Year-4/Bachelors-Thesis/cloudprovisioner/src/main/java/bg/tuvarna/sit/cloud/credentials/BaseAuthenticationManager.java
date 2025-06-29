@@ -8,11 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public abstract class BaseCredentialsProvider<K> {
+public abstract class BaseAuthenticationManager<K> {
 
   protected final ConfigurationUtil config;
 
-  protected BaseCredentialsProvider(ConfigurationUtil config) {
+  protected BaseAuthenticationManager(ConfigurationUtil config) {
     this.config = config;
   }
 
