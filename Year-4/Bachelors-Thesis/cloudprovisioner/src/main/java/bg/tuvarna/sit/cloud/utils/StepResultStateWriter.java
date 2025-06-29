@@ -1,12 +1,16 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.StepResultStateWriteException;
+import bg.tuvarna.sit.cloud.utils.NamedInjections;
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
+
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
 import jakarta.inject.Singleton;
+
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -20,7 +24,7 @@ public class StepResultStateWriter<K extends Enum<K>> {
   private final ObjectWriter objectWriter;
 
   @Inject
-  public StepResultStateWriter(@Named("defaultPrettyPrinter") ObjectWriter objectWriter) {
+  public StepResultStateWriter(@Named(NamedInjections.DEFAULT_PRETTY_PRINTER) ObjectWriter objectWriter) {
     this.objectWriter = objectWriter;
   }
 
@@ -30,8 +34,7 @@ public class StepResultStateWriter<K extends Enum<K>> {
       log.info("State written to '{}'", output.getAbsolutePath());
     } catch (IOException e) {
       String message = "Failed to write state to '%s'".formatted(output.getAbsolutePath());
-      // TODO [Enhancement] Add prefix to the log for provisioning lib on debug
-      log.debug(message, output.getAbsolutePath(), e);
+      log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", message, output.getAbsolutePath(), e);
       throw new StepResultStateWriteException(message, e);
     }
   }

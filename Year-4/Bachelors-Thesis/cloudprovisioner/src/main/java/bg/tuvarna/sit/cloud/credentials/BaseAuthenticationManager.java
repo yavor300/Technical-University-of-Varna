@@ -16,7 +16,7 @@ public abstract class BaseCredentialsProvider<K> {
     this.config = config;
   }
 
-  public abstract CloudCredentials<K> getCredentials();
+  public abstract K getCredentials();
 
   protected abstract String getAuthenticationConfigurationPath();
 

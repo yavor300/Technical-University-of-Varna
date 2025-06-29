@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.config.RetryConfiguration;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 import bg.tuvarna.sit.cloud.exception.RetryableCloudResourceStepException;
 
@@ -13,9 +14,11 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class CloudStepStrategyExecutor<K extends Enum<K>> {
 
-  // TODO [Implementation] Add as configuration
-  private static final int MAX_RETRIES = 3;
-  private static final long BACKOFF_MS = 1000;
+  private final RetryConfiguration retry;
+
+  public CloudStepStrategyExecutor(RetryConfiguration retry) {
+    this.retry = retry;
+  }
 
   public List<StepResult<K>> execute(List<CloudProvisionStep<K>> steps, StepExecutionStrategy<K> strategy)
       throws InterruptedException, ExecutionException {
@@ -41,12 +44,12 @@ public class CloudStepStrategyExecutor<K extends Enum<K>> {
         return strategy.execute(step);
       } catch (RetryableCloudResourceStepException e) {
         attempts++;
-        StepRetryHandler.handleRetryableException(e, step, attempts, MAX_RETRIES, BACKOFF_MS);
+        CloudExceptionHandler.handleRetryableException(e, step, attempts, retry.getMax(), retry.getBackoffMs());
       } catch (CloudResourceStepException e) {
         // Propagate the non-retryable exception
         throw e;
       } catch (Exception ex) {
-        throw StepRetryHandler.handleUnexpectedException(ex, step, attempts);
+        throw CloudExceptionHandler.handleUnexpectedException(ex, step, attempts);
       }
     }
   }

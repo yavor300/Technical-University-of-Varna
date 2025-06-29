@@ -69,14 +69,6 @@ public class StepResult<K extends Enum<K>> {
       return this;
     }
 
-    public Builder<K> putAll(Map<K, Object> map) {
-      if (map != null && !map.isEmpty()) {
-        instance.getOutputs().putAll(map);
-        instance.setVoid(false);
-      }
-      return this;
-    }
-
     public StepResult<K> build() {
       return instance;
     }

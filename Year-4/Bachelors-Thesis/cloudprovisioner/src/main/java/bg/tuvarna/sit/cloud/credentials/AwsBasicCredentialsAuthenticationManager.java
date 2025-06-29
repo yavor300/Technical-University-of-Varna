@@ -4,37 +4,35 @@ import bg.tuvarna.sit.cloud.config.AuthenticationConfig;
 
 import bg.tuvarna.sit.cloud.core.provisioner.ErrorCode;
 import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultAwsCredentialsProvider;
-import bg.tuvarna.sit.cloud.credentials.provider.vault.VaultClient;
 import bg.tuvarna.sit.cloud.exception.AuthenticationException;
 import bg.tuvarna.sit.cloud.exception.ConfigurationLoadException;
 import bg.tuvarna.sit.cloud.utils.ConfigurationUtil;
 import bg.tuvarna.sit.cloud.utils.EnvVar;
 import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 
 @Slf4j
-public class AwsBasicCredentialsProvider extends BaseCredentialsProvider<AwsBasicCredentials> {
+@Singleton
+public class AwsBasicAuthenticationManager extends BaseAuthenticationManager<AwsBasicCredentials> {
 
-  private final ObjectMapper jsonMapper;
-  private final ObjectMapper yamlMapper;
+  private final VaultAwsCredentialsProvider vaultAwsCredentialsProvider;
   private final Slf4jLoggingUtil loggingUtil;
 
   @Inject
-  public AwsBasicCredentialsProvider(ConfigurationUtil config,
-                                     Slf4jLoggingUtil loggingUtil,
-                                     @Named("jsonMapper") ObjectMapper jsonMapper,
-                                     @Named("yamlMapper") ObjectMapper yamlMapper) {
+  public AwsBasicAuthenticationManager(ConfigurationUtil config,
+                                       VaultAwsCredentialsProvider vaultAwsCredentialsProvider,
+                                       Slf4jLoggingUtil loggingUtil) {
     super(config);
-    this.jsonMapper = jsonMapper;
-    this.yamlMapper = yamlMapper;
+    this.vaultAwsCredentialsProvider = vaultAwsCredentialsProvider;
     this.loggingUtil = loggingUtil;
   }
 
@@ -45,7 +43,7 @@ public class AwsBasicCredentialsProvider extends BaseCredentialsProvider<AwsBasi
   }
 
   @Override
-  public CloudCredentials<AwsBasicCredentials> getCredentials() {
+  public AwsBasicCredentials getCredentials() {
 
     String authenticationConfigurationPath = getAuthenticationConfigurationPath();
 
@@ -66,7 +64,7 @@ public class AwsBasicCredentialsProvider extends BaseCredentialsProvider<AwsBasi
     }
   }
 
-  public AwsCredentials authenticate(AuthenticationConfig config) {
+  public AwsBasicCredentials authenticate(AuthenticationConfig config) {
 
     for (AuthenticationConfig.ProviderConfig provider : config.getProviders()) {
 
@@ -83,10 +81,7 @@ public class AwsBasicCredentialsProvider extends BaseCredentialsProvider<AwsBasi
             log.info("Authenticating using Vault (host={}, port={}, secretPath={})",
                 vault.getHost(), vault.getPort(), vault.getSecretPath());
 
-            VaultAwsCredentialsProvider vaultProvider =
-                new VaultAwsCredentialsProvider(new VaultClient(vault, jsonMapper), yamlMapper);
-
-            return vaultProvider.fetchCredentials();
+            return vaultAwsCredentialsProvider.config(vault).fetchCredentials();
           }
         }
 
@@ -97,7 +92,20 @@ public class AwsBasicCredentialsProvider extends BaseCredentialsProvider<AwsBasi
           String secretAccessKey = resolveEnvPlaceholders(staticCfg.getSecretAccessKey());
           if (!accessKeyId.isBlank() && !secretAccessKey.isBlank()) {
             log.info("Authenticating using static credentials");
-            return new AwsCredentials(accessKeyId, secretAccessKey);
+            return AwsBasicCredentials.create(accessKeyId, secretAccessKey);
+          }
+        }
+
+        //  
+        if (provider.getProfileCredentials() != null) {
+          AuthenticationConfig.ProfileConfig profileCfg = provider.getProfileCredentials();
+          String profileName = resolveEnvPlaceholders(profileCfg.getProfileName());
+          if (!profileName.isBlank()) {
+            try (ProfileCredentialsProvider profileCredsProvider = ProfileCredentialsProvider.create(profileName);) {
+              log.info("Authenticating using AWS profile '{}'", profileName);
+              AwsCredentials credentials = profileCredsProvider.resolveCredentials();
+              return AwsBasicCredentials.create(credentials.accessKeyId(), credentials.secretAccessKey());
+            }
           }
         }
 

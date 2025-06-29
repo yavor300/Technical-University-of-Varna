@@ -1,5 +1,7 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

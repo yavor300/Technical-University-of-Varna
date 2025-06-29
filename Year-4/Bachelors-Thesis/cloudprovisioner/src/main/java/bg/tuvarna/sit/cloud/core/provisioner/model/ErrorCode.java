@@ -13,8 +13,11 @@ public enum ErrorCode {
   S3_LIVE_STATE_ERROR("S3_1300", "Failed to fetch S3 live state"),
   S3_DESIRED_STATE_ERROR("S3_1400", "Failed to generate S3 desired state"),
   S3_STORED_STATE_ERROR("S3_1500", "Failed to load stored S3 state"),
-  SERIALIZATION_ERROR("SYS_1000", "Failed to serialize provisioning response"),
-  ASYNC_EXECUTION_ERROR("SYS_1100", "Unexpected exception occurred during asynchronous task execution");
+  EKS_CONFIG_LOAD_ERROR("EKS_1000", "Failed to load EKS configuration"),
+  EKS_PROVISION_ERROR("EKS_1100", "EKS provisioning failed"),
+  CONFIG_LOAD_ERROR("SYS_1000", "Failed to load configuration list file"),
+  SERIALIZATION_ERROR("SYS_1200", "Failed to serialize provisioning response"),
+  ASYNC_EXECUTION_ERROR("SYS_1300", "Unexpected exception occurred during asynchronous task execution");
 
   private final String code;
   private final String message;

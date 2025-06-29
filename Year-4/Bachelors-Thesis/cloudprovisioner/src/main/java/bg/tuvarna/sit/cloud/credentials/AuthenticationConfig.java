@@ -18,6 +18,7 @@ public class AuthenticationConfig {
 
     private VaultConfig vault;
     private StaticConfig staticCredentials;
+    private ProfileConfig profileCredentials;
   }
 
   @ToString(exclude = "token")
@@ -38,5 +39,12 @@ public class AuthenticationConfig {
 
     private String accessKeyId;
     private String secretAccessKey;
+  }
+
+  @Setter
+  @Getter
+  public static class ProfileConfig {
+
+    private String profileName;
   }
 }
