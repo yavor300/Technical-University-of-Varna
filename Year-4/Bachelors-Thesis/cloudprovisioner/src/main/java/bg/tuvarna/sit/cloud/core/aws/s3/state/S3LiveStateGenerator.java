@@ -3,13 +3,16 @@ package bg.tuvarna.sit.cloud.core.aws.s3.state;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.provisioner.LiveStateGenerator;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.executor.CloudStepStrategyExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
+import bg.tuvarna.sit.cloud.utils.NamedInjections;
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
+@Singleton
 public class S3LiveStateGenerator implements LiveStateGenerator<S3Output> {
 
   private final CloudStepStrategyExecutor<S3Output> stepExecutor;
@@ -24,7 +28,7 @@ public class S3LiveStateGenerator implements LiveStateGenerator<S3Output> {
 
   @Inject
   public S3LiveStateGenerator(CloudStepStrategyExecutor<S3Output> stepExecutor,
-                              @Named("s3Steps") List<CloudProvisionStep<S3Output>> provisionSteps) {
+                              @Named(NamedInjections.S3_STEPS) List<CloudProvisionStep<S3Output>> provisionSteps) {
     this.stepExecutor = stepExecutor;
     this.provisionSteps = provisionSteps;
   }
@@ -45,8 +49,9 @@ public class S3LiveStateGenerator implements LiveStateGenerator<S3Output> {
       if (!(cause instanceof CloudResourceStepException)) {
         String msg = "Unexpected exception occurred during async execution: %s"
             .formatted(cause != null ? cause.getClass().getSimpleName() + " - " + cause.getMessage() : e.getMessage());
-        log.debug(msg, e);
-        throw new CloudProvisioningTerminationException(msg, e);
+        log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", msg, cause != null ? cause : e);
+        // TODO Check to set e.getCause instead of e
+        throw new CloudProvisioningTerminationException(msg, cause != null ? cause : e);
       }
 
       throw new CloudProvisioningTerminationException(cause.getMessage(), cause);
