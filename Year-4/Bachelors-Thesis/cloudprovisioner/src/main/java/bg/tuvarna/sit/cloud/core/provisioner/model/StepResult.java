@@ -1,4 +1,4 @@
-package bg.tuvarna.sit.cloud.core.provisioner;
+package bg.tuvarna.sit.cloud.core.provisioner.model;
 
 import bg.tuvarna.sit.cloud.utils.EnumToStringKeySerializer;
 
