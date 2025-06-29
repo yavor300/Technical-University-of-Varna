@@ -1,6 +1,9 @@
-package bg.tuvarna.sit.cloud.core.provisioner;
+package bg.tuvarna.sit.cloud.core.provisioner.executor;
 
-import bg.tuvarna.sit.cloud.config.RetryConfiguration;
+import bg.tuvarna.sit.cloud.core.provisioner.BaseCloudResourceConfiguration;
+import bg.tuvarna.sit.cloud.exception.CloudExceptionHandler;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 import bg.tuvarna.sit.cloud.exception.RetryableCloudResourceStepException;
 
@@ -14,9 +17,9 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class CloudStepRevertExecutor<K extends Enum<K>> {
 
-  private final RetryConfiguration retry;
+  private final BaseCloudResourceConfiguration.RetryConfiguration retry;
 
-  public CloudStepRevertExecutor(RetryConfiguration retry) {
+  public CloudStepRevertExecutor(BaseCloudResourceConfiguration.RetryConfiguration retry) {
     this.retry = retry;
   }
 

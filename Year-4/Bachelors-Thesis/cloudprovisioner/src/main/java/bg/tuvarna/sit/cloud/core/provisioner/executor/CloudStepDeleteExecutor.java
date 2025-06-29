@@ -1,4 +1,7 @@
-package bg.tuvarna.sit.cloud.core.provisioner;
+package bg.tuvarna.sit.cloud.core.provisioner.executor;
+
+import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 
 import lombok.extern.slf4j.Slf4j;
 
