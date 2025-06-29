@@ -7,7 +7,7 @@ public enum EnvVar {
 
   AWS_PROFILE("AWS_PROFILE"),
   LOG_FORMAT("LOG_FORMAT"),
-  S3_ENDPOINT_URL("S3_ENDPOINT_URL");
+  ENDPOINT_URL("ENDPOINT_URL");
 
   private final String key;
 
@@ -19,8 +19,10 @@ public enum EnvVar {
     return System.getenv(key);
   }
 
+  @SuppressWarnings("unused")
   public String getValueOrDefault(String defaultValue) {
     String value = getValue();
     return value != null ? value : defaultValue;
   }
+
 }

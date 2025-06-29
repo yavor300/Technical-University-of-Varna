@@ -17,7 +17,7 @@ public class ConfigurationUtil {
   private final ObjectMapper yaml;
 
   @Inject
-  public ConfigurationUtil(@Named("yamlMapper") ObjectMapper yaml) {
+  public ConfigurationUtil(@Named(NamedInjections.YAML_MAPPER) ObjectMapper yaml) {
     this.yaml = yaml;
   }
 

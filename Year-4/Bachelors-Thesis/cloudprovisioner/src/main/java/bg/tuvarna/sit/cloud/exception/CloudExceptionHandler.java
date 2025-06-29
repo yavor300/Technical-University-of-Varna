@@ -1,7 +1,6 @@
-package bg.tuvarna.sit.cloud.core.provisioner;
+package bg.tuvarna.sit.cloud.exception;
 
-import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
-import bg.tuvarna.sit.cloud.exception.RetryableCloudResourceStepException;
+import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
 
 import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 import lombok.extern.slf4j.Slf4j;

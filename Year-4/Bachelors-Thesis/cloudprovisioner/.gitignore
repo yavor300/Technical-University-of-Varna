@@ -5,6 +5,9 @@ build/
 !**/src/test/**/build/
 .cloudprovisioner
 .idea/runConfigurations
+.idea/codeStyles/Project.xml
+src/main/resources/cloud
+yavor/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

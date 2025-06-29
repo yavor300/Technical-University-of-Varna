@@ -1,6 +1,7 @@
 package bg.tuvarna.sit.cloud.exception;
 
-public class CloudProvisioningTerminationException extends Exception {
+// TODO [High] Check to be Exception again
+public class CloudProvisioningTerminationException extends RuntimeException {
   
   public CloudProvisioningTerminationException(String message, Throwable cause) {
     super(message, cause);

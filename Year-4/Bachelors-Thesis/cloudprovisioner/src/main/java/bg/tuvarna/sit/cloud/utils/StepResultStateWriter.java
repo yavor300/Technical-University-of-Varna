@@ -1,9 +1,7 @@
-package bg.tuvarna.sit.cloud.core.provisioner;
+package bg.tuvarna.sit.cloud.utils;
 
 import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.StepResultStateWriteException;
-import bg.tuvarna.sit.cloud.utils.NamedInjections;
-import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 
 import com.fasterxml.jackson.databind.ObjectWriter;
 
