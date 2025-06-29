@@ -1,7 +1,8 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.client;
 
+import bg.tuvarna.sit.cloud.exception.CloudExceptionHandler;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
-import bg.tuvarna.sit.cloud.exception.RetryableCloudResourceStepException;
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,15 +59,26 @@ import software.amazon.awssdk.services.s3.model.Tag;
 import software.amazon.awssdk.services.s3.model.Tagging;
 import software.amazon.awssdk.services.s3.model.VersioningConfiguration;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Slf4j
 public class S3SafeClient implements AutoCloseable {
 
+  private static final String BASE_EXCEPTION_MESSAGE_ON_CREATE = "S3 service error while creating bucket '%s'";
+  private static final String BASE_EXCEPTION_MESSAGE_ON_HEAD = "S3 service error while verifying existence of bucket '%s'";
+  private static final String BASE_EXCEPTION_MESSAGE_ON_DELETE = "S3 service error while deleting bucket '%s'";
+
   private final S3Client client;
 
   public S3SafeClient(S3Client client) {
     this.client = client;
+  }
+
+  @Override
+  public void close() {
+    client.close();
   }
 
   public CreateBucketResponse create(String bucketName) throws CloudResourceStepException {
@@ -78,32 +90,63 @@ public class S3SafeClient implements AutoCloseable {
 
       String message = ("Bucket name '%s' is not available. Bucket names must be globally unique. Choose a different " +
           "name and try again.").formatted(bucketName);
-      log.debug(message, bucketName, e);
-
-      CloudResourceStepException exception = new CloudResourceStepException(
-          "S3 service error while creating bucket '%s'".formatted(bucketName), e);
-      exception.getMessageDetails().add(message);
-      throw exception;
+      log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", message, bucketName, e);
+      
+      throw CloudExceptionHandler.wrapToCloudResourceStepException(BASE_EXCEPTION_MESSAGE_ON_CREATE.formatted(bucketName), message, e);
 
     } catch (BucketAlreadyOwnedByYouException e) {
 
       String message = ("Bucket '%s' already exists and is owned by you. In all regions except us-east-1, this is an " +
           "error. In us-east-1, it resets ACLs.").formatted(bucketName);
-      log.debug(message, bucketName, e);
+      log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", message, bucketName, e);
 
-      CloudResourceStepException exception = new CloudResourceStepException(
-          "S3 service error while creating bucket '%s'".formatted(bucketName), e);
-      exception.getMessageDetails().add(message);
-      throw exception;
+      throw CloudExceptionHandler.wrapToCloudResourceStepException(BASE_EXCEPTION_MESSAGE_ON_CREATE.formatted(bucketName), message, e);
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "S3 service error while creating bucket '%s'".formatted(bucketName),
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, BASE_EXCEPTION_MESSAGE_ON_CREATE.formatted(bucketName),
           e);
 
     } catch (S3Exception e) {
-      throw handleS3Exception(bucketName, "S3 service error while creating bucket '%s'".formatted(bucketName), e);
+      throw handleS3Exception(bucketName, BASE_EXCEPTION_MESSAGE_ON_CREATE.formatted(bucketName), e);
     }
   }
+
+  public void waitUntilBucketExists(String bucketName, Duration timeout) throws CloudResourceStepException {
+
+    Instant start = Instant.now();
+    Duration pollInterval = Duration.ofSeconds(5);
+
+    log.info("Waiting for S3 bucket '{}' to become accessible...", bucketName);
+
+    while (Duration.between(start, Instant.now()).compareTo(timeout) < 0) {
+      try {
+
+        HeadBucketRequest headRequest = HeadBucketRequest.builder().bucket(bucketName).build();
+        client.headBucket(headRequest);
+        log.info("S3 bucket '{}' is now accessible.", bucketName);
+        return;
+
+      } catch (NoSuchBucketException e) {
+        log.debug("Bucket '{}' not found yet. Retrying...", bucketName);
+
+      } catch (SdkClientException e) {
+        log.warn("Temporary client error while checking bucket '{}'. Retrying...", bucketName);
+
+      } catch (S3Exception e) {
+        log.warn("Error while checking bucket '{}'. Retrying...", bucketName);
+      }
+
+      try {
+        Thread.sleep(pollInterval.toMillis());
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+        throw new CloudResourceStepException("Interrupted while waiting for S3 bucket to become accessible.", ie);
+      }
+    }
+
+    throw new CloudResourceStepException("Timed out waiting for S3 bucket '%s' to become accessible.".formatted(bucketName));
+  }
+
 
   public HeadBucketResponse head(String bucketName) throws CloudResourceStepException {
 
@@ -115,22 +158,18 @@ public class S3SafeClient implements AutoCloseable {
       String message = "Bucket '%s' does not exist. This may indicate it was deleted or never created."
           .formatted(bucketName);
 
-      log.debug(message, bucketName, e);
-
-      CloudResourceStepException exception = new CloudResourceStepException(
-          "S3 service error while verifying existence of bucket '%s'".formatted(bucketName), e);
-      exception.getMessageDetails().add(message);
-
-      throw exception;
+      log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", message, bucketName, e);
+      
+      throw CloudExceptionHandler.wrapToCloudResourceStepException(BASE_EXCEPTION_MESSAGE_ON_HEAD.formatted(bucketName), message, e);
 
     } catch (SdkClientException e) {
 
-      throw handleSdkClientException(bucketName,
-          "S3 service error while verifying existence of bucket '%s'".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName,
+          BASE_EXCEPTION_MESSAGE_ON_HEAD.formatted(bucketName), e);
     } catch (S3Exception e) {
 
       throw handleS3Exception(bucketName,
-          "S3 service error while verifying existence of bucket '%s'".formatted(bucketName), e);
+          BASE_EXCEPTION_MESSAGE_ON_HEAD.formatted(bucketName), e);
     }
   }
 
@@ -140,11 +179,11 @@ public class S3SafeClient implements AutoCloseable {
       return client.deleteBucket(DeleteBucketRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName,
-          "S3 service error while deleting bucket '%s'".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, 
+          BASE_EXCEPTION_MESSAGE_ON_DELETE.formatted(bucketName), e);
 
     } catch (S3Exception e) {
-      throw handleS3Exception(bucketName, "S3 service error while deleting bucket '%s'".formatted(bucketName), e);
+      throw handleS3Exception(bucketName, BASE_EXCEPTION_MESSAGE_ON_DELETE.formatted(bucketName), e);
     }
   }
 
@@ -159,7 +198,7 @@ public class S3SafeClient implements AutoCloseable {
       throw handleS3Exception(bucketName, "Failed to apply ACL to bucket '%s'.".formatted(bucketName), e);
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to apply ACL to bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to apply ACL to bucket '%s'.".formatted(bucketName), e);
     }
   }
 
@@ -172,7 +211,7 @@ public class S3SafeClient implements AutoCloseable {
       throw handleS3Exception(bucketName, "Failed to fetch acl for bucket '%s'.".formatted(bucketName), e);
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to fetch acl for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to fetch acl for bucket '%s'.".formatted(bucketName), e);
     }
   }
 
@@ -198,7 +237,7 @@ public class S3SafeClient implements AutoCloseable {
       return client.putBucketEncryption(request);
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to add encryption to bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to add encryption to bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to add encryption to bucket '%s'.".formatted(bucketName), e);
@@ -212,7 +251,7 @@ public class S3SafeClient implements AutoCloseable {
           GetBucketEncryptionRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to fetch encryption for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to fetch encryption for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to fetch encryption for bucket '%s'.".formatted(bucketName), e);
@@ -230,7 +269,7 @@ public class S3SafeClient implements AutoCloseable {
       return client.putBucketOwnershipControls(request);
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(name, "Failed to set ownership controls for bucket '%s'.".formatted(name), e);
+      throw CloudExceptionHandler.handleSdkClientException(name, "Failed to set ownership controls for bucket '%s'.".formatted(name), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(name, "Failed to set ownership controls for bucket '%s'.".formatted(name), e);
@@ -244,7 +283,7 @@ public class S3SafeClient implements AutoCloseable {
           GetBucketOwnershipControlsRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to fetch ownership controls for bucket '%s'."
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to fetch ownership controls for bucket '%s'."
           .formatted(bucketName), e);
 
     } catch (S3Exception e) {
@@ -260,7 +299,7 @@ public class S3SafeClient implements AutoCloseable {
           PutBucketTaggingRequest.builder().bucket(bucketName).tagging(Tagging.builder().tagSet(tags).build()).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to set tags for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to set tags for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to set tags for bucket '%s'.".formatted(bucketName), e);
@@ -273,7 +312,7 @@ public class S3SafeClient implements AutoCloseable {
       return client.deleteBucketTagging(DeleteBucketTaggingRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to delete tags for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to delete tags for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to delete tags for bucket '%s'.".formatted(bucketName), e);
@@ -288,7 +327,7 @@ public class S3SafeClient implements AutoCloseable {
           .bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to get tags for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to get tags for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to get tags for bucket '%s'.".formatted(bucketName), e);
@@ -307,7 +346,7 @@ public class S3SafeClient implements AutoCloseable {
               .build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to set versioning on bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to set versioning on bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to set versioning on bucket '%s'.".formatted(bucketName), e);
@@ -321,7 +360,7 @@ public class S3SafeClient implements AutoCloseable {
       return client.getBucketVersioning(GetBucketVersioningRequest.builder().bucket(bucketName).build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to get versioning for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to get versioning for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to get versioning for bucket '%s'.".formatted(bucketName), e);
@@ -337,7 +376,7 @@ public class S3SafeClient implements AutoCloseable {
           .build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to attach policy to bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to attach policy to bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to attach policy to bucket '%s'.".formatted(bucketName), e);
@@ -352,7 +391,7 @@ public class S3SafeClient implements AutoCloseable {
           .build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to get policy for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to get policy for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to get policy for bucket '%s'.".formatted(bucketName), e);
@@ -367,44 +406,22 @@ public class S3SafeClient implements AutoCloseable {
               .build());
 
     } catch (SdkClientException e) {
-      throw handleSdkClientException(bucketName, "Failed to delete policy for bucket '%s'.".formatted(bucketName), e);
+      throw CloudExceptionHandler.handleSdkClientException(bucketName, "Failed to delete policy for bucket '%s'.".formatted(bucketName), e);
 
     } catch (S3Exception e) {
       throw handleS3Exception(bucketName, "Failed to delete policy for bucket '%s'.".formatted(bucketName), e);
     }
   }
-
-  @Override
-  public void close() {
-    client.close();
-  }
-
+  
   private CloudResourceStepException handleS3Exception(String bucket, String message, S3Exception e) {
 
-    log.debug("S3 service error for bucket '{}'. AWS error code: '{}', message: '{}'.", bucket,
+    log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "S3 service error for bucket '{}'. AWS error code: '{}', message: '{}'.", bucket,
         e.awsErrorDetails().errorCode(), e.awsErrorDetails().errorMessage(), e);
 
     CloudResourceStepException exception = new CloudResourceStepException(message, e);
-    exception.getMessageDetails().add("Reason: " + e.getMessage());
+    exception.getMessageDetails().add(e.getMessage());
 
     return exception;
   }
-
-  private RetryableCloudResourceStepException handleSdkClientException(String bucket, String message,
-                                                                       SdkClientException e)
-      throws RetryableCloudResourceStepException {
-    log.debug(
-        "Client-side error for bucket '{}'. Possible causes: network issues, invalid credentials, or local " +
-            "misconfiguration.", bucket, e);
-
-    RetryableCloudResourceStepException exception = new RetryableCloudResourceStepException(message, e);
-    exception.getMessageDetails().add("Reason: " + e.getMessage());
-    Throwable cause = e.getCause();
-    if (cause != null) {
-      exception.getMessageDetails().add(cause.getMessage());
-    }
-
-    return exception;
-  }
-
+  
 }
