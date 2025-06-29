@@ -2,7 +2,7 @@ package bg.tuvarna.sit.cloud.core.aws.s3.util;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3EncryptionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 
 import software.amazon.awssdk.services.s3.model.GetBucketEncryptionResponse;
 import software.amazon.awssdk.services.s3.model.ServerSideEncryptionByDefault;
