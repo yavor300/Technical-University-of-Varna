@@ -2,16 +2,18 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionerSuccessfulResponse;
+import bg.tuvarna.sit.cloud.core.provisioner.model.CloudProvisionerSuccessfulResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceReverter;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepRevertExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.CloudResourceType;
+import bg.tuvarna.sit.cloud.core.provisioner.executor.CloudStepRevertExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 import jakarta.inject.Inject;
 
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
+@Singleton
 public class S3BucketReverter implements CloudResourceReverter<S3Output> {
 
   private final S3SafeClient s3;
@@ -68,8 +71,8 @@ public class S3BucketReverter implements CloudResourceReverter<S3Output> {
         String msg = "Unexpected exception occurred during async execution: %s".formatted(
             cause != null ? cause.getClass().getSimpleName() + " - " + cause.getMessage() : e.getMessage()
         );
-        log.debug(msg, e);
-        throw new CloudProvisioningTerminationException(msg, e);
+        log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", msg, cause != null ? cause : e);
+        throw new CloudProvisioningTerminationException(msg, cause != null ? cause : e);
       }
 
       throw new CloudProvisioningTerminationException(cause.getMessage(), cause);

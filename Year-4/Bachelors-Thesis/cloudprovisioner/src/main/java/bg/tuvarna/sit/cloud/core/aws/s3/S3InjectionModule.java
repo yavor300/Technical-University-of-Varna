@@ -11,10 +11,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.step.S3PolicyStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3TaggingStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.S3VersioningStep;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeleteExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepStrategyExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepRevertExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.executor.CloudStepDeleteExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.executor.CloudStepStrategyExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.executor.CloudStepRevertExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
+import bg.tuvarna.sit.cloud.utils.NamedInjections;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -61,7 +62,7 @@ public class S3InjectionModule extends AbstractModule {
   }
 
   @Provides
-  @Named("s3Steps")
+  @Named(NamedInjections.S3_STEPS)
   List<CloudProvisionStep<S3Output>> s3ProvisionSteps(
       S3PersistentMetadataStep metadataStep,
       S3BucketStep createStep,
@@ -84,9 +85,10 @@ public class S3InjectionModule extends AbstractModule {
     );
   }
 
+  // TODO Check @Singleton
   @Provides
   CloudStepStrategyExecutor<S3Output> s3StepExecutor() {
-    return new CloudStepStrategyExecutor<>();
+    return new CloudStepStrategyExecutor<>(s3BucketConfig.getRetry());
   }
 
   @Provides
@@ -96,7 +98,7 @@ public class S3InjectionModule extends AbstractModule {
 
   @Provides
   CloudStepRevertExecutor<S3Output> s3stepRevertExecutor() {
-    return new CloudStepRevertExecutor<>();
+    return new CloudStepRevertExecutor<>(s3BucketConfig.getRetry());
   }
 
 }

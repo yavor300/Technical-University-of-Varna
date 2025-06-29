@@ -2,15 +2,17 @@ package bg.tuvarna.sit.cloud.core.aws.s3;
 
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionStep;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudProvisionerSuccessfulResponse;
+import bg.tuvarna.sit.cloud.core.provisioner.model.CloudProvisionerSuccessfulResponse;
 import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceDestroyer;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudResourceType;
-import bg.tuvarna.sit.cloud.core.provisioner.CloudStepDeleteExecutor;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.CloudResourceType;
+import bg.tuvarna.sit.cloud.core.provisioner.executor.CloudStepDeleteExecutor;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
+@Singleton
 public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
 
   private final S3SafeClient s3;
@@ -66,8 +69,8 @@ public class S3BucketDestroyer implements CloudResourceDestroyer<S3Output> {
       if (!(cause instanceof CloudResourceStepException)) {
         String msg = "Unexpected exception occurred during async execution: %s"
             .formatted(cause != null ? cause.getClass().getSimpleName() + " - " + cause.getMessage() : e.getMessage());
-        log.debug(msg, e);
-        throw new CloudProvisioningTerminationException(msg, e);
+        log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", msg, cause != null ? cause : e);
+        throw new CloudProvisioningTerminationException(msg, cause != null ? cause : e);
       }
 
       throw new CloudProvisioningTerminationException(cause.getMessage(), cause);
