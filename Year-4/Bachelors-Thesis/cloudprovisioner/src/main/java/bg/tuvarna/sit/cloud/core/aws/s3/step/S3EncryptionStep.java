@@ -7,10 +7,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3EncryptionResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,7 @@ import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
 
 @Slf4j
 @ProvisionOrder(3)
+@Singleton
 public class S3EncryptionStep extends S3ProvisionStep {
 
   private static final String SSE_S3_ALGORITHM = "sse-s3";
@@ -42,12 +44,10 @@ public class S3EncryptionStep extends S3ProvisionStep {
 
     S3BucketConfig.EncryptionConfig encryption = config.getEncryption();
 
-    ServerSideEncryption sseAlgorithm;
+    ServerSideEncryption sseAlgorithm = ServerSideEncryption.AES256;
 
     switch (encryption.getType()) {
-      case SSE_S3, AES_256 -> sseAlgorithm = ServerSideEncryption.AES256;
       case AWS_KMS, AWS_KMS_DSSE -> sseAlgorithm = ServerSideEncryption.AWS_KMS;
-      default -> throw new CloudResourceStepException("Unsupported SSE algorithm");
     }
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
@@ -105,12 +105,11 @@ public class S3EncryptionStep extends S3ProvisionStep {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
 
-    ServerSideEncryption sseAlgorithm;
+    ServerSideEncryption sseAlgorithm = ServerSideEncryption.AES256;
     String sseAlgorithmStr = (String) previous.getOutputs().get(S3Output.TYPE);
+
     switch (sseAlgorithmStr.toLowerCase()) {
-      case SSE_S3_ALGORITHM, AES_256_ALGORITHM -> sseAlgorithm = ServerSideEncryption.AES256;
       case AWS_KMS_ALGORITHM, AWS_KMS_DSSE_ALGORITHM -> sseAlgorithm = ServerSideEncryption.AWS_KMS;
-      default -> throw new CloudResourceStepException("Unsupported SSE algorithm");
     }
 
     String kmsKeyId = (String) previous.getOutputs().get(S3Output.KMS_KEY_ID);
@@ -123,12 +122,10 @@ public class S3EncryptionStep extends S3ProvisionStep {
 
   private StepResult<S3Output> buildEncryptionStepResult(S3BucketConfig.EncryptionConfig encryption) {
 
-    String type;
+    String type = S3EncryptionType.AES_256.getValue();
 
     switch (encryption.getType()) {
-      case SSE_S3, AES_256 -> type = S3EncryptionType.AES_256.getValue();
       case AWS_KMS, AWS_KMS_DSSE -> type = S3EncryptionType.AWS_KMS.getValue();
-      default -> throw new CloudResourceStepException("Unsupported SSE algorithm");
     }
 
     StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()

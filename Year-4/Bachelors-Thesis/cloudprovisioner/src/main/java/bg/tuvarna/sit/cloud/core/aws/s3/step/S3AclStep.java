@@ -13,10 +13,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclGrantee;
 import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedAclOwner;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3OwnershipControlsResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +36,7 @@ import java.util.List;
 
 @Slf4j
 @ProvisionOrder(7)
+@Singleton
 public class S3AclStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;
@@ -283,4 +285,5 @@ public class S3AclStep extends S3ProvisionStep {
         .put(S3Output.VALUE_NODE, new S3ProvisionedAcl(ownerDto, grantDtos, null))
         .build();
   }
+
 }

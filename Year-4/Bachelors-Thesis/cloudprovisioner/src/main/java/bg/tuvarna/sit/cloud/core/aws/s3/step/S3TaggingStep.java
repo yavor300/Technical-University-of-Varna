@@ -1,16 +1,17 @@
 package bg.tuvarna.sit.cloud.core.aws.s3.step;
 
-import bg.tuvarna.sit.cloud.core.aws.s3.model.S3ProvisionedTags;
+import bg.tuvarna.sit.cloud.core.aws.common.model.ProvisionedTags;
 import bg.tuvarna.sit.cloud.core.aws.s3.config.S3BucketConfig;
 import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3TaggingResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 // TODO [Implementation] Validate if Provision annotation is present. Maybe common validator module ?
 @Slf4j
 @ProvisionOrder(4)
+@Singleton
 public class S3TaggingStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;
@@ -105,7 +107,7 @@ public class S3TaggingStep extends S3ProvisionStep {
   public StepResult<S3Output> revert(StepResult<S3Output> step) throws CloudResourceStepException {
 
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
-    S3ProvisionedTags revert = (S3ProvisionedTags) step.getOutputs().get(S3Output.VALUE_NODE);
+    ProvisionedTags revert = (ProvisionedTags) step.getOutputs().get(S3Output.VALUE_NODE);
 
     if (revert == null || revert.getTags().isEmpty()) {
       s3.deleteTags(bucket);
@@ -135,7 +137,7 @@ public class S3TaggingStep extends S3ProvisionStep {
       return result.build();
     }
 
-    return result.put(S3Output.VALUE_NODE, new S3ProvisionedTags(tags)).build();
+    return result.put(S3Output.VALUE_NODE, new ProvisionedTags(tags)).build();
   }
 
 }

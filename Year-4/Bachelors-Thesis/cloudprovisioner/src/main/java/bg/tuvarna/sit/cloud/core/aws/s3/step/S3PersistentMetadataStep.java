@@ -5,11 +5,13 @@ import bg.tuvarna.sit.cloud.core.aws.s3.S3Output;
 import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @ProvisionOrder(0)
+@Singleton
 public class S3PersistentMetadataStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;
@@ -66,13 +68,14 @@ public class S3PersistentMetadataStep extends S3ProvisionStep {
     String bucket = (String) metadata.getOutputs().get(S3Output.NAME);
     String region = (String) metadata.getOutputs().get(S3Output.REGION);
     String arn = (String) metadata.getOutputs().get(S3Output.ARN);
+    Boolean currentPrevent = (Boolean) metadata.getOutputs().get(S3Output.PREVENT_DESTROY);
 
     return StepResult.<S3Output>builder()
         .stepName(this.getClass().getName())
         .put(S3Output.NAME, bucket)
         .put(S3Output.REGION, region)
         .put(S3Output.ARN, arn)
-        .put(S3Output.PREVENT_DESTROY, config.preventDestroy())
+        .put(S3Output.PREVENT_DESTROY, config.preventDestroy() != null ? config.preventDestroy() : currentPrevent)
         .build();
   }
 }

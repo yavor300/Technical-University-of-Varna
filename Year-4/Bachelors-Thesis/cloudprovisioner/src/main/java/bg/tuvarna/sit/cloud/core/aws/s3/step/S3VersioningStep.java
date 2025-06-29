@@ -6,10 +6,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3VersioningResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,7 @@ import static software.amazon.awssdk.services.s3.model.BucketVersioningStatus.SU
 
 @Slf4j
 @ProvisionOrder(2)
+@Singleton
 public class S3VersioningStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;

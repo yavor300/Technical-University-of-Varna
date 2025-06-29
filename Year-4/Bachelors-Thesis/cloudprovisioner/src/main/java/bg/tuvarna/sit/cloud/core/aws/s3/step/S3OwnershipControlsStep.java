@@ -7,10 +7,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3OwnershipControlsResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Slf4j
 @ProvisionOrder(6)
+@Singleton
 public class S3OwnershipControlsStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;
@@ -108,5 +110,10 @@ public class S3OwnershipControlsStep extends S3ProvisionStep {
     GetBucketOwnershipControlsResponse response = s3.getOwnershipControls(bucket);
     return S3OwnershipControlsResultBuilder.fromResponse(response);
   }
+
+
+
+
+
 
 }

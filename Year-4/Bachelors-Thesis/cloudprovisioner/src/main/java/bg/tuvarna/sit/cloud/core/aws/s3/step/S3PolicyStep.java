@@ -6,10 +6,11 @@ import bg.tuvarna.sit.cloud.core.aws.s3.step.base.S3ProvisionStep;
 import bg.tuvarna.sit.cloud.core.aws.s3.client.S3SafeClient;
 import bg.tuvarna.sit.cloud.core.aws.s3.util.S3PolicyResultBuilder;
 import bg.tuvarna.sit.cloud.core.provisioner.ProvisionOrder;
-import bg.tuvarna.sit.cloud.core.provisioner.StepResult;
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudResourceStepException;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Slf4j
 @ProvisionOrder(5)
+@Singleton
 public class S3PolicyStep extends S3ProvisionStep {
 
   private final StepResult<S3Output> metadata;
@@ -35,7 +37,7 @@ public class S3PolicyStep extends S3ProvisionStep {
 
     String policy = config.getPolicy();
 
-    if (policy == null || policy.isBlank()) {
+    if (policy.isBlank()) {
       return buildPolicyStepResult(policy);
     }
 
@@ -99,7 +101,7 @@ public class S3PolicyStep extends S3ProvisionStep {
     if (revert == null || revert.isEmpty()) {
 
       s3.deletePolicy(bucket);
-      log.debug("Reverted the created policy for bucket '{}'", bucket);
+      log.info("Reverted the created policy for bucket '{}'", bucket);
 
       return StepResult.<S3Output>builder()
           .stepName(this.getClass().getName())
@@ -118,11 +120,13 @@ public class S3PolicyStep extends S3ProvisionStep {
     StepResult.Builder<S3Output> result = StepResult.<S3Output>builder()
         .stepName(this.getClass().getName());
 
-    if (policy != null && !policy.isBlank()) {
+    if (!policy.isBlank()) {
       String cleaned = policy.replaceAll("\\s+", "");
       result.put(S3Output.VALUE_NODE, cleaned);
     }
 
     return result.build();
   }
+
+
 }
