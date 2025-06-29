@@ -120,7 +120,7 @@ public class S3CloudBundleRunner extends CloudBundleRunner<S3Output> {
             .liveStateGenerator(inj -> generateLiveCloudState(inj.getInstance(S3LiveStateGenerator.class)))
             .desiredStateGenerator(inj -> generateDesiredState(inj.getInstance(S3DesiredStateGenerator.class)))
             .injectorFactory((region, metadata) -> Guice.createInjector(new S3InjectionModule(
-                new S3ProvisioningContext(credentials, EnvVar.ENDPOINT_URL.getValue(), Region.of(region)), config,
+                new S3ProvisioningContext(credentials, EnvVar.S3_ENDPOINT_URL.getValue(), Region.of(region)), config,
                 metadata)))
             .metadataSupplier(cfg -> StepResult.<S3Output>builder()
                 .stepName(S3PersistentMetadataStep.class.getName())

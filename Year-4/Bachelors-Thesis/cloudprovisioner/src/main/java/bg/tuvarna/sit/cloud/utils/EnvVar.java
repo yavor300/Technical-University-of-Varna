@@ -7,7 +7,8 @@ public enum EnvVar {
 
   AWS_PROFILE("AWS_PROFILE"),
   LOG_FORMAT("LOG_FORMAT"),
-  ENDPOINT_URL("ENDPOINT_URL");
+  ENDPOINT_URL("ENDPOINT_URL"),
+  S3_ENDPOINT_URL("S3_ENDPOINT_URL");
 
   private final String key;
 

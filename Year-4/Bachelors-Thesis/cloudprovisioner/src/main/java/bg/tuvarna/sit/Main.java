@@ -5,8 +5,8 @@ import bg.tuvarna.sit.cloud.credentials.AwsBasicCredentialsAuthenticationManager
 import bg.tuvarna.sit.cloud.credentials.BaseAuthenticationManager;
 import bg.tuvarna.sit.cloud.config.InitializerInjectionModule;
 import bg.tuvarna.sit.cloud.exception.InitializationException;
-
 import bg.tuvarna.sit.cloud.utils.EnvVar;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -61,7 +61,8 @@ public class Main {
 
     try (StsClient stsClient = StsClient.builder()
         .credentialsProvider(StaticCredentialsProvider.create(credentials))
-        .endpointOverride(EnvVar.ENDPOINT_URL.getValueOrDefault(null) != null ? URI.create(EnvVar.ENDPOINT_URL.getValue()) : null)
+        .endpointOverride(
+            EnvVar.ENDPOINT_URL.getValueOrDefault(null) != null ? URI.create(EnvVar.ENDPOINT_URL.getValue()) : null)
         .region(Region.AWS_GLOBAL)
         .build()) {
       GetCallerIdentityResponse identity = stsClient.getCallerIdentity();
