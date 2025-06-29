@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

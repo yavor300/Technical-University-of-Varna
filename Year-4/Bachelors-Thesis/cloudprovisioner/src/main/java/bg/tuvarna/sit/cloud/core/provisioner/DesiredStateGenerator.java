@@ -1,5 +1,6 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
 import bg.tuvarna.sit.cloud.exception.CloudProvisioningTerminationException;
 
 import java.util.List;

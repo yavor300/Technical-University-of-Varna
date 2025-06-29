@@ -1,5 +1,7 @@
 package bg.tuvarna.sit.cloud.core.provisioner;
 
+import bg.tuvarna.sit.cloud.core.provisioner.model.StepResult;
+
 public interface CloudProvisionStep<K extends Enum<K>> {
 
     StepResult<K> apply();

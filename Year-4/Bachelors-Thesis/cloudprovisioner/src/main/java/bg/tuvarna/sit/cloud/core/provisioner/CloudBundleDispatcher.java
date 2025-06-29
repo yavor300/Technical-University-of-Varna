@@ -1,6 +1,5 @@
-package bg.tuvarna.sit.cloud.core;
+package bg.tuvarna.sit.cloud.core.provisioner;
 
-import bg.tuvarna.sit.cloud.core.provisioner.CloudBundleRunner;
 import bg.tuvarna.sit.cloud.utils.NamedInjections;
 
 import jakarta.inject.Inject;
