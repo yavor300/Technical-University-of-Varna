@@ -1,9 +1,16 @@
 package bg.tuvarna.sit.cloud.credentials.provider.vault;
 
-import bg.tuvarna.sit.cloud.config.AuthenticationConfig;
+import bg.tuvarna.sit.cloud.credentials.AuthenticationConfig;
 import bg.tuvarna.sit.cloud.credentials.model.VaultResponse;
 
+import bg.tuvarna.sit.cloud.utils.NamedInjections;
+import bg.tuvarna.sit.cloud.utils.Slf4jLoggingUtil;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,26 +28,26 @@ import java.net.URISyntaxException;
 import static bg.tuvarna.sit.cloud.credentials.constants.VaultErrorMessages.MISSING_TOKEN;
 
 @Slf4j
+@Singleton
 public class VaultClient {
 
   private static final String VAULT_TOKEN_HEADER = "X-Vault-Token";
 
-  private final URI vaultUri;
-  private final String token;
   private final ObjectMapper mapper;
 
-  public VaultClient(AuthenticationConfig.VaultConfig config, ObjectMapper mapper) {
-    this.vaultUri = buildUri(config);
-    this.token = extractToken(config);
+  @Inject
+  public VaultClient(@Named(NamedInjections.JSON_MAPPER) ObjectMapper mapper) {
     this.mapper = mapper;
   }
 
-  public VaultResponse getSecrets() {
+  public VaultResponse getSecrets(AuthenticationConfig.VaultConfig config) {
 
     RequestConfig requestConfig = RequestConfig.custom()
         .setConnectTimeout(Timeout.ofSeconds(1))
         .setResponseTimeout(Timeout.ofSeconds(1))
         .build();
+
+    URI vaultUri = buildUri(config);
 
     try (CloseableHttpClient httpClient = HttpClients.custom()
         .setDefaultRequestConfig(requestConfig)
@@ -50,7 +57,7 @@ public class VaultClient {
 
       String json = executor.execute(
           Request.get(vaultUri)
-              .addHeader(VAULT_TOKEN_HEADER, token)
+              .addHeader(VAULT_TOKEN_HEADER, extractToken(config))
       ).returnContent().asString();
 
       return mapper.readValue(json, VaultResponse.class);
@@ -59,7 +66,7 @@ public class VaultClient {
 
       String message = ("Failed to retrieve secrets from Vault at URI: %s."
           + "Check connectivity, Vault availability, or authentication token.").formatted(vaultUri);
-      log.debug(message, e);
+      log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", message, e);
       throw new VaultAuthenticationException(message, e);
     }
   }
@@ -79,7 +86,7 @@ public class VaultClient {
     } catch (URISyntaxException e) {
 
       String message = "Invalid Vault URI components provided: %s. Failed to construct Vault URI.".formatted(config);
-      log.debug(message, e);
+      log.debug(Slf4jLoggingUtil.DEBUG_PREFIX + "{}", message, e);
       throw new VaultAuthenticationException(message, e);
     }
   }
