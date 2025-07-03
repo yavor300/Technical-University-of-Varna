@@ -194,7 +194,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
       applied = applyChanges(request.profile, name, request.config.getId(), allSteps, destroyer, provisioner, changed, currentState, loadedState);
     } catch (CloudProvisioningTerminationException e) {
 
-      handleRollback(injector, destroyer, request.reverterProvider, name, request.profile, request.resourceKey, request.config.getId(), allSteps, loadedState, request.liveStateGenerator);
+      handleRollback(injector, destroyer, request.reverterProvider, name, request.profile, request.config.getId(), allSteps, loadedState, request.liveStateGenerator);
       throw e;
     }
 
@@ -206,7 +206,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     try {
       applied = applyChanges(request.profile, name, request.config.getId(), allSteps, destroyer, provisioner, changed, applied.getResults(), loadedState);
     } catch (CloudProvisioningTerminationException e) {
-      handleRollback(injector, destroyer, request.reverterProvider, name, request.profile, request.resourceKey, request.config.getId(), allSteps, loadedState, request.liveStateGenerator);
+      handleRollback(injector, destroyer, request.reverterProvider, name, request.profile, request.config.getId(), allSteps, loadedState, request.liveStateGenerator);
       throw e;
     }
 
@@ -217,7 +217,6 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
       Injector injector,
       CloudResourceDestroyer<K> destroyer,
       Function<Injector, CloudResourceReverter<K>> reverterProvider,
-      String resource,
       String name,
       String profile,
       String id,
@@ -238,7 +237,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
       loggingUtil.logError(log, ErrorCode.S3_PROVISION_ERROR, rollbackError);
     }
     log.warn("Provisioning failed for {} '{}', but all changes were rolled back to the previously "
-        + "persisted state. No partial modifications remain.", resource.toLowerCase(), name);
+        + "persisted state. No partial modifications remain.", getType().getValue().toLowerCase(), name);
   }
 
   protected List<StepResult<K>> generateLiveCloudState(LiveStateGenerator<K> liveState) throws CloudProvisioningTerminationException {
@@ -260,7 +259,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
   private CloudProvisionerSuccessfulResponse<K> applyChanges(
       String profile,
-      String bucket,
+      String resourceName,
       String id,
       List<CloudProvisionStep<K>> allSteps,
       CloudResourceDestroyer<K> destroyer,
@@ -281,12 +280,12 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
     CloudProvisionerSuccessfulResponse<K> destroyed = destroy(destroyer, stepsToDelete, true);
 
-    if (isMainResourceDeleted(destroyed, profile, bucket, id)) {
+    if (isMainResourceDeleted(destroyed, profile, resourceName, id)) {
       return destroyed;
     }
 
     CloudProvisionerSuccessfulResponse<K> response = provision(provisioner, stepsToProvision);
-    mergeAndPersistState(profile, bucket, id, response, originState);
+    mergeAndPersistState(profile, resourceName, id, response, originState);
 
     return response;
   }
@@ -302,7 +301,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
   @SuppressWarnings("UnusedReturnValue")
   private CloudProvisionerSuccessfulResponse<K> revertChanges(
       String profile,
-      String bucket,
+      String resourceName,
       String id,
       List<CloudProvisionStep<K>> allSteps,
       CloudResourceDestroyer<K> destroyer,
@@ -319,12 +318,12 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
     CloudProvisionerSuccessfulResponse<K> destroyed = destroy(destroyer, stepsToDelete, false);
 
-    if (isMainResourceDeleted(destroyed, profile, bucket, id)) {
+    if (isMainResourceDeleted(destroyed, profile, resourceName, id)) {
       return destroyed;
     }
 
     CloudProvisionerSuccessfulResponse<K> response = revert(reverter, stepsToProvision, originState);
-    mergeAndPersistState(profile, bucket, id, response, originState);
+    mergeAndPersistState(profile, resourceName, id, response, originState);
 
     return response;
   }
@@ -440,7 +439,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
   }
 
   private boolean isMainResourceDeleted(CloudProvisionerSuccessfulResponse<K> destroyed,
-                                               String profile, String bucket, String id) {
+                                               String profile, String resourceName, String id) {
 
     for (StepResult<K> destroyedResource : destroyed.getResults()) {
 
@@ -451,8 +450,8 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
           log.info("Main resource '{}' marked for deletion", stepClass.getSimpleName());
           File file = new File(".cloudprovisioner/" + profile + "/" + getType().toString().toLowerCase()
-              + "/state-" + bucket + "#" + id + ".json");
-          deleteFileIfExists(file, "Deleted state file for destroyed bucket: {}", "Failed to execute state file: {}");
+              + "/state-" + resourceName + "#" + id + ".json");
+          deleteFileIfExists(file, "Deleted state file for destroyed {}: {}", "Failed to execute state file: {}");
 
           return true;
         }
@@ -469,7 +468,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
     if (file.exists()) {
       if (file.delete()) {
-        log.info(successful, file.getName());
+        log.info(successful, getType().getValue().toLowerCase(), file.getName());
       } else {
         log.warn(failed, file.getName());
       }
@@ -498,7 +497,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
   private void mergeAndPersistState(
       String profile,
-      String bucket,
+      String resourceName,
       String id,
       CloudProvisionerSuccessfulResponse<K> response,
       List<StepResult<K>> originState
@@ -507,7 +506,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     response.setResults(mergedList);
 
     File targetFile = new File(".cloudprovisioner/" + profile + "/" + getType().toString().toLowerCase()
-        + "/state-" + bucket + "#" + id + ".json");
+        + "/state-" + resourceName + "#" + id + ".json");
     File parentDir = targetFile.getParentFile();
     if (!parentDir.exists() && !parentDir.mkdirs()) {
       log.warn("Failed to create directories for persisting state: {}", parentDir.getAbsolutePath());
@@ -516,8 +515,9 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     try {
       stateWriter.write(targetFile, mergedList);
     } catch (StepResultStateWriteException e) {
-      log.warn("Failed to persist step results for bucket '{}'. "
-          + "Provisioning changes were applied, but state was not saved. Reason: {}", bucket, e.getMessage());
+      log.warn("Failed to persist step results for {} '{}'. "
+          + "Provisioning changes were applied, but state was not saved. Reason: {}",
+          getType().getValue().toLowerCase(), resourceName, e.getMessage());
     }
   }
 
