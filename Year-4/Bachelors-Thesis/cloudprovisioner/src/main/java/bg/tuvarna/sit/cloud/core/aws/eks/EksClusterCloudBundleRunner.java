@@ -115,7 +115,6 @@ public class EksClusterCloudBundleRunner extends CloudBundleRunner<EksClusterOut
             .config(config)
             .profile(profile)
             .stateDir(stateDir)
-            .resourceKey(getType().getValue())
             .metadataStepName(EksClusterPersistentMetadataStep.class.getName())
             .stepProvider(inj -> inj.getInstance(Key.get(new TypeLiteral<>() {},
                 Names.named(NamedInjections.EKS_STEPS))))

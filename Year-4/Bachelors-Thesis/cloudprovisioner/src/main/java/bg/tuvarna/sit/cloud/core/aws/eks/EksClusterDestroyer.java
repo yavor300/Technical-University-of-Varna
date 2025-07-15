@@ -42,11 +42,11 @@ public class EksClusterDestroyer implements CloudResourceDestroyer<EksClusterOut
       throws CloudProvisioningTerminationException {
 
     long startTime = System.nanoTime();
-    String bucket = (String) metadata.getOutputs().get(EksClusterOutput.NAME);
+    String name = (String) metadata.getOutputs().get(EksClusterOutput.NAME);
     String arn = (String) metadata.getOutputs().get(EksClusterOutput.ARN);
 
     if (steps.isEmpty()) {
-      return new CloudProvisionerSuccessfulResponse<>(CloudResourceType.EKS, bucket, arn, Collections.emptyList());
+      return new CloudProvisionerSuccessfulResponse<>(CloudResourceType.EKS, name, arn, Collections.emptyList());
     }
 
     try (eks) {
@@ -55,9 +55,9 @@ public class EksClusterDestroyer implements CloudResourceDestroyer<EksClusterOut
 
       long endTime = System.nanoTime();
       long durationMs = (endTime - startTime) / 1_000_000;
-      log.info("S3 bucket destroyer for '{}' finished in {} ms", bucket, durationMs);
+      log.info("S3 bucket destroyer for '{}' finished in {} ms", name, durationMs);
 
-      return new CloudProvisionerSuccessfulResponse<>(CloudResourceType.EKS, bucket, arn, results);
+      return new CloudProvisionerSuccessfulResponse<>(CloudResourceType.EKS, name, arn, results);
 
     } catch (CloudResourceStepException e) {
       throw new CloudProvisioningTerminationException(e.getMessage(), e);

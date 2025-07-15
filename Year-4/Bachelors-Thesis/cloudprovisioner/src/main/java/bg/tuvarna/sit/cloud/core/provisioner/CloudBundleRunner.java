@@ -151,11 +151,11 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
       File stateFile = matchingFiles[0];
       loadedState = storedState.load(stateFile, request.outputClass);
     } catch (FileNotFoundException e) {
-      log.info("{} '{}' is not yet provisioned. Will be created from scratch", request.resourceKey, request.config.getName());
+      log.info("{} '{}' is not yet provisioned. Will be created from scratch", getType().getValue(), request.config.getName());
     } catch (IOException e) {
       loggingUtil.logError(log, ErrorCode.S3_STORED_STATE_ERROR, e);
       String message = "Failed to load persisted state for %s '%s'. File might be unreadable or corrupted."
-          .formatted(request.resourceKey.toLowerCase(), request.config.getName());
+          .formatted(getType().getValue().toLowerCase(), request.config.getName());
       throw new CloudProvisioningTerminationException(message, e);
     }
 
@@ -187,7 +187,7 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
 
     try {
       if (!request.config.isEnableReconciliation()) {
-        log.info("Reconciliation is disabled for {} '{}'. Skipping provisioning changes", request.resourceKey.toLowerCase(), name);
+        log.info("Reconciliation is disabled for {} '{}'. Skipping provisioning changes", getType().getValue().toLowerCase(), name);
         changed = new ArrayList<>();
       }
 
@@ -540,7 +540,6 @@ public abstract class CloudBundleRunner<K extends Enum<K>> {
     private final C config;
     private final String profile;
     private final File stateDir;
-    private final String resourceKey;
     private final String metadataStepName;
     private final Function<Injector, List<CloudProvisionStep<K>>> stepProvider;
     private final Function<Injector, CloudResourceDestroyer<K>> destroyerProvider;

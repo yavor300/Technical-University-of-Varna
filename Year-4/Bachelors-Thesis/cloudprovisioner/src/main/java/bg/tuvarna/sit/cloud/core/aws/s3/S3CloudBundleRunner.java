@@ -110,7 +110,6 @@ public class S3CloudBundleRunner extends CloudBundleRunner<S3Output> {
             .config(config)
             .profile(profile)
             .stateDir(stateDir)
-            .resourceKey(getType().getValue())
             .metadataStepName(S3PersistentMetadataStep.class.getName())
             .stepProvider(inj -> inj.getInstance(Key.get(new TypeLiteral<>() {
             }, Names.named(NamedInjections.S3_STEPS))))
