@@ -45,7 +45,7 @@ test {
     useJUnitPlatform()
 }
 
-
+build.dependsOn shadowJar
 tasks.shadowJar {
     archiveClassifier = ""
 }
