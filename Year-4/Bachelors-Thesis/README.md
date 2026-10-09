@@ -1,117 +1,244 @@
-# AWS Provisioning Library
+# Cloud Provisioner
 
-## Overview
-The **AWS Provisioning Library** is a Java-based tool that enables developers to provision AWS resources **declaratively** while utilizing the **AWS SDK** for imperative execution. Inspired by Infrastructure as Code (IaC) tools like Terraform, this library provides a seamless way for microservices to request AWS resources by specifying their requirements in a structured format. The library ensures **resource state management** to prevent duplicate creations and maintain consistency across environments.
+Cloud Provisioner is a Java and Gradle based infrastructure provisioning project developed for the bachelor's thesis. It provisions AWS resources from YAML configuration files, compares the desired state with the live and previously stored state, applies only the required changes, and persists the result locally for future reconciliation.
 
-## Key Features
-### 1. Declarative Resource Provisioning
-- Developers can declare the required AWS resources using a structured format (e.g., **YAML** or **JSON**), and the library will handle the imperative provisioning.
-- Example YAML declaration:
-  
-  ```yaml
-  s3:
-    name: my-app-bucket
-  rds:
-    identifier: my-database
-    engine: postgres
-    instance_type: db.t3.micro
-  ```
+The repository contains the provisioning library/plugin itself and a small consumer project that demonstrates how the plugin is used from another Gradle build.
 
-### 2. AWS SDK-Based Resource Creation
-- Uses **AWS SDK for Java** to create, update, and delete AWS resources.
-- Supports a variety of AWS services like **S3, RDS, DynamoDB, SNS, SQS, IAM**, etc.
+## Project Structure
 
-### 3. State Management
-- Keeps track of provisioned resources to prevent duplication and enable idempotency.
-- Stores the state in a **local file, database, or AWS Parameter Store/DynamoDB**.
-- Provides an API to retrieve the current state of provisioned resources.
-
-### 4. Validation and Conflict Detection
-- Before provisioning a resource, the library checks if it **already exists**.
-- Ensures that resource changes are applied without unnecessary re-creation.
-
-### 5. Dependency Management
-- Handles dependencies between resources, ensuring they are created in the **correct order**.
-- Example: An **RDS instance** may require a **security group** to be created first.
-
-### 6. Support for Multiple Environments
-- Allows provisioning resources in different environments (**dev, staging, production**) based on configuration.
-- Environment-specific overrides are supported.
-
-### 7. Integration with Spring Projects
-- The tool will seamlessly integrate with **Spring projects** running with a **web server**.
-- Exposes REST APIs to provision resources dynamically within Spring applications.
-
-### 8. LocalStack Integration for Local Development
-- Integrates with **LocalStack** to enable local cloud development and testing.
-- Developers can simulate AWS cloud services without needing actual AWS infrastructure.
-
-### 9. Shared Cloud Resources Management
-- Common cloud resources such as **VPCs** will be managed separately in a dedicated project.
-- This library will support referencing and utilizing existing resources created by that separate project.
-
-### 10. Configuration and Extensibility
-- Supports configuration via **YAML, JSON, or Java API**.
-- Easily extendable to add support for **new AWS services**.
-
-## Implementation Approach
-1. **Parsing & Validation**
-   - Read the declarative resource configuration (**YAML/JSON**).
-   - Validate the provided configuration against supported AWS services.
-   
-2. **State Management**
-   - Check the **existing state** to determine whether a resource needs to be **created, updated, or skipped**.
-   - Maintain a **record of created resources** in a structured format.
-
-3. **Resource Provisioning**
-   - Use **AWS SDK** to provision the resources imperatively.
-   - Handle **exceptions, retries, and error reporting**.
-
-4. **Logging & Monitoring**
-   - Provide **logs and monitoring hooks** to track provisioning status.
-   - Integrate with **AWS CloudWatch** for observability.
-
-## Example Usage
-### Java API Example
-```java
-AwsProvisioner provisioner = new AwsProvisioner();
-provisioner.createS3Bucket("my-app-bucket");
-provisioner.createRdsInstance("my-database", "postgres", "db.t3.micro");
+```text
+.
+|-- cloudprovisioner/       # Java library, CLI entry point, and Gradle plugin
+|-- cloudconsumer/          # Example project using the Gradle plugin
+|-- vault/                  # Local Vault notes/files used during development
+|-- *.drawio, *.png         # Architecture and UML diagrams
+`-- Documentation.pdf       # Thesis documentation export
 ```
 
-### Declarative Configuration Example (YAML)
+## Current Capabilities
+
+- Gradle plugin: `bg.tuvarna.sit.cloudprovisioner`
+- CLI entry point: `bg.tuvarna.sit.Main`
+- Supported resource bundles:
+  - `s3` for Amazon S3 buckets
+  - `eks` for Amazon EKS clusters
+- YAML based resource configuration
+- AWS SDK for Java v2 integration
+- Basic AWS credentials loaded from Vault or environment variables
+- Optional endpoint overrides for LocalStack/local development
+- State persistence under `.cloudprovisioner/<profile>/<service>/`
+- Drift detection by comparing stored state, live cloud state, and desired configuration
+- Reconciliation, destroy, and rollback/revert flow
+- Step based provisioning with ordered, isolated resource operations
+- Parallel provisioning using each config list's fixed thread pool settings
+- Unit tests for configuration, credentials, provisioning steps, state loading, and state comparison
+
+## Modules
+
+### `cloudprovisioner`
+
+The main implementation. It builds a shaded artifact and publishes both the library and Gradle plugin.
+
+Important packages:
+
+- `bg.tuvarna.sit.cloud.gradle` - Gradle plugin registration
+- `bg.tuvarna.sit.cloud.core.provisioner` - common provisioning abstractions
+- `bg.tuvarna.sit.cloud.core.aws.s3` - S3 bundle, steps, state, and clients
+- `bg.tuvarna.sit.cloud.core.aws.eks` - EKS bundle, steps, state, and clients
+- `bg.tuvarna.sit.cloud.credentials` - authentication managers and providers
+- `bg.tuvarna.sit.cloud.utils` - configuration, logging, environment, and state writing utilities
+
+### `cloudconsumer`
+
+An example Gradle project that applies the plugin:
+
+```gradle
+plugins {
+    id 'java'
+    id 'bg.tuvarna.sit.cloudprovisioner' version '1.0.0.B'
+}
+```
+
+The plugin adds the `provisionCloudResources` task and wires the `cloudprovisioner` dependency into the consumer's runtime classpath.
+
+## Configuration Layout
+
+The provisioner selects configuration files based on `AWS_PROFILE`.
+
+```text
+src/main/resources/cloud/<AWS_PROFILE>/
+|-- authentication.yml
+|-- s3.yml
+`-- eks.yml
+```
+
+For example, if `AWS_PROFILE=localstack`, S3 configuration is loaded from:
+
+```text
+src/main/resources/cloud/localstack/s3.yml
+```
+
+The current sample consumer includes:
+
+```text
+cloudconsumer/src/main/resources/cloud/localstack/authentication.yml
+cloudconsumer/src/main/resources/cloud/localstack/s3.yml
+```
+
+## Authentication
+
+`authentication.yml` supports a list of credential providers. The current sample uses Vault first and static environment credentials second:
+
 ```yaml
-aws_resources:
-  s3:
-    - name: my-app-bucket
-  rds:
-    - identifier: my-database
-      engine: postgres
-      instance_type: db.t3.micro
+providers:
+  - vault:
+      scheme: http
+      host: localhost
+      port: 8200
+      secretPath: /v1/application/data/cloudprovisioner/000000000000
+      token: ${VAULT_TOKEN}
+  - staticCredentials:
+      accessKeyId: ${AWS_ACCESS_KEY_ID}
+      secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
 ```
-### Annotation-Based Configuration
-- For example, developers can annotate **POJO (DTO) classes** to declare that a document should be stored in a specific **S3 bucket**.
-- Example annotation usage:
-  
-  ```java
-  @S3Storage(bucket = "my-app-bucket", key = "documents/${id}.json")
-  public class Document {
-      private String id;
-      private String content;
-      
-      // Getters and setters
-  }
-  ```
 
-## Next Steps
-- Define a **structured format** for declarative configuration.
-- Implement **core provisioning logic** for initial AWS services.
-- Develop **state management mechanism**.
-- Provide a **CLI or REST API** for interacting with the library.
-- Implement **LocalStack** integration for local development and testing.
-- Develop functionality to use **shared cloud resources** from an external project.
+Useful environment variables:
 
-## Potential Enhancements
-- Implement **rollback functionality** in case of provisioning failures.
----
-This document serves as an initial proposal for the **AWS Provisioning Library**.
+| Variable | Purpose |
+| --- | --- |
+| `AWS_PROFILE` | Selects the configuration directory and state namespace |
+| `AWS_ACCESS_KEY_ID` | Static AWS access key fallback |
+| `AWS_SECRET_ACCESS_KEY` | Static AWS secret key fallback |
+| `VAULT_TOKEN` | Token for the Vault credential provider |
+| `ENDPOINT_URL` | Global endpoint override, used by STS/EKS flows |
+| `S3_ENDPOINT_URL` | S3-specific endpoint override |
+| `LOG_FORMAT` | Enables structured JSON logging when configured accordingly |
+
+## S3 Configuration
+
+S3 resources are defined in `s3.yml` under `buckets`.
+
+```yaml
+buckets:
+  - id: 94f5b153-c2cd-4b11-831f-54ee554e7c7e
+    name: bucket-two
+    region: us-east-1
+    preventDestroy: true
+    tags:
+      environment: dev
+      team: storage
+    versioning: Enabled
+    encryption:
+      type: aws:kms
+      kmsKeyId: arn:aws:kms:us-east-1:123456789013:key/your-key-id
+    ownershipControls: BucketOwnerEnforced
+    policy: |
+      {
+        "Version": "2012-10-17",
+        "Statement": []
+      }
+```
+
+Implemented S3 steps include bucket creation, tagging, versioning, encryption, ownership controls, ACLs, policies, and persistent metadata.
+
+## EKS Configuration
+
+EKS resources are loaded from `eks.yml` under `clusters`.
+
+Supported cluster fields include:
+
+- `id`
+- `name`
+- `region`
+- `version`
+- `roleArn`
+- `subnets`
+- `authenticationMode`
+- `supportType`
+- `enableZonalShift`
+- `ownedEncryptionKMSKeyArn`
+- `addons`
+- `nodeGroups`
+- common fields such as `preventDestroy`, `toDelete`, `enableReconciliation`, `tags`, and `retry`
+
+Implemented EKS steps include cluster creation, authentication mode, addons, node groups, tagging, and persistent metadata.
+
+## State Management
+
+After provisioning, state is written to:
+
+```text
+.cloudprovisioner/<AWS_PROFILE>/<service>/state-<resource-name>#<resource-id>.json
+```
+
+On each run, the provisioner:
+
+1. Loads the previously persisted state.
+2. Reads the live state from AWS.
+3. Detects drift between persisted and live state.
+4. Calculates the desired state from YAML.
+5. Applies only the required provisioning or destroy steps.
+6. Persists the merged state back to disk.
+
+If a resource id disappears from the YAML configuration, the runner marks the stored resource for deletion. `preventDestroy` protects resources from accidental destruction unless explicitly disabled.
+
+## Running Locally
+
+Publish the plugin/library to Maven Local:
+
+```bash
+cd cloudprovisioner
+./gradlew publishToMavenLocal
+```
+
+Run the sample consumer against the `localstack` profile:
+
+```bash
+cd ../cloudconsumer
+AWS_PROFILE=localstack \
+AWS_ACCESS_KEY_ID=test \
+AWS_SECRET_ACCESS_KEY=test \
+S3_ENDPOINT_URL=http://localhost:4566 \
+ENDPOINT_URL=http://localhost:4566 \
+./gradlew provisionCloudResources --args='s3'
+```
+
+Provision multiple supported bundles:
+
+```bash
+./gradlew provisionCloudResources --args='s3 eks'
+```
+
+On Windows PowerShell, set environment variables before running Gradle:
+
+```powershell
+$env:AWS_PROFILE = "localstack"
+$env:AWS_ACCESS_KEY_ID = "test"
+$env:AWS_SECRET_ACCESS_KEY = "test"
+$env:S3_ENDPOINT_URL = "http://localhost:4566"
+$env:ENDPOINT_URL = "http://localhost:4566"
+./gradlew provisionCloudResources --args="s3"
+```
+
+## Build and Test
+
+From `cloudprovisioner`:
+
+```bash
+./gradlew clean build
+./gradlew test
+```
+
+From `cloudconsumer`:
+
+```bash
+./gradlew build
+```
+
+## Notes and Limitations
+
+- The implementation is currently AWS-specific.
+- The active bundles are S3 and EKS. Other AWS services from the original proposal are not implemented in the current codebase.
+- EKS support targets real AWS-style APIs; LocalStack support is mainly useful for S3/local endpoint testing.
+- Configuration validation is still an area for improvement.
+- The sample `cloudconsumer` project currently contains an S3 localstack configuration but no checked-in `eks.yml`.
